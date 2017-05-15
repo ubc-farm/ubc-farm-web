@@ -1,0 +1,35 @@
+{
+  "name": "ubc_farm_webapp2",
+  "version": "1.0.0",
+  "description": "An MERN stack application that monitors, predicts, and helps manage UBCFarm",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --use_strict index.js",
+    "bundle": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Xingyu96/ubc-farm-test.git"
+  },
+  "author": "Xingyu Tao",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "caniuse-api": "^1.5.2",
+    "express": "^4.15.2",
+    "material-ui": "^0.18.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-router": "^4.1.1",
+    "react-tap-event-plugin": "^2.0.1",
+    "validator": "^7.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "nodemon": "^1.11.0",
+    "webpack": "^2.5.1"
+  }
+}
