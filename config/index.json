@@ -1,0 +1,4 @@
+{
+  "dbUri": "mongodb://ubcfarm:tomatoes@ds141960.mlab.com:41960/ubc-farm-test",
+  "jwtSecret": "a secret phrase!!"
+}
