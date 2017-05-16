@@ -1,11 +1,11 @@
 body {
   margin: 0;
   font-size: 16px;
+  background-color:	#f6f4f4;
 }
 
 a {
-  color: #00bcd4;
-  font-weight: bold;
+  color: #f6f4f4;
   text-decoration: none;
   transition: color 0.4s;
 }
@@ -19,8 +19,11 @@ a:hover {
 }
 
 .top-bar {
-  padding: 10px 15px;
+  padding: 10px 10px;
   margin-bottom: 50px;
+  font-weight: bold;
+  font-family:Roboto,sans-serif;
+  background-color: #84a23c;
 }
 .top-bar::after {
   content: '';
@@ -35,11 +38,13 @@ a:hover {
 
 .top-bar-right {
   float: right;
+  padding-top:8px;
 }
 
 .top-bar a,
 .nav a {
-  margin: 0 8px;
+  margin: 0 10px;
+  
 }
 
 .container {
@@ -64,4 +69,14 @@ a:hover {
 .success-message {
   padding: 0 16px;
   color: green;
+}
+
+#logo{
+	height:30px;
+}
+
+#title{
+	margin-top:-25px;
+	padding-bottom: 25px;
+	margin-bottom: 25px;
 }

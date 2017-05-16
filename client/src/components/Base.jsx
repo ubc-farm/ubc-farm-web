@@ -12,9 +12,10 @@ import Auth from '../modules/Auth';
 
 const Base = ({ children }) => (
   <div>
-    <div className="top-bar">
+    <div className="top-bar has-shadow">
       <div className="top-bar-left">
-        <IndexLink to="/">React App</IndexLink>
+	  <img id="logo" src="images/logo.png" alt="UBCFarm Logo"></img>
+        <Link id="title" to="/">UBCFarm Monitor</Link>
       </div>
 
       {Auth.isUserAuthenticated() ? (
