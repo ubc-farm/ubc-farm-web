@@ -2,7 +2,7 @@
 **Author: Xingyu Tao
 **Last Updated: 5-15-2017
 **Comments: 
-**	signup form presentation component
+**	login form presentation component
 */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -12,27 +12,19 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 
-const SignUpForm = ({
+const LoginComponent = ({
   onSubmit,
   onChange,
   errors,
-  user,
+  successMessage,
+  user
 }) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Sign Up</h2>
+      <h2 className="card-heading">Login</h2>
 
+      {successMessage && <p className="success-message">{successMessage}</p>}
       {errors.summary && <p className="error-message">{errors.summary}</p>}
-
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Name"
-          name="name"
-          errorText={errors.name}
-          onChange={onChange}
-          value={user.name}
-        />
-      </div>
 
       <div className="field-line">
         <TextField
@@ -56,19 +48,20 @@ const SignUpForm = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Account" primary />
+        <RaisedButton type="submit" label="Log in" primary />
       </div>
 
-      <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
+      <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>
     </form>
   </Card>
 );
 
-SignUpForm.propTypes = {
+LoginComponent.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
+  successMessage: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired
 };
 
-export default SignUpForm;
+export default LoginComponent;

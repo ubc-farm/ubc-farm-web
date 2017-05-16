@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 
 
-const Dashboard = ({ secretData }) => (
+const DashboardComponent = ({ secretData }) => (
   <Card className="container">
     <CardTitle
       title="Dashboard"
@@ -21,8 +21,8 @@ const Dashboard = ({ secretData }) => (
   </Card>
 );
 
-Dashboard.propTypes = {
+DashboardComponent.propTypes = {
   secretData: PropTypes.string.isRequired
 };
 
-export default Dashboard;
+export default DashboardComponent;

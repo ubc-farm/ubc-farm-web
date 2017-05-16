@@ -1,9 +1,9 @@
-import Base from './components/Base.jsx';
-import HomePage from './components/HomePage.jsx';
-import DashboardPage from './containers/DashboardPage.jsx';
-import LoginPage from './containers/LoginPage.jsx';
-import SignUpPage from './containers/SignUpPage.jsx';
-import FieldsComponent from './components/FieldsComponent.jsx'
+import Base from './Base.jsx';
+import HomePage from './HomePage.jsx';
+import DashboardContainer from './dashboard/DashboardContainer.jsx';
+import LoginContainer from './login/LoginContainer.jsx';
+import SignUpContainer from './signup/SignUpContainer.jsx';
+import FieldsComponent from './fields/FieldsComponent.jsx'
 import Auth from './modules/Auth';
 
 
@@ -16,7 +16,7 @@ const routes = {
       path: '/',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
-          callback(null, DashboardPage);
+          callback(null, DashboardContainer);
         } else {
           callback(null, HomePage);
         }
@@ -25,12 +25,12 @@ const routes = {
 
     {
       path: '/login',
-      component: LoginPage
+      component: LoginContainer
     },
 
     {
       path: '/signup',
-      component: SignUpPage
+      component: SignUpContainer
     },
 
     {

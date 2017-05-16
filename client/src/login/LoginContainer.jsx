@@ -2,14 +2,15 @@
 **Author: Xingyu Tao
 **Last Updated: 5-15-2017
 **Comments: 
-**	signup page container component
+**	login page container component
 */
 import React from 'react';
 import PropTypes from 'prop-types';
-import SignUpForm from '../components/SignUpForm.jsx';
+import Auth from '../modules/Auth';
+import LoginComponent from './LoginComponent.jsx';
 
 
-class SignUpPage extends React.Component {
+class LoginContainer extends React.Component {
 
   /**
    * Class constructor.
@@ -17,12 +18,20 @@ class SignUpPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    const storedMessage = localStorage.getItem('successMessage');
+    let successMessage = '';
+
+    if (storedMessage) {
+      successMessage = storedMessage;
+      localStorage.removeItem('successMessage');
+    }
+
     // set the initial component state
     this.state = {
       errors: {},
+      successMessage,
       user: {
         email: '',
-        name: '',
         password: ''
       }
     };
@@ -41,35 +50,35 @@ class SignUpPage extends React.Component {
     event.preventDefault();
 
     // create a string for an HTTP body message
-    const name = encodeURIComponent(this.state.user.name);
     const email = encodeURIComponent(this.state.user.email);
     const password = encodeURIComponent(this.state.user.password);
-    const formData = `name=${name}&email=${email}&password=${password}`;
+    const formData = `email=${email}&password=${password}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/auth/signup',true);
+    xhr.open('post', '/auth/login');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
-      if (xhr.readyState === 4 && xhr.status === 200) {
+      if (xhr.status === 200) {
         // success
-		console.log(xhr.status);
-		console.log(xhr);
-		
+		console.log('sucsessful ajax call\n');
+
         // change the component-container state
         this.setState({
           errors: {}
         });
 
-        // set a message
-        localStorage.setItem('successMessage', xhr.response.message);
+        // save the token
+        Auth.authenticateUser(xhr.response.token);
 
-        // make a redirect
-        this.context.router.replace('/login');
+
+        // change the current URL to /
+        this.context.router.replace('/');
       } else {
         // failure
 
+        // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
         errors.summary = xhr.response.message;
 
@@ -101,10 +110,11 @@ class SignUpPage extends React.Component {
    */
   render() {
     return (
-      <SignUpForm
+      <LoginComponent
         onSubmit={this.processForm}
         onChange={this.changeUser}
         errors={this.state.errors}
+        successMessage={this.state.successMessage}
         user={this.state.user}
       />
     );
@@ -112,8 +122,8 @@ class SignUpPage extends React.Component {
 
 }
 
-SignUpPage.contextTypes = {
+LoginContainer.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default SignUpPage;
+export default LoginContainer;

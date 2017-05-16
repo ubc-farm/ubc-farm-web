@@ -6,10 +6,10 @@
 */
 import React from 'react';
 import Auth from '../modules/Auth';
-import Dashboard from '../components/Dashboard.jsx';
+import DashboardComponent from './DashboardComponent.jsx';
 
 
-class DashboardPage extends React.Component {
+class DashboardContainer extends React.Component {
 
   /**
    * Class constructor.
@@ -46,9 +46,9 @@ class DashboardPage extends React.Component {
    * Render the component.
    */
   render() {
-    return (<Dashboard secretData={this.state.secretData} />);
+    return (<DashboardComponent secretData={this.state.secretData} />);
   }
 
 }
 
-export default DashboardPage;
+export default DashboardContainer;
