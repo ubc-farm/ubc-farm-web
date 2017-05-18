@@ -41,7 +41,6 @@ class FieldsComponent extends React.Component{
                     <NewFieldMapContainer />
                 </div>
                 <div>
-                    <Places />
                 </div>
 
 
