@@ -6,21 +6,48 @@
 */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Card, CardTitle, CardText } from 'material-ui/Card';
+import NewFieldMapContainer from './maps/NewFieldMapContainer.jsx'
 
 
-const Fields = ({ secretData }) => (
-  <Card className="container">
-    <CardTitle
-      title="Fields"
-      subtitle="Create, save, edit fields"
-    />
-  </Card>
-);
+class FieldsComponent extends React.Component{
+    // Constructor is responsible for setting up props and setting initial stte
+    constructor(props){
+        // Pass props to the parent component
+        super(props);
+        // Set initial state
+        this.state = {
+            // State needed
+            cars: []
+        };
+    }
 
-Fields.propTypes = {
-  
-};
+    render(){
+        const location = {
+            lat: 49.249683,
+            lng: -123.237421
+        }
+        const markers = [
+            {
+                location:{
+                    lat: 49.249683,
+                    lng: -123.237421
+                }
+            }
+        ]
+        return(
+            <div>
+                This is the map!
+                <div style={{width:300,height:600}}>
+                    <NewFieldMapContainer />
+                </div>
+                <div>
+                    <Places />
+                </div>
 
-export default Fields;
+
+            </div>
+        )
+    }
+}
+
+export default FieldsComponent;

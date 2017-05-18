@@ -3,7 +3,7 @@ import HomePage from './HomePage.jsx';
 import DashboardContainer from './dashboard/DashboardContainer.jsx';
 import LoginContainer from './login/LoginContainer.jsx';
 import SignUpContainer from './signup/SignUpContainer.jsx';
-import FieldsComponent from './fields/FieldsComponent.jsx'
+import FieldsComponent from './fields/FieldsComponent.jsx';
 import Auth from './modules/Auth';
 
 

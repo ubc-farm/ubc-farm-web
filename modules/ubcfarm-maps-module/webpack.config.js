@@ -28,5 +28,8 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    watch: true,
+    loader: 'style-loader!css-loader?modules=true'
+
 }
