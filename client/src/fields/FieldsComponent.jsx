@@ -6,11 +6,23 @@
 */
 
 import React from 'react';
+import styled from 'styled-components'
+
 import NewFieldMapContainer from './maps/NewFieldMapContainer.jsx'
 
+//styled-component styles
+const NewFieldMap= styled.div`
+        width: 1000px;
+        height: 600px;
+`;
+const Title = styled.h1`
+    font-size: 1.5em;
+    text-align:center;
+`;
 
 class FieldsComponent extends React.Component{
-    // Constructor is responsible for setting up props and setting initial stte
+
+    // Constructor is responsible for setting up props and setting initial state
     constructor(props){
         // Pass props to the parent component
         super(props);
@@ -36,10 +48,10 @@ class FieldsComponent extends React.Component{
         ]
         return(
             <div>
-                This is the map!
-                <div style={{width:300,height:600}}>
+                <Title>This is the map!</Title>
+                <NewFieldMap>
                     <NewFieldMapContainer />
-                </div>
+                </NewFieldMap>
                 <div>
                 </div>
 

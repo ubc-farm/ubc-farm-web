@@ -15,10 +15,10 @@ export default class NewFieldMapContainer extends React.Component {
         this.state = {
             markers: [{
                 position: {
-                    lat: 25.0112183,
-                    lng: 121.52067570000001,
+                    lat: 49.249683,
+                    lng: -123.237421,
                 },
-                key: `Taiwan`,
+                key: `UBCFarm`,
                 defaultAnimation: 2,
             }],
         }
@@ -52,10 +52,7 @@ export default class NewFieldMapContainer extends React.Component {
         });
 
         if (nextMarkers.length === 3) {
-            this.props.toast(
-                `Right click on the marker to remove it`,
-                `Also check the code!`
-            );
+
         }
     }
 
