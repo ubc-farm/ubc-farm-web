@@ -12,12 +12,10 @@ import NewFieldMapContainer from './maps/NewFieldMapContainer.jsx'
 
 //styled-component styles
 const NewFieldMap= styled.div`
-        width: 1000px;
         height: 600px;
 `;
-const Title = styled.h1`
-    font-size: 1.5em;
-    text-align:center;
+const ToolColumn = styled.div`
+    background-color: blue;
 `;
 
 class FieldsComponent extends React.Component{
@@ -47,13 +45,15 @@ class FieldsComponent extends React.Component{
             }
         ]
         return(
-            <div>
-                <Title>This is the map!</Title>
-                <NewFieldMap>
+            <div class="columns">
+                <NewFieldMap class="column">
                     <NewFieldMapContainer />
                 </NewFieldMap>
-                <div>
-                </div>
+                <ToolColumn class="column">
+                    <p class="notification is-info">
+                        <code class="html">is-three-quarters</code>
+                    </p>
+                </ToolColumn>
 
 
             </div>
