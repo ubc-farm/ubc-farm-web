@@ -25,6 +25,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "prop-types": "^15.5.10",
+    "re-bulma": "^0.4.3",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-google-maps": "^6.3.0",
@@ -38,7 +39,9 @@
     "babel-loader": "^6.2.8",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
+    "css-loader": "^0.28.1",
     "nodemon": "^1.11.0",
+    "style-loader": "^0.17.0",
     "webpack": "^1.13.3"
   }
 }

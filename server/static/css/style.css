@@ -1,7 +1,10 @@
+html, body{
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-size: 16px;
-  background-color:	#f6f4f4;
 }
 
 a {
@@ -44,6 +47,7 @@ a:hover {
 .top-bar a,
 .nav a {
   margin: 0 10px;
+  color: #f6f4f4;
   
 }
 
@@ -80,3 +84,6 @@ a:hover {
 	padding-bottom: 25px;
 	margin-bottom: 25px;
 }
+
+[data-reactroot]
+{height: 100% !important; }

@@ -8,11 +8,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, IndexLink } from 'react-router';
 import Auth from './modules/Auth';
+import 'bulma/css/bulma.css'
+import styled from 'styled-components'
+import NavDrawerContainer from './navigation/NavDrawerContainer.jsx';
+
+
+const Container = styled.div`
+    height:100%;
+`;
+
+const Topbar = styled.div`
+    a {
+  !important color: white;
+  text-decoration: none;
+  transition: color 0.4s;
+}
+`;
 
 
 const Base = ({ children }) => (
   <div>
-    <div className="top-bar has-shadow">
+    <Topbar className="top-bar has-shadow">
       <div className="top-bar-left">
 	  <img id="logo" src="images/logo.png" alt="UBCFarm Logo"></img>
         <Link id="title" to="/">UBCFarm Monitor</Link>
@@ -33,12 +49,21 @@ const Base = ({ children }) => (
         </div>
       )}
 
-    </div>
+    </Topbar>
+      <Container className="columns is-gapless">
+          {Auth.isUserAuthenticated() ? (
+                  <NavDrawerContainer/>
+              ) : (
+                  <div></div>
+              )}
 
-    { /* child component will be rendered here */ }
-    {children}
-
+          <div className="column">
+            { /* child component will be rendered here */ }
+            {children}
+          </div>
+      </Container>
   </div>
+
 );
 
 Base.propTypes = {

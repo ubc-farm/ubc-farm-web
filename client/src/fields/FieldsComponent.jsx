@@ -7,7 +7,7 @@
 
 import React from 'react';
 import styled from 'styled-components'
-
+import 'bulma/css/bulma.css'
 import NewFieldMapContainer from './maps/NewFieldMapContainer.jsx'
 
 //styled-component styles
@@ -15,7 +15,7 @@ const NewFieldMap= styled.div`
         height: 600px;
 `;
 const ToolColumn = styled.div`
-    background-color: blue;
+
 `;
 
 class FieldsComponent extends React.Component{
@@ -45,19 +45,28 @@ class FieldsComponent extends React.Component{
             }
         ]
         return(
-            <div class="columns">
-                <NewFieldMap class="column">
+            <div className="columns is-gapless">
+                <div className="column is-2-desktop">
+                    <ToolColumn>
+                        <p className="notification is-info">
+                            <code className="html">is-three-quarters</code>
+                        </p>s
+                    </ToolColumn>
+                </div>
+                <div className="column is-8-desktop">
+                <NewFieldMap>
                     <NewFieldMapContainer />
                 </NewFieldMap>
-                <ToolColumn class="column">
-                    <p class="notification is-info">
-                        <code class="html">is-three-quarters</code>
+                </div>
+                <div className="column is-2-desktop">
+                <ToolColumn>
+                    <p className="notification is-info">
+                        <code className="html">is-three-quarters</code>
                     </p>
                 </ToolColumn>
-
-
+                </div>
             </div>
-        )
+    )
     }
 }
 
