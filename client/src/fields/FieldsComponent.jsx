@@ -46,19 +46,12 @@ class FieldsComponent extends React.Component{
         ]
         return(
             <div className="columns is-gapless">
-                <div className="column is-2-desktop">
-                    <ToolColumn>
-                        <p className="notification is-info">
-                            <code className="html">is-three-quarters</code>
-                        </p>s
-                    </ToolColumn>
-                </div>
-                <div className="column is-8-desktop">
+                <div className="column is-9-desktop">
                 <NewFieldMap>
                     <NewFieldMapContainer />
                 </NewFieldMap>
                 </div>
-                <div className="column is-2-desktop">
+                <div className="column is-3-desktop">
                 <ToolColumn>
                     <p className="notification is-info">
                         <code className="html">is-three-quarters</code>

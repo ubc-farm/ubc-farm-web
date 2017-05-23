@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps'
+import DrawingManager from 'react-google-maps/lib/drawing/DrawingManager.js'
 
 const NewFieldMapComponent = withGoogleMap(props => (
     <GoogleMap
@@ -15,6 +16,7 @@ const NewFieldMapComponent = withGoogleMap(props => (
                 onRightClick={() => props.onMarkerRightClick(marker)}
             />
         ))}
+        <DrawingManager/>
     </GoogleMap>
 ));
 
