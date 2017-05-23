@@ -6,9 +6,12 @@ import DrawingManager from 'react-google-maps/lib/drawing/DrawingManager.js'
 const NewFieldMapComponent = withGoogleMap(props => (
     <GoogleMap
         ref={props.onMapLoad}
-        defaultZoom={15}
+        defaultZoom={17}
         defaultCenter={{ lat:49.249683, lng: -123.237421 }}
         onClick={props.onMapClick}
+        tilt={0}
+        mapTypeId={'satellite'}
+
     >
         {props.markers.map(marker => (
             <Marker
@@ -16,7 +19,10 @@ const NewFieldMapComponent = withGoogleMap(props => (
                 onRightClick={() => props.onMarkerRightClick(marker)}
             />
         ))}
-        <DrawingManager/>
+        <DrawingManager options={{drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_CENTER,
+            drawingModes: ['marker', 'polygon']
+        }}}/>
     </GoogleMap>
 ));
 
