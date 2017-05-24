@@ -57,10 +57,12 @@ const Base = ({ children }) => (
                   <div></div>
               )}
 
-          <div className="column">
+
             { /* child component will be rendered here */ }
+            <div className="column is-10-desktop">
             {children}
-          </div>
+            </div>
+
       </Container>
   </div>
 

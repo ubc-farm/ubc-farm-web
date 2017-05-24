@@ -9,14 +9,25 @@ import React from 'react';
 import styled from 'styled-components'
 import 'bulma/css/bulma.css'
 import NewFieldMapContainer from './maps/NewFieldMapContainer.jsx'
+import FieldSelector from './maps/FieldSelector.jsx'
 
 //styled-component styles
-const NewFieldMap= styled.div`
-        height: 600px;
+const NewFieldMap = styled.div`
+        height: 70%;
 `;
 const ToolColumn = styled.div`
 
 `;
+const styles = {
+    fieldSelector: {
+        height: '30%',
+    },
+    centerContainer: {
+        height: '100%',
+        margin: '0',
+        padding: '0',
+    }
+};
 
 class FieldsComponent extends React.Component{
 
@@ -45,11 +56,16 @@ class FieldsComponent extends React.Component{
             }
         ]
         return(
-            <div className="columns is-gapless">
+            <div className="columns is-gapless" style={styles.centerContainer}>
                 <div className="column is-9-desktop">
-                <NewFieldMap>
-                    <NewFieldMapContainer />
-                </NewFieldMap>
+                    <div className="is-parent is-vertical is-gapless" style={styles.centerContainer}>
+                        <NewFieldMap className="is-child" style={{margin:0, padding:0}}>
+                            <NewFieldMapContainer />
+                        </NewFieldMap>
+                        <div className="is-child" style={styles.fieldSelector}>
+                            <FieldSelector />
+                        </div>
+                    </div>
                 </div>
                 <div className="column is-3-desktop">
                 <ToolColumn>
