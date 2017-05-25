@@ -11,15 +11,28 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { browserHistory, Router } from 'react-router';
 import routes from './routes.js';
-import {createStore} from 'redux'
+import {createStore, applyMiddleware} from 'redux';
+import allReducers from './reducers';
+import {Provider} from 'react-redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 //create redux store
-const store = createStore();
+const store = createStore(
+    allReducers,
+    composeWithDevTools(
+        applyMiddleware(thunk)
+    )
+);
 
 // remove tap delay, essential for MaterialUI to work properly
 injectTapEventPlugin();
 
 ReactDom.render((
     <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <Router history={browserHistory} routes={routes} />
-    </MuiThemeProvider>), document.getElementById('react-app'));
+        <Provider store={store}>
+            <Router history={browserHistory} routes={routes} />
+        </Provider>
+    </MuiThemeProvider>
+    ),
+    document.getElementById('react-app')
+);

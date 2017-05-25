@@ -6,10 +6,11 @@
 */
 
 import React from 'react';
-import styled from 'styled-components'
-import 'bulma/css/bulma.css'
-import NewFieldMapContainer from './maps/NewFieldMapContainer.jsx'
-import FieldSelector from './maps/FieldSelector.jsx'
+import styled from 'styled-components';
+import 'bulma/css/bulma.css';
+import NewFieldMapContainer from './maps/NewFieldMapContainer.jsx';
+import FieldSelector from './field-selector.js';
+import FieldDetail from './field-detail.js';
 
 //styled-component styles
 const NewFieldMap = styled.div`
@@ -63,16 +64,13 @@ class FieldsComponent extends React.Component{
                             <NewFieldMapContainer />
                         </NewFieldMap>
                         <div className="is-child" style={styles.fieldSelector}>
-                            <FieldSelector />
+                            <FieldDetail/>
                         </div>
                     </div>
                 </div>
                 <div className="column is-3-desktop">
-                <ToolColumn>
-                    <p className="notification is-info">
-                        <code className="html">is-three-quarters</code>
-                    </p>
-                </ToolColumn>
+                    <FieldSelector/>
+
                 </div>
             </div>
     )
