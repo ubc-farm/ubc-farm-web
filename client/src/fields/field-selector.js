@@ -36,7 +36,7 @@ class FieldSelector extends Component{
         return this.props.fields.map((field) => {
             return(
                 <GridTile
-                    key={field.id}
+                    key={field._id}
                     title={field.name}
                     onClick={() => this.props.selectField(field)}
                 >

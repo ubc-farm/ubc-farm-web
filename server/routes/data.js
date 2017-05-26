@@ -7,14 +7,16 @@ const router = new express.Router();
 var Field = require('mongoose').model('Field');
 
 router.get('/fields', (req, res) => {
-    Field.find({}).lean().exec(function(err, fields){
-        if(err){
+
+    Field.find({}).lean().exec(function (err, fields) {
+        if (err) {
             res.send('error retrieveing fields');
-        }else{
-            res.json(fields);
+        } else {
+            res.json({fields});
         }
 
     });
+
 });
 
 module.exports = router;

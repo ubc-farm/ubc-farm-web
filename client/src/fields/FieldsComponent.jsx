@@ -91,7 +91,7 @@ FieldsComponent.propTypes = {
     fetchFields: PropTypes.func.isRequired
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     return {
         fields: state.fields
     }

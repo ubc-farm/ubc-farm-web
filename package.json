@@ -4,7 +4,7 @@
   "description": "An MERN stack application that monitors, predicts, and helps manage UBCFarm",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --use_strict index.js",
+    "start": "nodemon --exec babel-node -- index.js",
     "bundle": "webpack",
     "serve": "webpack-dev-server"
   },
@@ -40,9 +40,10 @@
     "validator": "^6.2.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
-    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.16.0",
     "css-loader": "^0.28.1",
     "nodemon": "^1.11.0",

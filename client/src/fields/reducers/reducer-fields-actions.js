@@ -7,6 +7,7 @@ export default function(state=[], action={}){
             console.log('event fired');
             return action.payload;
             break;
+
         default:
             return state;
     }
