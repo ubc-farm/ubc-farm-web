@@ -1,7 +1,7 @@
 /**
  * Created by Xingyu on 5/25/2017.
  */
-export default function(){
+export default function fields(){
     return [
         {
             id: 1,

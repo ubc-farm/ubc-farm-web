@@ -2,7 +2,7 @@
 **Author: Xingyu Tao
 **Last Updated: 5-15-2017
 **Comments: 
-**	handles routing pages (fail -> page A, sucess -> page B)
+**	handles routing requests
 */
 
 const express = require('express');
