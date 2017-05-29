@@ -1,10 +1,13 @@
+/**
+ * Created by Xingyu on 5/29/2017.
+ */
 import React from 'react'
 import PropTypes from 'prop-types';
 import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps'
-import NewFieldMapComponent from './NewFieldMapComponent.jsx'
+import SummaryMapComponent from './SummaryMapComponent.js'
 import _ from 'lodash'
 
-export default class NewFieldMapContainer extends React.Component {
+export default class SummaryMap extends React.Component {
 
     /**
      * Class constructor.
@@ -71,7 +74,7 @@ export default class NewFieldMapContainer extends React.Component {
     render() {
         return (
             <div style={{height: `100%`}}>
-                <NewFieldMapComponent
+                <SummaryMapComponent
                     containerElement={
                         <div style={{ height: `100%` }} />
                     }

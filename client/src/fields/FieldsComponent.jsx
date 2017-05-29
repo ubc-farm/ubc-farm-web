@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import 'bulma/css/bulma.css';
-import NewFieldMapContainer from './maps/NewFieldMapContainer.jsx';
+import SummaryMap from './maps/SummaryMap';
 import FieldSelector from './field-selector.js';
 import FieldDetail from './field-detail.js';
 import {connect} from 'react-redux';
@@ -70,7 +70,7 @@ class FieldsComponent extends React.Component {
                 <div className="column is-9-desktop">
                     <div className="is-parent is-vertical is-gapless" style={styles.centerContainer}>
                         <NewFieldMap className="is-child" style={{margin: 0, padding: 0}}>
-                            <NewFieldMapContainer />
+                            <SummaryMap />
                         </NewFieldMap>
                         <div className="is-child" style={styles.fieldSelector}>
                             <FieldDetail/>

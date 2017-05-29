@@ -10,11 +10,10 @@ import Divider from 'material-ui/Divider';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
 import {saveField} from './actions/save-field';
-import {Route, Redirect} from 'react-router';
-import NewFieldMapContainer from './maps/NewFieldMapContainer.jsx';
 import styled from 'styled-components';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import LinearProgress from 'material-ui/LinearProgress';
+import NewFieldMapComponent from './maps/NewFieldMapComponent.jsx'
 
 //STATIC STYLES - [TODO: CONSOLIDATE STYLINGS]
 const NewFieldMap = styled.div`
@@ -46,12 +45,26 @@ class CreateFieldModal extends Component {
             open: false,
             validated: false,
             loading: false,
-            done: false
+            done: false,
+            markers: [{
+                position: {
+                    lat: 49.249683,
+                    lng: -123.237421,
+                },
+                key: `UBCFarm`,
+                defaultAnimation: 2,
+            }],
+            polygon: []
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleMapLoad = this.handleMapLoad.bind(this);
+        this.handleMapClick = this.handleMapClick.bind(this);
+        this.handleMarkerRightClick = this.handleMarkerRightClick.bind(this);
+        this.handleOverlayComplete = this.handleOverlayComplete.bind(this);
+        this.handlePolygonEdit = this.handlePolygonEdit.bind(this);
     };
 
     handleOpen(){
@@ -100,6 +113,99 @@ class CreateFieldModal extends Component {
 
     };
 
+    //Map functions
+    handleMapLoad(map) {
+        this._mapComponent = map;
+        if (map) {
+            //console.log(map.getZoom());
+            // map.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+            //     if (event.type == 'polygon') {
+            //         console.log("polygon drawn!");
+            //     }
+            // });
+        }
+    }
+
+    /*
+     * This is called when you click on the map.
+     * Go and try click now.
+     */
+    handleMapClick(event) {
+        const nextMarkers = [
+            ...this.state.markers,
+            {
+                position: event.latLng,
+                defaultAnimation: 2,
+                key: Date.now(), // Add a key property for: http://fb.me/react-warning-keys
+            },
+        ];
+        this.setState({
+            markers: nextMarkers,
+        });
+
+        if (nextMarkers.length === 3) {
+
+        }
+    }
+
+    handleMarkerRightClick(targetMarker) {
+        /*
+         * All you modify is data, and the view is driven by data.
+         * This is so called data-driven-development. (And yes, it's now in
+         * web front end and even with google maps API.)
+         */
+        const nextMarkers = this.state.markers.filter(marker => marker !== targetMarker);
+        this.setState({
+            markers: nextMarkers,
+        });
+    }
+
+    handleOverlayComplete(evt){
+        const type = evt.type; // "CIRCLE", "POLYGON", etc
+        const overlay = evt.overlay; // regular Google maps API object
+        let ref = this;
+
+        // Use react-google-maps instead of the created overlay object
+        // google.maps.event.clearInstanceListeners(overlay);
+        // overlay.setMap(null);
+
+        // Ok, now we can handle the event in a "controlled" way
+        //this.props.doSomethingReactWithTheData(overlay);
+        console.log(type);
+        console.log(overlay);
+        if (type == "polygon") {
+            ref.setState({
+                polygon: overlay.getPath().getArray()
+            });
+
+            //add listeners for editing the shape and updating React component accordingly
+            google.maps.event.addListener(overlay.getPath(), 'set_at', function() {
+                console.log("edited node");
+                ref.setState({
+                    polygon: overlay.getPath().getArray()
+                });
+            });
+
+            google.maps.event.addListener(overlay.getPath(), 'insert_at', function() {
+                console.log("added node");
+                ref.setState({
+                    polygon: overlay.getPath().getArray()
+                });
+            });
+        }
+
+
+        // ex:
+        // let radius = overlay.getRadius();
+        // let center = overlay.getCenter();
+        // this.setState({ circles: [ ...this.state.circles, { radius, center }]});
+    }
+
+    handlePolygonEdit(evt){
+        const type = evt.type;
+        console.log(type);
+    }
+
     render() {
         const actions = [
             <FlatButton
@@ -127,7 +233,22 @@ class CreateFieldModal extends Component {
                 >
                     <div className="columns">
                         <NewFieldMap style={{margin: 0, padding: 0}} className="column is-9-desktop">
-                            <NewFieldMapContainer />
+                            <div style={{height: `100%`}}>
+                                <NewFieldMapComponent
+                                    containerElement={
+                                        <div style={{ height: `100%` }} />
+                                    }
+                                    mapElement={
+                                        <div style={{ height: `100%` }} />
+                                    }
+                                    onMapLoad={this.handleMapLoad}
+                                    onMapClick={this.handleMapClick}
+                                    markers={this.state.markers}
+                                    onMarkerRightClick={this.handleMarkerRightClick}
+                                    onOverlayComplete={this.handleOverlayComplete}
+                                    onPolygonEdit={this.handlePolygonEdit}
+                                />
+                            </div>
                         </NewFieldMap>
                         <div className="column is-3-desktop">
                             <form>

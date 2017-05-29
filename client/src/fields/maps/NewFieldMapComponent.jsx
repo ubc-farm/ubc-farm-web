@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps'
-import DrawingManager from 'react-google-maps/lib/drawing/DrawingManager.js'
+import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps';
+import DrawingManager from 'react-google-maps/lib/drawing/DrawingManager.js';
 
 const NewFieldMapComponent = withGoogleMap(props => (
     <GoogleMap
@@ -11,7 +11,6 @@ const NewFieldMapComponent = withGoogleMap(props => (
         onClick={props.onMapClick}
         tilt={0}
         mapTypeId={'satellite'}
-
     >
         {props.markers.map(marker => (
             <Marker
@@ -19,10 +18,22 @@ const NewFieldMapComponent = withGoogleMap(props => (
                 onRightClick={() => props.onMarkerRightClick(marker)}
             />
         ))}
-        <DrawingManager options={{drawingControlOptions: {
-            position: google.maps.ControlPosition.TOP_CENTER,
-            drawingModes: ['marker', 'polygon']
-        }}}/>
+        <DrawingManager
+            {...props}
+            onOverlaycomplete={props.handleOverlayComplete}
+            options={
+            {
+                drawingControlOptions: {
+                    position: google.maps.ControlPosition.TOP_CENTER,
+                    drawingModes:['marker', 'polygon']
+
+                },
+                polygonOptions: {
+                    editable: true
+                }
+
+                    }}
+        />
     </GoogleMap>
 ));
 
