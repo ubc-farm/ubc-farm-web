@@ -15,6 +15,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import LinearProgress from 'material-ui/LinearProgress';
 import NewFieldMapComponent from './maps/NewFieldMapComponent.jsx'
 
+
 //STATIC STYLES - [TODO: CONSOLIDATE STYLINGS]
 const NewFieldMap = styled.div`
         height: 450px;
@@ -28,6 +29,8 @@ const styles = {
         marginBottom: 16,
     },
 };
+
+var shortid = require('shortid');
 
 /**
  * A modal dialog can only be closed by selecting one of the actions.
@@ -46,14 +49,6 @@ class CreateFieldModal extends Component {
             validated: false,
             loading: false,
             done: false,
-            markers: [{
-                position: {
-                    lat: 49.249683,
-                    lng: -123.237421,
-                },
-                key: `UBCFarm`,
-                defaultAnimation: 2,
-            }],
             polygon: []
         };
         this.handleOpen = this.handleOpen.bind(this);
@@ -62,9 +57,9 @@ class CreateFieldModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleMapLoad = this.handleMapLoad.bind(this);
         this.handleMapClick = this.handleMapClick.bind(this);
-        this.handleMarkerRightClick = this.handleMarkerRightClick.bind(this);
         this.handleOverlayComplete = this.handleOverlayComplete.bind(this);
         this.handlePolygonEdit = this.handlePolygonEdit.bind(this);
+        this.convertToJSON = this.convertToJSON.bind(this);
     };
 
     handleOpen(){
@@ -103,7 +98,7 @@ class CreateFieldModal extends Component {
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
-            const{name} = this.state;
+            const{name,polygon} = this.state;
             this.setState({loading: true});
             this.props.saveField({name}).then(
                 () => {this.setState({done: true})},
@@ -131,34 +126,16 @@ class CreateFieldModal extends Component {
      * Go and try click now.
      */
     handleMapClick(event) {
-        const nextMarkers = [
-            ...this.state.markers,
-            {
-                position: event.latLng,
-                defaultAnimation: 2,
-                key: Date.now(), // Add a key property for: http://fb.me/react-warning-keys
-            },
-        ];
-        this.setState({
-            markers: nextMarkers,
-        });
-
-        if (nextMarkers.length === 3) {
-
-        }
     }
 
-    handleMarkerRightClick(targetMarker) {
-        /*
-         * All you modify is data, and the view is driven by data.
-         * This is so called data-driven-development. (And yes, it's now in
-         * web front end and even with google maps API.)
-         */
-        const nextMarkers = this.state.markers.filter(marker => marker !== targetMarker);
-        this.setState({
-            markers: nextMarkers,
-        });
+    convertToJSON(vertices){
+        console.log(vertices);
+    var polygonJSON = [];
+    for(var i = 0; i < vertices.length; i++){
+        polygonJSON.push({lat: vertices[i].lat(), lng: vertices[i].lng()})
     }
+    return polygonJSON;
+}
 
     handleOverlayComplete(evt){
         const type = evt.type; // "CIRCLE", "POLYGON", etc
@@ -178,11 +155,12 @@ class CreateFieldModal extends Component {
                 polygon: overlay.getPath().getArray()
             });
 
+            console.log(overlay.getPath().getArray());
             //add listeners for editing the shape and updating React component accordingly
             google.maps.event.addListener(overlay.getPath(), 'set_at', function() {
                 console.log("edited node");
                 ref.setState({
-                    polygon: overlay.getPath().getArray()
+                    polygon:  overlay.getPath().getArray()
                 });
             });
 
@@ -200,6 +178,7 @@ class CreateFieldModal extends Component {
         // let center = overlay.getCenter();
         // this.setState({ circles: [ ...this.state.circles, { radius, center }]});
     }
+
 
     handlePolygonEdit(evt){
         const type = evt.type;
@@ -264,6 +243,13 @@ class CreateFieldModal extends Component {
                                         style={styles.radioButton}
                                     />
                                 </RadioButtonGroup>
+
+                                    {this.state.polygon.map((vertex) => (
+                                        <p key={shortid.generate()}>
+                                            {vertex.lat()} {vertex.lng()}
+                                        </p>
+                                    ))}
+
                             </form>
                         </div>
                     </div>

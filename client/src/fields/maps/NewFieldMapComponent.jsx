@@ -12,12 +12,6 @@ const NewFieldMapComponent = withGoogleMap(props => (
         tilt={0}
         mapTypeId={'satellite'}
     >
-        {props.markers.map(marker => (
-            <Marker
-                {...marker}
-                onRightClick={() => props.onMarkerRightClick(marker)}
-            />
-        ))}
         <DrawingManager
             {...props}
             onOverlaycomplete={props.handleOverlayComplete}
