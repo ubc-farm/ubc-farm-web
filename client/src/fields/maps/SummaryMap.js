@@ -3,11 +3,31 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types';
-import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps'
-import SummaryMapComponent from './SummaryMapComponent.js'
+import {withGoogleMap, GoogleMap, Polygon} from 'react-google-maps'
 import _ from 'lodash'
+import {connect} from 'react-redux';
 
-export default class SummaryMap extends React.Component {
+const SummaryMapComponent = withGoogleMap(props => (
+    <GoogleMap
+        ref={props.onMapLoad}
+        defaultZoom={17}
+        defaultCenter={{ lat:49.249683, lng: -123.237421 }}
+        onClick={props.onMapClick}
+        tilt={0}
+        mapTypeId={'satellite'}
+
+    >
+        {props.fields.map(field => (
+            <Polygon
+                key={field._id}
+                path={field.polygon}
+            />
+        ))}
+
+    </GoogleMap>
+));
+
+class SummaryMap extends React.Component {
 
     /**
      * Class constructor.
@@ -16,18 +36,10 @@ export default class SummaryMap extends React.Component {
         super(props);
 
         this.state = {
-            markers: [{
-                position: {
-                    lat: 49.249683,
-                    lng: -123.237421,
-                },
-                key: `UBCFarm`,
-                defaultAnimation: 2,
-            }],
-        }
+            fields: []
+        };
         this.handleMapLoad = this.handleMapLoad.bind(this);
         this.handleMapClick = this.handleMapClick.bind(this);
-        this.handleMarkerRightClick = this.handleMarkerRightClick.bind(this);
     }
 
     handleMapLoad(map) {
@@ -42,34 +54,8 @@ export default class SummaryMap extends React.Component {
      * Go and try click now.
      */
     handleMapClick(event) {
-        const nextMarkers = [
-            ...this.state.markers,
-            {
-                position: event.latLng,
-                defaultAnimation: 2,
-                key: Date.now(), // Add a key property for: http://fb.me/react-warning-keys
-            },
-        ];
-        this.setState({
-            markers: nextMarkers,
-        });
-
-        if (nextMarkers.length === 3) {
-
-        }
     }
 
-    handleMarkerRightClick(targetMarker) {
-        /*
-         * All you modify is data, and the view is driven by data.
-         * This is so called data-driven-development. (And yes, it's now in
-         * web front end and even with google maps API.)
-         */
-        const nextMarkers = this.state.markers.filter(marker => marker !== targetMarker);
-        this.setState({
-            markers: nextMarkers,
-        });
-    }
 
     render() {
         return (
@@ -83,10 +69,17 @@ export default class SummaryMap extends React.Component {
                     }
                     onMapLoad={this.handleMapLoad}
                     onMapClick={this.handleMapClick}
-                    markers={this.state.markers}
-                    onMarkerRightClick={this.handleMarkerRightClick}
+                    fields={this.props.fields}
                 />
             </div>
         );
     }
 }
+
+function mapStateToProps(state){
+    return {
+        fields: state.fields
+    };
+}
+
+export default connect(mapStateToProps)(SummaryMap);

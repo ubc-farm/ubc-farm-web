@@ -13,7 +13,8 @@ import {saveField} from './actions/save-field';
 import styled from 'styled-components';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import LinearProgress from 'material-ui/LinearProgress';
-import NewFieldMapComponent from './maps/NewFieldMapComponent.jsx'
+import NewFieldMapComponent from './maps/NewFieldMapComponent.jsx';
+import {Route,Redirect} from 'react-router';
 
 
 //STATIC STYLES - [TODO: CONSOLIDATE STYLINGS]
@@ -58,7 +59,6 @@ class CreateFieldModal extends Component {
         this.handleMapLoad = this.handleMapLoad.bind(this);
         this.handleMapClick = this.handleMapClick.bind(this);
         this.handleOverlayComplete = this.handleOverlayComplete.bind(this);
-        this.handlePolygonEdit = this.handlePolygonEdit.bind(this);
         this.convertToJSON = this.convertToJSON.bind(this);
     };
 
@@ -100,7 +100,7 @@ class CreateFieldModal extends Component {
         if(isValid){
             const{name,polygon} = this.state;
             this.setState({loading: true});
-            this.props.saveField({name}).then(
+            this.props.saveField({name,polygon}).then(
                 () => {this.setState({done: true})},
                 (err) => err.response.json().then(({errors}) => this.setState({ errors, loading: false}))
             );
@@ -112,12 +112,7 @@ class CreateFieldModal extends Component {
     handleMapLoad(map) {
         this._mapComponent = map;
         if (map) {
-            //console.log(map.getZoom());
-            // map.event.addListener(drawingManager, 'overlaycomplete', function(event) {
-            //     if (event.type == 'polygon') {
-            //         console.log("polygon drawn!");
-            //     }
-            // });
+
         }
     }
 
@@ -142,21 +137,12 @@ class CreateFieldModal extends Component {
         const overlay = evt.overlay; // regular Google maps API object
         let ref = this;
 
-        // Use react-google-maps instead of the created overlay object
-        // google.maps.event.clearInstanceListeners(overlay);
-        // overlay.setMap(null);
-
-        // Ok, now we can handle the event in a "controlled" way
-        //this.props.doSomethingReactWithTheData(overlay);
-        console.log(type);
-        console.log(overlay);
+        //add listeners for editing the shape and updating React component accordingly
         if (type == "polygon") {
             ref.setState({
                 polygon: overlay.getPath().getArray()
             });
 
-            console.log(overlay.getPath().getArray());
-            //add listeners for editing the shape and updating React component accordingly
             google.maps.event.addListener(overlay.getPath(), 'set_at', function() {
                 console.log("edited node");
                 ref.setState({
@@ -172,17 +158,6 @@ class CreateFieldModal extends Component {
             });
         }
 
-
-        // ex:
-        // let radius = overlay.getRadius();
-        // let center = overlay.getCenter();
-        // this.setState({ circles: [ ...this.state.circles, { radius, center }]});
-    }
-
-
-    handlePolygonEdit(evt){
-        const type = evt.type;
-        console.log(type);
     }
 
     render() {
@@ -223,9 +198,7 @@ class CreateFieldModal extends Component {
                                     onMapLoad={this.handleMapLoad}
                                     onMapClick={this.handleMapClick}
                                     markers={this.state.markers}
-                                    onMarkerRightClick={this.handleMarkerRightClick}
                                     onOverlayComplete={this.handleOverlayComplete}
-                                    onPolygonEdit={this.handlePolygonEdit}
                                 />
                             </div>
                         </NewFieldMap>
@@ -243,13 +216,6 @@ class CreateFieldModal extends Component {
                                         style={styles.radioButton}
                                     />
                                 </RadioButtonGroup>
-
-                                    {this.state.polygon.map((vertex) => (
-                                        <p key={shortid.generate()}>
-                                            {vertex.lat()} {vertex.lng()}
-                                        </p>
-                                    ))}
-
                             </form>
                         </div>
                     </div>

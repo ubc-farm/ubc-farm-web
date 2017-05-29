@@ -70,7 +70,7 @@ class FieldsComponent extends React.Component {
                 <div className="column is-9-desktop">
                     <div className="is-parent is-vertical is-gapless" style={styles.centerContainer}>
                         <NewFieldMap className="is-child" style={{margin: 0, padding: 0}}>
-                            <SummaryMap />
+                            <SummaryMap fields={this.state.fields} />
                         </NewFieldMap>
                         <div className="is-child" style={styles.fieldSelector}>
                             <FieldDetail/>

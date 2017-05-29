@@ -36,8 +36,8 @@ function serverSideValidate(data){
 router.post('/fields', (req, res) => {
     const{errors, isValid} = serverSideValidate(req.body);
     if(isValid){
-        const {name} = req.body;
-        Field.create({name}, function(err, result){
+        const {name,polygon} = req.body;
+        Field.create({name,polygon}, function(err, result){
             if(err){
                 res.status(500).json({errors: {global: "mongodb errored while saving"}});
             }else{
