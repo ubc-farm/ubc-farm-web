@@ -13,8 +13,8 @@ function handleResponse(response){
 };
 
 export function saveField(data){
-    return dispatch => {
-        fetch('/data/fields', {
+    return function dispatch() {
+        return fetch('/data/fields', {
             method: 'post',
             body: JSON.stringify(data),
             headers:{
