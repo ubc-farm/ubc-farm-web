@@ -33,10 +33,14 @@ passport.use('local-login', localLoginStrategy);
 const authCheckMiddleware = require('./server/middleware/auth-check');
 app.use('/api', authCheckMiddleware);
 
+// pass the check field middleware
+// const checkField = require('./server/middleware/submit-field');
+// app.use('/data', checkField);
+
 // routes
 const authRoutes = require('./server/routes/auth');
 const apiRoutes = require('./server/routes/api');
-const dataRoutes = require('./server/routes/data')
+const dataRoutes = require('./server/routes/data');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 app.use('/data', dataRoutes);

@@ -19,4 +19,11 @@ router.get('/fields', (req, res) => {
 
 });
 
+function
+
+router.post('/fields', (req, res) => {
+
+
+});
+
 module.exports = router;
