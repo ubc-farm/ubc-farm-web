@@ -3,7 +3,12 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
 
+
+const raisedbutton = {
+    margin: 12,
+};
 
 class FieldDetail extends Component{
     render(){
@@ -12,7 +17,22 @@ class FieldDetail extends Component{
         }
         return(
             <div>
-                <h2>{this.props.field.name}</h2>
+                <h2>{(this.props.field.name) ? this.props.field.name : "Select A Field" }</h2>
+                <RaisedButton
+                    label="Delete this Field"
+                    secondary={true}
+                    style={raisedbutton}
+                />
+                <RaisedButton label="New Field" onTouchTap={this.handleOpen} />
+                <Dialog
+                    title="Confirm Deletion"
+                    actions={actions}
+                    modal={true}
+                    open={this.state.open}
+                >
+
+
+                </Dialog>
             </div>
         );
     }

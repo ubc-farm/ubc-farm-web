@@ -51,4 +51,22 @@ router.post('/fields', (req, res) => {
 
 });
 
+router.delete('/fields', (req, res) => {
+    const{errors, isValid} = serverSideValidate(req.body);
+    if(isValid){
+        const {id,polygon} = req.body;
+        Field.create({id,polygon}, function(err, result){
+            if(err){
+                res.status(500).json({errors: {global: "mongodb errored while saving"}});
+            }else{
+                delete result.__v;
+                res.status(200).json({field: result});
+            }
+        });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
 module.exports = router;

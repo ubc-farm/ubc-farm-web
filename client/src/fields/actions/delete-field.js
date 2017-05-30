@@ -1,9 +1,6 @@
 /**
- * Created by Xingyu on 5/28/2017.
+ * Created by Xingyu on 5/29/2017.
  */
-
-export const ADD_FIELD = 'ADD_FIELD';
-
 function handleResponse(response){
     if(response.ok){
         return response.json();
@@ -12,24 +9,16 @@ function handleResponse(response){
         error.response = response;
         throw error;
     }
-}
+};
 
-export function addField(field){
-    return{
-        type: ADD_FIELD,
-        field
-    }
-}
-
-export function saveField(data){
+export function deleteField(data){
     return function dispatch() {
         return fetch('/data/fields', {
-            method: 'post',
+            method: 'delete',
             body: JSON.stringify(data),
             headers:{
                 "Content-Type":"application/json"
             }
-        }).then(handleResponse)
-            .then(data => dispatch(addField(data.field)));
+        }).then(handleResponse);
     }
-}
+};
