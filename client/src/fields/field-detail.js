@@ -8,6 +8,11 @@ import {bindActionCreators} from 'redux';
 import {selectField} from './actions/select-field.js';
 
 
+
+const raisedbutton = {
+    margin: 12,
+};
+
 class FieldDetail extends Component{
     render(){
         if(this.props.field.length === 0){
@@ -17,6 +22,7 @@ class FieldDetail extends Component{
             <div>
                 <h2>{this.props.field.name}</h2>
                 <DeleteFieldModal field = {this.props.field}/>
+
             </div>
         );
     }

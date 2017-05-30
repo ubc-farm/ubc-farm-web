@@ -65,6 +65,7 @@ router.delete('/fields/:_id', (req, res) => {
             }
         });
     }
+
 });
 
 module.exports = router;

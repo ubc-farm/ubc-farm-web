@@ -2,6 +2,8 @@
  * Created by Xingyu on 5/28/2017.
  */
 
+export const ADD_FIELD = 'ADD_FIELD';
+
 function handleResponse(response){
     if(response.ok){
         return response.json();
@@ -10,7 +12,14 @@ function handleResponse(response){
         error.response = response;
         throw error;
     }
-};
+}
+
+export function addField(field){
+    return{
+        type: ADD_FIELD,
+        field
+    }
+}
 
 export function saveField(data){
     return function dispatch() {
@@ -20,6 +29,7 @@ export function saveField(data){
             headers:{
                 "Content-Type":"application/json"
             }
-        }).then(handleResponse);
+        }).then(handleResponse)
+            .then(data => dispatch(addField(data.field)));
     }
-};
+}

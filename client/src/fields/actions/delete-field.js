@@ -30,3 +30,4 @@ export function deleteField(id){
         }).then(handleResponse)
     }
 }
+
