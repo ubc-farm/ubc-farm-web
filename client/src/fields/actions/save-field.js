@@ -30,6 +30,6 @@ export function saveField(data){
                 "Content-Type":"application/json"
             }
         }).then(handleResponse)
-            .then(data => dispatch(addField(data.field)));
+            .then(addField(data.field));
     }
 }
