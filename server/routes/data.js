@@ -51,4 +51,20 @@ router.post('/fields', (req, res) => {
 
 });
 
+router.delete('/fields/:_id', (req, res) => {
+    if(!req.params._id){
+        res.status(400).json({errors: {global: "null"}});
+    }else {
+
+        Field.findByIdAndRemove(req.params._id, function (err, result) {
+            if (err) {
+                res.status(500).json({errors: {global: "mongodb errored while deleting"}});
+            } else {
+                delete result.__v;
+                res.status(200).json({});
+            }
+        });
+    }
+});
+
 module.exports = router;
