@@ -60,9 +60,10 @@ class DeleteFieldModal extends Component {
 
         this.setState({loading: true});
         this.props.deleteField(this.props.field._id).then(
-            () => {this.setState({done: true})},
-            (err) => err.response.json().then(({errors}) => this.setState({ errors, loading: false}))
+            (response) => {console.log("should catch error here")}
         );
+        this.setState({done: true, loading: false});
+        this.handleClose();
 
     };
 
@@ -100,8 +101,8 @@ class DeleteFieldModal extends Component {
         );
 
         return (
-            <div>
-                {this.state.done ? <Redirect to="/fields"/> : form}
+            <div key={this.state.timestamp}>
+                {form}
             </div>
 
         );

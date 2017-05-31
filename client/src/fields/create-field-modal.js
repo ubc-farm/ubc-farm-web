@@ -67,7 +67,7 @@ class CreateFieldModal extends Component {
     };
 
     handleClose(){
-        this.setState({open: false});
+        this.setState({open: false, name: ''});
     };
     handleChange(e){
         if(this.state.errors[e.target.name]){
@@ -101,10 +101,15 @@ class CreateFieldModal extends Component {
             const{name,polygon} = this.state;
             this.setState({loading: true});
             this.props.saveField({name,polygon}).then(
-                () => {this.setState({done: true})},
-                (err) => err.json().then(({errors}) => this.setState({ errors, loading: false}))
+                (response) => {console.log("should catch error here")}
             );
+            this.setState({done: true, loading: false});
+            this.handleClose();
+
         }
+
+
+
 
     };
 
@@ -230,13 +235,14 @@ class CreateFieldModal extends Component {
 
                     </form>
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
+                    <p>{this.state.errors.global}</p>
                 </Dialog>
             </div>
         );
 
         return (
-            <div>
-                {this.state.done ? <Redirect to="/fields"/> : form}
+            <div key={this.state.timestamp}>
+                {form}
             </div>
 
         );
