@@ -4,6 +4,11 @@
 **Comments: app entry point
 */
 import path from 'path';
+import webpack from 'webpack';
+import webpackConfig from './webpack.config.js';
+import webpackMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -15,6 +20,14 @@ const config = require('./config');
 require('./server/models').connect(config.dbUri);
 
 const app = express();
+const compiler = webpack(webpackConfig);
+
+app.use(webpackMiddleware(compiler,{
+    hot: true,
+    publicPath: webpackConfig.output.publicPath,
+    noInfo: true
+}));
+app.use(webpackHotMiddleware(compiler));
 
 // static files locations
 app.use(express.static('./server/static/'));
