@@ -21,13 +21,14 @@ export function fieldDeleted(fieldId){
 }
 
 export function deleteField(id){
-    return function dispatch() {
+    return dispatch => {
         return fetch(`/data/fields/${id}`, {
             method: 'delete',
             headers:{
                 "Content-Type":"application/json"
             }
         }).then(handleResponse)
+            .then(data => dispatch(fieldDeleted(id)));
     }
 }
 

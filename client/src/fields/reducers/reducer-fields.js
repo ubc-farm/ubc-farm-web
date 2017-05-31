@@ -17,6 +17,7 @@ export default function fields(state=[], action={}){
             break;
 
         case ADD_FIELD:
+            console.log("field added! reducer...");
             return[
                 ...state,
                 action.field

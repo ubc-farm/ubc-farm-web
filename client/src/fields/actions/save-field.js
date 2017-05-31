@@ -22,7 +22,7 @@ export function addField(field){
 }
 
 export function saveField(data){
-    return function dispatch() {
+    return dispatch => {
         return fetch('/data/fields', {
             method: 'post',
             body: JSON.stringify(data),
@@ -30,6 +30,6 @@ export function saveField(data){
                 "Content-Type":"application/json"
             }
         }).then(handleResponse)
-            .then(addField(data.field));
+            .then(data => dispatch(addField(data.field)));
     }
 }

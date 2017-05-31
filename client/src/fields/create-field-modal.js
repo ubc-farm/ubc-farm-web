@@ -102,7 +102,7 @@ class CreateFieldModal extends Component {
             this.setState({loading: true});
             this.props.saveField({name,polygon}).then(
                 () => {this.setState({done: true})},
-                (err) => err.response.json().then(({errors}) => this.setState({ errors, loading: false}))
+                (err) => err.json().then(({errors}) => this.setState({ errors, loading: false}))
             );
         }
 
