@@ -3,10 +3,13 @@
 **Last Updated: 5-15-2017
 **Comments: app entry point
 */
+import path from 'path';
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const config = require('./config');
+
 
 // connect to the database and load models
 require('./server/models').connect(config.dbUri);
@@ -44,6 +47,10 @@ const dataRoutes = require('./server/routes/data');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 app.use('/data', dataRoutes);
+
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, './server/static/index.html'));
+});
 
 // start the server
 app.listen(3000, () => {
