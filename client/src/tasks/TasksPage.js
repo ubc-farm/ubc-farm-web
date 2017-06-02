@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Tabs, Tab} from 'material-ui/Tabs';
-
+import TaskList from './components/TaskList';
 
 
 const styles = {
@@ -34,7 +34,7 @@ class TasksPage extends React.Component {
         // Set initial state
         this.state = {
             // State needed
-            activeItem: 'completion'
+            activeItem: 'list'
         };
 
         this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -50,29 +50,15 @@ class TasksPage extends React.Component {
                     value={this.state.value}
                     onChange={this.handleChange}
                 >
-                    <Tab label="Completion" value="completion">
+                    <Tab label="List" value="list">
                         <div>
-                            <h2 style={styles.headline}>Controllable Tab A</h2>
-                            <p>
-                                Tabs are also controllable if you want to programmatically pass them their values.
-                                This allows for more functionality in Tabs such as not
-                                having any Tab selected or assigning them different values.
-                            </p>
+                            <h2 style={styles.headline}>Task List</h2>
+                            <TaskList/>
                         </div>
                     </Tab>
-                    <Tab label="Type" value="type">
+                    <Tab label="Calendar" value="calendar">
                         <div>
-                            <h2 style={styles.headline}>Controllable Tab B</h2>
-                            <p>
-                                This is another example of a controllable tab. Remember, if you
-                                use controllable Tabs, you need to give all of your tabs values or else
-                                you wont be able to select them.
-                            </p>
-                        </div>
-                    </Tab>
-                    <Tab label="Field" value="field">
-                        <div>
-                            <h2 style={styles.headline}>Controllable Tab B</h2>
+                            <h2 style={styles.headline}>Task Calendar</h2>
                             <p>
                                 This is another example of a controllable tab. Remember, if you
                                 use controllable Tabs, you need to give all of your tabs values or else
