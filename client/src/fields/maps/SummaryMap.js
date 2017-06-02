@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import {withGoogleMap, GoogleMap, Polygon} from 'react-google-maps'
 import _ from 'lodash'
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {selectField} from '../actions/select-field.js';
 
 const SummaryMapComponent = withGoogleMap(props => (
     <GoogleMap
@@ -36,7 +38,8 @@ class SummaryMap extends React.Component {
         super(props);
 
         this.state = {
-            fields: []
+            fields: [],
+            selectedField: {}
         };
         this.handleMapLoad = this.handleMapLoad.bind(this);
         this.handleMapClick = this.handleMapClick.bind(this);
@@ -54,6 +57,17 @@ class SummaryMap extends React.Component {
      * Go and try click now.
      */
     handleMapClick(event) {
+    }
+
+    componentWillUpdate(nextProps, nextState){
+        console.log(nextProps.selectedField.polygon);
+        if(nextProps.selectedField.polygon) {
+            var bounds = new google.maps.LatLngBounds();
+            nextProps.selectedField.polygon.forEach(function(e){bounds.extend(e)});
+            this._mapComponent.fitBounds(bounds);
+        }
+
+
     }
 
 
@@ -78,8 +92,15 @@ class SummaryMap extends React.Component {
 
 function mapStateToProps(state){
     return {
-        fields: state.fields
+        fields: state.fields,
+        selectedField: state.selectedField
     };
 }
 
-export default connect(mapStateToProps)(SummaryMap);
+function matchDispatchToProps(dispatch){
+    return bindActionCreators({
+        selectField: selectField
+    }, dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(SummaryMap);

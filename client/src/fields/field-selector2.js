@@ -83,9 +83,10 @@ class FieldSelector2 extends Component{
 
 
                 <div style={{minWidth: '100%', height: '20%'}} >
-                    <div style={{position: 'bottom', bottom: '0px', height: '50%'}} >
                     <Divider/>
-                    <FlatButton label="Summary" primary={true} fullWidth={true} style={{minWidth: '100%', height: '100%'}} />
+                    <div style={{position: 'bottom', bottom: '0px', height: '50%'}} >
+
+                    <FlatButton label="Summary" primary={true} style={{minWidth: '100%', height: '100%'}} />
                     </div>
 
                     <Divider/>

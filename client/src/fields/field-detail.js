@@ -7,8 +7,6 @@ import DeleteFieldModal from './delete-field-modal'
 import {bindActionCreators} from 'redux';
 import {selectField} from './actions/select-field.js';
 
-
-
 const raisedbutton = {
     margin: 12,
 };
