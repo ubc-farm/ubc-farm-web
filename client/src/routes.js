@@ -7,9 +7,7 @@ import LoginContainer from './login/LoginContainer.jsx';
 import SignUpContainer from './signup/SignUpContainer.jsx';
 import FieldsComponent from './fields/FieldsComponent.jsx';
 import Auth from './modules/Auth';
-
-
-
+import TasksPage from './tasks/TasksPage';
 
 export default (
     <Route component={Base}>
@@ -36,6 +34,7 @@ export default (
                component={LoginContainer}
         />
         <Route path="/fields" component={FieldsComponent}/>
+        <Route path="/tasks" component={TasksPage}/>
 
     </Route>
 )

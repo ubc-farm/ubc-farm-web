@@ -182,8 +182,8 @@ class CreateFieldModal extends Component {
         ];
 
         const form = (
-            <div>
-                <RaisedButton label="New Field" onTouchTap={this.handleOpen} />
+            <div style={{minWidth: '100%', height: '100%'}}>
+                <FlatButton label="New Field" secondary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                 <Dialog
                     title="Create New Field"
                     actions={actions}
@@ -241,7 +241,7 @@ class CreateFieldModal extends Component {
         );
 
         return (
-            <div key={this.state.timestamp}>
+            <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%'}} >
                 {form}
             </div>
 

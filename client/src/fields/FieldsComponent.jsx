@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import 'bulma/css/bulma.css';
 import SummaryMap from './maps/SummaryMap';
-import FieldSelector from './field-selector.js';
+import FieldSelector2 from './field-selector2.js';
 import FieldDetail from './field-detail.js';
 import {connect} from 'react-redux';
 import {fetchFields} from './actions/fetch-fields.js'
@@ -78,7 +78,7 @@ class FieldsComponent extends React.Component {
                     </div>
                 </div>
                 <div className="column is-3-desktop">
-                    <FieldSelector/>
+                    <FieldSelector2/>
 
                 </div>
             </div>
