@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import TaskList from './components/TaskList';
+import {fetchFields} from '../fields/actions/fetch-fields.js'
+import NewTaskModal from './components/NewTaskModal';
+import Divider from 'material-ui/Divider';
 
 
 const styles = {
@@ -19,7 +22,7 @@ const styles = {
 
 class TasksPage extends React.Component {
     componentDidMount() {
-
+        this.props.fetchFields();
     }
 
     handleMenuClick(e, { name }){
@@ -34,7 +37,8 @@ class TasksPage extends React.Component {
         // Set initial state
         this.state = {
             // State needed
-            activeItem: 'list'
+            activeItem: 'list',
+            fields: []
         };
 
         this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -42,7 +46,6 @@ class TasksPage extends React.Component {
 
     render() {
 
-        const { activeItem } = this.state;
 
         return (
             <div>
@@ -51,6 +54,10 @@ class TasksPage extends React.Component {
                     onChange={this.handleChange}
                 >
                     <Tab label="List" value="list">
+                        <div style={{textAlign: 'center', padding: '10px'}}>
+                            <NewTaskModal/>
+                        </div>
+                        <Divider/>
                         <div>
                             <TaskList/>
                         </div>
@@ -73,13 +80,14 @@ class TasksPage extends React.Component {
 }
 
 TasksPage.propTypes = {
-
+    fields: PropTypes.array.isRequired,
+    fetchFields: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
-
+        fields: state.fields
     }
 };
 
-export default connect(mapStateToProps)(TasksPage);
+export default connect(mapStateToProps, {fetchFields})(TasksPage);

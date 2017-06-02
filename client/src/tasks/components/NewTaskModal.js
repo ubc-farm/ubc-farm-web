@@ -6,10 +6,14 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import AutoComplete from 'material-ui/AutoComplete';
+import MenuItem from 'material-ui/MenuItem';
 
 const styles = {
 
 };
+
 
 /**
  * Modal for creating new Task
@@ -22,6 +26,7 @@ class CreateFieldModal extends Component {
         super(props);
 
         this.state = {
+            fieldsMenuData: [],
             name: '',
             errors: {},
             open: false,
@@ -34,6 +39,26 @@ class CreateFieldModal extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.createFieldsMenu = this.createFieldsMenu.bind(this);
+    };
+
+    componentDidMount(){
+        this.state.fieldsMenuData = this.createFieldsMenu;
+    }
+    createFieldsMenu(){
+        let data = this.props.fields.map((field) => {
+            return {
+                text: field.name,
+                value: (
+                    <MenuItem
+                        key={field._id}
+                        primaryText={field.name}
+                    />
+                ),
+            }
+        });
+        console.log(data);
+        return data;
     };
 
     handleOpen(){
@@ -104,9 +129,18 @@ class CreateFieldModal extends Component {
                 <Dialog
                     title="Create New Task"
                     actions={actions}
-                    modal={true}
+                    modal={false}
                     open={this.state.open}
                 >
+                    <form>
+                        <AutoComplete
+                            floatingLabelText="Field"
+                            filter={AutoComplete.caseInsensitiveFilter}
+                            dataSource={this.props.fieldsMenuData}
+                        />
+                        <br />
+
+                    </form>
                 </Dialog>
 
             </div>
@@ -121,4 +155,24 @@ class CreateFieldModal extends Component {
     }
 }
 
-export default connect(null, {})(CreateFieldModal);
+CreateFieldModal.propTypes = {
+    fieldsMenuData: PropTypes.array.isRequired
+};
+
+const mapStateToProps = (state) => {
+    return {
+        fieldsMenuData: state.fields.map((field) => {
+            return {
+                text: field.name,
+                value: (
+                    <MenuItem
+                        key={field._id}
+                        primaryText={field.name}
+                    />
+                ),
+            }
+        })
+    }
+}
+
+export default connect(mapStateToProps, {})(CreateFieldModal);

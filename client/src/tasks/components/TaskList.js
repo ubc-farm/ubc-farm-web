@@ -110,11 +110,7 @@ export default class TaskList extends Component {
                         enableSelectAll={false}
                         style={{verticalAlign: 'middle'}}
                     >
-                        <TableRow>
-                            <TableHeaderColumn colSpan="3" tooltip="Super Header" style={{textAlign: 'center', paddingTop: '10px'}}>
-                                <NewTaskModal/>
-                            </TableHeaderColumn>
-                        </TableRow>
+
                         <TableRow>
                             <TableHeaderColumn tooltip="Sort by Date" style={{verticalAlign: 'middle'}}>Date</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>

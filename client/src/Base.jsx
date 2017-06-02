@@ -27,7 +27,7 @@ const Topbar = styled.div`
 
 
 const Base = ({ children }) => (
-  <div>
+  <div  style={{height:'100%'}}>
     <Topbar className="top-bar has-shadow">
       <div className="top-bar-left">
 	  <img id="logo" src="images/logo.png" alt="UBCFarm Logo"></img>
