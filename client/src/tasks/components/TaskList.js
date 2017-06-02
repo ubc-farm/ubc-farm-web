@@ -2,6 +2,7 @@
  * Created by Xingyu on 6/2/2017.
  */
 import React, {Component} from 'react';
+import NewTaskModal from './NewTaskModal';
 import {
     Table,
     TableBody,
@@ -110,8 +111,8 @@ export default class TaskList extends Component {
                         style={{verticalAlign: 'middle'}}
                     >
                         <TableRow>
-                            <TableHeaderColumn colSpan="3" tooltip="Super Header" style={{textAlign: 'center', verticalAlign:'middle'}}>
-                                Super Header
+                            <TableHeaderColumn colSpan="3" tooltip="Super Header" style={{textAlign: 'center', paddingTop: '10px'}}>
+                                <NewTaskModal/>
                             </TableHeaderColumn>
                         </TableRow>
                         <TableRow>

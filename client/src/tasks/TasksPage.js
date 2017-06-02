@@ -52,7 +52,6 @@ class TasksPage extends React.Component {
                 >
                     <Tab label="List" value="list">
                         <div>
-                            <h2 style={styles.headline}>Task List</h2>
                             <TaskList/>
                         </div>
                     </Tab>
