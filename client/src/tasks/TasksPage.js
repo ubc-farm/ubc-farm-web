@@ -9,6 +9,7 @@ import TaskList from './components/TaskList';
 import {fetchFields} from '../fields/actions/fetch-fields.js'
 import NewTaskModal from './components/NewTaskModal';
 import Divider from 'material-ui/Divider';
+import FontAwesome from 'react-fontawesome'
 
 
 const styles = {

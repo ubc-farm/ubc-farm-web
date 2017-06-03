@@ -30,6 +30,7 @@
     "re-bulma": "^0.4.3",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-fontawesome": "^1.6.1",
     "react-google-maps": "^6.3.0",
     "react-redux": "^5.0.5",
     "react-router": "3.0.5",
