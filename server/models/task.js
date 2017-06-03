@@ -12,7 +12,14 @@ const TaskSchema = new mongoose.Schema({
     logged: Boolean,
     logtext: String,
     user: {type: Number, ref:'User'},
-    time: Date
+    time: Date,
+    multiDay: Boolean,
+    errors: {},
+    startDate: Date,
+    endDate: Date,
+    field:{},
+    type:{},
+    descriptions:{}
 });
 
 module.exports = mongoose.model('Task', TaskSchema);

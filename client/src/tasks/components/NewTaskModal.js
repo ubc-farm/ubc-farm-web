@@ -108,14 +108,17 @@ class CreateFieldModal extends Component {
 
         this.state = {
             fieldsMenuData: [],
-            name: '',
             multiDay: false,
             errors: {},
             open: false,
             validated: false,
             loading: false,
             done: false,
-            polygon: []
+            startDate: {},
+            endDate: {},
+            field:{},
+            type:{},
+            descriptions:{}
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -187,7 +190,7 @@ class CreateFieldModal extends Component {
         if (isValid) {
             const {name, polygon} = this.state;
             this.setState({loading: true});
-            this.props.saveField({name, polygon}).then(
+            this.props.saveTask({name, polygon}).then(
                 (response) => {
                     console.log("should catch error here")
                 }
@@ -331,4 +334,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {})(CreateFieldModal);
+export default connect(mapStateToProps, {SaveTask})(CreateFieldModal);
