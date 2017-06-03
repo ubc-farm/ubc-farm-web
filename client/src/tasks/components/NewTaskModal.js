@@ -13,6 +13,8 @@ import Divider from 'material-ui/Divider'
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField'
 import Toggle from 'material-ui/Toggle';
+import {SaveTask} from '../actions/save-task';
+import { Link, IndexLink } from 'react-router';
 
 const styles = {
     toggle: {
@@ -229,6 +231,15 @@ class CreateFieldModal extends Component {
                         open={this.state.open}
                         contentStyle={{width:'100%'}}
                     >
+                        <article className="message is-info">
+                            <div className="message-header">
+                                <p>Tip</p>
+                                <button className="delete"/>
+                            </div>
+                            <div className="message-body">
+                                You can also add tasks from the <Link to="/fields">Fields</Link> tab!
+                            </div>
+                        </article>
                         <form>
                             <Toggle
                                 label="Multi-Day Task"

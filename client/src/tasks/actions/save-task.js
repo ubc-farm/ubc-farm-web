@@ -13,14 +13,14 @@ function handleResponse(response){
     }
 }
 
-export function addTask(task){
+export function AddTask(task){
     return{
         type: ADD_TASK,
         task
     }
 }
 
-export function saveTask(data){
+export function SaveTask(data){
     return dispatch => {
         return fetch('/data/tasks', {
             method: 'post',
