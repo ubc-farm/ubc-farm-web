@@ -12,8 +12,13 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider'
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField'
+import Toggle from 'material-ui/Toggle';
 
-const styles = {};
+const styles = {
+    toggle: {
+        marginBottom: 16,
+    },
+};
 
 const typeData = [
     {
@@ -104,6 +109,7 @@ class CreateFieldModal extends Component {
         this.state = {
             fieldsMenuData: [],
             name: '',
+            multiDay: false,
             errors: {},
             open: false,
             validated: false,
@@ -116,6 +122,7 @@ class CreateFieldModal extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.createFieldsMenu = this.createFieldsMenu.bind(this);
+        this.toggleDay = this.toggleDay.bind(this);
     };
 
     componentDidMount() {
@@ -162,6 +169,10 @@ class CreateFieldModal extends Component {
         }
     };
 
+    toggleDay(){
+        this.setState({multiDay: !this.state.multiDay});
+    }
+
     handleSubmit(e) {
         e.preventDefault();
 
@@ -202,70 +213,98 @@ class CreateFieldModal extends Component {
             />,
         ];
 
-        const form = (
-            <div style={{minWidth: '100%', height: '100%'}}>
-                <div style={{}}>
-                    <FlatButton label="New Task" onTouchTap={this.handleOpen} labelStyle={{color: '#4CAF50'}}/>
-                </div>
-                <Dialog
-                    title="Create New Task"
-                    actions={actions}
-                    modal={false}
-                    open={this.state.open}
-                    contentStyle={{width:'100%'}}
-                >
-                    <form>
-                        <div style={{marginBottom:'5px'}}>
-                        <DatePicker
-                            hintText="Portrait Inline Dialog"
-                            container="inline"
-                            fullWidth={true}
-                        />
-                        </div>
-                        <div className="columns">
-                            <div className="column">
-                                <AutoComplete
-                                    floatingLabelText="Field"
-                                    filter={AutoComplete.caseInsensitiveFilter}
-                                    dataSource={this.props.fieldsMenuData}
-                                    openOnFocus={true}
-                                    fullWidth={true}
-                                />
-
-                            </div>
-                            <div className="column">
-                                <AutoComplete
-                                    floatingLabelText="Activity Type"
-                                    filter={AutoComplete.caseInsensitiveFilter}
-                                    dataSource={typeData}
-                                    openOnFocus={true}
-                                    fullWidth={true}
-                                />
-
-
-                            </div>
-
-                        </div>
-                        <TextField
-                            hintText="MultiLine with rows: 2 and rowsMax: 4"
-                            multiLine={true}
-                            rows={5}
-                            rowsMax={10}
-                            floatingLabelText="Description"
-                            textareaStyle={{ backgroundColor: '#EEEEEE'}}
-                            fullWidth={true}
-                        /><br />
-
-
-                    </form>
-                </Dialog>
-
-            </div>
-        );
-
         return (
             <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%'}}>
-                {form}
+                <div style={{minWidth: '100%', height: '100%'}}>
+                    <div style={{}}>
+                        <FlatButton label="New Task" onTouchTap={this.handleOpen} labelStyle={{color: '#4CAF50'}}/>
+                    </div>
+                    <Dialog
+                        title="Create New Task"
+                        actions={actions}
+                        modal={false}
+                        open={this.state.open}
+                        contentStyle={{width:'100%'}}
+                    >
+                        <form>
+                            <Toggle
+                                label="Multi-Day Task"
+                                style={styles.toggle}
+                                labelPosition="right"
+                                onToggle={this.toggleDay}
+                            />
+                            <div style={{marginBottom:'5px'}}>
+                                {this.state.multiDay ?
+                                    (
+                                    <div className="columns">
+                                        <div className="column">
+                                            <DatePicker
+                                                hintText="Start Date"
+                                                container="inline"
+                                                fullWidth={true}
+                                            />
+
+                                        </div>
+                                        <div className="column">
+                                            <DatePicker
+                                                hintText="Finish Date"
+                                                container="inline"
+                                                fullWidth={true}
+                                            />
+                                        </div>
+                                    </div>
+                                    ) : (
+                                        <div className="columns">
+                                            <div className="column">
+                                                <DatePicker
+                                                    hintText="Date"
+                                                    container="inline"
+                                                    fullWidth={true}
+                                                />
+
+                                            </div>
+                                        </div>
+                                    )}
+
+                            </div>
+                            <div className="columns">
+                                <div className="column">
+                                    <AutoComplete
+                                        floatingLabelText="Field"
+                                        filter={AutoComplete.caseInsensitiveFilter}
+                                        dataSource={this.props.fieldsMenuData}
+                                        openOnFocus={true}
+                                        fullWidth={true}
+                                    />
+
+                                </div>
+                                <div className="column">
+                                    <AutoComplete
+                                        floatingLabelText="Activity Type"
+                                        filter={AutoComplete.caseInsensitiveFilter}
+                                        dataSource={typeData}
+                                        openOnFocus={true}
+                                        fullWidth={true}
+                                    />
+
+                                </div>
+
+                            </div>
+                            <TextField
+                                hintText="MultiLine with rows: 2 and rowsMax: 4"
+                                multiLine={true}
+                                rows={5}
+                                rowsMax={10}
+                                floatingLabelText="Description"
+                                textareaStyle={{ backgroundColor: '#EEEEEE'}}
+                                fullWidth={true}
+                            /><br />
+
+
+                        </form>
+                    </Dialog>
+
+                </div>
             </div>
 
         );
