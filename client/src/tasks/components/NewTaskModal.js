@@ -10,7 +10,8 @@ import PropTypes from 'prop-types';
 import AutoComplete from 'material-ui/AutoComplete';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider'
-
+import DatePicker from 'material-ui/DatePicker';
+import TextField from 'material-ui/TextField'
 
 const styles = {};
 
@@ -189,7 +190,7 @@ class CreateFieldModal extends Component {
         const actions = [
             <FlatButton
                 label="Cancel"
-                primary={true}
+                secondary={true}
                 onTouchTap={this.handleClose}
             />,
             <FlatButton
@@ -211,8 +212,16 @@ class CreateFieldModal extends Component {
                     actions={actions}
                     modal={false}
                     open={this.state.open}
+                    contentStyle={{width:'100%'}}
                 >
                     <form>
+                        <div style={{marginBottom:'5px'}}>
+                        <DatePicker
+                            hintText="Portrait Inline Dialog"
+                            container="inline"
+                            fullWidth={true}
+                        />
+                        </div>
                         <div className="columns">
                             <div className="column">
                                 <AutoComplete
@@ -220,7 +229,9 @@ class CreateFieldModal extends Component {
                                     filter={AutoComplete.caseInsensitiveFilter}
                                     dataSource={this.props.fieldsMenuData}
                                     openOnFocus={true}
+                                    fullWidth={true}
                                 />
+
                             </div>
                             <div className="column">
                                 <AutoComplete
@@ -228,9 +239,22 @@ class CreateFieldModal extends Component {
                                     filter={AutoComplete.caseInsensitiveFilter}
                                     dataSource={typeData}
                                     openOnFocus={true}
+                                    fullWidth={true}
                                 />
+
+
                             </div>
+
                         </div>
+                        <TextField
+                            hintText="MultiLine with rows: 2 and rowsMax: 4"
+                            multiLine={true}
+                            rows={5}
+                            rowsMax={10}
+                            floatingLabelText="Description"
+                            textareaStyle={{ backgroundColor: '#EEEEEE'}}
+                            fullWidth={true}
+                        /><br />
 
 
                     </form>

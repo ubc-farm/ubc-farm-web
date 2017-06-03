@@ -15,6 +15,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import LinearProgress from 'material-ui/LinearProgress';
 import NewFieldMapComponent from './maps/NewFieldMapComponent.jsx';
 import {Route,Redirect} from 'react-router';
+import DatePikcer from 'material-ui/DatePicker'
 
 
 //STATIC STYLES - [TODO: CONSOLIDATE STYLINGS]
@@ -169,7 +170,7 @@ class CreateFieldModal extends Component {
         const actions = [
             <FlatButton
                 label="Cancel"
-                primary={true}
+                secondary={true}
                 onTouchTap={this.handleClose}
             />,
             <FlatButton
