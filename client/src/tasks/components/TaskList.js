@@ -2,7 +2,7 @@
  * Created by Xingyu on 6/2/2017.
  */
 import React, {Component} from 'react';
-import NewTaskModal from './NewTaskModal';
+import {connect} from 'react-redux';
 import {
     Table,
     TableBody,
@@ -12,8 +12,7 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
-import TextField from 'material-ui/TextField';
-import Toggle from 'material-ui/Toggle';
+import PropTypes from 'prop-types';
 
 const styles = {
     propContainer: {
@@ -26,41 +25,12 @@ const styles = {
     },
 };
 
-const tableData = [
-    {
-        name: 'John Smith',
-        status: 'Employed',
-    },
-    {
-        name: 'Randal White',
-        status: 'Unemployed',
-    },
-    {
-        name: 'Stephanie Sanders',
-        status: 'Employed',
-    },
-    {
-        name: 'Steve Brown',
-        status: 'Employed',
-    },
-    {
-        name: 'Joyce Whitten',
-        status: 'Employed',
-    },
-    {
-        name: 'Samuel Roberts',
-        status: 'Employed',
-    },
-    {
-        name: 'Adam Moore',
-        status: 'Employed',
-    },
-];
+let tableData = [];
 
 /**
  * A more complex example, allowing the table height to be set, and key boolean properties to be toggled.
  */
-export default class TaskList extends Component {
+class TaskList extends Component {
     constructor(props, context) {
         super(props, context);
 
@@ -112,9 +82,11 @@ export default class TaskList extends Component {
                     >
 
                         <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Date" style={{verticalAlign: 'middle'}}>Date</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Field" style={{verticalAlign: 'middle'}}>Field</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Start Date" style={{verticalAlign: 'middle'}}>Start Date</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by End Date" style={{verticalAlign: 'middle'}}>End Date</TableHeaderColumn>
+
                         </TableRow>
                     </TableHeader>
                     <TableBody
@@ -123,11 +95,12 @@ export default class TaskList extends Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        {tableData.map( (row, index) => (
+                        {this.props.tasks.map( (task, index) => (
                             <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{index}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{row.name}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{row.status}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{task.type}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{task.field}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{task.startDate}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{task.endDate}</TableRowColumn>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -135,12 +108,13 @@ export default class TaskList extends Component {
                         adjustForCheckbox={false}
                     >
                         <TableRow>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>ID</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Name</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Status</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>Type</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>Field</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>Start Date</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>End Date</TableRowColumn>
                         </TableRow>
                         <TableRow>
-                            <TableRowColumn colSpan="3" style={{textAlign: 'center'}}>
+                            <TableRowColumn colSpan="4" style={{textAlign: 'center'}}>
                                 Super Footer
                             </TableRowColumn>
                         </TableRow>
@@ -150,3 +124,15 @@ export default class TaskList extends Component {
         );
     }
 }
+
+TaskList.propTypes = {
+    tasks: PropTypes.array.isRequired
+};
+
+const mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks
+    }
+};
+
+export default connect(mapStateToProps)(TaskList);

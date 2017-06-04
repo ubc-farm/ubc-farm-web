@@ -407,6 +407,6 @@ const mapStateToProps = (state) => {
             }
         })
     }
-}
+};
 
 export default connect(mapStateToProps, {SaveTask})(CreateFieldModal);
