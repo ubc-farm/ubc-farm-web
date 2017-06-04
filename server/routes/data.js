@@ -4,10 +4,12 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const router = new express.Router();
+const mongoose = require('mongoose');
 
 router.use(bodyParser.json());
 
-var Field = require('mongoose').model('Field');
+let Task = require('mongoose').model('Task');
+let Field = require('mongoose').model('Field');
 
 router.get('/fields', (req, res) => {
 
@@ -22,7 +24,7 @@ router.get('/fields', (req, res) => {
 
 });
 
-function serverSideValidate(data){
+function serverSideValidateField(data){
     //validation
     let errors = {};
     if(data.name === '')
@@ -33,8 +35,19 @@ function serverSideValidate(data){
     return {errors, isValid};
 }
 
+function serverSideValidateTask(data){
+    //validation
+    let errors = {};
+    if(data.field === '')
+        errors.name = "This field is Required";
+    //if valid, create post request
+    const isValid = Object.keys(errors).length === 0;
+
+    return {errors, isValid};
+}
+
 router.post('/fields', (req, res) => {
-    const{errors, isValid} = serverSideValidate(req.body);
+    const{errors, isValid} = serverSideValidateField(req.body);
     if(isValid){
         const {name,polygon} = req.body;
         Field.create({name,polygon}, function(err, result){
@@ -64,6 +77,58 @@ router.delete('/fields/:_id', (req, res) => {
                 res.status(200).json({});
             }
         });
+    }
+
+});
+
+/**
+ * ROUTER CODE FOR TASK PAGE
+ */
+router.get('/tasks', (req, res) => {
+
+    Task.find({}).lean().exec(function (err, tasks) {
+        if (err) {
+            res.send('error retrieveing tasks');
+        } else {
+            res.json({tasks});
+        }
+
+    });
+
+});
+
+router.post('/tasks', (req, res) => {
+    console.log(req.body);
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const field = mongoose.Types.ObjectId(req.body.field);
+        const{
+            type,
+            description,
+            time,
+            multiDay,
+            startDate,
+            endDate} = req.body;
+
+        Task.create({field,
+            type,
+            description,
+            time,
+            multiDay,
+            startDate,
+            endDate} ,
+
+            function(err, result){
+            if(err){
+                console.log(err);
+                res.status(500).json({errors: {global: "mongodb errored while saving task"}});
+            }else{
+                delete result.__v;
+                res.status(200).json({task: result});
+            }
+        });
+    }else{
+        res.status(400).json({errors});
     }
 
 });

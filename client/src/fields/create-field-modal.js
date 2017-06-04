@@ -32,7 +32,7 @@ const styles = {
     },
 };
 
-var shortid = require('shortid');
+let shortid = require('shortid');
 
 /**
  * A modal dialog can only be closed by selecting one of the actions.

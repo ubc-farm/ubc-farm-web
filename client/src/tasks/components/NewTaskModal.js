@@ -119,8 +119,7 @@ class CreateFieldModal extends Component {
             startDate: {},
             endDate: {},
             field:{},
-            type:{},
-            descriptions:{}
+            type:''
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -128,6 +127,11 @@ class CreateFieldModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.createFieldsMenu = this.createFieldsMenu.bind(this);
         this.toggleDay = this.toggleDay.bind(this);
+        this.handleStartDateChange = this.handleStartDateChange.bind(this);
+        this.handleEndDateChange = this.handleEndDateChange.bind(this);
+        this.handleFieldChange = this.handleFieldChange.bind(this);
+        this.handleTypeChange = this.handleTypeChange.bind(this);
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     };
 
     componentDidMount() {
@@ -155,48 +159,82 @@ class CreateFieldModal extends Component {
     };
 
     handleClose() {
-        this.setState({open: false, name: ''});
+        this.setState({
+            open: false,
+            field: '',
+            startDate: {},
+            endDate: {},
+            description: '',
+            type: ''
+        });
     };
 
-    handleChange(e) {
-        if (this.state.errors[e.target.name]) {
-            console.log("handle error fired");
-            let errors = Object.assign({}, this.state.errors);
-            delete errors[e.target.name];
-            this.setState({
-                [e.target.name]: e.target.value,
-                errors,
-            });
-        } else {
-            this.setState({
-                [e.target.name]: e.target.value,
-            });
-        }
+    /**
+     * Functions that handle form input changes
+     *
+     */
+    handleChange(name, e) {
+        let change = {};
+        change[name] = e.target.value;
+        this.setState(change);
+    };
+
+    handleStartDateChange(event, date) {
+        this.setState({startDate: date, endDate: date});
+    };
+
+    handleEndDateChange(event, date){
+        this.setState({endDate: date});
+    };
+
+    handleFieldChange(chosenRequest,index){
+        console.log(this.props.fieldsMenuData[index]);
+        this.setState({field: this.props.fieldsMenuData[index].id});
+    };
+
+    handleTypeChange(typeString){
+        this.setState({type: typeString});
+    };
+
+    handleDescriptionChange(event){
+        this.setState({description: event.target.value});
     };
 
     toggleDay(){
         this.setState({multiDay: !this.state.multiDay});
-    }
+    };
 
     handleSubmit(e) {
         e.preventDefault();
 
         //validation
         let errors = {};
-        if (this.state.name === '')
+        if (this.state.field === '')
             errors.name = "This field is Required";
         this.setState({errors});
 
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if (isValid) {
-            const {name, polygon} = this.state;
+            const {field,
+                type,
+                description,
+                time,
+                multiDay,
+                startDate,
+                endDate} = this.state;
             this.setState({loading: true});
-            this.props.saveTask({name, polygon}).then(
+            this.props.SaveTask({field,
+                type,
+                description,
+                time,
+                multiDay,
+                startDate,
+                endDate}).then(
                 (response) => {
                     console.log("should catch error here")
                 }
-            );
+            )
             this.setState({done: true, loading: false});
             this.handleClose();
         }
@@ -256,6 +294,10 @@ class CreateFieldModal extends Component {
                                                 hintText="Start Date"
                                                 container="inline"
                                                 fullWidth={true}
+                                                onChange={this.handleStartDateChange}
+                                                name="startDate"
+                                                value={this.state.startDate}
+                                                errorText={this.state.errors.name}
                                             />
 
                                         </div>
@@ -264,6 +306,10 @@ class CreateFieldModal extends Component {
                                                 hintText="Finish Date"
                                                 container="inline"
                                                 fullWidth={true}
+                                                onChange={this.handleEndDateChange}
+                                                name="endDate"
+                                                value={this.state.endDate}
+                                                errorText={this.state.errors.name}
                                             />
                                         </div>
                                     </div>
@@ -274,6 +320,10 @@ class CreateFieldModal extends Component {
                                                     hintText="Date"
                                                     container="inline"
                                                     fullWidth={true}
+                                                    onChange={this.handleStartDateChange}
+                                                    name="startDate"
+                                                    value={this.state.startDate}
+                                                    errorText={this.state.errors.name}
                                                 />
 
                                             </div>
@@ -286,9 +336,14 @@ class CreateFieldModal extends Component {
                                     <AutoComplete
                                         floatingLabelText="Field"
                                         filter={AutoComplete.caseInsensitiveFilter}
+                                        dataSourceConfig={{text: 'text', value: 'value', id:'id'}}
                                         dataSource={this.props.fieldsMenuData}
                                         openOnFocus={true}
                                         fullWidth={true}
+                                        onNewRequest={this.handleFieldChange}
+                                        name="field"
+                                        value={this.state.field}
+                                        errorText={this.state.errors.name}
                                     />
 
                                 </div>
@@ -299,6 +354,9 @@ class CreateFieldModal extends Component {
                                         dataSource={typeData}
                                         openOnFocus={true}
                                         fullWidth={true}
+                                        onUpdateInput={this.handleTypeChange}
+                                        name="type"
+                                        value={this.state.type}
                                     />
 
                                 </div>
@@ -312,6 +370,10 @@ class CreateFieldModal extends Component {
                                 floatingLabelText="Description"
                                 textareaStyle={{ backgroundColor: '#EEEEEE'}}
                                 fullWidth={true}
+                                onChange={this.handleDescriptionChange}
+                                name="description"
+                                value={this.state.description}
+                                errorText={this.state.errors.name}
                             /><br />
 
 
@@ -337,9 +399,11 @@ const mapStateToProps = (state) => {
                 value: (
                     <MenuItem
                         key={field._id}
+                        id={field._id}
                         primaryText={field.name}
                     />
                 ),
+                id: field._id
             }
         })
     }

@@ -4,10 +4,12 @@
 import {combineReducers} from 'redux';
 import FieldReducer from '../fields/reducers/reducer-fields';
 import FieldActionReducer from '../fields/reducers/reducer-fields-actions';
+import TaskReducer from '../tasks/reducers/';
 
 const allReducers = combineReducers({
     fields : FieldReducer,
-    selectedField : FieldActionReducer
+    selectedField : FieldActionReducer,
+    tasks : TaskReducer
 
 });
 

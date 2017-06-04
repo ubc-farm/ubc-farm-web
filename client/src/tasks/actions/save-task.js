@@ -29,6 +29,6 @@ export function SaveTask(data){
                 "Content-Type":"application/json"
             }
         }).then(handleResponse)
-            .then(data => dispatch(addField(data.task)));
+            .then(data => dispatch(AddTask(data.task)));
     }
 }
