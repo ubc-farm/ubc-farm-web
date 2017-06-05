@@ -165,7 +165,8 @@ class CreateFieldModal extends Component {
             startDate: {},
             endDate: {},
             description: '',
-            type: ''
+            type: '',
+            multiDay: false,
         });
     };
 
