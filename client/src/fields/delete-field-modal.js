@@ -9,6 +9,7 @@ import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
 import {deleteField} from './actions/delete-field.js';
+import {deleteTaskByField} from './actions/deleteTaskByField';
 
 const styles = {
     button:{
@@ -53,11 +54,12 @@ class DeleteFieldModal extends Component {
     handleSubmit(e){
         e.preventDefault();
 
+        let deleteId = this.props.field._id;
         this.setState({loading: true});
         this.props.deleteField(this.props.field._id).then(
             (response) => {console.log("should catch deleteField errors here")}
         );
-        this.props.deleteTaskByField(this.props.field._id).then(
+        this.props.deleteTaskByField(deleteId).then(
             (response) => {console.log("should catch deleteTaskByField errors here")}
         );
         this.setState({done: true, loading: false});
@@ -108,4 +110,4 @@ class DeleteFieldModal extends Component {
     }
 }
 
-export default connect(null, {deleteField})(DeleteFieldModal);
+export default connect(null, {deleteField, deleteTaskByField})(DeleteFieldModal);

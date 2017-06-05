@@ -150,4 +150,26 @@ router.delete('/tasks/:_id', (req, res) => {
 
 });
 
+router.delete('/fieldtasks/:_id', (req, res) => {
+    if(!req.params._id){
+        res.status(400).json({errors: {global: "null"}});
+    }else {
+
+        Task.findOneAndRemove({'field': req.params._id}, function (err, task) {
+            if (err) {
+                res.status(500).json({errors: {global: "mongodb errored while deleting"}});
+            }
+
+            if(task){
+                res.status(200).json({deletedTaskId: task._id});
+            }
+
+            else {
+                res.status(200).json({});
+            }
+        });
+    }
+
+});
+
 module.exports = router;
