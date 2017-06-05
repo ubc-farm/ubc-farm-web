@@ -22,6 +22,7 @@
     "google-maps-react": "^1.0.19",
     "jsonwebtoken": "^7.4.0",
     "material-ui": "^0.16.7",
+    "moment": "^2.18.1",
     "mongodb": "^2.2.26",
     "mongoose": "^4.9.9",
     "passport": "^0.3.2",

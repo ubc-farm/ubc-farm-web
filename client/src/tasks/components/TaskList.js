@@ -50,8 +50,30 @@ class TaskList extends Component {
 
         this.handleToggle = this.handleToggle.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.fieldNameFromId = this.fieldNameFromId.bind(this);
+        this.dateTransformer = this.dateTransformer.bind(this);
     }
 
+    fieldNameFromId(fieldId){
+        console.log(fieldId);
+        let field = this.props.fields.find((field) => {
+            console.log(field._id);
+            return field._id === fieldId;
+        });
+        return field.name;
+    }
+
+    dateTransformer(dateString){
+        let d = new Date(dateString);
+        let options = {
+            weekday: "long", year: "numeric", month: "short",
+            day: "numeric"
+        };
+        let fullDate = d.toLocaleTimeString("en-us", options);
+        let components = fullDate.split(",");
+        return components[0] + "," + components[1] +  "," + components[2];
+
+    }
 
 
     handleToggle(event, toggled){
@@ -98,9 +120,9 @@ class TaskList extends Component {
                         {this.props.tasks.map( (task, index) => (
                             <TableRow key={index}>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{task.type}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{task.field}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{task.startDate}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{task.endDate}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.fieldNameFromId(task.field)}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.startDate)}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.endDate)}</TableRowColumn>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -126,12 +148,14 @@ class TaskList extends Component {
 }
 
 TaskList.propTypes = {
-    tasks: PropTypes.array.isRequired
+    tasks: PropTypes.array.isRequired,
+    fields: PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
-        tasks: state.tasks
+        tasks: state.tasks,
+        fields: state.fields
     }
 };
 
