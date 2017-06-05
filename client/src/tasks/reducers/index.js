@@ -18,7 +18,7 @@ export default function tasks(state=[], action={}){
 
         case FIELD_TASKS_DELETED:
             console.log("field tasks delete!");
-            return state.filter(item => item._id !== action.taskId);
+            return state.filter(item => item.field !== action.fieldId);
             break;
 
         case SET_TASKS:
