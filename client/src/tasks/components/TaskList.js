@@ -52,6 +52,7 @@ class TaskList extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.fieldNameFromId = this.fieldNameFromId.bind(this);
         this.dateTransformer = this.dateTransformer.bind(this);
+        this.typeTransftormer = this.typeTransformer.bind(this);
     }
 
     fieldNameFromId(fieldId){
@@ -73,6 +74,38 @@ class TaskList extends Component {
         let components = fullDate.split(",");
         return components[0] + "," + components[1] +  "," + components[2];
 
+    }
+
+    typeTransformer(typeString){
+        switch(typeString){
+            case "seeding":
+                return "\u{1F331}" + " " + typeString;
+                break;
+            case "irrigation":
+                return "\u{1F4A7}" + " " + typeString;
+                break;
+            case "pest-control":
+                return "\u{1F41C}" + " " + typeString;
+                break;
+            case "transplanting":
+                return "\u{1F33F}" + " " + typeString;
+                break;
+            case "soil-sampling":
+                return "\u{1F52C}" + " " + typeString;
+                break;
+            case "scouting-harvest":
+                return "\u{1F4CB}" + " " + typeString;
+                break;
+            case "scouting-pests":
+                return "\u{1F4CC}" + " " + typeString;
+                break;
+            case "fertilizing":
+                return "\u{1F4A9}" + " " + typeString;
+                break;
+            default:
+                return typeString;
+                break;
+        }
     }
 
 
@@ -119,7 +152,7 @@ class TaskList extends Component {
                     >
                         {this.props.tasks.map( (task, index) => (
                             <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{task.type}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.typeTransftormer(task.type)}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{this.fieldNameFromId(task.field)}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.startDate)}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.endDate)}</TableRowColumn>
