@@ -89,12 +89,12 @@ class FieldsComponent extends React.Component {
 FieldsComponent.propTypes = {
     fields: PropTypes.array.isRequired,
     fetchFields: PropTypes.func.isRequired
-}
+};
 
 const mapStateToProps = (state) => {
     return {
         fields: state.fields
     }
-}
+};
 
 export default connect(mapStateToProps,{fetchFields})(FieldsComponent);

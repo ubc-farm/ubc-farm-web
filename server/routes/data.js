@@ -150,6 +150,10 @@ router.delete('/tasks/:_id', (req, res) => {
 
 });
 
+/**
+ * ROUTER FOR ACCESSING TASKS FROM FIELD PAGE
+ */
+
 router.delete('/fieldtasks/:_id', (req, res) => {
     if(!req.params._id){
         res.status(400).json({errors: {global: "null"}});
@@ -169,6 +173,25 @@ router.delete('/fieldtasks/:_id', (req, res) => {
             }
         });
     }
+
+});
+
+router.get('/fieldtasks/:_id', (req, res) => {
+    if(!req.params._id){
+        res.status(400).json({errors: {global: "null"}});
+    }else {
+
+        Task.find({field: req.params._id}).lean().exec(function (err, tasks) {
+            if (err) {
+                res.send('error retrieveing tasks');
+            } else {
+                res.json({tasks});
+            }
+
+        });
+    }
+
+
 
 });
 
