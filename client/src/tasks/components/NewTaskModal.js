@@ -136,6 +136,7 @@ class CreateFieldModal extends Component {
 
     componentDidMount() {
         this.state.fieldsMenuData = this.createFieldsMenu;
+        console.log(this.state.field);
     }
 
     createFieldsMenu() {
@@ -210,8 +211,13 @@ class CreateFieldModal extends Component {
 
         //validation
         let errors = {};
-        if (this.state.field === '')
-            errors.name = "This field is Required";
+        if (this.state.field === '') {
+            if(this.props.isFieldProvided){
+
+            }else {
+                errors.name = "This field is Required";
+            }
+        }
         this.setState({errors});
 
         //if valid, create post request
@@ -276,7 +282,8 @@ class CreateFieldModal extends Component {
                                 <button className="delete"/>
                             </div>
                             <div className="message-body">
-                                You can also add tasks from the <Link to="/fields">Fields</Link> tab!
+                                You can also add tasks from the {this.props.isFieldProvided ?
+                                (<Link to="/tasks">Tasks</Link> ):(<Link to="/fields">Fields</Link>)} tab!
                             </div>
                         </article>
                         <form>
@@ -333,8 +340,14 @@ class CreateFieldModal extends Component {
 
                             </div>
                             <div className="columns">
-                                <div className="column">
-                                    <AutoComplete
+
+                                    {this.props.isFieldProvided ?
+                                        (
+                                            <div></div>
+
+                                        ) : (
+                                            <div className="column">
+                                        <AutoComplete
                                         floatingLabelText="Field"
                                         filter={AutoComplete.caseInsensitiveFilter}
                                         dataSourceConfig={{text: 'text', value: 'value', id:'id'}}
@@ -345,10 +358,16 @@ class CreateFieldModal extends Component {
                                         name="field"
                                         value={this.state.field}
                                         errorText={this.state.errors.name}
-                                    />
+                                        />
+                                            </div>
 
-                                </div>
+
+                                        )}
+
+
                                 <div className="column">
+
+
                                     <AutoComplete
                                         floatingLabelText="Activity Type"
                                         filter={AutoComplete.caseInsensitiveFilter}
@@ -361,6 +380,7 @@ class CreateFieldModal extends Component {
                                     />
 
                                 </div>
+
 
                             </div>
                             <TextField
@@ -389,11 +409,14 @@ class CreateFieldModal extends Component {
 }
 
 CreateFieldModal.propTypes = {
-    fieldsMenuData: PropTypes.array.isRequired
+    fieldsMenuData: PropTypes.array.isRequired,
+    isFieldProvided: PropTypes.bool.isRequired,
+    field: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
+        field: state.selectedField._id,
         fieldsMenuData: state.fields.map((field) => {
             return {
                 text: field.name,

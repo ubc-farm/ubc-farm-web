@@ -59,7 +59,7 @@ class TasksPage extends React.Component {
                 >
                     <Tab label="List" value="list">
                         <div style={{textAlign: 'center', padding: '10px'}}>
-                            <NewTaskModal/>
+                            <NewTaskModal isFieldProvided={false}/>
                         </div>
                         <Divider/>
                         <div>

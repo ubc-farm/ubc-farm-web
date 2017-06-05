@@ -23,14 +23,14 @@ export function taskDeleted(taskId){
 }
 
 export function deleteTask(id){
-    // return dispatch => {
-    //     return fetch(`/data/tasks/${id}`, {
-    //         method: 'delete',
-    //         headers:{
-    //             "Content-Type":"application/json"
-    //         }
-    //     }).then(handleResponse)
-    //         .then(data => dispatch(taskDeleted(id)));
-    // }
+    return dispatch => {
+        return fetch(`/data/tasks/${id}`, {
+            method: 'delete',
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(handleResponse)
+            .then(data => dispatch(taskDeleted(id)));
+    }
 }
 

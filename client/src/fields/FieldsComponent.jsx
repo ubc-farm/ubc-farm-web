@@ -77,7 +77,7 @@ class FieldsComponent extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="column is-3-desktop">
+                <div className="column is-3-desktop" style={{ backgroundColor: '#F5F5F5'}}>
                     <FieldSelector2/>
 
                 </div>

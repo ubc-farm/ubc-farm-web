@@ -4,7 +4,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
-import {deleteTask} from '../actions/delete-task';
+import DeleteTaskModal from '../components/DeleteTaskModal';
 import {
     Table,
     TableBody,
@@ -58,9 +58,7 @@ class TaskList extends Component {
     }
 
     fieldNameFromId(fieldId){
-        console.log(fieldId);
         let field = this.props.fields.find((field) => {
-            console.log(field._id);
             return field._id === fieldId;
         });
         return field.name;
@@ -160,16 +158,18 @@ class TaskList extends Component {
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.startDate)}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.endDate)}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                    <FlatButton
-                                        label="Delete"
-                                        secondary={true}
-                                        onTouchTap={this.props.deleteTask}
-                                    />
+                                    <div className="columns">
+                                        <div className="column">
+                                    <DeleteTaskModal task = {task}/>
+                                        </div>
+                                        <div className="column">
                                     <FlatButton
                                         label="Log"
                                         primary={true}
                                         onTouchTap={this.props.deleteTask}
                                     />
+                                        </div>
+                                    </div>
                                 </TableRowColumn>
                             </TableRow>
                         ))}
@@ -199,7 +199,6 @@ class TaskList extends Component {
 TaskList.propTypes = {
     tasks: PropTypes.array.isRequired,
     fields: PropTypes.array.isRequired,
-    deleteTask: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -209,4 +208,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {deleteTask})(TaskList);
+export default connect(mapStateToProps)(TaskList);

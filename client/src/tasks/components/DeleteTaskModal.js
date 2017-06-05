@@ -1,14 +1,12 @@
 /**
- * Created by Xingyu on 5/30/2017.
+ * Created by Xingyu on 6/4/2017.
  */
-
 import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
-import {deleteField} from './actions/delete-field.js';
+import {deleteTask} from '../actions/delete-task.js';
 
 const styles = {
     button:{
@@ -33,7 +31,7 @@ class DeleteFieldModal extends Component {
             validated: false,
             loading: false,
             done: false,
-            field:{}
+            task:{}
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -52,13 +50,11 @@ class DeleteFieldModal extends Component {
 
     handleSubmit(e){
         e.preventDefault();
+        console.log(this.props.task);
 
         this.setState({loading: true});
-        this.props.deleteField(this.props.field._id).then(
-            (response) => {console.log("should catch deleteField errors here")}
-        );
-        this.props.deleteTaskByField(this.props.field._id).then(
-            (response) => {console.log("should catch deleteTaskByField errors here")}
+        this.props.deleteTask(this.props.task._id).then(
+            (response) => {console.log("should catch error here")}
         );
         this.setState({done: true, loading: false});
         this.handleClose();
@@ -67,13 +63,13 @@ class DeleteFieldModal extends Component {
 
     render() {
         const actions = [
-            <RaisedButton
+            <FlatButton
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
                 style={styles.button}
             />,
-            <RaisedButton
+            <FlatButton
                 label={this.state.loading ? '' : "Delete"}
                 primary={true}
                 disabled={false}
@@ -85,14 +81,13 @@ class DeleteFieldModal extends Component {
 
         const form = (
             <div>
-                <FlatButton label="Delete Field" secondary={true} onTouchTap={this.handleOpen} />
+                <FlatButton label="Delete" secondary={true} onTouchTap={this.handleOpen} />
                 <Dialog
-                    title={"Are you sure you want to delete " + this.props.field.name + "?"}
+                    title="Confirm Task Deletion"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
                 >
-                    By Deleting this field, you will also be deleting any tasks associated with it
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
                 </Dialog>
@@ -108,4 +103,4 @@ class DeleteFieldModal extends Component {
     }
 }
 
-export default connect(null, {deleteField})(DeleteFieldModal);
+export default connect(null, {deleteTask})(DeleteFieldModal);
