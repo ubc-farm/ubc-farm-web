@@ -21,7 +21,7 @@ class FieldDetail extends Component{
             <div>
                 <h2>{this.props.field.name}</h2>
                 <DeleteFieldModal field = {this.props.field}/>
-                <NewTaskModal isFieldProvided = {true}/>
+                <NewTaskModal isFieldProvided = {true} field = {this.props.field}/>
 
             </div>
         );

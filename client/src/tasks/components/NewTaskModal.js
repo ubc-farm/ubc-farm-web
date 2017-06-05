@@ -136,6 +136,9 @@ class CreateFieldModal extends Component {
 
     componentDidMount() {
         this.state.fieldsMenuData = this.createFieldsMenu;
+        if(this.props.isFieldProvided){
+            this.setState({field: this.props.field._id});
+        }
         console.log(this.state.field);
     }
 
@@ -211,13 +214,6 @@ class CreateFieldModal extends Component {
 
         //validation
         let errors = {};
-        if (this.state.field === '') {
-            if(this.props.isFieldProvided){
-
-            }else {
-                errors.name = "This field is Required";
-            }
-        }
         this.setState({errors});
 
         //if valid, create post request
@@ -230,7 +226,9 @@ class CreateFieldModal extends Component {
                 multiDay,
                 startDate,
                 endDate} = this.state;
+
             this.setState({loading: true});
+
             this.props.SaveTask({field,
                 type,
                 description,
@@ -241,7 +239,7 @@ class CreateFieldModal extends Component {
                 (response) => {
                     console.log("should catch error here")
                 }
-            )
+            );
             this.setState({done: true, loading: false});
             this.handleClose();
         }
@@ -411,12 +409,10 @@ class CreateFieldModal extends Component {
 CreateFieldModal.propTypes = {
     fieldsMenuData: PropTypes.array.isRequired,
     isFieldProvided: PropTypes.bool.isRequired,
-    field: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
-        field: state.selectedField._id,
         fieldsMenuData: state.fields.map((field) => {
             return {
                 text: field.name,
