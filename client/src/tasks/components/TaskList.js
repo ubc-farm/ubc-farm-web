@@ -3,6 +3,8 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import FlatButton from 'material-ui/FlatButton';
+import {deleteTask} from '../actions/delete-task';
 import {
     Table,
     TableBody,
@@ -141,6 +143,7 @@ class TaskList extends Component {
                             <TableHeaderColumn tooltip="Sort by Field" style={{verticalAlign: 'middle'}}>Field</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Start Date" style={{verticalAlign: 'middle'}}>Start Date</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by End Date" style={{verticalAlign: 'middle'}}>End Date</TableHeaderColumn>
+                            <TableHeaderColumn/>
 
                         </TableRow>
                     </TableHeader>
@@ -156,6 +159,18 @@ class TaskList extends Component {
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{this.fieldNameFromId(task.field)}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.startDate)}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.endDate)}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                    <FlatButton
+                                        label="Delete"
+                                        secondary={true}
+                                        onTouchTap={this.props.deleteTask}
+                                    />
+                                    <FlatButton
+                                        label="Log"
+                                        primary={true}
+                                        onTouchTap={this.props.deleteTask}
+                                    />
+                                </TableRowColumn>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -167,9 +182,10 @@ class TaskList extends Component {
                             <TableRowColumn style={{verticalAlign: 'middle'}}>Field</TableRowColumn>
                             <TableRowColumn style={{verticalAlign: 'middle'}}>Start Date</TableRowColumn>
                             <TableRowColumn style={{verticalAlign: 'middle'}}>End Date</TableRowColumn>
+                            <TableHeaderColumn/>
                         </TableRow>
                         <TableRow>
-                            <TableRowColumn colSpan="4" style={{textAlign: 'center'}}>
+                            <TableRowColumn colSpan="5" style={{textAlign: 'center'}}>
                                 Super Footer
                             </TableRowColumn>
                         </TableRow>
@@ -182,7 +198,8 @@ class TaskList extends Component {
 
 TaskList.propTypes = {
     tasks: PropTypes.array.isRequired,
-    fields: PropTypes.array.isRequired
+    fields: PropTypes.array.isRequired,
+    deleteTask: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -192,4 +209,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(TaskList);
+export default connect(mapStateToProps, {deleteTask})(TaskList);
