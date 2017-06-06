@@ -14,6 +14,7 @@ import FieldSelector2 from './field-selector2.js';
 import FieldDetail from './field-detail.js';
 import {connect} from 'react-redux';
 import {fetchFields} from './actions/fetch-fields.js'
+import {fetchTaskByField} from './actions/fetchTaskByField';
 
 
 //styled-component styles
@@ -93,8 +94,9 @@ FieldsComponent.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        fields: state.fields
+        fields: state.fields,
+        tasks: state.fieldTasks
     }
 };
 
-export default connect(mapStateToProps,{fetchFields})(FieldsComponent);
+export default connect(mapStateToProps,{fetchFields, fetchTaskByField})(FieldsComponent);
