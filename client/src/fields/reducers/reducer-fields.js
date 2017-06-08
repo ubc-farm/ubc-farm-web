@@ -4,7 +4,6 @@
 import {SET_FIELDS} from "../actions/fetch-fields.js"
 import {FIELD_DELETED} from "../actions/delete-field.js"
 import {ADD_FIELD} from "../actions/save-field.js"
-import {SET_TASKS_BYFIELD} from "../actions/fetchTaskByField"
 
 export default function fields(state=[], action={}){
     switch(action.type) {
@@ -23,10 +22,6 @@ export default function fields(state=[], action={}){
                 ...state,
                 action.field
             ];
-            break;
-        case SET_TASKS_BYFIELD:
-            console.log("set tasks by field!");
-            return action.tasks;
             break;
 
         default:

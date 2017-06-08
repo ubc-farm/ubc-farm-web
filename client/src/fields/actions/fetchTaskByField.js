@@ -4,7 +4,7 @@
 export const SET_TASKS_BYFIELD = 'SET_TASKS_BYFIELD';
 
 export function setTasksByField(tasks){
-    console.log(tasks);
+    console.log("getting tasks");
     return{
         type: SET_TASKS_BYFIELD,
         tasks
@@ -12,7 +12,8 @@ export function setTasksByField(tasks){
 
 }
 
-export function fetchTaskByField(id){
+export const fetchTaskByField = (id) => {
+    console.log("fetch!!!!!");
     return dispatch => {
         fetch(`/data/fieldtasks/${id}`)
             .then(res => res.json())

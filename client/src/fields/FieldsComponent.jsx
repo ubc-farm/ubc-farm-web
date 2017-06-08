@@ -49,7 +49,8 @@ class FieldsComponent extends React.Component {
         // Set initial state
         this.state = {
             // State needed
-            fields: []
+            fields: [],
+            fieldTasks: []
         };
     }
 
@@ -91,13 +92,14 @@ class FieldsComponent extends React.Component {
 
 FieldsComponent.propTypes = {
     fields: PropTypes.array.isRequired,
-    fetchFields: PropTypes.func.isRequired
+    fetchFields: PropTypes.func.isRequired,
+    fetchTaskByField: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
         fields: state.fields,
-        tasks: state.fieldTasks
+        fieldTasks: state.fieldTasks
     }
 };
 

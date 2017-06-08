@@ -177,6 +177,7 @@ router.delete('/fieldtasks/:_id', (req, res) => {
 });
 
 router.get('/fieldtasks/:_id', (req, res) => {
+    console.log(req.params._id);
     if(!req.params._id){
         res.status(400).json({errors: {global: "null"}});
     }else {

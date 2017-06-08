@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {selectField} from './actions/select-field.js';
+import {fetchTaskByField} from './actions/fetchTaskByField';
 import {GridList, GridTile} from 'material-ui/GridList';
 import RaisedButton from 'material-ui/RaisedButton';
 import CreateFieldModal from './create-field-modal.js'
@@ -59,7 +60,7 @@ class FieldSelector2 extends Component{
                         innerStyle={styles.generalHealth}
                         value={80}
                     /> }
-                    onClick={() => this.props.selectField(field)}
+                    onClick={() => {this.props.selectField(field); this.props.fetchTaskByField(field._id)}}
                 >
 
                 </ListItem>
@@ -112,7 +113,8 @@ function mapStateToProps(state){
 
 function matchDispatchToProps(dispatch){
     return bindActionCreators({
-        selectField: selectField
+        selectField: selectField,
+        fetchTaskByField: fetchTaskByField,
     }, dispatch)
 }
 
