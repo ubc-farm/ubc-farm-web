@@ -23,12 +23,13 @@ const styles = {
 /**
  * A more complex example, allowing the table height to be set, and key boolean properties to be toggled.
  */
-class TaskList extends Component {
+class TaskCalendar extends Component {
     constructor(props, context) {
         super(props, context);
 
         // set the initial component state
         this.state = {
+            tasks:[]
 
         };
 
@@ -41,6 +42,7 @@ class TaskList extends Component {
     }
 
     componentDidMount(){
+        console.log('why is loadtime not called?');
         this.loadTimeline();
     }
 
@@ -53,15 +55,15 @@ class TaskList extends Component {
     }
 
     dateTransformer(dateString){
-        let d = new Date(dateString);
-        let options = {
-            weekday: "long", year: "numeric", month: "short",
-            day: "numeric"
-        };
-        let fullDate = d.toLocaleTimeString("en-us", options);
-        let components = fullDate.split(",");
-        return components[0] + "," + components[1] +  "," + components[2];
+        let d = new Date(dateString).toISOString();
+        return d.slice(0,10);
 
+    }
+
+    getTomorrow(dateString){
+        let d = new Date(dateString);
+        d.setDate(d.getDate() + 1);
+        return d.toISOString().slice(0,10);
     }
 
     typeTransformer(typeString){
@@ -108,19 +110,23 @@ class TaskList extends Component {
     }
 
     loadTimeline(){
+        console.log('loadTimeline');
         let container = document.getElementById('visualization');
 
-        let items = new vis.DataSet([
-            {id: 1, content: 'item 1', start: '2013-04-20'},
-            {id: 2, content: 'item 2', start: '2013-04-14'},
-            {id: 3, content: 'item 3', start: '2013-04-18'},
-            {id: 4, content: 'item 4', start: '2013-04-16', end: '2013-04-19'},
-            {id: 5, content: 'item 5', start: '2013-04-25'},
-            {id: 6, content: 'item 6', start: '2013-04-27'}
-        ]);
+        let data = this.props.tasks.map( (task) => (
+            {
+                id: task._id,
+                content: task.type,
+                start: this.dateTransformer(task.startDate),
+                end: (task.startDate == task.endDate ? this.getTomorrow(task.startDate): this.dateTransformer(task.endDate))
+            }));
+
+        console.log(data);
+
+        let items = new vis.DataSet(data);
 
 
-        let options = {};
+        let options = {stack: true};
 
 
         let timeline = new vis.Timeline(container, items, options);
@@ -130,12 +136,15 @@ class TaskList extends Component {
         return (
             <div>
                 <div id="visualization" style={{height: '500px'}}></div>
+                {this.props.tasks.map( (task, index) => (
+                    <p>{this.fieldNameFromId(task.field)}</p>
+                ))}
             </div>
         );
     }
 }
 
-TaskList.propTypes = {
+TaskCalendar.propTypes = {
     tasks: PropTypes.array.isRequired,
     fields: PropTypes.array.isRequired,
 };
@@ -147,4 +156,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(TaskList);
+export default connect(mapStateToProps)(TaskCalendar);

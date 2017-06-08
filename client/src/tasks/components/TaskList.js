@@ -16,19 +16,6 @@ import {
 } from 'material-ui/Table';
 import PropTypes from 'prop-types';
 
-const styles = {
-    propContainer: {
-        width: 200,
-        overflow: 'hidden',
-        margin: '20px auto 0',
-    },
-    propToggleHeader: {
-        margin: '20px auto 10px',
-    },
-};
-
-let tableData = [];
-
 /**
  * A more complex example, allowing the table height to be set, and key boolean properties to be toggled.
  */
