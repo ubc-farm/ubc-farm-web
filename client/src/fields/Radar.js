@@ -26,7 +26,10 @@ class Radar extends Component {
                 <iframe
                     name="iframe"
                     src="https://weather.gc.ca/radar/index_e.html?id=wuj #animation"
-                    style={{marginTop: 20, width: '100%', height: '100%'}}
+                    width="100%"
+                    height="100%"
+                    style={{marginTop: 0}}
+                    scrolling="no"
                 ></iframe>
             </div>
         );
