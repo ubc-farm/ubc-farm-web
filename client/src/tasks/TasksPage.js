@@ -10,7 +10,7 @@ import {fetchFields} from '../fields/actions/fetch-fields.js'
 import {fetchTasks} from '../tasks/actions/fetch-tasks';
 import NewTaskModal from './components/NewTaskModal';
 import Divider from 'material-ui/Divider';
-import FontAwesome from 'react-fontawesome'
+import TaskCalendar from './components/TaskCalendar';
 
 
 const styles = {
@@ -69,11 +69,7 @@ class TasksPage extends React.Component {
                     <Tab label="Calendar" value="calendar">
                         <div>
                             <h2 style={styles.headline}>Task Calendar</h2>
-                            <p>
-                                This is another example of a controllable tab. Remember, if you
-                                use controllable Tabs, you need to give all of your tabs values or else
-                                you wont be able to select them.
-                            </p>
+                            <TaskCalendar/>
                         </div>
                     </Tab>
                 </Tabs>

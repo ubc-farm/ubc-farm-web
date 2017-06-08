@@ -42,7 +42,8 @@
     "semantic-ui-react": "0.68.5",
     "shortid": "2.2.8",
     "styled-components": "1.4.6",
-    "validator": "6.2.0"
+    "validator": "6.2.0",
+    "vis": "^4.20.0"
   },
   "devDependencies": {
     "babel-cli": "6.24.1",
