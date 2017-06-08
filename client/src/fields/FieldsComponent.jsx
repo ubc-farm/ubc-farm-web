@@ -14,7 +14,6 @@ import FieldSelector2 from './field-selector2.js';
 import FieldDetail from './field-detail.js';
 import {connect} from 'react-redux';
 import {fetchFields} from './actions/fetch-fields.js'
-import {fetchTaskByField} from './actions/fetchTaskByField';
 import Radar from './Radar';
 
 
@@ -50,7 +49,6 @@ class FieldsComponent extends React.Component {
         this.state = {
             // State needed
             fields: [],
-            fieldTasks: []
         };
     }
 
@@ -93,14 +91,12 @@ class FieldsComponent extends React.Component {
 FieldsComponent.propTypes = {
     fields: PropTypes.array.isRequired,
     fetchFields: PropTypes.func.isRequired,
-    fetchTaskByField: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
         fields: state.fields,
-        fieldTasks: state.fieldTasks
     }
 };
 
-export default connect(mapStateToProps,{fetchFields, fetchTaskByField})(FieldsComponent);
+export default connect(mapStateToProps,{fetchFields})(FieldsComponent);

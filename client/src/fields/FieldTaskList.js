@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import DeleteTaskModal from '../tasks/components/DeleteTaskModal';
-import fetchTaskByField from './actions/fetchTaskByField';
+
 import {
     Table,
     TableBody,
@@ -142,7 +142,7 @@ class FieldTaskList extends Component {
                             <TableHeaderColumn tooltip="Sort by Field" style={{verticalAlign: 'middle'}}>Field</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Start Date" style={{verticalAlign: 'middle'}}>Start Date</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by End Date" style={{verticalAlign: 'middle'}}>End Date</TableHeaderColumn>
-                            <TableHeaderColumn/>
+                            <TableHeaderColumn style={{verticalAlign: 'middle'}}>Actions</TableHeaderColumn>
 
                         </TableRow>
                     </TableHeader>
@@ -183,7 +183,7 @@ class FieldTaskList extends Component {
                             <TableRowColumn style={{verticalAlign: 'middle'}}>Field</TableRowColumn>
                             <TableRowColumn style={{verticalAlign: 'middle'}}>Start Date</TableRowColumn>
                             <TableRowColumn style={{verticalAlign: 'middle'}}>End Date</TableRowColumn>
-                            <TableHeaderColumn/>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>Actions</TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn colSpan="5" style={{textAlign: 'center'}}>
@@ -200,12 +200,14 @@ class FieldTaskList extends Component {
 FieldTaskList.propTypes = {
     fieldTasks: PropTypes.array.isRequired,
     fields: PropTypes.array.isRequired,
+    tasks: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
         fieldTasks: state.fieldTasks,
-        fields: state.fields
+        fields: state.fields,
+        tasks: state.tasks
     }
 };
 

@@ -6,15 +6,9 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {selectField} from './actions/select-field.js';
 import {fetchTaskByField} from './actions/fetchTaskByField';
-import {GridList, GridTile} from 'material-ui/GridList';
-import RaisedButton from 'material-ui/RaisedButton';
 import CreateFieldModal from './create-field-modal.js'
-import Avatar from 'material-ui/Avatar';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
-import {blue500, red500, greenA200} from 'material-ui/styles/colors';
-import SvgIcon from 'material-ui/SvgIcon';
 import Divider from 'material-ui/Divider';
 import CircularProgress from 'material-ui/CircularProgress';
 import FlatButton from 'material-ui/FlatButton';

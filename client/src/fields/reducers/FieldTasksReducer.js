@@ -5,7 +5,6 @@ import {SET_TASKS_BYFIELD} from "../actions/fetchTaskByField"
 
 export default function fieldTasks(state=[], action={}){
     switch(action.type) {
-
         case SET_TASKS_BYFIELD:
             console.log("set tasks by field!");
             return action.tasks;
