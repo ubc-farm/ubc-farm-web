@@ -15,6 +15,7 @@ import FieldDetail from './field-detail.js';
 import {connect} from 'react-redux';
 import {fetchFields} from './actions/fetch-fields.js'
 import {fetchTaskByField} from './actions/fetchTaskByField';
+import Radar from './Radar';
 
 
 //styled-component styles
@@ -80,6 +81,7 @@ class FieldsComponent extends React.Component {
                 </div>
                 <div className="column is-3-desktop" style={{ backgroundColor: '#F5F5F5'}}>
                     <FieldSelector2/>
+                    <Radar/>
 
                 </div>
             </div>
