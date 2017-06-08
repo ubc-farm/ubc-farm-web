@@ -39,11 +39,22 @@ class TaskCalendar extends Component {
         this.dateTransformer = this.dateTransformer.bind(this);
         this.typeTransformer = this.typeTransformer.bind(this);
         this.loadTimeline = this.loadTimeline.bind(this);
+        this.nodeToString = this.nodeToString.bind(this);
     }
 
     componentDidMount(){
         console.log('why is loadtime not called?');
         this.loadTimeline();
+    }
+    componentWillMound(){
+        this.loadTimeline();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        // only update chart if the data has changed
+        if (prevProps.data !== this.props.data) {
+            this.loadTimeline();
+        }
     }
 
 
@@ -112,6 +123,8 @@ class TaskCalendar extends Component {
     loadTimeline(){
         console.log('loadTimeline');
         let container = document.getElementById('visualization');
+        container.setAttribute("id", "timeline");
+        container.setAttribute("height", "500px");
 
         let data = this.props.tasks.map( (task) => (
             {
@@ -132,14 +145,19 @@ class TaskCalendar extends Component {
         let timeline = new vis.Timeline(container, items, options);
     }
 
+    nodeToString ( node ) {
+    let tmpNode = document.createElement( "div" );
+    tmpNode.appendChild( node.cloneNode( true ) );
+    let str = tmpNode.innerHTML;
+    tmpNode = null;
+    node = null; // prevent memory leaks in IE
+    return str;
+}
+
     render() {
         return (
-            <div>
-                <div id="visualization" style={{height: '500px'}}></div>
-                {this.props.tasks.map( (task, index) => (
-                    <p>{this.fieldNameFromId(task.field)}</p>
-                ))}
-            </div>
+            <div id="visualization"></div>
+
         );
     }
 }
