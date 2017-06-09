@@ -160,14 +160,15 @@ class FieldTaskList extends Component {
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.endDate)}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>
                                     <div className="columns">
-                                        <div className="column">
+                                        <div className="column" style={{padding: 0}}>
                                             <DeleteTaskModal task = {task}/>
                                         </div>
-                                        <div className="column">
+                                        <div className="column" style={{padding: 0}}>
                                             <FlatButton
                                                 label="Log"
                                                 primary={true}
                                                 onTouchTap={this.props.deleteTask}
+
                                             />
                                         </div>
                                     </div>
