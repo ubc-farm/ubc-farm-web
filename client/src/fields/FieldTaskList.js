@@ -122,13 +122,16 @@ class FieldTaskList extends Component {
 
     render() {
         return (
-            <div>
+            <div >
                 <Table
                     height={'500px'}
                     fixedHeader={true}
                     fixedFooter={false}
                     selectable={false}
                     multiSelectable={false}
+                    style={{borderLeft: 'solid 2px #f5f5f5',borderBottom: 'solid 2px #f5f5f5'}}
+
+
                 >
                     <TableHeader
                         displaySelectAll={false}

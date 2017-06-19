@@ -21,7 +21,7 @@ const styles = {
 
 
 /**
- * A more complex example, allowing the table height to be set, and key boolean properties to be toggled.
+ *
  */
 class TaskCalendar extends Component {
     constructor(props, context) {
@@ -44,9 +44,6 @@ class TaskCalendar extends Component {
 
     componentDidMount(){
         console.log('why is loadtime not called?');
-        this.loadTimeline();
-    }
-    componentWillMound(){
         this.loadTimeline();
     }
 
@@ -120,19 +117,12 @@ class TaskCalendar extends Component {
         this.setState({height: event.target.value});
     }
 
-    loadTimeline(){
+    loadTimeline(data){
         console.log('loadTimeline');
-        let container = document.getElementById('visualization');
+        let container = this.getDOMNode();
         container.setAttribute("id", "timeline");
         container.setAttribute("height", "500px");
 
-        let data = this.props.tasks.map( (task) => (
-            {
-                id: task._id,
-                content: task.type,
-                start: this.dateTransformer(task.startDate),
-                end: (task.startDate == task.endDate ? this.getTomorrow(task.startDate): this.dateTransformer(task.endDate))
-            }));
 
         console.log(data);
 
@@ -142,7 +132,7 @@ class TaskCalendar extends Component {
         let options = {stack: true};
 
 
-        let timeline = new vis.Timeline(container, items, options);
+        return vis.Timeline(container, items, options);
     }
 
     nodeToString ( node ) {
@@ -156,7 +146,18 @@ class TaskCalendar extends Component {
 
     render() {
         return (
-            <div id="visualization"></div>
+            <div id="visualization" ref="timeline">
+                {
+                    this.loadTimeline(this.props.tasks.map( (task) => (
+                        {
+                            id: task._id,
+                            group: task.field,
+                            content: this.typeTransformer(task.type),
+                            start: this.dateTransformer(task.startDate),
+                            end: (task.startDate == task.endDate ? this.getTomorrow(task.startDate): this.dateTransformer(task.endDate))
+                        })))
+                }
+            </div>
 
         );
     }
