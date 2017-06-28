@@ -10,7 +10,7 @@ import {fetchFields} from '../fields/actions/fetch-fields.js'
 import {fetchTasks} from '../tasks/actions/fetch-tasks';
 import NewTaskModal from './components/NewTaskModal';
 import Divider from 'material-ui/Divider';
-import TaskCalendar from './components/TaskCalendar';
+import TimeLine from './components/Timeline';
 
 
 const styles = {
@@ -23,7 +23,9 @@ const styles = {
 };
 
 class TasksPage extends React.Component {
+
     componentDidMount() {
+        console.log("task page finished mounting");
         this.props.fetchFields();
         this.props.fetchTasks();
     }
@@ -64,12 +66,13 @@ class TasksPage extends React.Component {
                         <Divider/>
                         <div>
                             <TaskList/>
+                            <TimeLine tasks={this.props.tasks} fiels={this.props.fields}/>
                         </div>
                     </Tab>
                     <Tab label="Calendar" value="calendar">
                         <div>
                             <h2 style={styles.headline}>Task Calendar</h2>
-                            <TaskCalendar/>
+                            <TimeLine tasks={this.props.tasks} fiels={this.props.fields}/>
                         </div>
                     </Tab>
                 </Tabs>

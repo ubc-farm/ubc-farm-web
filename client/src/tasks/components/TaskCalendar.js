@@ -20,6 +20,14 @@ const styles = {
 };
 
 
+const TaskCalendarComponent = (props =>(
+    <div></div>
+
+
+
+    )
+);
+
 /**
  *
  */
@@ -29,7 +37,9 @@ class TaskCalendar extends Component {
 
         // set the initial component state
         this.state = {
-            tasks:[]
+            timeline_items: [],
+            timeline_groups: [],
+            timeline: {}
 
         };
 
@@ -45,11 +55,17 @@ class TaskCalendar extends Component {
     componentDidMount(){
         console.log('why is loadtime not called?');
         this.loadTimeline();
+        timeline_items = this.loadItems();
+        timeline_groups = this.loadGroups();
+        timeline = new vis.Timeline(this.getDOMNode(),timeline_items,timeline_groups)
+
     }
     componentDidUpdate(prevProps, prevState) {
         // only update chart if the data has changed
         if (prevProps.data !== this.props.data) {
             this.loadTimeline();
+            timeline_items = this.loadItems();
+            timeline_groups = this.loadGroups();
         }
     }
 
@@ -152,18 +168,10 @@ class TaskCalendar extends Component {
 }
 
     render() {
+        this.loadTimeline();
         return (
             <div id="visualization" ref="timeline">
-                {
-                    this.props.tasks.map( (task) => (
-                        {
-                            id: task._id,
-                            group: task.field,
-                            content: this.typeTransformer(task.type),
-                            start: this.dateTransformer(task.startDate),
-                            end: (task.startDate == task.endDate ? this.getTomorrow(task.startDate): this.dateTransformer(task.endDate))
-                        }))
-                }
+
             </div>
 
         );
