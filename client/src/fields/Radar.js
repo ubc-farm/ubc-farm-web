@@ -25,7 +25,7 @@ class Radar extends Component {
             <div style={{ height:'30%'}}>
                 <iframe
                     name="iframe"
-                    src="https://weather.gc.ca/radar/index_e.html?id=wuj #animation"
+                    src="https://weather.gc.ca/radar/index_e.html?id=wuj #animation-frame"
                     width="100%"
                     height="100%"
                     style={{marginTop: 0}}
