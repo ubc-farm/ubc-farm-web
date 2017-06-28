@@ -32,16 +32,16 @@ class TimeLine extends React.Component{
         let options =
             {
                 width: '100%',
-                height: '300px',
                 margin: {
-                    item: 20
+                    item: 10
                 }};
         timeline.create(dom_node,items,groups,options);
     }
     componentWillUpdate(){
-        console.log("timeline responded to data change!");
+    }
+
+    componentDidUpdate(){
         let updatedData = {items: this.loadItems(), groups: this.loadGroups()};
-        console.log("updated: " + updatedData);
         timeline.setData(updatedData);
         timeline.setGroups(this.loadGroups());
         timeline.setItems(this.loadItems());

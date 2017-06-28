@@ -27,15 +27,10 @@ timeline.setGroups = function(groups){
 };
 
 timeline.setData = function(data){
-    console.log("attempting to set data");
-    console.log("groups: " + data.groups);
-    console.log("items: " + data.items);
     groups_dataset.update(data.groups);
     items_dataset.update(data.items);
-    console.log(items_dataset);
     vis_timeline.setData({groups: data.groups, items: data.items});
-    vis_timeline.redraw();
-    console.log("set data to :" + data.groups + data.items);
+    vis_timeline.fit();
 };
 timeline.destroy = function(){
     //vis_timeline.destroy();

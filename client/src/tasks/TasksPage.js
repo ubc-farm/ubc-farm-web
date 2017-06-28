@@ -66,13 +66,12 @@ class TasksPage extends React.Component {
                         <Divider/>
                         <div>
                             <TaskList/>
-                            <TimeLine tasks={this.props.tasks} fiels={this.props.fields}/>
                         </div>
                     </Tab>
-                    <Tab label="Calendar" value="calendar">
+                    <Tab label="Timeline" value="timeline">
                         <div>
-                            <h2 style={styles.headline}>Task Calendar</h2>
-                            <TimeLine tasks={this.props.tasks} fiels={this.props.fields}/>
+                            <h2 style={styles.headline}>Task Timeline</h2>
+                            <TimeLine/>
                         </div>
                     </Tab>
                 </Tabs>
