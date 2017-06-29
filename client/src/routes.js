@@ -6,6 +6,7 @@ import DashboardContainer from './dashboard/DashboardContainer.jsx';
 import LoginContainer from './login/LoginContainer.jsx';
 import SignUpContainer from './signup/SignUpContainer.jsx';
 import FieldsComponent from './fields/FieldsComponent.jsx';
+import InventoryPage from './inventory/InventoryPage'
 import Auth from './modules/Auth';
 import TasksPage from './tasks/TasksPage';
 
@@ -34,6 +35,7 @@ export default (
                component={LoginContainer}
         />
         <Route path="/fields" component={FieldsComponent}/>
+        <Route path="/inventory" component={InventoryPage}/>
         <Route path="/tasks" component={TasksPage}/>
 
     </Route>

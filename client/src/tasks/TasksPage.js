@@ -17,7 +17,6 @@ const styles = {
     headline: {
         fontSize: 24,
         paddingTop: 16,
-        marginBottom: 12,
         fontWeight: 400,
     },
 };
@@ -60,10 +59,17 @@ class TasksPage extends React.Component {
                     onChange={this.handleChange}
                 >
                     <Tab label="List" value="list">
-                        <div style={{textAlign: 'center', padding: '10px'}}>
+                        <div className="columns">
+                            <div className = "column is-2-desktop">
+                        <h2 style={styles.headline}>Task List</h2>
+                            </div>
+                        <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
                             <NewTaskModal isFieldProvided={false}/>
                         </div>
+                        </div>
+
                         <Divider/>
+
                         <div>
                             <TaskList/>
                         </div>

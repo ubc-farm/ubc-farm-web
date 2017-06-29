@@ -264,8 +264,8 @@ class CreateFieldModal extends Component {
         return (
             <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%'}}>
                 <div style={{minWidth: '100%', height: '100%'}}>
-                    <div style={{}}>
-                        <FlatButton label="New Task" onTouchTap={this.handleOpen} labelStyle={{color: '#4CAF50'}}/>
+                    <div style={{justifyContent: 'center', alignItems: 'center', paddingTop: "18px"}}>
+                        <FlatButton label="New Task" onTouchTap={this.handleOpen} labelStyle={{color: '#FFFFFF'}} style={{}} backgroundColor={'#8AA62F'} hoverColor={"#a4c639"}/>
                     </div>
                     <Dialog
                         title="Create New Task"
@@ -294,7 +294,7 @@ class CreateFieldModal extends Component {
                             <div style={{marginBottom:'5px'}}>
                                 {this.state.multiDay ?
                                     (
-                                    <div className="columns">
+                                    <div className="columns" style={{margin:0}}>
                                         <div className="column">
                                             <DatePicker
                                                 hintText="Start Date"

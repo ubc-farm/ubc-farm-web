@@ -46,6 +46,10 @@ function serverSideValidateTask(data){
     return {errors, isValid};
 }
 
+/**
+ * ROUTER CODE FOR FIELDS
+ */
+
 router.post('/fields', (req, res) => {
     const{errors, isValid} = serverSideValidateField(req.body);
     if(isValid){
@@ -193,6 +197,23 @@ router.get('/fieldtasks/:_id', (req, res) => {
     }
 
 
+
+});
+
+/**
+ * ROUTER CODE FOR INVENTORY PAGE
+ */
+
+router.get('/inventory', (req, res) => {
+
+    InventoryItem.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieveing tasks');
+        } else {
+            res.json({items});
+        }
+
+    });
 
 });
 
