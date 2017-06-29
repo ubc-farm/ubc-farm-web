@@ -48,7 +48,6 @@ class SummaryMap extends React.Component {
     handleMapLoad(map) {
         this._mapComponent = map;
         if (map) {
-            console.log(map.getZoom());
         }
     }
 

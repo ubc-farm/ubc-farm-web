@@ -28,7 +28,8 @@ const Topbar = styled.div`
 
 const Base = ({ children }) => (
   <div  style={{height:'100%'}}>
-    <Topbar className="top-bar has-shadow">
+      <div style={{position: 'fixed', width: "100%", zIndex: 1000}}>
+    <Topbar className="top-bar has-shadow" >
       <div className="top-bar-left">
 	  <img id="logo" src="images/logo.png" alt="UBCFarm Logo"></img>
         <Link id="title" to="/">UBCFarm Monitor</Link>
@@ -50,16 +51,17 @@ const Base = ({ children }) => (
       )}
 
     </Topbar>
-      <Container className="columns is-gapless">
-          {Auth.isUserAuthenticated() ? (
-                  <NavDrawerContainer/>
-              ) : (
-                  <div></div>
-              )}
+      </div>
+      <Container className="columns is-gapless" >
+          {/*{Auth.isUserAuthenticated() ? (*/}
+                  {/*<NavDrawerContainer/>*/}
+              {/*) : (*/}
+                  {/*<div></div>*/}
+              {/*)}*/}
 
 
             { /* child component will be rendered here */ }
-            <div className="column is-10-desktop">
+            <div className="column" style={{marginTop: "60px"}}>
             {children}
             </div>
 
