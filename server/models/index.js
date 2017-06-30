@@ -19,5 +19,7 @@ module.exports.connect = (uri) => {
 
   // load models
   require('./user');
-  require('./field')
+  require('./field');
+  require('./seed');
+  require('./task');
 };

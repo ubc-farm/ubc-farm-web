@@ -23,7 +23,7 @@ const InventoryMenu = () => (
             <ListItem primaryText="Eggs" leftIcon={<ContentInbox />} />
         </List>
         <Divider />
-        New Category
+        Select an Inventory to view
     </a>
 );
 

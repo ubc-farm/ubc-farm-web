@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import InventoryMenu from './components/InventoryMenu'
+import CreateSeedModal from './components/create-seed-modal'
 
 
 
@@ -62,6 +63,9 @@ class InventoryPage extends React.Component {
                     <InventoryMenu/>
                 </div>
                 <div className="column is-9-desktop" style={{ backgroundColor: '#F5F5F5'}}>
+                    <div style={{height:"60px"}}>
+                    <CreateSeedModal/>
+                    </div>
                     List
 
                 </div>

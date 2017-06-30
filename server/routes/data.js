@@ -10,6 +10,7 @@ router.use(bodyParser.json());
 
 let Task = require('mongoose').model('Task');
 let Field = require('mongoose').model('Field');
+let Seed = require('mongoose').model('Seed');
 
 router.get('/fields', (req, res) => {
 
@@ -204,9 +205,9 @@ router.get('/fieldtasks/:_id', (req, res) => {
  * ROUTER CODE FOR INVENTORY PAGE
  */
 
-router.get('/inventory', (req, res) => {
+router.get('/seeds', (req, res) => {
 
-    InventoryItem.find({}).lean().exec(function (err, items) {
+    Seed.find({}).lean().exec(function (err, items) {
         if (err) {
             res.send('error retrieveing tasks');
         } else {
@@ -214,6 +215,40 @@ router.get('/inventory', (req, res) => {
         }
 
     });
+
+});
+
+router.post('/seeds', (req, res) => {
+    console.log(req.body);
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{
+            name,
+            crop,
+            variety,
+            weight,
+            unit,
+            quantity} = req.body;
+
+        Task.create({name,
+                crop,
+                variety,
+                weight,
+                unit,
+                quantity} ,
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving task"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({seed: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
 
 });
 
