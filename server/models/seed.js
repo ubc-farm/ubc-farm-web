@@ -5,12 +5,15 @@ const mongoose = require('mongoose');
 
 // define the User model schema
 const SeedSchema = new mongoose.Schema({
+
     crop: String,
     variety: String,
-    name: String,
     weight: Number,
-    unit: String,
-    quantity: Number
+    unit: Number,
+    quantity: Number,
+    product: String,
+    store: String,
+    price: Number
 });
 
 module.exports = mongoose.model('Seed', SeedSchema);

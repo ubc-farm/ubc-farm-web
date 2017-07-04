@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import InventoryMenu from './components/InventoryMenu'
 import CreateSeedModal from './components/create-seed-modal'
+import Divider from 'material-ui/Divider'
 
 
 
@@ -66,6 +67,7 @@ class InventoryPage extends React.Component {
                     <div style={{height:"60px"}}>
                     <CreateSeedModal/>
                     </div>
+                    <Divider/>
                     List
 
                 </div>

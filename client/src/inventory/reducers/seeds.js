@@ -1,26 +1,26 @@
 /**
  * Created by Xingyu on 6/29/2017.
  */
-import {SET_SEEDS} from "../actions/fetch-fields.js"
-import {SEED_DELETED} from "../actions/delete-field.js"
-import {ADD_SEED} from "../actions/save-field.js"
+import {SET_SEEDS} from "../actions/seeds-get.js"
+import {SEED_DELETED} from "../actions/seeds-delete.js"
+import {ADD_SEED} from "../actions/seeds-post.js"
 
 export default function seeds(state=[], action={}){
     switch(action.type) {
         case SET_SEEDS:
-            console.log("set field!");
+            console.log("set seed!");
             return action.seeds;
             break;
         case SEED_DELETED:
-            console.log("field delete!");
+            console.log("seed delete!");
             return state.filter(item => item._id !== action.seedId);
             break;
 
         case ADD_SEED:
-            console.log("field added! reducer...");
+            console.log("seed added! reducer...");
             return[
                 ...state,
-                action.field
+                action.seed
             ];
             break;
 

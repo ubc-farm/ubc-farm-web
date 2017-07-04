@@ -46,7 +46,6 @@ class CreateFieldModal extends Component {
             crop: '',
             variety: '',
             weight: '',
-            unit: 0,
             quantity: 1,
             errors: {},
             open: false,
@@ -92,20 +91,23 @@ class CreateFieldModal extends Component {
 
     };
     handleSubmit(e){
+        console.log("submit new seed");
         e.preventDefault();
 
         //validation
         let errors = {};
-        if(this.state.name === '')
-            errors.name = "This field is Required";
+        if(this.state.crop === '')
+            errors.crop  = "This field is Required";
         this.setState({errors});
+
 
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
+        console.log("saveseed function called");
         if(isValid){
-            const{name,crop,variety,weight,unit,quantity} = this.state;
+            const{crop,variety,weight,value,quantity,product,store,price} = this.state;
             this.setState({loading: true});
-            this.props.SaveSeed({name,crop,variety,weight,unit,quantity}).then(
+            this.props.SaveSeed({crop,variety,weight,value,quantity,product,store,price}).then(
                 (response) => {console.log("should catch error here")}
             );
             this.setState({done: true, loading: false});

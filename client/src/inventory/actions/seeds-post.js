@@ -14,6 +14,7 @@ function handleResponse(response){
 }
 
 export function AddSeed(seed){
+    console.log(seed);
     return{
         type: ADD_SEED,
         seed
@@ -21,6 +22,8 @@ export function AddSeed(seed){
 }
 
 export function SaveSeed(data){
+    console.log("saveseed post sent");
+    console.log(data);
     return dispatch => {
         return fetch('/data/seeds', {
             method: 'post',

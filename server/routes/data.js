@@ -223,24 +223,14 @@ router.post('/seeds', (req, res) => {
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
         const{
-            name,
-            crop,
-            variety,
-            weight,
-            unit,
-            quantity} = req.body;
+            crop,variety,weight,unit,quantity,product,store,price} = req.body;
 
-        Task.create({name,
-                crop,
-                variety,
-                weight,
-                unit,
-                quantity} ,
+        Seed.create({crop,variety,weight,unit,quantity,product,store,price} ,
 
             function(err, result){
                 if(err){
                     console.log(err);
-                    res.status(500).json({errors: {global: "mongodb errored while saving task"}});
+                    res.status(500).json({errors: {global: "mongodb errored while saving seed"}});
                 }else{
                     delete result.__v;
                     res.status(200).json({seed: result});
