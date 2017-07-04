@@ -29,6 +29,8 @@ const styles = {
     },
 };
 
+const selectUnitMenuArray = ["kg","lb"];
+
 let shortid = require('shortid');
 
 /**
@@ -38,6 +40,7 @@ class CreateFieldModal extends Component {
     /**
      * Class constructor.
      */
+
     constructor(props) {
         super(props);
 
@@ -52,7 +55,7 @@ class CreateFieldModal extends Component {
             validated: false,
             loading: false,
             done: false,
-            value: 0,
+            unit: 'kg',
             price: '',
             store: '',
             product: ''
@@ -105,9 +108,9 @@ class CreateFieldModal extends Component {
         const isValid = Object.keys(errors).length === 0;
         console.log("saveseed function called");
         if(isValid){
-            const{crop,variety,weight,value,quantity,product,store,price} = this.state;
+            const{crop,variety,weight,unit,quantity,product,store,price} = this.state;
             this.setState({loading: true});
-            this.props.SaveSeed({crop,variety,weight,value,quantity,product,store,price}).then(
+            this.props.SaveSeed({crop,variety,weight,unit,quantity,product,store,price}).then(
                 (response) => {console.log("should catch error here")}
             );
             this.setState({done: true, loading: false});
@@ -120,7 +123,7 @@ class CreateFieldModal extends Component {
 
     };
 
-    handleSelect(event, index, value){this.setState({value});}
+    handleSelect(event, index, value){this.setState({unit: value});}
 
     render() {
         const actions = [
@@ -187,11 +190,11 @@ class CreateFieldModal extends Component {
                                     name="unit"
                                     autoWidth={false}
                                     style={{width:"100%"}}
-                                    value={this.state.value}
-                                    errorText={this.state.errors.value}
+                                    value={this.state.unit}
+                                    errorText={this.state.errors.unit}
                                 >
-                                    <MenuItem value={0} label = "kg" primaryText="kg"/>
-                                    <MenuItem value={1} label = "lb" primaryText="lb"/>
+                                    <MenuItem value="kg" label="kg" primaryText="kg"/>
+                                    <MenuItem value="lb" label="lb" primaryText="lb"/>
                                 </SelectField>
                                     </div>
                                 </div>
