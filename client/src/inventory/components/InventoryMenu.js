@@ -2,6 +2,7 @@
  * Created by Xingyu on 6/29/2017.
  */
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {List, ListItem, makeSelectable} from 'material-ui/List';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
@@ -10,21 +11,15 @@ import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import Divider from 'material-ui/Divider';
 import PropTypes from 'prop-types';
 import ActionInfo from 'material-ui/svg-icons/action/info';
+import {selectInventory} from '../actions/select-inventory'
 
 let InventoryList = makeSelectable(List);
 
 
 
 function wrapState(ComposedComponent){
-    InventoryList.propTypes = {
-        children: PropTypes.node.isRequired,
-        defaultValue: PropTypes.number.isRequired
-    };
 
-
-
-
-    return class InventoryList extends Component{
+    class InventoryList extends Component{
         constructor(props, context) {
             super(props, context);
 
@@ -52,7 +47,9 @@ function wrapState(ComposedComponent){
         handleRequestChange(event, index){
             this.setState({
                 selectedIndex: index
-            })
+            });
+
+            this.props.selectInventory(index);
         };
 
         render(){
@@ -60,20 +57,34 @@ function wrapState(ComposedComponent){
                 <ComposedComponent
                     value={this.state.selectedIndex}
                     onChange={this.handleRequestChange}
+                    style={{paddingTop:"0px", paddingBottom: "0px"}}
                 >
             {this.props.children}
                 </ComposedComponent>
             )
         }
     }
+    InventoryList.propTypes = {
+        children: PropTypes.node.isRequired,
+        defaultValue: PropTypes.number.isRequired,
+        selectInventory: PropTypes.func.isRequired,
+    };
+
+    const mapStateToProps = (state) => {
+        return{
+        }
+    };
+
+    return connect(mapStateToProps,{selectInventory})(InventoryList);
+
 }
 
 InventoryList = wrapState(InventoryList);
 
 
 const InventoryMenu = () => (
-    <a>
-        <InventoryList defaultValue={0} style={{paddingTop:"0px", paddingBottom: "0px"}}>
+    <div>
+        <InventoryList defaultValue={0}>
             <ListItem value={0} primaryText="Seeds" leftIcon={<ContentInbox />} />
             <ListItem value={1} primaryText="Transplanting" leftIcon={<ContentInbox />} />
             <ListItem value={2} primaryText="Fertilizers" leftIcon={<ContentInbox />} />
@@ -85,7 +96,7 @@ const InventoryMenu = () => (
         </InventoryList>
         <Divider />
         Select an Inventory to view
-    </a>
+    </div>
 );
 
 

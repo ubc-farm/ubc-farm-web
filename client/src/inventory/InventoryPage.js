@@ -10,6 +10,26 @@ import InventoryMenu from './components/InventoryMenu'
 import CreateSeedModal from './components/create-seed-modal'
 import Divider from 'material-ui/Divider'
 import SeedList from './components/SeedList'
+import TransplantingList from './components/lists/transplantingList'
+import FertilizersList from './components/lists/fertilizerList'
+import PestControlList from './components/lists/pestControlList'
+import EquipmentList from './components/lists/equipmentList'
+import VehiclesList from './components/lists/vehiclesList'
+import HarvestedProduceList from './components/SeedList'
+
+
+//list used for selecting inventory
+const InventoryArray =
+    {
+        0: SeedList,
+        1: TransplantingList,
+        2: FertilizersList,
+        3: PestControlList,
+        4: EquipmentList,
+        5: VehiclesList,
+        6: HarvestedProduceList
+    };
+
 
 
 
@@ -22,7 +42,6 @@ const ToolColumn = styled.div`
 
 `;
 
-const InventoryArray = ["Seeds", "Transplanting", "Fertilizers", "Pest Control","Equipment","Vehicles","Harvested Produce"];
 
 
 const styles = {
@@ -67,17 +86,22 @@ class InventoryPage extends React.Component {
                 }
             }
         ];
+
+        const InventoryList = InventoryArray[this.props.active_inventory];
+
         return (
+
             <div className="columns is-gapless" style={styles.centerContainer}>
                 <div className="column is-2-desktop">
                     <InventoryMenu active={this.state.active_inventory}/>
                 </div>
                 <div className="column is-10-desktop" style={{ backgroundColor: '#F5F5F5'}}>
                     <div style={{height:"60px"}}>
-                    <CreateSeedModal/>
+                        <CreateSeedModal/>
                     </div>
                     <Divider/>
-                    <SeedList seeds={this.state.seeds}/>
+                    <InventoryList/>
+
 
                 </div>
             </div>
@@ -87,12 +111,14 @@ class InventoryPage extends React.Component {
 
 InventoryPage.propTypes = {
     seeds: PropTypes.array.isRequired,
-    fetchSeeds: PropTypes.func.isRequired
+    fetchSeeds: PropTypes.func.isRequired,
+    active_inventory: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
         seeds: state.seeds,
+        active_inventory: state.active_inventory,
     }
 };
 
