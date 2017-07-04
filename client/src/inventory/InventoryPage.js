@@ -21,6 +21,10 @@ const NewFieldMap = styled.div`
 const ToolColumn = styled.div`
 
 `;
+
+const InventoryArray = ["Seeds", "Transplanting", "Fertilizers", "Pest Control","Equipment","Vehicles","Harvested Produce"];
+
+
 const styles = {
     fieldSelector: {
         height: '30%',
@@ -45,6 +49,7 @@ class InventoryPage extends React.Component {
         this.state = {
             // State needed
             seeds: [],
+            active_inventory: InventoryArray[0],
         };
     }
 
@@ -64,15 +69,15 @@ class InventoryPage extends React.Component {
         ];
         return (
             <div className="columns is-gapless" style={styles.centerContainer}>
-                <div className="column is-3desktop">
-                    <InventoryMenu/>
+                <div className="column is-2-desktop">
+                    <InventoryMenu active={this.state.active_inventory}/>
                 </div>
-                <div className="column is-9-desktop" style={{ backgroundColor: '#F5F5F5'}}>
+                <div className="column is-10-desktop" style={{ backgroundColor: '#F5F5F5'}}>
                     <div style={{height:"60px"}}>
                     <CreateSeedModal/>
                     </div>
                     <Divider/>
-                    <SeedList/>
+                    <SeedList seeds={this.state.seeds}/>
 
                 </div>
             </div>
