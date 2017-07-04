@@ -9,7 +9,7 @@ const SeedSchema = new mongoose.Schema({
     crop: String,
     variety: String,
     weight: Number,
-    unit: Number,
+    unit: String,
     quantity: Number,
     product: String,
     store: String,

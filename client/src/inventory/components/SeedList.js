@@ -127,12 +127,12 @@ class SeedList extends Component {
                             <TableHeaderColumn tooltip="Sort by Crop" style={{verticalAlign: 'middle'}}>Crop</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Variety" style={{verticalAlign: 'middle'}}>Variety</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Weight" style={{verticalAlign: 'middle'}}>Weight</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Value" style={{verticalAlign: 'middle'}}>Value</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Name</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Store" style={{verticalAlign: 'middle'}}>Store</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
-
+                            <TableHeaderColumn/>
                         </TableRow>
                     </TableHeader>
                     <TableBody
@@ -177,15 +177,15 @@ class SeedList extends Component {
                             <TableHeaderColumn tooltip="Sort by Crop" style={{verticalAlign: 'middle'}}>Crop</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Variety" style={{verticalAlign: 'middle'}}>Variety</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Weight" style={{verticalAlign: 'middle'}}>Weight</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Value" style={{verticalAlign: 'middle'}}>Value</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Name</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Store" style={{verticalAlign: 'middle'}}>Store</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
-
+                            <TableHeaderColumn/>
                         </TableRow>
                         <TableRow>
-                            <TableRowColumn colSpan="5" style={{textAlign: 'center'}}>
+                            <TableRowColumn colSpan="9" style={{textAlign: 'center'}}>
                                 Super Footer
                             </TableRowColumn>
                         </TableRow>
