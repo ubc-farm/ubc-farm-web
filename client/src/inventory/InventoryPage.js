@@ -3,10 +3,14 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {fetchSeeds} from './actions/seeds-get';
 import styled from 'styled-components';
 import InventoryMenu from './components/InventoryMenu'
 import CreateSeedModal from './components/create-seed-modal'
 import Divider from 'material-ui/Divider'
+import SeedList from './components/SeedList'
+
 
 
 
@@ -30,7 +34,7 @@ const styles = {
 
 class InventoryPage extends React.Component {
     componentDidMount() {
-        //fetch fields from database
+        this.props.fetchSeeds();
     }
 
     // Constructor is responsible for setting up props and setting initial state
@@ -40,7 +44,7 @@ class InventoryPage extends React.Component {
         // Set initial state
         this.state = {
             // State needed
-            fields: [],
+            seeds: [],
         };
     }
 
@@ -49,7 +53,7 @@ class InventoryPage extends React.Component {
         const location = {
             lat: 49.249683,
             lng: -123.237421
-        }
+        };
         const markers = [
             {
                 location: {
@@ -57,7 +61,7 @@ class InventoryPage extends React.Component {
                     lng: -123.237421
                 }
             }
-        ]
+        ];
         return (
             <div className="columns is-gapless" style={styles.centerContainer}>
                 <div className="column is-3desktop">
@@ -68,7 +72,7 @@ class InventoryPage extends React.Component {
                     <CreateSeedModal/>
                     </div>
                     <Divider/>
-                    List
+                    <SeedList/>
 
                 </div>
             </div>
@@ -76,4 +80,15 @@ class InventoryPage extends React.Component {
     }
 }
 
-export default InventoryPage;
+InventoryPage.propTypes = {
+    seeds: PropTypes.array.isRequired,
+    fetchSeeds: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => {
+    return {
+        seeds: state.seeds,
+    }
+};
+
+export default connect(mapStateToProps, {fetchSeeds})(InventoryPage);

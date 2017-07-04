@@ -4,7 +4,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
-import DeleteTaskModal from '../components/DeleteTaskModal';
 import {
     Table,
     TableBody,
@@ -142,20 +141,21 @@ class SeedList extends Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        {this.props.tasks.map( (seed, index) => (
+                        {this.props.seeds.map( (seed, index) => (
                             <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>seed.crop</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>seed.variety</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>seed.weight</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>seed.unit</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>seed.quantity</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>seed.product</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>seed.store</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>seed.price</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.crop}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.variety}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.weight}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.unit}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.quantity}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.product}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.store}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.price}</TableRowColumn>
 
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>
                                     <div className="columns">
                                         <div className="column">
+                                            Delete
 
                                         </div>
                                         <div className="column">
@@ -196,15 +196,13 @@ class SeedList extends Component {
     }
 }
 
-TaskList.propTypes = {
+SeedList.propTypes = {
     seeds: PropTypes.array.isRequired,
-    fields: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
-        seeds: state.tasks,
-        fields: state.fields
+        seeds: state.seeds,
     }
 };
 

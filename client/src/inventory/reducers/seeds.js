@@ -9,6 +9,7 @@ export default function seeds(state=[], action={}){
     switch(action.type) {
         case SET_SEEDS:
             console.log("set seed!");
+            console.log()
             return action.seeds;
             break;
         case SEED_DELETED:
