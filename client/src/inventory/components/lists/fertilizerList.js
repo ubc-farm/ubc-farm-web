@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
 /**
  * Table form representation of Transplanting Items
  */
-class TransplantingList extends Component {
+class FertilizerList extends Component {
     constructor(props, context) {
         super(props, context);
 
@@ -53,11 +53,9 @@ class TransplantingList extends Component {
                             <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Application Rate" style={{verticalAlign: 'middle'}}>Application Rate</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Mix Ratio" style={{verticalAlign: 'middle'}}>Mix Ratio</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by TC%" style={{verticalAlign: 'middle'}}>TC%</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by NO3%" style={{verticalAlign: 'middle'}}>NO3%</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by NH4%" style={{verticalAlign: 'middle'}}>NH4%</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by K2O%" style={{verticalAlign: 'middle'}}>K2O%</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by P2O5%" style={{verticalAlign: 'middle'}}>P2O5%</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="View Active Ingredients" style={{verticalAlign: 'middle'}} width={400}>Active Ingredients</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Unit Price</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
                             <TableHeaderColumn/>
                         </TableRow>
                     </TableHeader>
@@ -67,33 +65,37 @@ class TransplantingList extends Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        <TableRow>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Greensand</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Fertilizer A</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Alternate Days</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>1:50</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>0.02</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>0.2</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>0.23</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>0.002</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>0.056</TableRowColumn>
 
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                <div className="columns">
-                                    <div className="column">
-                                        Delete
+                        {this.props.fertilizers.map( (item, index) => (
+                            <TableRow key={index}>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.type}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.name}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.rate}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.ratio}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}} width={400}>
+                                    TC%: {item.tc}, NO3%: {item.no3}, NH4%: {item.nh4}, K2O%: {item.k2o}, P2O5%: {item.p2o5}
+                                </TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.price}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
 
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                    <div className="columns">
+                                        <div className="column">
+                                            Delete
+
+                                        </div>
+                                        <div className="column">
+                                            <FlatButton
+                                                label="Log"
+                                                primary={true}
+                                                onTouchTap={this.props.deleteTranpslant}
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="column">
-                                        <FlatButton
-                                            label="Log"
-                                            primary={true}
-                                            onTouchTap={this.props.deleteSeed}
-                                        />
-                                    </div>
-                                </div>
-                            </TableRowColumn>
-                        </TableRow>
+                                </TableRowColumn>
+                            </TableRow>
+                        ))}
+
                     </TableBody>
                     <TableFooter
                         adjustForCheckbox={false}
@@ -103,15 +105,13 @@ class TransplantingList extends Component {
                             <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Application Rate" style={{verticalAlign: 'middle'}}>Application Rate</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Mix Ratio" style={{verticalAlign: 'middle'}}>Mix Ratio</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by TC%" style={{verticalAlign: 'middle'}}>TC%</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by NO3%" style={{verticalAlign: 'middle'}}>NO3%</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by NH4%" style={{verticalAlign: 'middle'}}>NH4%</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by K2O%" style={{verticalAlign: 'middle'}}>K2O%</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by P2O5%" style={{verticalAlign: 'middle'}}>P2O5%</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="View Active Ingredients" style={{verticalAlign: 'middle'}}>Active Ingredients</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Unit Price</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
                             <TableHeaderColumn/>
                         </TableRow>
                         <TableRow>
-                            <TableRowColumn colSpan="10" style={{textAlign: 'center'}}>
+                            <TableRowColumn colSpan="8" style={{textAlign: 'center'}}>
                                 Super Footer
                             </TableRowColumn>
                         </TableRow>
@@ -123,14 +123,14 @@ class TransplantingList extends Component {
     }
 }
 
-// TransplantingList.propTypes = {
-//     transplants: PropTypes.array.isRequired,
-// };
-//
-// const mapStateToProps = (state) => {
-//     return {
-//         transplants: state.transplants,
-//     }
-// };
+FertilizerList.propTypes = {
+    fertilizers: PropTypes.array.isRequired,
+};
 
-export default TransplantingList;
+const mapStateToProps = (state) => {
+    return {
+        fertilizers: state.fertilizers,
+    }
+};
+
+export default connect(mapStateToProps) (FertilizerList);

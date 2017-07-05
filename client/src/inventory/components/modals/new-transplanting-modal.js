@@ -1,5 +1,5 @@
 /**
- * Created by Xingyu on 6/29/2017.
+ * Created by Xingyu on 7/5/2017.
  */
 import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
@@ -9,19 +9,16 @@ import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
-import {SaveSeed} from '../actions/seeds-post';
+import {SaveTransplant} from '../../actions/transplant-actions';
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-
-
-//STATIC STYLES - [TODO: CONSOLIDATE STYLINGS]
 
 let shortid = require('shortid');
 
 /**
- * A modal dialog can only be closed by selecting one of the actions.
+ * A modal form for creating new transplant items
  */
-class CreateFieldModal extends Component {
+class CreateTransplantModal extends Component {
     /**
      * Class constructor.
      */
@@ -77,7 +74,6 @@ class CreateFieldModal extends Component {
 
     };
     handleSubmit(e){
-        console.log("submit new seed");
         e.preventDefault();
 
         //validation
@@ -89,11 +85,10 @@ class CreateFieldModal extends Component {
 
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
-        console.log("saveseed function called");
         if(isValid){
             const{crop,variety,weight,unit,quantity,product,store,price} = this.state;
             this.setState({loading: true});
-            this.props.SaveSeed({crop,variety,weight,unit,quantity,product,store,price}).then(
+            this.props.SaveTransplant({crop,variety,weight,unit,quantity,product,store,price}).then(
                 (response) => {console.log("should catch error here")}
             );
             this.setState({done: true, loading: false});
@@ -126,36 +121,36 @@ class CreateFieldModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="New Seed" secondary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <FlatButton label="New Tranplant Item" secondary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                 <Dialog
-                    title="Add Seed to Inventory"
+                    title="Add Transplant Item to Inventory"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
                 >
-                            <form>
-                                <h3>Crop Detail</h3>
-                                <TextField
-                                    hintText="Enter Crop Type"
-                                    floatingLabelText="Crop Type"
-                                    name="crop"
-                                    onChange={this.handleChange}
-                                    value={this.state.crop}
+                    <form>
+                        <h3>Crop Detail</h3>
+                        <TextField
+                            hintText="Enter Crop Type"
+                            floatingLabelText="Crop Type"
+                            name="crop"
+                            onChange={this.handleChange}
+                            value={this.state.crop}
 
-                                    fullWidth={true}
-                                    errorText={this.state.errors.crop}/>
-                                <TextField
-                                    hintText="Enter Variety"
-                                    floatingLabelText="Variety"
-                                    name="variety"
-                                    onChange={this.handleChange}
-                                    value={this.state.variety}
+                            fullWidth={true}
+                            errorText={this.state.errors.crop}/>
+                        <TextField
+                            hintText="Enter Variety"
+                            floatingLabelText="Variety"
+                            name="variety"
+                            onChange={this.handleChange}
+                            value={this.state.variety}
 
-                                    fullWidth={true}
-                                    errorText={this.state.errors.variety}/>
+                            fullWidth={true}
+                            errorText={this.state.errors.variety}/>
 
-                                <div className="columns">
-                                    <div className="column is-8-desktop">
+                        <div className="columns">
+                            <div className="column is-8-desktop">
                                 <TextField
                                     hintText="Enter Package Weight"
                                     floatingLabelText="Package Weight"
@@ -165,8 +160,8 @@ class CreateFieldModal extends Component {
                                     fullWidth={true}
                                     value={this.state.weight}
                                     errorText={this.state.errors.weight}/>
-                                </div>
-                                    <div className="column is-4-desktop">
+                            </div>
+                            <div className="column is-4-desktop">
                                 <SelectField
                                     floatingLabelText="Measurement unit"
                                     onChange={this.handleSelect}
@@ -179,51 +174,52 @@ class CreateFieldModal extends Component {
                                     <MenuItem value="kg" label="kg" primaryText="kg"/>
                                     <MenuItem value="lb" label="lb" primaryText="lb"/>
                                 </SelectField>
-                                    </div>
-                                </div>
-                                <TextField
-                                    hintText="Enter Quantity"
-                                    floatingLabelText="Quantity"
-                                    name="quantity"
-                                    type="number"
-                                    onChange={this.handleChange}
-                                    fullWidth={true}
-                                    value={this.state.quantity}
-                                    errorText={this.state.errors.quantity}/>
-                                <h3>Product Detail</h3>
-                                <TextField
-                                    hintText="Enter Product Name"
-                                    floatingLabelText="Product"
-                                    name="product"
-                                    onChange={this.handleChange}
-                                    fullWidth={true}
-                                    value={this.state.product}
-                                    errorText={this.state.errors.product}/>
-                                <TextField
-                                    hintText="Enter Store Name"
-                                    floatingLabelText="Store"
-                                    name="store"
-                                    onChange={this.handleChange}
-                                    fullWidth={true}
-                                    value={this.state.store}
-                                    errorText={this.state.errors.store}/>
+                            </div>
+                        </div>
+                        <TextField
+                            hintText="Enter Quantity"
+                            floatingLabelText="Quantity"
+                            name="quantity"
+                            type="number"
+                            onChange={this.handleChange}
+                            fullWidth={true}
+                            value={this.state.quantity}
+                            errorText={this.state.errors.quantity}/>
+                        <h3>Product Detail</h3>
+                        <TextField
+                            hintText="Enter Product Name"
+                            floatingLabelText="Product"
+                            name="product"
+                            onChange={this.handleChange}
+                            fullWidth={true}
+                            value={this.state.product}
+                            errorText={this.state.errors.product}/>
+                        <TextField
+                            hintText="Enter Store Name"
+                            floatingLabelText="Store"
+                            name="store"
+                            onChange={this.handleChange}
+                            fullWidth={true}
+                            value={this.state.store}
+                            errorText={this.state.errors.store}/>
 
-                                <TextField
-                                    hintText="Enter Price"
-                                    floatingLabelText="Price"
-                                    name="price"
-                                    type="number"
-                                    onChange={this.handleChange}
-                                    fullWidth={true}
-                                    value={this.state.price}
-                                    errorText={this.state.errors.price}/>
+                        <TextField
+                            hintText="Enter Price"
+                            floatingLabelText="Price"
+                            name="price"
+                            type="number"
+                            onChange={this.handleChange}
+                            fullWidth={true}
+                            value={this.state.price}
+                            errorText={this.state.errors.price}/>
 
-                            </form>
+                    </form>
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
                     <p>{this.state.errors.global}</p>
                 </Dialog>
             </div>
+
         );
 
         return (
@@ -235,4 +231,4 @@ class CreateFieldModal extends Component {
     }
 }
 
-export default connect(null, {SaveSeed})(CreateFieldModal);
+export default connect(null, {SaveTransplant})(CreateTransplantModal);

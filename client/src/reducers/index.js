@@ -8,6 +8,11 @@ import TaskReducer from '../tasks/reducers/';
 import FieldTaskReducer from '../fields/reducers/FieldTasksReducer';
 import SeedReducer from '../inventory/reducers/seeds'
 import ActiveInventoryReducer from '../inventory/reducers/active_inventory'
+import TransplantReducer from '../inventory/reducers/transplants'
+import FertilizerReducer from '../inventory/reducers/fertilizers'
+import EquipmentReducer from '../inventory/reducers/equipment'
+import VehilcleReducer from '../inventory/reducers/vehicles'
+import HarvestReducer from '../inventory/reducers/harvested'
 
 const allReducers = combineReducers({
     fields : FieldReducer,
@@ -15,7 +20,9 @@ const allReducers = combineReducers({
     tasks : TaskReducer,
     fieldTasks : FieldTaskReducer,
     seeds: SeedReducer,
-    active_inventory: ActiveInventoryReducer
+    active_inventory: ActiveInventoryReducer,
+    transplants: TransplantReducer,
+    fertilizers: FertilizerReducer,
 
 });
 

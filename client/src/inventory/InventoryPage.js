@@ -16,6 +16,15 @@ import PestControlList from './components/lists/pestControlList'
 import EquipmentList from './components/lists/equipmentList'
 import VehiclesList from './components/lists/vehiclesList'
 import HarvestedProduceList from './components/SeedList'
+import CreateEquipemntModal from './components/modals/new-equipment-modal'
+import CreateFertilizerModal from './components/modals/new-fertilizer-modal'
+import CreateHarvestedModal from './components/modals/new-harvested-modal'
+import CreateTransplantModal from './components/modals/new-transplanting-modal'
+import CreateVehicleModal from './components/modals/new-vehicles-modal'
+import CreatePestControlModal from './components/modals/new-pestControl-modal'
+import {fetchTransplants} from './actions/transplant-actions'
+import {fetchFertilizers} from './actions/fertilizer-actions'
+
 
 
 //list used for selecting inventory
@@ -28,6 +37,17 @@ const InventoryArray =
         4: EquipmentList,
         5: VehiclesList,
         6: HarvestedProduceList
+    };
+
+const ModalArray =
+    {
+        0: CreateSeedModal,
+        1: CreateTransplantModal,
+        2: CreateFertilizerModal,
+        3: CreatePestControlModal,
+        4: CreateEquipemntModal,
+        5: CreateVehicleModal,
+        6: CreateHarvestedModal
     };
 
 
@@ -58,6 +78,8 @@ const styles = {
 class InventoryPage extends React.Component {
     componentDidMount() {
         this.props.fetchSeeds();
+        this.props.fetchTransplants();
+        this.props.fetchFertilizers();
     }
 
     // Constructor is responsible for setting up props and setting initial state
@@ -88,6 +110,7 @@ class InventoryPage extends React.Component {
         ];
 
         const InventoryList = InventoryArray[this.props.active_inventory];
+        const NewItemModal = ModalArray[this.props.active_inventory];
 
         return (
 
@@ -97,7 +120,7 @@ class InventoryPage extends React.Component {
                 </div>
                 <div className="column is-10-desktop" style={{ backgroundColor: '#F5F5F5'}}>
                     <div style={{height:"60px"}}>
-                        <CreateSeedModal/>
+                        <NewItemModal/>
                     </div>
                     <Divider/>
                     <InventoryList/>
@@ -113,13 +136,19 @@ InventoryPage.propTypes = {
     seeds: PropTypes.array.isRequired,
     fetchSeeds: PropTypes.func.isRequired,
     active_inventory: PropTypes.number.isRequired,
+    transplants: PropTypes.array.isRequired,
+    fetchTransplants: PropTypes.func.isRequired,
+    fertilizers: PropTypes.array.isRequired,
+    fetchFertilizers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
         seeds: state.seeds,
         active_inventory: state.active_inventory,
+        transplants: state.transplants,
+        fertilizers: state.fertilizers,
     }
 };
 
-export default connect(mapStateToProps, {fetchSeeds})(InventoryPage);
+export default connect(mapStateToProps, {fetchSeeds,fetchTransplants,fetchFertilizers})(InventoryPage);
