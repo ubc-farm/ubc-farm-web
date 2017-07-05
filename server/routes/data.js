@@ -12,6 +12,7 @@ let Task = require('mongoose').model('Task');
 let Field = require('mongoose').model('Field');
 let Seed = require('mongoose').model('Seed');
 let Transplant = require('mongoose').model('Transplant');
+let Fertilizer = require('mongoose').model('Fertilizer');
 
 router.get('/fields', (req, res) => {
 
@@ -29,8 +30,8 @@ router.get('/fields', (req, res) => {
 function serverSideValidateField(data){
     //validation
     let errors = {};
-    if(data.name === '')
-        errors.name = "This field is Required";
+    // if(data.name === '')
+    //     errors.name = "This field is Required";
     //if valid, create post request
     const isValid = Object.keys(errors).length === 0;
 
@@ -266,6 +267,43 @@ router.post('/transplants', (req, res) => {
             crop,variety,weight,unit,quantity,product,store,price} = req.body;
 
         Transplant.create({crop,variety,weight,unit,quantity,product,store,price} ,
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving transplant"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({transplant: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+//ROUTES FOR FERTILIZERS
+router.get('/fertilizers', (req, res) => {
+
+    Fertilizer.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieveing fertilizers');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/fertilizers', (req, res) => {
+    console.log(req.body);
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{type,name,rate,ratio,tc,no3,nh4,k2o,p2o5,price,quantity} = req.body;
+
+        Fertilizer.create({type,name,rate,ratio,tc,no3,nh4,k2o,p2o5,price,quantity} ,
 
             function(err, result){
                 if(err){

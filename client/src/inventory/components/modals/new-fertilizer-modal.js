@@ -131,7 +131,6 @@ class CreateFertilizerModal extends Component {
                     open={this.state.open}
                 >
                     <form>
-                        <h3>Crop Detail</h3>
                         <TextField
                             hintText="Enter Fertilizer Type (Compost, NPK, etc)"
                             floatingLabelText="Fertilizer Type"

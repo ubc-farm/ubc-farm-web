@@ -23,6 +23,7 @@ import CreateTransplantModal from './components/modals/new-transplanting-modal'
 import CreateVehicleModal from './components/modals/new-vehicles-modal'
 import CreatePestControlModal from './components/modals/new-pestControl-modal'
 import {fetchTransplants} from './actions/transplant-actions'
+import {fetchFertilizers} from './actions/fertilizer-actions'
 
 
 
@@ -78,6 +79,7 @@ class InventoryPage extends React.Component {
     componentDidMount() {
         this.props.fetchSeeds();
         this.props.fetchTransplants();
+        this.props.fetchFertilizers();
     }
 
     // Constructor is responsible for setting up props and setting initial state
@@ -136,14 +138,17 @@ InventoryPage.propTypes = {
     active_inventory: PropTypes.number.isRequired,
     transplants: PropTypes.array.isRequired,
     fetchTransplants: PropTypes.func.isRequired,
+    fertilizers: PropTypes.array.isRequired,
+    fetchFertilizers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
         seeds: state.seeds,
         active_inventory: state.active_inventory,
-        transplants: state.transplants
+        transplants: state.transplants,
+        fertilizers: state.fertilizers,
     }
 };
 
-export default connect(mapStateToProps, {fetchSeeds,fetchTransplants})(InventoryPage);
+export default connect(mapStateToProps, {fetchSeeds,fetchTransplants,fetchFertilizers})(InventoryPage);

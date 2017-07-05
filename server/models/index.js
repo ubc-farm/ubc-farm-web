@@ -27,4 +27,5 @@ module.exports.connect = (uri) => {
   require('./pestControl');
   require('./transplant');
   require('./vehicle');
+  require('./fertilizer_model');
 };
