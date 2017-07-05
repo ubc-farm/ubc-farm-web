@@ -10,7 +10,6 @@ import { Link, IndexLink } from 'react-router';
 import Auth from './modules/Auth';
 import 'bulma/css/bulma.css'
 import styled from 'styled-components'
-import NavDrawerContainer from './navigation/NavDrawerContainer.jsx';
 
 
 const Container = styled.div`
@@ -54,14 +53,6 @@ const Base = ({ children }) => (
     </Topbar>
       </div>
       <Container className="columns is-gapless" >
-          {/*{Auth.isUserAuthenticated() ? (*/}
-                  {/*<NavDrawerContainer/>*/}
-              {/*) : (*/}
-                  {/*<div></div>*/}
-              {/*)}*/}
-
-
-            { /* child component will be rendered here */ }
             <div className="column" style={{marginTop: "60px"}}>
             {children}
             </div>

@@ -16,6 +16,13 @@ import PestControlList from './components/lists/pestControlList'
 import EquipmentList from './components/lists/equipmentList'
 import VehiclesList from './components/lists/vehiclesList'
 import HarvestedProduceList from './components/SeedList'
+import CreateEquipemntModal from './components/modals/new-equipment-modal'
+import CreateFertilizerModal from './components/modals/new-fertilizer-modal'
+import CreateHarvestedModal from './components/modals/new-harvested-modal'
+import CreateTransplantModal from './components/modals/new-transplanting-modal'
+import CreateVehicleModal from './components/modals/new-vehicles-modal'
+import CreatePestControlModal from './components/modals/new-pestControl-modal'
+
 
 
 //list used for selecting inventory
@@ -28,6 +35,17 @@ const InventoryArray =
         4: EquipmentList,
         5: VehiclesList,
         6: HarvestedProduceList
+    };
+
+const ModalArray =
+    {
+        0: CreateSeedModal,
+        1: CreateTransplantModal,
+        2: CreateFertilizerModal,
+        3: CreatePestControlModal,
+        4: CreateEquipemntModal,
+        5: CreateVehicleModal,
+        6: CreateHarvestedModal
     };
 
 
@@ -88,6 +106,7 @@ class InventoryPage extends React.Component {
         ];
 
         const InventoryList = InventoryArray[this.props.active_inventory];
+        const NewItemModal = ModalArray[this.props.active_inventory];
 
         return (
 
@@ -97,7 +116,7 @@ class InventoryPage extends React.Component {
                 </div>
                 <div className="column is-10-desktop" style={{ backgroundColor: '#F5F5F5'}}>
                     <div style={{height:"60px"}}>
-                        <CreateSeedModal/>
+                        <NewItemModal/>
                     </div>
                     <Divider/>
                     <InventoryList/>
