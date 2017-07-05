@@ -58,6 +58,8 @@ class TransplantingList extends Component {
                             <TableHeaderColumn tooltip="Sort by NH4%" style={{verticalAlign: 'middle'}}>NH4%</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by K2O%" style={{verticalAlign: 'middle'}}>K2O%</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by P2O5%" style={{verticalAlign: 'middle'}}>P2O5%</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Unit Price</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
                             <TableHeaderColumn/>
                         </TableRow>
                     </TableHeader>
@@ -108,10 +110,12 @@ class TransplantingList extends Component {
                             <TableHeaderColumn tooltip="Sort by NH4%" style={{verticalAlign: 'middle'}}>NH4%</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by K2O%" style={{verticalAlign: 'middle'}}>K2O%</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by P2O5%" style={{verticalAlign: 'middle'}}>P2O5%</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Unit Price</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
                             <TableHeaderColumn/>
                         </TableRow>
                         <TableRow>
-                            <TableRowColumn colSpan="10" style={{textAlign: 'center'}}>
+                            <TableRowColumn colSpan="12" style={{textAlign: 'center'}}>
                                 Super Footer
                             </TableRowColumn>
                         </TableRow>
