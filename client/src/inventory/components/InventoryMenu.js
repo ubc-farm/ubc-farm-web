@@ -92,7 +92,6 @@ const InventoryMenu = () => (
             <ListItem value={4} primaryText="Equipment" leftIcon={<ContentInbox />} />
             <ListItem value={5} primaryText="Vehicles" leftIcon={<ContentInbox />} />
             <ListItem value={6} primaryText="Harvested Produce" leftIcon={<ContentInbox />} />
-            <ListItem value={7} primaryText="Eggs" leftIcon={<ContentInbox />} />
         </InventoryList>
         <Divider />
         Select an Inventory to view

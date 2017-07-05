@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {selectField} from '../actions/select-field.js';
 
+
 const SummaryMapComponent = withGoogleMap(props => (
     <GoogleMap
         ref={props.onMapLoad}
@@ -23,11 +24,22 @@ const SummaryMapComponent = withGoogleMap(props => (
             <Polygon
                 key={field._id}
                 path={field.polygon}
+                options={{
+                    strokeColor: '#1a2e13',
+                    fillColor: '#68b34a',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 3.5,
+                    fillOpacity: 0.4
+                }}
+
+
+
             />
         ))}
 
     </GoogleMap>
 ));
+
 
 class SummaryMap extends React.Component {
 
@@ -56,6 +68,8 @@ class SummaryMap extends React.Component {
      * Go and try click now.
      */
     handleMapClick(event) {
+        console.log("clicked on map");
+        console.log(event);
     }
 
     componentWillUpdate(nextProps, nextState){
@@ -83,6 +97,7 @@ class SummaryMap extends React.Component {
                     onMapLoad={this.handleMapLoad}
                     onMapClick={this.handleMapClick}
                     fields={this.props.fields}
+                    selectField={this.props.selectField}
                 />
             </div>
         );
