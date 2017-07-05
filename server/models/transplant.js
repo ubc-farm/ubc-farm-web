@@ -1,10 +1,10 @@
 /**
- * Created by Xingyu on 6/29/2017.
+ * Created by Xingyu on 7/5/2017.
  */
 const mongoose = require('mongoose');
 
-// define the Seed model schema
-const SeedSchema = new mongoose.Schema({
+// define the Transplant model schema
+const TransplantSchema = new mongoose.Schema({
 
     crop: String,
     variety: String,
@@ -16,4 +16,4 @@ const SeedSchema = new mongoose.Schema({
     price: Number
 });
 
-module.exports = mongoose.model('Seed', SeedSchema);
+module.exports = mongoose.model('Transplant', TransplantSchema);

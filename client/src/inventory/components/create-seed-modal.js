@@ -60,8 +60,6 @@ class CreateFieldModal extends Component {
         this.setState({open: false, name: ''});
     };
     handleChange(e){
-        console.log(e.currentTarget.name);
-        console.log(e.currentTarget.value);
         if(this.state.errors[e.target.name]){
             console.log("handle error fired");
             let errors = Object.assign({}, this.state.errors);

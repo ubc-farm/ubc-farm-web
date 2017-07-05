@@ -22,4 +22,9 @@ module.exports.connect = (uri) => {
   require('./field');
   require('./seed');
   require('./task');
+  require('./equipment');
+  require('./harvest');
+  require('./pestControl');
+  require('./transplant');
+  require('./vehicle');
 };

@@ -11,6 +11,7 @@ router.use(bodyParser.json());
 let Task = require('mongoose').model('Task');
 let Field = require('mongoose').model('Field');
 let Seed = require('mongoose').model('Seed');
+let Transplant = require('mongoose').model('Transplant');
 
 router.get('/fields', (req, res) => {
 
@@ -205,6 +206,7 @@ router.get('/fieldtasks/:_id', (req, res) => {
  * ROUTER CODE FOR INVENTORY PAGE
  */
 
+//ROUTES FOR SEEDS
 router.get('/seeds', (req, res) => {
 
     Seed.find({}).lean().exec(function (err, items) {
@@ -234,6 +236,44 @@ router.post('/seeds', (req, res) => {
                 }else{
                     delete result.__v;
                     res.status(200).json({seed: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+//ROUTES FOR TRANSPLANTS
+router.get('/transplants', (req, res) => {
+
+    Transplant.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieveing transplants');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/transplants', (req, res) => {
+    console.log(req.body);
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{
+            crop,variety,weight,unit,quantity,product,store,price} = req.body;
+
+        Transplant.create({crop,variety,weight,unit,quantity,product,store,price} ,
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving transplant"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({transplant: result});
                 }
             });
     }else{

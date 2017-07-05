@@ -66,32 +66,34 @@ class TransplantingList extends Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        <TableRow>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Tomato</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Cherry</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>2.4</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>lb</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>45</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}></TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}></TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>2.50</TableRowColumn>
+                        {this.props.transplants.map( (item, index) => (
+                            <TableRow key={index}>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.crop}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.variety}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.weight}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.unit}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.product}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.store}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.price}</TableRowColumn>
 
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                <div className="columns">
-                                    <div className="column">
-                                        Delete
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                    <div className="columns">
+                                        <div className="column">
+                                            Delete
 
+                                        </div>
+                                        <div className="column">
+                                            <FlatButton
+                                                label="Log"
+                                                primary={true}
+                                                onTouchTap={this.props.deleteTranpslant}
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="column">
-                                        <FlatButton
-                                            label="Log"
-                                            primary={true}
-                                            onTouchTap={this.props.deleteSeed}
-                                        />
-                                    </div>
-                                </div>
-                            </TableRowColumn>
-                        </TableRow>
+                                </TableRowColumn>
+                            </TableRow>
+                        ))}
                     </TableBody>
                     <TableFooter
                         adjustForCheckbox={false}
@@ -120,14 +122,14 @@ class TransplantingList extends Component {
     }
 }
 
-// TransplantingList.propTypes = {
-//     transplants: PropTypes.array.isRequired,
-// };
-//
-// const mapStateToProps = (state) => {
-//     return {
-//         transplants: state.transplants,
-//     }
-// };
+TransplantingList.propTypes = {
+    transplants: PropTypes.array.isRequired,
+};
 
-export default TransplantingList;
+const mapStateToProps = (state) => {
+    return {
+        transplants: state.transplants,
+    }
+};
+
+export default connect(mapStateToProps)(TransplantingList);
