@@ -41,7 +41,12 @@ function wrapState(ComposedComponent){
         }
 
         componentWillMount(){
-            this.setState({selectedIndex: this.props.defaultValue,})
+            if(this.props.active_inventory != this.props.defaultValue){
+                this.setState({selectedIndex: this.props.active_inventory,});
+            }else{
+                this.setState({selectedIndex: this.props.defaultValue,});
+            }
+
         }
 
         handleRequestChange(event, index){
@@ -68,10 +73,12 @@ function wrapState(ComposedComponent){
         children: PropTypes.node.isRequired,
         defaultValue: PropTypes.number.isRequired,
         selectInventory: PropTypes.func.isRequired,
+        active_inventory: PropTypes.number.isRequired,
     };
 
     const mapStateToProps = (state) => {
         return{
+            active_inventory: state.active_inventory
         }
     };
 
