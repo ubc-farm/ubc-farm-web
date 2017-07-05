@@ -53,7 +53,7 @@ class FertilizerList extends Component {
                             <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Application Rate" style={{verticalAlign: 'middle'}}>Application Rate</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Mix Ratio" style={{verticalAlign: 'middle'}}>Mix Ratio</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="View Active Ingredients" style={{verticalAlign: 'middle'}}>Active Ingredients</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="View Active Ingredients" style={{verticalAlign: 'middle'}} width={400}>Active Ingredients</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Unit Price</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
                             <TableHeaderColumn/>
@@ -72,7 +72,7 @@ class FertilizerList extends Component {
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{item.name}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{item.rate}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{item.ratio}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                <TableRowColumn style={{verticalAlign: 'middle'}} width={400}>
                                     TC%: {item.tc}, NO3%: {item.no3}, NH4%: {item.nh4}, K2O%: {item.k2o}, P2O5%: {item.p2o5}
                                 </TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{item.price}</TableRowColumn>
