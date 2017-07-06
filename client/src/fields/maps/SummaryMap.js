@@ -8,6 +8,7 @@ import _ from 'lodash'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {selectField} from '../actions/select-field.js';
+import {fetchTaskByField} from '../actions/fetchTaskByField';
 
 
 const SummaryMapComponent = withGoogleMap(props => (
@@ -31,7 +32,7 @@ const SummaryMapComponent = withGoogleMap(props => (
                     strokeWeight: 3.5,
                     fillOpacity: 0.4,
                 }}
-                onClick={props.onMapClick}
+                onClick={() => {props.selectField(field); props.fetchTaskByField(field._id)}}
 
 
 
@@ -79,18 +80,15 @@ class SummaryMap extends React.Component {
     }
 
 
+
     componentWillUpdate(nextProps, nextState){
         console.log(nextProps.selectedField.polygon);
         if(nextProps.selectedField.polygon) {
             let bounds = new google.maps.LatLngBounds();
             nextProps.selectedField.polygon.forEach(function(e){
                 bounds.extend(e);
-                this.props.selectField(nextProps.selectedField);
             });
             this._mapComponent.fitBounds(bounds);
-            bounds.forEach(function(polygon){google.maps.event.addListener(polygon, 'click', function(event){
-                console.log("clicked on polygon");
-            })});
         }
 
 
@@ -111,6 +109,7 @@ class SummaryMap extends React.Component {
                     onMapClick={this.handleMapClick}
                     fields={this.props.fields}
                     selectField={this.props.selectField}
+                    fetchTaskByField={this.props.fetchTaskByField}
                 />
             </div>
         );
@@ -126,7 +125,8 @@ function mapStateToProps(state){
 
 function matchDispatchToProps(dispatch){
     return bindActionCreators({
-        selectField: selectField
+        selectField: selectField,
+        fetchTaskByField: fetchTaskByField
     }, dispatch)
 }
 
