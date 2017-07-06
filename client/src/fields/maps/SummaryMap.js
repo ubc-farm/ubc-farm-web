@@ -29,8 +29,10 @@ const SummaryMapComponent = withGoogleMap(props => (
                     fillColor: '#68b34a',
                     strokeOpacity: 0.8,
                     strokeWeight: 3.5,
-                    fillOpacity: 0.4
+                    fillOpacity: 0.4,
                 }}
+                onClick={props.onMapClick}
+
 
 
 
@@ -51,7 +53,8 @@ class SummaryMap extends React.Component {
 
         this.state = {
             fields: [],
-            selectedField: {}
+            selectedField: {},
+            polygons:{}
         };
         this.handleMapLoad = this.handleMapLoad.bind(this);
         this.handleMapClick = this.handleMapClick.bind(this);
@@ -70,14 +73,24 @@ class SummaryMap extends React.Component {
     handleMapClick(event) {
         console.log("clicked on map");
         console.log(event);
+        if(event.ta){
+            console.log("clicked on polygon!");
+        }
     }
+
 
     componentWillUpdate(nextProps, nextState){
         console.log(nextProps.selectedField.polygon);
         if(nextProps.selectedField.polygon) {
-            var bounds = new google.maps.LatLngBounds();
-            nextProps.selectedField.polygon.forEach(function(e){bounds.extend(e)});
+            let bounds = new google.maps.LatLngBounds();
+            nextProps.selectedField.polygon.forEach(function(e){
+                bounds.extend(e);
+                this.props.selectField(nextProps.selectedField);
+            });
             this._mapComponent.fitBounds(bounds);
+            bounds.forEach(function(polygon){google.maps.event.addListener(polygon, 'click', function(event){
+                console.log("clicked on polygon");
+            })});
         }
 
 
