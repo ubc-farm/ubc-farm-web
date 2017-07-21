@@ -25,6 +25,7 @@ import CreatePestControlModal from './components/modals/new-pestControl-modal'
 import {fetchTransplants} from './actions/transplant-actions'
 import {fetchFertilizers} from './actions/fertilizer-actions'
 import {fetchPesticides} from './actions/pest-actions'
+import {fetchEquipments} from './actions/equipment-actions'
 
 
 
@@ -82,6 +83,7 @@ class InventoryPage extends React.Component {
         this.props.fetchTransplants();
         this.props.fetchFertilizers();
         this.props.fetchPesticides();
+        this.props.fetchEquipments();
     }
 
     // Constructor is responsible for setting up props and setting initial state
@@ -158,4 +160,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {fetchSeeds,fetchTransplants,fetchFertilizers,fetchPesticides})(InventoryPage);
+export default connect(mapStateToProps, {fetchSeeds,fetchTransplants,fetchFertilizers,fetchPesticides,fetchEquipments})(InventoryPage);

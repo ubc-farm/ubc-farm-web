@@ -14,6 +14,7 @@ let Seed = require('mongoose').model('Seed');
 let Transplant = require('mongoose').model('Transplant');
 let Fertilizer = require('mongoose').model('Fertilizer');
 let Pesticide = require('mongoose').model('Pesticide');
+let Equipment = require('mongoose').model('Equipment');
 
 router.get('/fields', (req, res) => {
 
@@ -261,7 +262,6 @@ router.get('/transplants', (req, res) => {
 });
 
 router.post('/transplants', (req, res) => {
-    console.log(req.body);
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
         const{
@@ -321,10 +321,8 @@ router.post('/fertilizers', (req, res) => {
 
 });
 
-//ROUTES FOR FERTILIZERS
+//ROUTES FOR PESTICIDES
 router.get('/pesticides', (req, res) => {
-
-    console.log("pesticides route get");
 
     Pesticide.find({}).lean().exec(function (err, items) {
         if (err) {
@@ -352,6 +350,42 @@ router.post('/pesticides', (req, res) => {
                 }else{
                     delete result.__v;
                     res.status(200).json({pesticide: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+//ROUTES FOR EQUIPMENTS
+router.get('/equipments', (req, res) => {
+
+    Equipment.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving equipments');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/equipments', (req, res) => {
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{name,store,price,quantity} = req.body;
+
+        Equipment.create({name,store,price,quantity},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving equipments"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({equipment: result});
                 }
             });
     }else{

@@ -2,27 +2,28 @@
  * Created by Xingyu on 7/5/2017.
  */
 //FETCH DATA ACTION
-export const SET_FERTILIZERS = 'SET_FERTILIZERS';
+export const SET_EQUIPMENTS = 'SET_EQUIPMENTS';
 
-export function setFertilizers(fertilizers){
-    console.log(fertilizers);
+export function setEquipments(equipments){
+    console.log(equipments);
     return{
-        type: SET_FERTILIZERS,
-        fertilizers
+        type: SET_EQUIPMENTS,
+        equipments
     }
 
 }
 
-export function fetchFertilizers(){
+export function fetchEquipments(){
+    console.log("fetch equipments");
     return dispatch => {
-        fetch('/data/fertilizers')
+        fetch('/data/equipments')
             .then(res => res.json())
-            .then(data => dispatch(setFertilizers(data.items)));
+            .then(data => dispatch(setEquipments(data.items)));
     }
 }
 
 //POST DATA ACTION
-export const ADD_FERTILIZER = 'ADD_FERTILIZER';
+export const ADD_EQUIPMENT = 'ADD_EQUIPMENT';
 
 function handleResponse(response){
     if(response.ok){
@@ -34,23 +35,23 @@ function handleResponse(response){
     }
 }
 
-export function AddFertilizer(fertilizer){
+export function AddEquipment(equipment){
     return{
-        type: ADD_FERTILIZER,
-        fertilizer
+        type: ADD_EQUIPMENT,
+        equipment
     }
 }
 
-export function SaveFertilizer(data){
+export function SaveEquipment(data){
     console.log(data);
     return dispatch => {
-        return fetch('/data/fertilizers', {
+        return fetch('/data/equipments', {
             method: 'post',
             body: JSON.stringify(data),
             headers:{
                 "Content-Type":"application/json"
             }
         }).then(handleResponse)
-            .then(data => dispatch(AddFertilizer(data.fertilizer)));
+            .then(data => dispatch(AddEquipment(data.equipment)));
     }
 }

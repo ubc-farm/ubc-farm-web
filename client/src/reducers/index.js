@@ -25,6 +25,7 @@ const allReducers = combineReducers({
     transplants: TransplantReducer,
     fertilizers: FertilizerReducer,
     pesticides: PesticideReducer,
+    equipments: EquipmentReducer,
 
 });
 
