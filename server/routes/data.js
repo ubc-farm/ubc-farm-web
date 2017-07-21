@@ -15,6 +15,8 @@ let Transplant = require('mongoose').model('Transplant');
 let Fertilizer = require('mongoose').model('Fertilizer');
 let Pesticide = require('mongoose').model('Pesticide');
 let Equipment = require('mongoose').model('Equipment');
+let Vehicle = require('mongoose').model('Vehicle');
+let Harvested = require('mongoose').model('Harvested');
 
 router.get('/fields', (req, res) => {
 
@@ -393,5 +395,78 @@ router.post('/equipments', (req, res) => {
     }
 
 });
+
+//ROUTES FOR VEHICLES
+router.get('/vehicles', (req, res) => {
+
+    Vehicle.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving vehicles');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/vehicles', (req, res) => {
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{brand,model,year,price,quantity} = req.body;
+
+        Vehicle.create({brand,model,year,price,quantity},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving vehicle"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({vehicle: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+//ROUTES FOR HARVESTED
+router.get('/harvested', (req, res) => {
+
+    Harvested.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving harvested');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/harvested', (req, res) => {
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{name,variety,price,quantity,unit} = req.body;
+
+        Harvested.create({name,variety,price,quantity,unit},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving harvested"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({harvested: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
 
 module.exports = router;

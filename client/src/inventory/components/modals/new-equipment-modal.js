@@ -113,9 +113,9 @@ class CreateEquipmentModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="New Equipment Item" secondary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <FlatButton label="New Equipment" secondary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                 <Dialog
-                    title="Add Equipment Item to Inventory"
+                    title="Add Equipment to Inventory"
                     actions={actions}
                     modal={true}
                     open={this.state.open}

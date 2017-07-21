@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
 /**
  * Table form representation of Transplanting Items
  */
-class TransplantingList extends Component {
+class VehicleList extends Component {
     constructor(props, context) {
         super(props, context);
 
@@ -49,11 +49,10 @@ class TransplantingList extends Component {
                     >
 
                         <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Crop" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Crop" style={{verticalAlign: 'middle'}}>Model</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Variety" style={{verticalAlign: 'middle'}}>Maker</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Weight" style={{verticalAlign: 'middle'}}>Year</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Brand" style={{verticalAlign: 'middle'}}>Brand</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Model" style={{verticalAlign: 'middle'}}>Model</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Year" style={{verticalAlign: 'middle'}}>Year</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
                             <TableHeaderColumn/>
                         </TableRow>
@@ -64,44 +63,44 @@ class TransplantingList extends Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        <TableRow>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Tractor</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>SP500</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Toyota</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>2007</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>45,000</TableRowColumn>
+                        {this.props.vehicles.map( (item, index) => (
+                            <TableRow key={index}>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.brand}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.model}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.year}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.price}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                    <div className="columns">
+                                        <div className="column">
+                                            Delete
 
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                <div className="columns">
-                                    <div className="column">
-                                        Delete
-
+                                        </div>
+                                        <div className="column">
+                                            <FlatButton
+                                                label="Log"
+                                                primary={true}
+                                                onTouchTap={this.props.deleteEquipment}
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="column">
-                                        <FlatButton
-                                            label="Log"
-                                            primary={true}
-                                            onTouchTap={this.props.deleteSeed}
-                                        />
-                                    </div>
-                                </div>
-                            </TableRowColumn>
-                        </TableRow>
+                                </TableRowColumn>
+                            </TableRow>
+                        ))}
                     </TableBody>
                     <TableFooter
                         adjustForCheckbox={false}
                     >
                         <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Crop" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Crop" style={{verticalAlign: 'middle'}}>Model</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Variety" style={{verticalAlign: 'middle'}}>Maker</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Weight" style={{verticalAlign: 'middle'}}>Year</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Brand" style={{verticalAlign: 'middle'}}>Brand</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Model" style={{verticalAlign: 'middle'}}>Model</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Year" style={{verticalAlign: 'middle'}}>Year</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
                             <TableHeaderColumn/>
                         </TableRow>
                         <TableRow>
-                            <TableRowColumn colSpan="7" style={{textAlign: 'center'}}>
+                            <TableRowColumn colSpan="6" style={{textAlign: 'center'}}>
                                 Super Footer
                             </TableRowColumn>
                         </TableRow>
@@ -113,14 +112,14 @@ class TransplantingList extends Component {
     }
 }
 
-// TransplantingList.propTypes = {
-//     transplants: PropTypes.array.isRequired,
-// };
-//
-// const mapStateToProps = (state) => {
-//     return {
-//         transplants: state.transplants,
-//     }
-// };
+VehicleList.propTypes = {
+    vehicles: PropTypes.array.isRequired,
+};
 
-export default TransplantingList;
+const mapStateToProps = (state) => {
+    return {
+        vehicles: state.vehicles,
+    }
+};
+
+export default connect(mapStateToProps)(VehicleList);
