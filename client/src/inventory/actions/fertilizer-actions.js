@@ -14,6 +14,7 @@ export function setFertilizers(fertilizers){
 }
 
 export function fetchFertilizers(){
+    console.log("fetchFertilizers called");
     return dispatch => {
         fetch('/data/fertilizers')
             .then(res => res.json())

@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
 /**
  * Table form representation of Transplanting Items
  */
-class TransplantingList extends Component {
+class PestControlList extends Component {
     constructor(props, context) {
         super(props, context);
 
@@ -52,11 +52,12 @@ class TransplantingList extends Component {
                             <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Application Rate" style={{verticalAlign: 'middle'}}>Application Rate</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Mix Ratio" style={{verticalAlign: 'middle'}}>Location</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by TC%" style={{verticalAlign: 'middle'}}>Entry Interval</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by NO3%" style={{verticalAlign: 'middle'}}>Harvest Interval</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by NH4%" style={{verticalAlign: 'middle'}}>Active Ingredient</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by K2O%" style={{verticalAlign: 'middle'}}>Active Ingredient %</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Mix Ratio" style={{verticalAlign: 'middle'}}>Mix Ratio (Water : Mix)</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Application Location" style={{verticalAlign: 'middle'}}>Application Location</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Entry Interval" style={{verticalAlign: 'middle'}}>Entry Interval</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Harvest Interval" style={{verticalAlign: 'middle'}}>Harvest Interval</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Active Ingredient" style={{verticalAlign: 'middle'}}>Active Ingredient</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Active Ingredient %" style={{verticalAlign: 'middle'}}>Active Ingredient %</TableHeaderColumn>
                             <TableHeaderColumn/>
                         </TableRow>
                     </TableHeader>
@@ -66,32 +67,35 @@ class TransplantingList extends Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        <TableRow>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Spray</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Pesticide A</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Alternate Days</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>folial</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}></TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}></TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Nitrate</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>0.23</TableRowColumn>
+                        {this.props.pesticides.map( (item, index) => (
+                            <TableRow key={index}>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.type}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.name}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.rate}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.ratio}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.location}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.entry}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.harvest}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.active}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.percentage}</TableRowColumn>
 
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                <div className="columns">
-                                    <div className="column">
-                                        Delete
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                    <div className="columns">
+                                        <div className="column">
+                                            Delete
 
+                                        </div>
+                                        <div className="column">
+                                            <FlatButton
+                                                label="Log"
+                                                primary={true}
+                                                onTouchTap={this.props.deletePesticide}
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="column">
-                                        <FlatButton
-                                            label="Log"
-                                            primary={true}
-                                            onTouchTap={this.props.deleteSeed}
-                                        />
-                                    </div>
-                                </div>
-                            </TableRowColumn>
-                        </TableRow>
+                                </TableRowColumn>
+                            </TableRow>
+                        ))}
                     </TableBody>
                     <TableFooter
                         adjustForCheckbox={false}
@@ -100,15 +104,16 @@ class TransplantingList extends Component {
                             <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Application Rate" style={{verticalAlign: 'middle'}}>Application Rate</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Mix Ratio" style={{verticalAlign: 'middle'}}>Location</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by TC%" style={{verticalAlign: 'middle'}}>Entry Interval</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by NO3%" style={{verticalAlign: 'middle'}}>Harvest Interval</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by NH4%" style={{verticalAlign: 'middle'}}>Active Ingredient</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by K2O%" style={{verticalAlign: 'middle'}}>Active Ingredient %</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Mix Ratio" style={{verticalAlign: 'middle'}}>Mix Ratio (Water : Mix)</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Application Location" style={{verticalAlign: 'middle'}}>Application Location</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Entry Interval" style={{verticalAlign: 'middle'}}>Entry Interval</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Harvest Interval" style={{verticalAlign: 'middle'}}>Harvest Interval</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Active Ingredient" style={{verticalAlign: 'middle'}}>Active Ingredient</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Active Ingredient %" style={{verticalAlign: 'middle'}}>Active Ingredient %</TableHeaderColumn>
                             <TableHeaderColumn/>
                         </TableRow>
                         <TableRow>
-                            <TableRowColumn colSpan="9" style={{textAlign: 'center'}}>
+                            <TableRowColumn colSpan="10" style={{textAlign: 'center'}}>
                                 Super Footer
                             </TableRowColumn>
                         </TableRow>
@@ -120,14 +125,14 @@ class TransplantingList extends Component {
     }
 }
 
-// TransplantingList.propTypes = {
-//     transplants: PropTypes.array.isRequired,
-// };
-//
-// const mapStateToProps = (state) => {
-//     return {
-//         transplants: state.transplants,
-//     }
-// };
+PestControlList.propTypes = {
+    pesticides: PropTypes.array.isRequired,
+};
 
-export default TransplantingList;
+const mapStateToProps = (state) => {
+    return {
+        pesticides: state.pesticides,
+    }
+};
+
+export default connect(mapStateToProps)(PestControlList);

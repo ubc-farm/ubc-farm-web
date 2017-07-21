@@ -13,6 +13,7 @@ let Field = require('mongoose').model('Field');
 let Seed = require('mongoose').model('Seed');
 let Transplant = require('mongoose').model('Transplant');
 let Fertilizer = require('mongoose').model('Fertilizer');
+let Pesticide = require('mongoose').model('Pesticide');
 
 router.get('/fields', (req, res) => {
 
@@ -312,6 +313,45 @@ router.post('/fertilizers', (req, res) => {
                 }else{
                     delete result.__v;
                     res.status(200).json({transplant: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+//ROUTES FOR FERTILIZERS
+router.get('/pesticides', (req, res) => {
+
+    console.log("pesticides route get");
+
+    Pesticide.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieveing pesticides');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/pesticides', (req, res) => {
+    console.log(req.body);
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{type,name,rate,ratio,location,entry,harvest,active,percentage} = req.body;
+
+        Pesticide.create({type,name,rate,ratio,location,entry,harvest,active,percentage},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving pesticide"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({pesticide: result});
                 }
             });
     }else{
