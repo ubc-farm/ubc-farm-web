@@ -13,6 +13,10 @@ let Field = require('mongoose').model('Field');
 let Seed = require('mongoose').model('Seed');
 let Transplant = require('mongoose').model('Transplant');
 let Fertilizer = require('mongoose').model('Fertilizer');
+let Pesticide = require('mongoose').model('Pesticide');
+let Equipment = require('mongoose').model('Equipment');
+let Vehicle = require('mongoose').model('Vehicle');
+let Harvested = require('mongoose').model('Harvested');
 
 router.get('/fields', (req, res) => {
 
@@ -260,7 +264,6 @@ router.get('/transplants', (req, res) => {
 });
 
 router.post('/transplants', (req, res) => {
-    console.log(req.body);
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
         const{
@@ -319,5 +322,177 @@ router.post('/fertilizers', (req, res) => {
     }
 
 });
+
+//ROUTES FOR PESTICIDES
+router.get('/pesticides', (req, res) => {
+
+    Pesticide.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieveing pesticides');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/pesticides', (req, res) => {
+    console.log(req.body);
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{type,name,rate,ratio,location,entry,harvest,active,percentage} = req.body;
+
+        Pesticide.create({type,name,rate,ratio,location,entry,harvest,active,percentage},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving pesticide"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({pesticide: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+
+//ROUTES FOR EQUIPMENTS
+router.get('/equipments', (req, res) => {
+
+    Equipment.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving equipments');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/equipments', (req, res) => {
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{name,quantity,unit,purchases,sales,log} = req.body;
+
+        Equipment.create({name,quantity,unit,purchases,sales,log},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving equipments"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({equipment: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+router.put('/equipments', (req, res) => {
+    console.log(req.body);
+
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        Equipment.findByIdAndUpdate(
+            req.body.id,
+            {quantity: req.body.value, $push: {log:{timestamp: req.body.timestamp, value: req.body.value}}},
+            {safe: true, upsert: true, new: true},
+            function(err, updatedItem){
+                if(err){
+                    console.log(err);
+                }
+                res.json({item: updatedItem});
+
+            }
+        );
+
+
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+//ROUTES FOR VEHICLES
+router.get('/vehicles', (req, res) => {
+
+    Vehicle.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving vehicles');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/vehicles', (req, res) => {
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{brand,model,year,price,quantity} = req.body;
+
+        Vehicle.create({brand,model,year,price,quantity},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving vehicle"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({vehicle: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+//ROUTES FOR HARVESTED
+router.get('/harvested', (req, res) => {
+
+    Harvested.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving harvested');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/harvested', (req, res) => {
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{name,variety,price,quantity,unit} = req.body;
+
+        Harvested.create({name,variety,price,quantity,unit},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving harvested"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({harvested: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
 
 module.exports = router;

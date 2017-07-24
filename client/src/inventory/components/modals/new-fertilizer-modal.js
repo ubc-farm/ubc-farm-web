@@ -58,6 +58,7 @@ class CreateFertilizerModal extends Component {
     handleClose(){
         this.setState({open: false, name: ''});
     };
+
     handleChange(e){
         if(this.state.errors[e.target.name]){
             console.log("handle error fired");

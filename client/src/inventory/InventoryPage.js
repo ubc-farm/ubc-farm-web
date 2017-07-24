@@ -15,7 +15,7 @@ import FertilizersList from './components/lists/fertilizerList'
 import PestControlList from './components/lists/pestControlList'
 import EquipmentList from './components/lists/equipmentList'
 import VehiclesList from './components/lists/vehiclesList'
-import HarvestedProduceList from './components/SeedList'
+import HarvestedProduceList from './components/lists/harvestedList'
 import CreateEquipemntModal from './components/modals/new-equipment-modal'
 import CreateFertilizerModal from './components/modals/new-fertilizer-modal'
 import CreateHarvestedModal from './components/modals/new-harvested-modal'
@@ -24,6 +24,10 @@ import CreateVehicleModal from './components/modals/new-vehicles-modal'
 import CreatePestControlModal from './components/modals/new-pestControl-modal'
 import {fetchTransplants} from './actions/transplant-actions'
 import {fetchFertilizers} from './actions/fertilizer-actions'
+import {fetchPesticides} from './actions/pest-actions'
+import {fetchEquipments} from './actions/equipment-actions'
+import {fetchVehicles} from './actions/vehicles-action'
+import {fetchHarvested} from './actions/harvested_actions'
 
 
 
@@ -80,6 +84,10 @@ class InventoryPage extends React.Component {
         this.props.fetchSeeds();
         this.props.fetchTransplants();
         this.props.fetchFertilizers();
+        this.props.fetchPesticides();
+        this.props.fetchEquipments();
+        this.props.fetchVehicles();
+        this.props.fetchHarvested();
     }
 
     // Constructor is responsible for setting up props and setting initial state
@@ -133,22 +141,33 @@ class InventoryPage extends React.Component {
 }
 
 InventoryPage.propTypes = {
+    active_inventory: PropTypes.number.isRequired,
+
     seeds: PropTypes.array.isRequired,
     fetchSeeds: PropTypes.func.isRequired,
-    active_inventory: PropTypes.number.isRequired,
     transplants: PropTypes.array.isRequired,
     fetchTransplants: PropTypes.func.isRequired,
     fertilizers: PropTypes.array.isRequired,
     fetchFertilizers: PropTypes.func.isRequired,
+    pesticides: PropTypes.array.isRequired,
+    fetchPesticides: PropTypes.func.isRequired,
+    vehicles: PropTypes.array.isRequired,
+    fetchVehicles: PropTypes.func.isRequired,
+    harvested: PropTypes.array.isRequired,
+    fetchHarvested: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
-        seeds: state.seeds,
         active_inventory: state.active_inventory,
+        seeds: state.seeds,
         transplants: state.transplants,
         fertilizers: state.fertilizers,
+        pesticides: state.pesticides,
+        vehicles: state.vehicles,
+        harvested: state.harvested,
+
     }
 };
 
-export default connect(mapStateToProps, {fetchSeeds,fetchTransplants,fetchFertilizers})(InventoryPage);
+export default connect(mapStateToProps, {fetchSeeds,fetchTransplants,fetchFertilizers,fetchPesticides,fetchEquipments,fetchVehicles,fetchHarvested})(InventoryPage);

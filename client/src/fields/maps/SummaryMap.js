@@ -8,6 +8,7 @@ import _ from 'lodash'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {selectField} from '../actions/select-field.js';
+import {fetchTaskByField} from '../actions/fetchTaskByField';
 
 
 const SummaryMapComponent = withGoogleMap(props => (
@@ -29,8 +30,10 @@ const SummaryMapComponent = withGoogleMap(props => (
                     fillColor: '#68b34a',
                     strokeOpacity: 0.8,
                     strokeWeight: 3.5,
-                    fillOpacity: 0.4
+                    fillOpacity: 0.4,
                 }}
+                onClick={() => {props.selectField(field); props.fetchTaskByField(field._id)}}
+
 
 
 
@@ -51,7 +54,8 @@ class SummaryMap extends React.Component {
 
         this.state = {
             fields: [],
-            selectedField: {}
+            selectedField: {},
+            polygons:{}
         };
         this.handleMapLoad = this.handleMapLoad.bind(this);
         this.handleMapClick = this.handleMapClick.bind(this);
@@ -70,13 +74,20 @@ class SummaryMap extends React.Component {
     handleMapClick(event) {
         console.log("clicked on map");
         console.log(event);
+        if(event.ta){
+            console.log("clicked on polygon!");
+        }
     }
+
+
 
     componentWillUpdate(nextProps, nextState){
         console.log(nextProps.selectedField.polygon);
         if(nextProps.selectedField.polygon) {
-            var bounds = new google.maps.LatLngBounds();
-            nextProps.selectedField.polygon.forEach(function(e){bounds.extend(e)});
+            let bounds = new google.maps.LatLngBounds();
+            nextProps.selectedField.polygon.forEach(function(e){
+                bounds.extend(e);
+            });
             this._mapComponent.fitBounds(bounds);
         }
 
@@ -98,6 +109,7 @@ class SummaryMap extends React.Component {
                     onMapClick={this.handleMapClick}
                     fields={this.props.fields}
                     selectField={this.props.selectField}
+                    fetchTaskByField={this.props.fetchTaskByField}
                 />
             </div>
         );
@@ -113,7 +125,8 @@ function mapStateToProps(state){
 
 function matchDispatchToProps(dispatch){
     return bindActionCreators({
-        selectField: selectField
+        selectField: selectField,
+        fetchTaskByField: fetchTaskByField
     }, dispatch)
 }
 

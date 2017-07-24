@@ -2,27 +2,28 @@
  * Created by Xingyu on 7/5/2017.
  */
 //FETCH DATA ACTION
-export const SET_HARVESTED = 'SET_HARVESTED';
+export const SET_VEHICLES = 'SET_VEHICLES';
 
-export function setHarvested(harvested){
-    console.log(harvested);
+export function setVehicles(vehicles){
+    console.log(vehicles);
     return{
-        type: SET_HARVESTED,
-        harvested
+        type: SET_VEHICLES,
+        vehicles
     }
 
 }
 
-export function fetchHarvested(){
+export function fetchVehicles(){
+    console.log("fetch vehicles");
     return dispatch => {
-        fetch('/data/harvested')
+        fetch('/data/vehicles')
             .then(res => res.json())
-            .then(data => dispatch(setHarvested(data.items)));
+            .then(data => dispatch(setVehicles(data.items)));
     }
 }
 
 //POST DATA ACTION
-export const ADD_HARVESTED = 'ADD_HARVESTED';
+export const ADD_VEHICLE = 'ADD_VEHICLE';
 
 function handleResponse(response){
     if(response.ok){
@@ -34,23 +35,23 @@ function handleResponse(response){
     }
 }
 
-export function AddHarvested(harvested){
+export function AddVehicle(vehicle){
     return{
-        type: ADD_HARVESTED,
-        harvested
+        type: ADD_VEHICLE,
+        vehicle
     }
 }
 
-export function SaveHarvested(data){
+export function SaveVehicle(data){
     console.log(data);
     return dispatch => {
-        return fetch('/data/harvested', {
+        return fetch('/data/vehicles', {
             method: 'post',
             body: JSON.stringify(data),
             headers:{
                 "Content-Type":"application/json"
             }
         }).then(handleResponse)
-            .then(data => dispatch(AddHarvested(data.harvested)));
+            .then(data => dispatch(AddVehicle(data.vehicle)));
     }
 }
