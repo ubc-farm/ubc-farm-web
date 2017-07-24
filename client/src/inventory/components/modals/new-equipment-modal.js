@@ -28,9 +28,8 @@ class CreateEquipmentModal extends Component {
 
         this.state = {
             name: '',
-            price: '',
-            store: '',
             quantity: '',
+            unit: 'n/a',
             errors: {},
             open: false,
             validated: false,
@@ -41,6 +40,7 @@ class CreateEquipmentModal extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
     };
 
     handleOpen(){
@@ -67,6 +67,9 @@ class CreateEquipmentModal extends Component {
         }
 
     };
+
+    handleSelect(event, index, value){this.setState({unit: value});}
+
     handleSubmit(e){
         e.preventDefault();
 
@@ -90,9 +93,10 @@ class CreateEquipmentModal extends Component {
 
             const new_equipment = {
                 name: this.state.name,
-                store: this.state.store,
-                price: this.state.price,
                 quantity: this.state.quantity,
+                unit: this.state.unit,
+                purchases: [],
+                sales: [],
                 log: first_log,
             };
 
@@ -130,46 +134,50 @@ class CreateEquipmentModal extends Component {
             <div style={{minWidth: '100%', height: '100%'}}>
                 <FlatButton label="New Equipment" secondary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                 <Dialog
-                    title="Add Equipment to Inventory"
+                    title="Add New Equipment to Inventory"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
                 >
                     <form>
-                        <h3>Equipment Detail</h3>
+                        <p>Please fill all of the fields below</p>
                         <TextField
-                            hintText="Enter Product Name"
+                            hintText="Enter Equipment Name"
                             floatingLabelText="Product Name"
                             name="name"
                             onChange={this.handleChange}
                             value={this.state.name}
                             fullWidth={true}
                             errorText={this.state.errors.name}/>
-                        <TextField
-                            hintText="Enter Store"
-                            floatingLabelText="Store"
-                            name="store"
-                            onChange={this.handleChange}
-                            value={this.state.store}
-                            fullWidth={true}
-                            errorText={this.state.errors.store}/>
-                        <TextField
-                            hintText="Enter Price"
-                            floatingLabelText="Price"
-                            name="price"
-                            onChange={this.handleChange}
-                            value={this.state.price}
-                            fullWidth={true}
-                            errorText={this.state.errors.price}/>
-                        <TextField
-                            hintText="Enter Quantity"
-                            floatingLabelText="Quantity"
-                            name="quantity"
-                            type="number"
-                            onChange={this.handleChange}
-                            value={this.state.quantity}
-                            fullWidth={true}
-                            errorText={this.state.errors.quantity}/>
+                        <div className="columns">
+                            <div className="column is-8">
+                                <TextField
+                                    hintText="Enter Quantity"
+                                    floatingLabelText="Quantity"
+                                    name="quantity"
+                                    onChange={this.handleChange}
+                                    value={this.state.quantity}
+                                    fullWidth={true}
+                                    errorText={this.state.errors.quantity}/>
+                            </div>
+                            <div className="column is-4">
+
+                                <SelectField
+                                    floatingLabelText="Unit"
+                                    hintText="Select Unit"
+                                    onChange={this.handleSelect}
+                                    name="unit"
+                                    autoWidth={false}
+                                    style={{width:"100%"}}
+                                    value={this.state.unit}
+                                    errorText={this.state.errors.unit}
+                                >
+                                    <MenuItem value="n/a" label="n/a" primaryText="n/a"/>
+                                    <MenuItem value="kg" label="kg" primaryText="kg"/>
+                                    <MenuItem value="lb" label="lb" primaryText="lb"/>
+                                </SelectField>
+                            </div>
+                        </div>
 
                     </form>
 

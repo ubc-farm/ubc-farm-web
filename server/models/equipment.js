@@ -9,10 +9,11 @@ let inventory_log_schema = require('./equipment');
 const EquipmentSchema = new mongoose.Schema({
 
     name: String,
-    price: Number,
-    store: String,
     quantity: Number,
-    log: [inventory_log_schema]
+    unit: String,
+    purchases:[],
+    sales:[],
+    log: [inventory_log_schema],
 
 });
 

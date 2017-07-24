@@ -378,9 +378,9 @@ router.get('/equipments', (req, res) => {
 router.post('/equipments', (req, res) => {
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
-        const{name,store,price,quantity,log} = req.body;
+        const{name,quantity,unit,purchases,sales,log} = req.body;
 
-        Equipment.create({name,store,price,quantity,log},
+        Equipment.create({name,quantity,unit,purchases,sales,log},
 
             function(err, result){
                 if(err){

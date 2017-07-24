@@ -98,7 +98,7 @@ class LogItemModal extends Component {
                 style={styles.button}
             />,
             <FlatButton
-                label={this.state.loading ? '' : "Log"}
+                label={this.state.loading ? '' : "Edit"}
                 primary={true}
                 disabled={false}
                 onTouchTap={this.handleSubmit}
@@ -109,9 +109,9 @@ class LogItemModal extends Component {
 
         const form = (
             <div>
-                <FlatButton label="Log" primary={true} onTouchTap={this.handleOpen} />
+                <FlatButton label="Edit" primary={true} onTouchTap={this.handleOpen} />
                 <Dialog
-                    title={"Log " + this.props.item.name + " Changes"}
+                    title={"Edit " + this.props.item.name + " Quantity"}
                     actions={actions}
                     modal={true}
                     open={this.state.open}

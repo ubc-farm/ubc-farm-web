@@ -54,9 +54,9 @@ class EquipmentList extends Component {
 
                         <TableRow>
                             <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Store" style={{verticalAlign: 'middle'}}>Store</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
+
                             <TableHeaderColumn/>
                             name: String,
                             price: Number,
@@ -74,9 +74,8 @@ class EquipmentList extends Component {
                         {this.props.equipments.map( (item, index) => (
                             <TableRow key={index}>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{item.name}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.store}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.price}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.unit}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>
                                     <div className="columns">
                                         <div className="column">
@@ -96,13 +95,12 @@ class EquipmentList extends Component {
                     >
                         <TableRow>
                             <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Store" style={{verticalAlign: 'middle'}}>Store</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
                             <TableHeaderColumn/>
                         </TableRow>
                         <TableRow>
-                            <TableRowColumn colSpan="5" style={{textAlign: 'center'}}>
+                            <TableRowColumn colSpan="4" style={{textAlign: 'center'}}>
                                 Super Footer
                             </TableRowColumn>
                         </TableRow>
