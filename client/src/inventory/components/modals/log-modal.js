@@ -9,7 +9,9 @@ import {connect} from 'react-redux';
 import {logItem} from '../../actions/universal-actions';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
-import {logEquipment} from '../../actions/equipment-actions'
+import {logEquipment} from '../../actions/equipment-actions';
+import LogScatter from '../visuals/LogScatter';
+
 
 const styles = {
     button:{
@@ -38,8 +40,15 @@ class LogItemModal extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.dateTransformer = this.dateTransformer.bind(this);
 
     };
+
+    dateTransformer(dateString){
+        let d = new Date(dateString).toISOString();
+        return d.slice(0,10);
+
+    }
 
     handleOpen(){
         this.setState({open: true});
@@ -107,6 +116,9 @@ class LogItemModal extends Component {
                     modal={true}
                     open={this.state.open}
                 >
+
+
+                    <LogScatter data={this.props.item.log.map((log_entry) => ({x:log_entry.timestamp, y: log_entry.value}))}/>
                     <TextField
                         hintText="Enter Change"
                         floatingLabelText="Change"

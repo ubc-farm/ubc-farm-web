@@ -31,7 +31,10 @@ class EquipmentList extends Component {
         };
 
 
+
     }
+
+
     render(){
         return (
             <div>
