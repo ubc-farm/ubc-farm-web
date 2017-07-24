@@ -26,6 +26,7 @@ export function fetchEquipments(){
 export const ADD_EQUIPMENT = 'ADD_EQUIPMENT';
 
 function handleResponse(response){
+    console.log(response.json);
     if(response.ok){
         return response.json();
     }else{
@@ -53,5 +54,32 @@ export function SaveEquipment(data){
             }
         }).then(handleResponse)
             .then(data => dispatch(AddEquipment(data.equipment)));
+    }
+}
+
+//PUT DATA ACTION
+export const UPDATE_EQUIPMENT = 'UPDATE_EQUIPMENT';
+
+export function updateEquipment(item){
+    console.log("equipment should update");
+    console.log(item);
+    return{
+        type: UPDATE_EQUIPMENT,
+        item
+    }
+}
+
+export function logEquipment(data){
+    console.log(data);
+    return dispatch => {
+        return fetch('data/equipments', {
+            credentials: 'same-origin',
+            method: 'put',
+            body: JSON.stringify(data),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(handleResponse)
+            .then(data => dispatch(updateEquipment(data.item)));
     }
 }

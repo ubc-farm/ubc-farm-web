@@ -360,6 +360,7 @@ router.post('/pesticides', (req, res) => {
 
 });
 
+
 //ROUTES FOR EQUIPMENTS
 router.get('/equipments', (req, res) => {
 
@@ -377,9 +378,9 @@ router.get('/equipments', (req, res) => {
 router.post('/equipments', (req, res) => {
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
-        const{name,store,price,quantity} = req.body;
+        const{name,store,price,quantity,log} = req.body;
 
-        Equipment.create({name,store,price,quantity},
+        Equipment.create({name,store,price,quantity,log},
 
             function(err, result){
                 if(err){
@@ -390,6 +391,31 @@ router.post('/equipments', (req, res) => {
                     res.status(200).json({equipment: result});
                 }
             });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+router.put('/equipments', (req, res) => {
+    console.log(req.body);
+
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        Equipment.findByIdAndUpdate(
+            req.body.id,
+            {quantity: req.body.value, $push: {log:{timestamp: req.body.timestamp, value: req.body.value}}},
+            {safe: true, upsert: true, new: true},
+            function(err, updatedItem){
+                if(err){
+                    console.log(err);
+                }
+                res.json({item: updatedItem});
+
+            }
+        );
+
+
     }else{
         res.status(400).json({errors});
     }

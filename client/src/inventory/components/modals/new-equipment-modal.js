@@ -76,13 +76,28 @@ class CreateEquipmentModal extends Component {
             errors.name  = "This field is Required";
         this.setState({errors});
 
+        //create first date in log
+
+
 
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
-            const{name,store,price,quantity} = this.state;
+            const first_log = [{
+                timestamp: Date.now(),
+                value: this.state.quantity,
+            }];
+
+            const new_equipment = {
+                name: this.state.name,
+                store: this.state.store,
+                price: this.state.price,
+                quantity: this.state.quantity,
+                log: first_log,
+            };
+
             this.setState({loading: true});
-            this.props.SaveEquipment({name,store,price,quantity}).then(
+            this.props.SaveEquipment(new_equipment).then(
                 (response) => {console.log("should catch error here")}
             );
             this.setState({done: true, loading: false});
