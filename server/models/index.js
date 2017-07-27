@@ -28,4 +28,6 @@ module.exports.connect = (uri) => {
   require('./transplant');
   require('./vehicle');
   require('./fertilizer_model');
+  require('./log_inventory');
+  require('./supplier');
 };

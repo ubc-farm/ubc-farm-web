@@ -79,24 +79,39 @@ class CreateEquipmentModal extends Component {
             errors.name  = "This field is Required";
         this.setState({errors});
 
-        //create first date in log
+
 
 
 
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
+            //create first date in log
             const first_log = [{
                 timestamp: Date.now(),
                 value: this.state.quantity,
             }];
 
+            //create default supplier
+            const farm_supplier = {
+               name: "UBCFarm",
+                address: {
+                   number: "3461",
+                    street: "Ross Drive",
+                    postal: "V6T 1W5",
+                },
+                telephone: 6048225092,
+                quantity: this.state.quantity,
+                unit: this.state.unit,
+                per_unit_quantity: 1,
+                per_unit_unit: "",
+            };
+
             const new_equipment = {
                 name: this.state.name,
                 quantity: this.state.quantity,
                 unit: this.state.unit,
-                purchases: [],
-                sales: [],
+                suppliers:[farm_supplier],
                 log: first_log,
             };
 

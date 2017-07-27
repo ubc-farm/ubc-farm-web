@@ -9,6 +9,7 @@ import FieldsComponent from './fields/FieldsComponent.jsx';
 import InventoryPage from './inventory/InventoryPage'
 import Auth from './modules/Auth';
 import TasksPage from './tasks/TasksPage';
+import FinancesPage from './finances/FinancesPage';
 
 export default (
     <Route component={Base}>
@@ -37,6 +38,7 @@ export default (
         <Route path="/fields" component={FieldsComponent}/>
         <Route path="/inventory" component={InventoryPage}/>
         <Route path="/tasks" component={TasksPage}/>
+        <Route path="/finances" component={FinancesPage}/>
 
     </Route>
 )

@@ -11,6 +11,16 @@ import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 import {logEquipment} from '../../actions/equipment-actions';
 import LogScatter from '../visuals/LogScatter';
+import Divider from 'material-ui/Divider';
+import {
+    Table,
+    TableBody,
+    TableFooter,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn,
+} from 'material-ui/Table';
 
 
 const styles = {
@@ -45,8 +55,8 @@ class LogItemModal extends Component {
     };
 
     dateTransformer(dateString){
-        let d = new Date(dateString).toISOString();
-        return d.slice(0,10);
+        let d = new Date(dateString);
+        return d
 
     }
 
@@ -118,16 +128,77 @@ class LogItemModal extends Component {
                 >
 
 
-                    <LogScatter data={this.props.item.log.map((log_entry) => ({x:log_entry.timestamp, y: log_entry.value}))}/>
-                    <TextField
-                        hintText="Enter Change"
-                        floatingLabelText="Change"
-                        name="change"
-                        type="number"
-                        onChange={this.handleChange}
-                        fullWidth={true}
-                        value={this.state.change}
-                        errorText={this.state.errors.change}/>
+                    <LogScatter data={this.props.item.log.map((log_entry) => ({x:this.dateTransformer(log_entry.timestamp), y: log_entry.value}))}/>
+                    <Divider/>
+                    <Table
+                        height={'300px'}
+                        fixedHeader={true}
+                        fixedFooter={false}
+                        selectable={false}
+                        multiSelectable={false}
+                    >
+                        <TableHeader
+                            displaySelectAll={false}
+                            adjustForCheckbox={false}
+                            enableSelectAll={false}
+                            style={{verticalAlign: 'middle'}}
+                        >
+
+                            <TableRow>
+                                <TableHeaderColumn tooltip="Sort by Supplier Name" style={{verticalAlign: 'middle'}}>Supplier Name</TableHeaderColumn>
+                                <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
+                                <TableHeaderColumn tooltip="Sort by Start Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
+                                <TableHeaderColumn/>
+
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody
+                            displayRowCheckbox={false}
+                            deselectOnClickaway={true}
+                            showRowHover={true}
+                            stripedRows={false}
+                        >
+                            {this.props.item.suppliers.map( (supplier, index) => (
+                                <TableRow key={index}>
+                                    <TableRowColumn style={{verticalAlign: 'middle'}}>{supplier.name}</TableRowColumn>
+                                    <TableRowColumn style={{verticalAlign: 'middle'}}>{supplier.quantity}</TableRowColumn>
+                                    <TableRowColumn style={{verticalAlign: 'middle'}}>{supplier.unit}</TableRowColumn>
+                                    <TableRowColumn>
+                                        <div className="columns">
+                                            <div className="column">
+                                                <TextField
+                                                    hintText="Enter Change"
+                                                    name="change"
+                                                    type="number"
+                                                    onChange={this.handleChange}
+                                                    style={{width: "100%"}}
+                                                    value={this.state.change}
+                                                    errorText={this.state.errors.change}/>
+                                            </div>
+                                        </div>
+                                    </TableRowColumn>
+                                </TableRow>
+                            ))}
+                            <TableRow key="new_supplier">
+                                <TableRowColumn/>
+                                <TableRowColumn/>
+                                <TableRowColumn/>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                    <FlatButton>New Supplier</FlatButton>
+                                </TableRowColumn>
+                            </TableRow>
+                        </TableBody>
+                        <TableFooter
+                            adjustForCheckbox={false}
+                        >
+                            <TableRow>
+                                <TableHeaderColumn tooltip="Sort by Supplier Name" style={{verticalAlign: 'middle'}}>Supplier Name</TableHeaderColumn>
+                                <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
+                                <TableHeaderColumn tooltip="Sort by Start Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
+                                <TableHeaderColumn/>
+                            </TableRow>
+                        </TableFooter>
+                    </Table>
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
                 </Dialog>

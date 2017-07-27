@@ -20,8 +20,8 @@ class LogScatter extends Component {
 
 
         let vis = d3.select(node),
-            WIDTH = 700,
-            HEIGHT = 500,
+            WIDTH = 350,
+            HEIGHT = 250,
             MARGINS = {
                 top: 20,
                 right: 20,
@@ -33,9 +33,7 @@ class LogScatter extends Component {
             }), d3.max(this.props.data, function(d) {
                 return d.x;
             })]),
-            yRange = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(this.props.data, function(d) {
-                return d.y;
-            }), d3.max(this.props.data, function(d) {
+            yRange = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, d3.max(this.props.data, function(d) {
                 return d.y;
             })]),
             xAxis = d3.axisBottom(xRange),
@@ -72,7 +70,7 @@ class LogScatter extends Component {
     }
     render() {
         return <svg ref={node => this.node = node}
-                    width={"100%"} height={500}>
+                    width={"50%"} height={250}>
         </svg>
     }
 }
