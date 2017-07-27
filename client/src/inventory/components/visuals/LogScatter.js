@@ -34,7 +34,7 @@ class LogScatter extends Component {
                 return d.x;
             })]),
             yRange = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, d3.max(this.props.data, function(d) {
-                return d.y;
+                return d.y * 1.5;
             })]),
             xAxis = d3.axisBottom(xRange),
             yAxis = d3.axisLeft(yRange).ticks(5, "s");

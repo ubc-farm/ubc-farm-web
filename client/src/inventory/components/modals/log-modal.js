@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import {logEquipment} from '../../actions/equipment-actions';
 import LogScatter from '../visuals/LogScatter';
 import Divider from 'material-ui/Divider';
+import NewSupplierModal from './new-supplier-modal-nested';
 import {
     Table,
     TableBody,
@@ -44,20 +45,24 @@ class LogItemModal extends Component {
             loading: false,
             done: false,
             change: 0,
-            task:{}
+            suppliers_change: [],
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.dateTransformer = this.dateTransformer.bind(this);
+        this.handleSupplierChange = this.handleSupplierChange.bind(this);
 
     };
 
     dateTransformer(dateString){
-        let d = new Date(dateString);
-        return d
+        return new Date(dateString);
+    }
 
+    componentDidMount(){
+        let supplierList = this.props.item.suppliers.map((supplier) => ({[supplier._id] : 0}));
+        this.setState({suppliers_change: supplierList});
     }
 
     handleOpen(){
@@ -74,9 +79,10 @@ class LogItemModal extends Component {
 
         const newValue = parseFloat(this.props.item.quantity) + parseFloat(this.state.change);
         this.setState({loading: true});
-        this.props.logEquipment({id: this.props.item._id,timestamp: Date.now(),value: newValue}).then(
+        this.props.logEquipment({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:[]}).then(
             (response) => {console.log("should catch error here")}
         );
+        //TO DO - ADD SUPPLIER INFO TO SUPPLIER DATABASE
         this.setState({done: true, loading: false});
         this.handleClose();
 
@@ -98,6 +104,15 @@ class LogItemModal extends Component {
         }
 
     };
+
+    handleSupplierChange(e){
+        console.log(e.target);
+        console.log(e.target.name + " " + e.target.value);
+
+        this.setState({
+            [this.state.suppliers_change[e.target.name]]: e.target.value
+        });
+    }
 
     render() {
         const actions = [
@@ -168,36 +183,27 @@ class LogItemModal extends Component {
                                             <div className="column">
                                                 <TextField
                                                     hintText="Enter Change"
-                                                    name="change"
+                                                    name={supplier.name}
                                                     type="number"
-                                                    onChange={this.handleChange}
+                                                    onChange={this.handleSupplierChange}
                                                     style={{width: "100%"}}
-                                                    value={this.state.change}
+                                                    value={this.state.suppliers_change[supplier.name]}
                                                     errorText={this.state.errors.change}/>
                                             </div>
                                         </div>
                                     </TableRowColumn>
                                 </TableRow>
                             ))}
-                            <TableRow key="new_supplier">
-                                <TableRowColumn/>
-                                <TableRowColumn/>
-                                <TableRowColumn/>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                    <FlatButton>New Supplier</FlatButton>
-                                </TableRowColumn>
-                            </TableRow>
-                        </TableBody>
-                        <TableFooter
-                            adjustForCheckbox={false}
-                        >
-                            <TableRow>
-                                <TableHeaderColumn tooltip="Sort by Supplier Name" style={{verticalAlign: 'middle'}}>Supplier Name</TableHeaderColumn>
-                                <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                                <TableHeaderColumn tooltip="Sort by Start Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
+                            <TableRow key="new_supplier" hoverable={false} hovered={false}>
                                 <TableHeaderColumn/>
+                                <TableHeaderColumn/>
+                                <TableHeaderColumn/>
+                                <TableHeaderColumn style={{verticalAlign: 'middle'}}>
+                                    <NewSupplierModal/>
+                                </TableHeaderColumn>
                             </TableRow>
-                        </TableFooter>
+
+                        </TableBody>
                     </Table>
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
