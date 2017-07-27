@@ -12,6 +12,7 @@ import {connect} from 'react-redux';
 import {SaveEquipment} from '../../actions/equipment-actions';
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
+import NewSupplierModal from '../../../finances/components/NewSupplierModal';
 
 let shortid = require('shortid');
 
@@ -27,9 +28,11 @@ class AddSupplierModal extends Component {
         super(props);
 
         this.state = {
-            name: '',
+            supplier: {},
             quantity: '',
-            unit: 'n/a',
+            unit: '',
+            per_unit_quantity: '',
+            per_unit_unit: '',
             errors: {},
             open: false,
             validated: false,
@@ -40,7 +43,10 @@ class AddSupplierModal extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
+        this.handleSelectUnit = this.handleSelectUnit.bind(this);
+        this.handleSelectBaseUnit = this.handleSelectBaseUnit.bind(this);
+        this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
+
     };
 
     handleOpen(){
@@ -68,7 +74,10 @@ class AddSupplierModal extends Component {
 
     };
 
-    handleSelect(event, index, value){this.setState({unit: value});}
+    handleSelectUnit(event, index, value){this.setState({unit: value});}
+    handleSelectSupplier(event, index, value){this.setState({supplier: value});}
+    handleSelectBaseUnit(event, index, value){this.setState({per_unit_unit: value});}
+
 
     handleSubmit(e){
         e.preventDefault();
@@ -86,34 +95,7 @@ class AddSupplierModal extends Component {
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
-            //create first date in log
-            const first_log = [{
-                timestamp: Date.now(),
-                value: this.state.quantity,
-            }];
 
-            //create default supplier
-            const farm_supplier = {
-                name: "UBCFarm",
-                address: {
-                    number: "3461",
-                    street: "Ross Drive",
-                    postal: "V6T 1W5",
-                },
-                telephone: 6048225092,
-                quantity: this.state.quantity,
-                unit: this.state.unit,
-                per_unit_quantity: 1,
-                per_unit_unit: "",
-            };
-
-            const new_equipment = {
-                name: this.state.name,
-                quantity: this.state.quantity,
-                unit: this.state.unit,
-                suppliers:[farm_supplier],
-                log: first_log,
-            };
 
             this.setState({loading: true});
             this.props.SaveEquipment(new_equipment).then(
@@ -147,23 +129,31 @@ class AddSupplierModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="New Supplier" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <FlatButton label="Add Supplier" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                 <Dialog
-                    title="Add New Supplier"
+                    title="Add Supplier"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
                 >
                     <form>
-                        <p>Please fill all of the fields below</p>
-                        <TextField
-                            hintText="Enter Equipment Name"
-                            floatingLabelText="Product Name"
-                            name="name"
-                            onChange={this.handleChange}
-                            value={this.state.name}
-                            fullWidth={true}
-                            errorText={this.state.errors.name}/>
+                        <p>Please select an existing supplier or create a new one</p>
+                        <SelectField
+                            floatingLabelText="Existing Supplier"
+                            hintText="Select Supplier"
+                            name="supplier"
+                            autoWidth={false}
+                            style={{width:"100%"}}
+                            value={this.state.supplier}
+                            onChange={this.handleSelectSupplier}
+                            errorText={this.state.errors.supplier}
+                        >
+                            <MenuItem value="UBCFarm" label="UBCFarm" primaryText="UBCFarm"/>
+                            <MenuItem value="Alamos" label="Alamos" primaryText="Alamos"/>
+                        </SelectField>
+
+                        <NewSupplierModal/>
+
                         <div className="columns">
                             <div className="column is-8">
                                 <TextField
@@ -176,20 +166,48 @@ class AddSupplierModal extends Component {
                                     errorText={this.state.errors.quantity}/>
                             </div>
                             <div className="column is-4">
-
                                 <SelectField
                                     floatingLabelText="Unit"
                                     hintText="Select Unit"
-                                    onChange={this.handleSelect}
+                                    onChange={this.handleSelectUnit}
                                     name="unit"
                                     autoWidth={false}
                                     style={{width:"100%"}}
                                     value={this.state.unit}
                                     errorText={this.state.errors.unit}
                                 >
-                                    <MenuItem value="n/a" label="n/a" primaryText="n/a"/>
                                     <MenuItem value="kg" label="kg" primaryText="kg"/>
                                     <MenuItem value="lb" label="lb" primaryText="lb"/>
+                                    <MenuItem value="custom" label="custom" primaryText="custom"/>
+                                </SelectField>
+                            </div>
+                        </div>
+
+                        <div className="columns">
+                            <div className="column is-8">
+                                <TextField
+                                    hintText="Enter Quantity per Unit"
+                                    floatingLabelText="Quantity per Unit"
+                                    name="per_unit_quantity"
+                                    onChange={this.handleChange}
+                                    value={this.state.per_unit_quantity}
+                                    fullWidth={true}
+                                    errorText={this.state.errors.per_unit_quantity}/>
+                            </div>
+                            <div className="column is-4">
+                                <SelectField
+                                    floatingLabelText="Base Unit"
+                                    hintText="Select Base Unit"
+                                    onChange={this.handleSelectBaseUnit}
+                                    name="per_unit_unit"
+                                    autoWidth={false}
+                                    style={{width:"100%"}}
+                                    value={this.state.per_unit_unit}
+                                    errorText={this.state.errors.per_unit_unit}
+                                >
+                                    <MenuItem value="kg" label="kg" primaryText="kg"/>
+                                    <MenuItem value="lb" label="lb" primaryText="lb"/>
+                                    <MenuItem value="object" label="object" primaryText="object"/>
                                 </SelectField>
                             </div>
                         </div>
