@@ -404,7 +404,7 @@ router.put('/equipments', (req, res) => {
     if(isValid){
         Equipment.findByIdAndUpdate(
             req.body.id,
-            {quantity: req.body.value, $push: {log:{timestamp: req.body.timestamp, value: req.body.value}}},
+            {quantity: req.body.value,$push: {log:{timestamp: req.body.timestamp, value: req.body.value}}},
             {safe: true, upsert: true, new: true},
             function(err, updatedItem){
                 if(err){

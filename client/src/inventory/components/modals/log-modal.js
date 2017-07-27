@@ -128,8 +128,8 @@ class LogItemModal extends Component {
                 >
 
 
-                    <LogScatter data={this.props.item.log.map((log_entry) => ({x:this.dateTransformer(log_entry.timestamp), y: log_entry.value}))}/>
-                    <Divider/>
+                    <LogScatter title={this.props.item.name} data={this.props.item.log.map((log_entry) => ({x:this.dateTransformer(log_entry.timestamp), y: log_entry.value}))}/>
+
                     <Table
                         height={'300px'}
                         fixedHeader={true}

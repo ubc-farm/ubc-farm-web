@@ -60,6 +60,7 @@ class LogScatter extends Component {
                 return yRange(d.y);
             });
 
+        //Append the Data Line
         vis.append('path')
             .data([this.props.data])
             .attr('d', valueline)
@@ -67,11 +68,21 @@ class LogScatter extends Component {
             .attr('stroke-width', 2)
             .attr('fill', 'none');
 
+        //Append the Graph Title
+        vis.append("text")
+            .attr("x", (WIDTH / 2))
+            .attr("y", (MARGINS.top))
+            .attr("text-anchor", "middle")
+            .style("font-size", "11px")
+            .style("color","#cccccc")
+            .text(this.props.title + " Availability over Time");
+
     }
     render() {
-        return <svg ref={node => this.node = node}
+        return <svg  ref={node => this.node = node}
                     width={"50%"} height={250}>
-        </svg>
+        </svg >
     }
 }
+
 export default LogScatter
