@@ -49,7 +49,6 @@ class LogItemModal extends Component {
             validated: false,
             loading: false,
             done: false,
-            change: 0,
             suppliers_change: [],
         };
         this.handleOpen = this.handleOpen.bind(this);
@@ -58,6 +57,7 @@ class LogItemModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.dateTransformer = this.dateTransformer.bind(this);
         this.handleSupplierNumberChange = this.handleSupplierNumberChange.bind(this);
+        this.addSupplier = this.addSupplier.bind(this);
 
     };
 
@@ -80,14 +80,15 @@ class LogItemModal extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        let totalChange = 0;
-        this.state.suppliers_change.map( (change) => (totalChange += change));
 
-        const newValue = parseFloat(this.props.item.quantity) + totalChange;
+        //set new quantities for total and suppliers
+        let newValue = 0;
+        this.props.item.suppliers.map((supplier, index) => {
+            supplier.quantity = parseFloat(supplier.quantity) + this.state.suppliers_change[index];
+            newValue += supplier.quantity;
+        });
 
-        this.props.item.suppliers.map((supplier, index) => (
-            supplier.quantity = supplier.quantity + this.state.suppliers_change[index]
-        ));
+        //push changes to database
         console.log(this.props.item.suppliers);
         this.setState({loading: true});
         this.props.logEquipment({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers}).then(
@@ -115,6 +116,17 @@ class LogItemModal extends Component {
         }
 
     };
+
+    addSupplier(supplier){
+        console.log(supplier);
+
+        this.props.item.suppliers = update(this.props.item.suppliers, {$push: [supplier]});
+        this.state.suppliers_change = update(this.state.suppliers_change,{$push: [0]});
+
+        console.log(this.props.item.suppliers);
+
+        this.forceUpdate();
+    }
 
     handleSupplierNumberChange(e){
         console.log(e.target.name);
@@ -211,7 +223,7 @@ class LogItemModal extends Component {
                                 <TableHeaderColumn/>
                                 <TableHeaderColumn/>
                                 <TableHeaderColumn style={{verticalAlign: 'middle'}}>
-                                    <NewSupplierModal/>
+                                    <NewSupplierModal addSupplier={this.addSupplier}/>
                                 </TableHeaderColumn>
                             </TableRow>
 

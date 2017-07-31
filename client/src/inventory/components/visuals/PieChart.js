@@ -55,11 +55,15 @@ class PieChart extends Component {
 
         arc.append("path")
             .attr("d",path)
-            .attr("fill",function(d){return color(d.name); });
+            .attr("fill",function(d,i){return color(i); })
+            .attr("stroke", "#fff");
 
         arc.append("text")
             .attr("transform", function(d){ return "translate(" + label.centroid(d) + ")"; })
             .attr("dy","0.35em")
+            .attr("font", "10px sans-serif")
+            .attr("color", "#fff")
+            .attr("text-anchor", "middle")
             .text(function(d){ return d.name});
     }
     render(){

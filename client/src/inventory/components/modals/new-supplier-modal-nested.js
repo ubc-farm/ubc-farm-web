@@ -34,7 +34,6 @@ class AddSupplierModal extends Component {
         super(props);
 
         this.state = {
-            supplier: {},
             quantity: '',
             unit: '',
             per_unit_quantity: '',
@@ -45,6 +44,7 @@ class AddSupplierModal extends Component {
             loading: false,
             done: false,
             supplier: '',
+            supplier_obj: {},
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -82,7 +82,13 @@ class AddSupplierModal extends Component {
     };
 
     handleSelectUnit(event, index, value){this.setState({unit: value});}
-    handleSelectSupplier(event, index, value){this.setState({supplier: value});}
+    handleSelectSupplier(event, index, value){
+        this.setState({
+            supplier: value,
+            supplier_obj: this.props.suppliers[value],
+        });
+        console.log(this.state.supplier_obj);
+    }
     handleSelectBaseUnit(event, index, value){this.setState({per_unit_unit: value});}
 
 
@@ -95,21 +101,25 @@ class AddSupplierModal extends Component {
             errors.name  = "This field is Required";
         this.setState({errors});
 
-
-
-
-
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
 
+            let new_supplier = this.state.supplier_obj;
+            new_supplier.quantity = this.state.quantity;
+            new_supplier.unit = this.state.unit;
+            new_supplier.per_unit_quantity = this.state.per_unit_quantity;
+            new_supplier.per_unit_unit = this.state.per_unit_unit;
+
 
             this.setState({loading: true});
-            this.props.SaveEquipment(new_equipment).then(
-                (response) => {console.log("should catch error here")}
-            );
+
+            this.props.addSupplier(new_supplier);
+
             this.setState({done: true, loading: false});
             this.handleClose();
+
+
 
         }
 
@@ -241,6 +251,8 @@ class AddSupplierModal extends Component {
 AddSupplierModal.propTypes={
     suppliers: PropTypes.array.isRequired,
     fetchSuppliers: PropTypes.func.isRequired,
+
+    addSupplier: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
