@@ -2,6 +2,7 @@
  * Created by Xingyu on 7/27/2017.
  */
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -13,6 +14,7 @@ import {SaveEquipment} from '../../actions/equipment-actions';
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import NewSupplierModal from '../../../finances/components/NewSupplierModal';
+import {fetchSuppliers} from '../../../finances/actions/supplier-actions'
 
 let shortid = require('shortid');
 
@@ -23,6 +25,10 @@ class AddSupplierModal extends Component {
     /**
      * Class constructor.
      */
+
+    componentDidMount(){
+        this.props.fetchSuppliers();
+    }
 
     constructor(props) {
         super(props);
@@ -38,6 +44,7 @@ class AddSupplierModal extends Component {
             validated: false,
             loading: false,
             done: false,
+            supplier: '',
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -148,8 +155,9 @@ class AddSupplierModal extends Component {
                             onChange={this.handleSelectSupplier}
                             errorText={this.state.errors.supplier}
                         >
-                            <MenuItem value="UBCFarm" label="UBCFarm" primaryText="UBCFarm"/>
-                            <MenuItem value="Alamos" label="Alamos" primaryText="Alamos"/>
+                            {this.props.suppliers.map((supplier,index) => (
+                                <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
+                            ))}
                         </SelectField>
 
                         <NewSupplierModal/>
@@ -230,4 +238,16 @@ class AddSupplierModal extends Component {
     }
 }
 
-export default connect(null, {SaveEquipment})(AddSupplierModal);
+AddSupplierModal.propTypes={
+    suppliers: PropTypes.array.isRequired,
+    fetchSuppliers: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
+    return {
+        suppliers: state.suppliers,
+
+    }
+};
+
+export default connect(mapStateToProps, {fetchSuppliers, SaveEquipment})(AddSupplierModal);

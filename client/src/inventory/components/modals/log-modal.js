@@ -14,6 +14,7 @@ import LogScatter from '../visuals/LogScatter';
 import Divider from 'material-ui/Divider';
 import NewSupplierModal from './new-supplier-modal-nested';
 import update from 'immutability-helper'
+import PieChart from '../visuals/PieChart';
 import {
     Table,
     TableBody,
@@ -156,7 +157,7 @@ class LogItemModal extends Component {
 
 
                     <LogScatter title={this.props.item.name} data={this.props.item.log.map((log_entry) => ({x:this.dateTransformer(log_entry.timestamp), y: log_entry.value}))}/>
-
+                    <PieChart data={this.props.item.suppliers} title={this.props.item.name}/>
                     <Table
                         height={'300px'}
                         fixedHeader={true}
