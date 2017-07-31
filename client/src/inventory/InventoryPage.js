@@ -31,6 +31,7 @@ import {fetchHarvested} from './actions/harvested_actions'
 
 
 
+
 //list used for selecting inventory
 const InventoryArray =
     {

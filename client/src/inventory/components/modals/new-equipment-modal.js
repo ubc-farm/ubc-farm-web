@@ -2,6 +2,7 @@
  * Created by Xingyu on 7/5/2017.
  */
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -12,6 +13,7 @@ import {connect} from 'react-redux';
 import {SaveEquipment} from '../../actions/equipment-actions';
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
+import {fetchSuppliers} from '../../../finances/actions/supplier-actions'
 
 let shortid = require('shortid');
 
@@ -22,6 +24,10 @@ class CreateEquipmentModal extends Component {
     /**
      * Class constructor.
      */
+
+    componentDidMount(){
+        this.props.fetchSuppliers();
+    }
 
     constructor(props) {
         super(props);
@@ -35,12 +41,14 @@ class CreateEquipmentModal extends Component {
             validated: false,
             loading: false,
             done: false,
+            supplier: '',
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
     };
 
     handleOpen(){
@@ -69,6 +77,10 @@ class CreateEquipmentModal extends Component {
     };
 
     handleSelect(event, index, value){this.setState({unit: value});}
+    handleSelectSupplier(event, index, value){
+        console.log(value);
+        this.setState({supplier: value});
+    };
 
     handleSubmit(e){
         e.preventDefault();
@@ -78,9 +90,6 @@ class CreateEquipmentModal extends Component {
         if(this.state.name === '')
             errors.name  = "This field is Required";
         this.setState({errors});
-
-
-
 
 
         //if valid, create post request
@@ -93,19 +102,11 @@ class CreateEquipmentModal extends Component {
             }];
 
             //create default supplier
-            const farm_supplier = {
-               name: "UBCFarm",
-                address: {
-                   number: "3461",
-                    street: "Ross Drive",
-                    postal: "V6T 1W5",
-                },
-                telephone: 6048225092,
-                quantity: this.state.quantity,
-                unit: this.state.unit,
-                per_unit_quantity: 1,
-                per_unit_unit: "",
-            };
+            const farm_supplier = this.props.suppliers[this.state.supplier];
+            farm_supplier.quantity = parseInt(this.state.quantity);
+            farm_supplier.unit = this.state.unit;
+            farm_supplier.per_unit_quantity = 1;
+            farm_supplier.per_unit_unit = "";
 
             const new_equipment = {
                 name: this.state.name,
@@ -164,6 +165,22 @@ class CreateEquipmentModal extends Component {
                             value={this.state.name}
                             fullWidth={true}
                             errorText={this.state.errors.name}/>
+
+                        <SelectField
+                            floatingLabelText="Existing Supplier"
+                            hintText="Select Supplier"
+                            name="supplier"
+                            autoWidth={false}
+                            style={{width:"100%"}}
+                            value={this.state.supplier}
+                            onChange={this.handleSelectSupplier}
+                            errorText={this.state.errors.supplier}
+                        >
+                            {this.props.suppliers.map((supplier,index) => (
+                                <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
+                            ))}
+                        </SelectField>
+
                         <div className="columns">
                             <div className="column is-8">
                                 <TextField
@@ -212,4 +229,16 @@ class CreateEquipmentModal extends Component {
     }
 }
 
-export default connect(null, {SaveEquipment})(CreateEquipmentModal);
+CreateEquipmentModal.propTypes={
+    suppliers: PropTypes.array.isRequired,
+    fetchSuppliers: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
+    return {
+        suppliers: state.suppliers,
+
+    }
+};
+
+export default connect(mapStateToProps, {fetchSuppliers, SaveEquipment})(CreateEquipmentModal);

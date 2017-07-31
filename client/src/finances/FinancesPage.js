@@ -6,6 +6,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Divider from 'material-ui/Divider';
+import NewSupplierModal from './components/NewSupplierModal';
+import NewPurchasePage from './components/NewPurchasePage';
+import NewInvoicePage from './components/NewInvoicePage';
+import NewClientModal from './components/NewCliendModal';
 
 class FinancesPage extends React.Component{
 
@@ -40,6 +44,13 @@ class FinancesPage extends React.Component{
                 <Tabs>
                     <Tab label="Summary">
                         Summary should appear here
+                    </Tab>
+                    <Tab label="Clients">
+                        Client List
+                    </Tab>
+                    <Tab label="Suppliers">
+                        Suppliers List
+                        <NewSupplierModal/>
                     </Tab>
                     <Tab label="New Invoice">
                         Invoices here

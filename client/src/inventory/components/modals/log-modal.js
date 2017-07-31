@@ -13,6 +13,7 @@ import {logEquipment} from '../../actions/equipment-actions';
 import LogScatter from '../visuals/LogScatter';
 import Divider from 'material-ui/Divider';
 import NewSupplierModal from './new-supplier-modal-nested';
+import update from 'immutability-helper'
 import {
     Table,
     TableBody,
@@ -31,6 +32,8 @@ const styles = {
 
 };
 
+
+
 class LogItemModal extends Component {
     /**
      * Class constructor.
@@ -39,6 +42,7 @@ class LogItemModal extends Component {
         super(props);
 
         this.state = {
+            item_to_change:{},
             errors: {},
             open: false,
             validated: false,
@@ -52,7 +56,7 @@ class LogItemModal extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.dateTransformer = this.dateTransformer.bind(this);
-        this.handleSupplierChange = this.handleSupplierChange.bind(this);
+        this.handleSupplierNumberChange = this.handleSupplierNumberChange.bind(this);
 
     };
 
@@ -61,7 +65,7 @@ class LogItemModal extends Component {
     }
 
     componentDidMount(){
-        let supplierList = this.props.item.suppliers.map((supplier) => ({[supplier._id] : 0}));
+        let supplierList = this.props.item.suppliers.map((supplier) => (0));
         this.setState({suppliers_change: supplierList});
     }
 
@@ -75,11 +79,17 @@ class LogItemModal extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        console.log(this.props.item);
+        let totalChange = 0;
+        this.state.suppliers_change.map( (change) => (totalChange += change));
 
-        const newValue = parseFloat(this.props.item.quantity) + parseFloat(this.state.change);
+        const newValue = parseFloat(this.props.item.quantity) + totalChange;
+
+        this.props.item.suppliers.map((supplier, index) => (
+            supplier.quantity = supplier.quantity + this.state.suppliers_change[index]
+        ));
+        console.log(this.props.item.suppliers);
         this.setState({loading: true});
-        this.props.logEquipment({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:[]}).then(
+        this.props.logEquipment({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers}).then(
             (response) => {console.log("should catch error here")}
         );
         //TO DO - ADD SUPPLIER INFO TO SUPPLIER DATABASE
@@ -105,13 +115,15 @@ class LogItemModal extends Component {
 
     };
 
-    handleSupplierChange(e){
-        console.log(e.target);
-        console.log(e.target.name + " " + e.target.value);
+    handleSupplierNumberChange(e){
+        console.log(e.target.name);
+        console.log(e.target.value);
 
         this.setState({
-            [this.state.suppliers_change[e.target.name]]: e.target.value
+            suppliers_change: update(this.state.suppliers_change, {[e.target.name]: {$set: parseInt(e.target.value)}}),
         });
+
+        console.log(this.state.suppliers_change);
     }
 
     render() {
@@ -183,11 +195,10 @@ class LogItemModal extends Component {
                                             <div className="column">
                                                 <TextField
                                                     hintText="Enter Change"
-                                                    name={supplier.name}
+                                                    name={index.toString()}
                                                     type="number"
-                                                    onChange={this.handleSupplierChange}
+                                                    onChange={this.handleSupplierNumberChange}
                                                     style={{width: "100%"}}
-                                                    value={this.state.suppliers_change[supplier.name]}
                                                     errorText={this.state.errors.change}/>
                                             </div>
                                         </div>
@@ -222,6 +233,13 @@ class LogItemModal extends Component {
 
 LogItemModal.propTypes = {
     item: PropTypes.object.isRequired,
+
 };
 
-export default connect(null, {logEquipment})(LogItemModal);
+const mapStateToProps = (state) => {
+    return {
+
+    }
+};
+
+export default connect(mapStateToProps, {logEquipment})(LogItemModal);

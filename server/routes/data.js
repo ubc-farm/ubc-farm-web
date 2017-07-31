@@ -17,6 +17,7 @@ let Pesticide = require('mongoose').model('Pesticide');
 let Equipment = require('mongoose').model('Equipment');
 let Vehicle = require('mongoose').model('Vehicle');
 let Harvested = require('mongoose').model('Harvested');
+let Supplier = require('mongoose').model('Supplier');
 
 router.get('/fields', (req, res) => {
 
@@ -404,8 +405,13 @@ router.put('/equipments', (req, res) => {
     if(isValid){
         Equipment.findByIdAndUpdate(
             req.body.id,
-            {quantity: req.body.value,$push: {log:{timestamp: req.body.timestamp, value: req.body.value}}},
-            {safe: true, upsert: true, new: true},
+            {
+                quantity: req.body.log.value,
+                $push: {log:{timestamp: req.body.log.timestamp, value: req.body.log.value}},
+                $set: {suppliers: req.body.suppliers},
+
+            },
+            {safe: true, new: true},
             function(err, updatedItem){
                 if(err){
                     console.log(err);
@@ -486,6 +492,42 @@ router.post('/harvested', (req, res) => {
                 }else{
                     delete result.__v;
                     res.status(200).json({harvested: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+//ROUTES FOR SUPPLIERS
+router.get('/suppliers', (req, res) => {
+
+    Supplier.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving harvested');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/suppliers', (req, res) => {
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{name,address,telephone} = req.body;
+
+        Supplier.create({name,address,telephone},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving harvested"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({supplier: result});
                 }
             });
     }else{
