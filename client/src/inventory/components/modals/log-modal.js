@@ -171,9 +171,9 @@ class LogItemModal extends Component {
                     <LogScatter title={this.props.item.name} data={this.props.item.log.map((log_entry) => ({x:this.dateTransformer(log_entry.timestamp), y: log_entry.value}))}/>
                     <PieChart data={this.props.item.suppliers} title={this.props.item.name}/>
                     <Table
-                        height={'300px'}
+                        height={'235px'}
                         fixedHeader={true}
-                        fixedFooter={false}
+                        fixedFooter={true}
                         selectable={false}
                         multiSelectable={false}
                     >
@@ -218,16 +218,20 @@ class LogItemModal extends Component {
                                     </TableRowColumn>
                                 </TableRow>
                             ))}
-                            <TableRow key="new_supplier" hoverable={false} hovered={false}>
-                                <TableHeaderColumn/>
-                                <TableHeaderColumn/>
-                                <TableHeaderColumn/>
-                                <TableHeaderColumn style={{verticalAlign: 'middle'}}>
-                                    <NewSupplierModal addSupplier={this.addSupplier}/>
-                                </TableHeaderColumn>
-                            </TableRow>
-
                         </TableBody>
+                        <TableFooter
+                            displaySelectAll={false}
+                            adjustForCheckbox={false}
+                            enableSelectAll={false}>
+                            <TableRow>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>Total:</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.props.item.quantity}</TableRowColumn>
+                                <TableRowColumn/>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                    <NewSupplierModal addSupplier={this.addSupplier}/>
+                                </TableRowColumn>
+                            </TableRow>
+                        </TableFooter>
                     </Table>
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
