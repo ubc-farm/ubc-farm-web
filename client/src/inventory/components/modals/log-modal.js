@@ -2,6 +2,7 @@
  * Created by Xingyu on 7/12/2017.
  */
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -50,6 +51,7 @@ class LogItemModal extends Component {
             loading: false,
             done: false,
             suppliers_change: [],
+            offsets:{left: 481, top: 60},
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -66,12 +68,14 @@ class LogItemModal extends Component {
     }
 
     componentDidMount(){
+
         let supplierList = this.props.item.suppliers.map((supplier) => (0));
         this.setState({suppliers_change: supplierList});
     }
 
-    handleOpen(){
+    handleOpen(event){
         this.setState({open: true});
+
     };
 
     handleClose(){
@@ -157,91 +161,86 @@ class LogItemModal extends Component {
             />,
         ];
 
-        const form = (
-            <div>
-                <FlatButton label="Edit" primary={true} onTouchTap={this.handleOpen} />
-                <Dialog
-                    title={"Edit " + this.props.item.name + " Quantity"}
-                    actions={actions}
-                    modal={true}
-                    open={this.state.open}
-                >
-
-
-                    <LogScatter title={this.props.item.name} data={this.props.item.log.map((log_entry) => ({x:this.dateTransformer(log_entry.timestamp), y: log_entry.value}))}/>
-                    <PieChart data={this.props.item.suppliers} title={this.props.item.name}/>
-                    <Table
-                        height={'235px'}
-                        fixedHeader={true}
-                        fixedFooter={true}
-                        selectable={false}
-                        multiSelectable={false}
-                    >
-                        <TableHeader
-                            displaySelectAll={false}
-                            adjustForCheckbox={false}
-                            enableSelectAll={false}
-                            style={{verticalAlign: 'middle'}}
-                        >
-
-                            <TableRow>
-                                <TableHeaderColumn tooltip="Sort by Supplier Name" style={{verticalAlign: 'middle'}}>Supplier Name</TableHeaderColumn>
-                                <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                                <TableHeaderColumn tooltip="Sort by Start Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
-                                <TableHeaderColumn/>
-
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody
-                            displayRowCheckbox={false}
-                            deselectOnClickaway={true}
-                            showRowHover={true}
-                            stripedRows={false}
-                        >
-                            {this.props.item.suppliers.map( (supplier, index) => (
-                                <TableRow key={index}>
-                                    <TableRowColumn style={{verticalAlign: 'middle'}}>{supplier.name}</TableRowColumn>
-                                    <TableRowColumn style={{verticalAlign: 'middle'}}>{supplier.quantity}</TableRowColumn>
-                                    <TableRowColumn style={{verticalAlign: 'middle'}}>{supplier.unit}</TableRowColumn>
-                                    <TableRowColumn>
-                                        <div className="columns">
-                                            <div className="column">
-                                                <TextField
-                                                    hintText="Enter Change"
-                                                    name={index.toString()}
-                                                    type="number"
-                                                    onChange={this.handleSupplierNumberChange}
-                                                    style={{width: "100%"}}
-                                                    errorText={this.state.errors.change}/>
-                                            </div>
-                                        </div>
-                                    </TableRowColumn>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                        <TableFooter
-                            displaySelectAll={false}
-                            adjustForCheckbox={false}
-                            enableSelectAll={false}>
-                            <TableRow>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>Total:</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.props.item.quantity}</TableRowColumn>
-                                <TableRowColumn/>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                    <NewSupplierModal addSupplier={this.addSupplier}/>
-                                </TableRowColumn>
-                            </TableRow>
-                        </TableFooter>
-                    </Table>
-
-                    {!!this.state.errors.global && <p>this.state.errors.global</p>}
-                </Dialog>
-            </div>
-        );
 
         return (
             <div key={this.state.timestamp}>
-                {form}
+                <div>
+                    <FlatButton label="Edit" primary={true} onTouchTap={this.handleOpen} />
+                    <Dialog
+                        title={"Edit " + this.props.item.name + " Quantity"}
+                        actions={actions}
+                        modal={true}
+                        open={this.state.open}
+                        ref = 'dialog'
+                    >
+
+                        <LogScatter title={this.props.item.name} data={this.props.item.log.map((log_entry) => ({x:this.dateTransformer(log_entry.timestamp), y: log_entry.value}))}/>
+                        <PieChart total={this.props.item.quantity} offsets={this.state.offsets}  data={this.props.item.suppliers} title={this.props.item.name}/>
+                        <Table
+                            height={'230px'}
+                            fixedHeader={true}
+                            fixedFooter={true}
+                            selectable={false}
+                            multiSelectable={false}
+                        >
+                            <TableHeader
+                                displaySelectAll={false}
+                                adjustForCheckbox={false}
+                                enableSelectAll={false}
+                                style={{verticalAlign: 'middle'}}
+                            >
+
+                                <TableRow>
+                                    <TableHeaderColumn tooltip="Sort by Supplier Name" style={{verticalAlign: 'middle'}}>Supplier Name</TableHeaderColumn>
+                                    <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
+                                    <TableHeaderColumn tooltip="Sort by Start Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
+                                    <TableHeaderColumn/>
+
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody
+                                displayRowCheckbox={false}
+                                deselectOnClickaway={true}
+                                showRowHover={true}
+                                stripedRows={false}
+                            >
+                                {this.props.item.suppliers.map( (supplier, index) => (
+                                    <TableRow key={index}>
+                                        <TableRowColumn style={{verticalAlign: 'middle'}}>{supplier.name}</TableRowColumn>
+                                        <TableRowColumn style={{verticalAlign: 'middle'}}>{supplier.quantity}</TableRowColumn>
+                                        <TableRowColumn style={{verticalAlign: 'middle'}}>{supplier.unit}</TableRowColumn>
+                                        <TableRowColumn>
+                                            <div className="columns">
+                                                <div className="column">
+                                                    <TextField
+                                                        hintText="Enter Change"
+                                                        name={index.toString()}
+                                                        type="number"
+                                                        onChange={this.handleSupplierNumberChange}
+                                                        style={{width: "100%"}}
+                                                        errorText={this.state.errors.change}/>
+                                                </div>
+                                            </div>
+                                        </TableRowColumn>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                            <TableFooter adjustForCheckbox={false}>
+
+                                <TableRow selectable={false}>
+                                    <TableRowColumn style={{verticalAlign: 'middle'}}>Total:</TableRowColumn>
+                                    <TableRowColumn style={{verticalAlign: 'middle'}}>{this.props.item.quantity}</TableRowColumn>
+                                    <TableRowColumn/>
+                                    <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                        <NewSupplierModal addSupplier={this.addSupplier}/>
+                                    </TableRowColumn>
+                                </TableRow>
+                            </TableFooter>
+                        </Table>
+
+                        {!!this.state.errors.global && <p>this.state.errors.global</p>}
+                    </Dialog>
+                </div>
             </div>
 
         );
