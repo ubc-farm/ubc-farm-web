@@ -61,11 +61,11 @@ class TasksPage extends React.Component {
                     <Tab label="List" value="list">
                         <div className="columns">
                             <div className = "column is-2-desktop">
-                        <h2 style={styles.headline}>Task List</h2>
+                                <h2 style={styles.headline}>Task List</h2>
                             </div>
-                        <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
-                            <NewTaskModal isFieldProvided={false}/>
-                        </div>
+                            <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
+                                <NewTaskModal isFieldProvided={false}/>
+                            </div>
                         </div>
 
                         <Divider/>
@@ -75,8 +75,17 @@ class TasksPage extends React.Component {
                         </div>
                     </Tab>
                     <Tab label="Timeline" value="timeline">
+                        <div className="columns">
+                            <div className = "column is-2-desktop">
+                                <h2 style={styles.headline}>Task Timeline</h2>
+                            </div>
+                            <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
+                                <NewTaskModal isFieldProvided={false}/>
+                            </div>
+                        </div>
+
+                        <Divider/>
                         <div>
-                            <h2 style={styles.headline}>Task Timeline</h2>
                             <TimeLine/>
                         </div>
                     </Tab>

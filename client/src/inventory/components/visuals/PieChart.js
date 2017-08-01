@@ -110,6 +110,7 @@ class PieChart extends Component {
             .attr('x', legendRectSize + legendSpacing)
             .attr('y', legendRectSize - legendSpacing + 3)
             .text(function(d) { return d.name; });
+
     }
     render(){
         return (

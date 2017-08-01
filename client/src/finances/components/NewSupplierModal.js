@@ -155,14 +155,6 @@ class NewSupplierModal extends Component {
                                     value={this.state.number}
                                     fullWidth={true}
                                     errorText={this.state.errors.number}/>
-                                <TextField
-                                    hintText="Enter City"
-                                    floatingLabelText="City"
-                                    name="city"
-                                    onChange={this.handleChange}
-                                    value={this.state.city}
-                                    fullWidth={true}
-                                    errorText={this.state.errors.city}/>
                             </div>
                             <div className="column">
                                 <TextField
@@ -173,6 +165,22 @@ class NewSupplierModal extends Component {
                                     value={this.state.street}
                                     fullWidth={true}
                                     errorText={this.state.errors.street}/>
+
+                            </div>
+                        </div>
+                        <div className="columns">
+                            <div className="column">
+                                <TextField
+                                    hintText="Enter City"
+                                    floatingLabelText="City"
+                                    name="city"
+                                    onChange={this.handleChange}
+                                    value={this.state.city}
+                                    fullWidth={true}
+                                    errorText={this.state.errors.city}/>
+                            </div>
+                            <div className="column">
+
                                 <TextField
                                     hintText="Enter Postal Code"
                                     floatingLabelText="Postal Code"
@@ -183,6 +191,14 @@ class NewSupplierModal extends Component {
                                     errorText={this.state.errors.postal}/>
                             </div>
                         </div>
+                        <TextField
+                            hintText="Enter Telephone Number"
+                            floatingLabelText="Telephone Number"
+                            name="telephone"
+                            onChange={this.handleChange}
+                            value={this.state.telephone}
+                            fullWidth={true}
+                            errorText={this.state.errors.telephone}/>
 
                     </form>
 

@@ -14,6 +14,7 @@ import {SaveEquipment} from '../../actions/equipment-actions';
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import {fetchSuppliers} from '../../../finances/actions/supplier-actions'
+import NewSupplierModal from '../../../finances/components/NewSupplierModal';
 
 let shortid = require('shortid');
 
@@ -165,21 +166,29 @@ class CreateEquipmentModal extends Component {
                             value={this.state.name}
                             fullWidth={true}
                             errorText={this.state.errors.name}/>
+                        <div className="columns">
+                            <div className="column">
+                                <SelectField
+                                    floatingLabelText="Existing Supplier"
+                                    hintText="Select Supplier"
+                                    name="supplier"
+                                    autoWidth={false}
+                                    style={{width:"100%"}}
+                                    value={this.state.supplier}
+                                    onChange={this.handleSelectSupplier}
+                                    errorText={this.state.errors.supplier}
+                                >
+                                    {this.props.suppliers.map((supplier,index) => (
+                                        <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
+                                    ))}
+                                </SelectField>
+                            </div>
+                            <div className="column">
+                                <NewSupplierModal/>
+                            </div>
+                        </div>
 
-                        <SelectField
-                            floatingLabelText="Existing Supplier"
-                            hintText="Select Supplier"
-                            name="supplier"
-                            autoWidth={false}
-                            style={{width:"100%"}}
-                            value={this.state.supplier}
-                            onChange={this.handleSelectSupplier}
-                            errorText={this.state.errors.supplier}
-                        >
-                            {this.props.suppliers.map((supplier,index) => (
-                                <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
-                            ))}
-                        </SelectField>
+
 
                         <div className="columns">
                             <div className="column is-8">
