@@ -101,5 +101,6 @@ a:hover {
   font: 10px sans-serif;
   padding: 5px;
   text-align: center;
+    top: 80px;
     z-index: 100;
 }

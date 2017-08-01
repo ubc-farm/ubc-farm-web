@@ -73,7 +73,7 @@ class LogScatter extends Component {
             .attr("x", (WIDTH / 2))
             .attr("y", (MARGINS.top))
             .attr("text-anchor", "middle")
-            .style("font-size", "11px")
+            .style("font-size", "16px")
             .style("color","#cccccc")
             .text(this.props.title + " Availability over Time");
 

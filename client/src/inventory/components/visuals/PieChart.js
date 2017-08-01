@@ -23,6 +23,9 @@ class PieChart extends Component {
         const div = this.div;
         const offsets = this.props.offsets;
         const total = this.props.total;
+        const legendRectSize = 12;
+        const legendSpacing = 4;
+
         console.log(offsets);
 
         let chart_svg = d3.select(node),
@@ -36,7 +39,7 @@ class PieChart extends Component {
             },
             radius = Math.min(WIDTH, HEIGHT) / 2 - 20,
             g = chart_svg.append("g")
-                .attr("transform", "translate(" + WIDTH/2 + "," + parseInt(HEIGHT/2 + 10) + ")");
+                .attr("transform", "translate(" + (WIDTH/2 - 50) + "," + parseInt(HEIGHT/2 + 10) + ")");
 
         let color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -45,25 +48,21 @@ class PieChart extends Component {
             .value(function(d) { return d.quantity; });
 
         let path = d3.arc()
-            .outerRadius(radius - 20)
-            .innerRadius(30);
+            .outerRadius(radius)
+            .innerRadius(70);
 
-        let label = d3.arc()
-            .outerRadius(radius+10)
-            .innerRadius(radius-10);
 
         let arc = g.selectAll(".arc")
             .data(pie(this.props.data))
             .enter().append("g")
             .attr("class","arc");
 
-        let tooltip = d3.select(div).append("div").attr("class", "pieToolTip");
+        let tooltip = d3.select(div).append("div")
+            .attr("class", "pieToolTip")
+            .attr("top","80px");
 
         arc
-            .on("mousemove", function(d){
-                tooltip.style("left", d3.event.pageX - offsets.left +10+"px");
-                tooltip.style("top", d3.event.pageY - offsets.top -25+"px");
-                tooltip.style("display", "inline-block");
+            .on("mouseover", function(d){
                 tooltip.html(
                     "Quantity: " + (d.data.quantity) +
                     "<br/>"+
@@ -81,21 +80,36 @@ class PieChart extends Component {
             .attr("fill",function(d,i){return color(i%10); })
             .attr("stroke", "#fff");
 
-        arc.append("text")
-            .attr("transform", function(d){ return "translate(" + label.centroid(d) + ")"; })
-            .attr("dy","0.35em")
-            .attr("font", "sans-serif")
-            .attr("font-size", "10px")
-            .attr("text-anchor", "middle")
-            .text(function(d){return d.data.name});
-
         chart_svg.append("text")
             .attr("x", (WIDTH / 2))
             .attr("y", (MARGINS.top))
             .attr("text-anchor", "middle")
-            .style("font-size", "11px")
+            .style("font-size", "16px")
             .style("color","#cccccc")
             .text("Supplier Breakdown");
+
+
+        let legend = chart_svg.selectAll('.legend')
+            .data(this.props.data)
+            .enter()
+            .append('g')
+            .attr('class', 'legend')
+            .attr("font-size", "10px")
+            .attr('transform', function(d, i) {
+                let horz = -2 * legendRectSize;
+                let vert = i * (legendRectSize + legendSpacing);
+                return 'translate(' + (WIDTH - 70 + horz) + ',' + (MARGINS.top + vert + 15) + ')';
+            });
+        legend.append('rect')
+            .attr('width', legendRectSize)
+            .attr('height', legendRectSize)
+            .style('fill', function(d,i){return color(i%10)})
+            .style('stroke', function(d,i){return color(i%10)});
+
+        legend.append('text')
+            .attr('x', legendRectSize + legendSpacing)
+            .attr('y', legendRectSize - legendSpacing + 3)
+            .text(function(d) { return d.name; });
     }
     render(){
         return (
