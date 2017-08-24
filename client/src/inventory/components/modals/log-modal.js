@@ -194,7 +194,7 @@ class LogItemModal extends Component {
                                     <TableHeaderColumn tooltip="Sort by Supplier Name" style={{verticalAlign: 'middle'}}>Supplier Name</TableHeaderColumn>
                                     <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
                                     <TableHeaderColumn tooltip="Sort by Start Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
-                                    <TableHeaderColumn/>
+                                    <TableHeaderColumn style={{verticalAlign: "middle"}}>Change</TableHeaderColumn>
 
                                 </TableRow>
                             </TableHeader>
@@ -218,6 +218,7 @@ class LogItemModal extends Component {
                                                         type="number"
                                                         onChange={this.handleSupplierNumberChange}
                                                         style={{width: "100%"}}
+                                                        defaultValue={0}
                                                         errorText={this.state.errors.change}/>
                                                 </div>
                                             </div>

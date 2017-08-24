@@ -59,6 +59,7 @@ class TasksPage extends React.Component {
                     onChange={this.handleChange}
                 >
                     <Tab label="List" value="list">
+                        <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "20px"}}>
                         <div className="columns">
                             <div className = "column is-2-desktop">
                                 <h2 style={styles.headline}>Task List</h2>
@@ -73,8 +74,10 @@ class TasksPage extends React.Component {
                         <div>
                             <TaskList/>
                         </div>
+                        </div>
                     </Tab>
                     <Tab label="Timeline" value="timeline">
+                        <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "20px"}}>
                         <div className="columns">
                             <div className = "column is-2-desktop">
                                 <h2 style={styles.headline}>Task Timeline</h2>
@@ -87,6 +90,7 @@ class TasksPage extends React.Component {
                         <Divider/>
                         <div>
                             <TimeLine/>
+                        </div>
                         </div>
                     </Tab>
                 </Tabs>

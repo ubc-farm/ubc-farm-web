@@ -36,7 +36,9 @@ class CreateEquipmentModal extends Component {
         this.state = {
             name: '',
             quantity: '',
-            unit: 'n/a',
+            unit: '',
+            per_unit_quantity: '',
+            per_unit_unit: '',
             errors: {},
             open: false,
             validated: false,
@@ -106,8 +108,8 @@ class CreateEquipmentModal extends Component {
             const farm_supplier = this.props.suppliers[this.state.supplier];
             farm_supplier.quantity = parseInt(this.state.quantity);
             farm_supplier.unit = this.state.unit;
-            farm_supplier.per_unit_quantity = 1;
-            farm_supplier.per_unit_unit = "";
+            farm_supplier.per_unit_quantity = this.state.per_unit_quantity;
+            farm_supplier.per_unit_unit = this.state.per_unit_unit;
 
             const new_equipment = {
                 name: this.state.name,
@@ -156,8 +158,9 @@ class CreateEquipmentModal extends Component {
                     modal={true}
                     open={this.state.open}
                 >
+                    <Divider/>
                     <form>
-                        <p>Please fill all of the fields below</p>
+                        <p>Product Detail (mandatory)</p>
                         <TextField
                             hintText="Enter Equipment Name"
                             floatingLabelText="Product Name"
@@ -166,27 +169,25 @@ class CreateEquipmentModal extends Component {
                             value={this.state.name}
                             fullWidth={true}
                             errorText={this.state.errors.name}/>
-                        <div className="columns">
-                            <div className="column">
-                                <SelectField
-                                    floatingLabelText="Existing Supplier"
-                                    hintText="Select Supplier"
-                                    name="supplier"
-                                    autoWidth={false}
-                                    style={{width:"100%"}}
-                                    value={this.state.supplier}
-                                    onChange={this.handleSelectSupplier}
-                                    errorText={this.state.errors.supplier}
-                                >
-                                    {this.props.suppliers.map((supplier,index) => (
-                                        <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
-                                    ))}
-                                </SelectField>
-                            </div>
-                            <div className="column">
-                                <NewSupplierModal/>
-                            </div>
+
+                        <SelectField
+                            floatingLabelText="Existing Supplier"
+                            hintText="Select Supplier"
+                            name="supplier"
+                            autoWidth={false}
+                            style={{width:"100%"}}
+                            value={this.state.supplier}
+                            onChange={this.handleSelectSupplier}
+                            errorText={this.state.errors.supplier}
+                        >
+                            {this.props.suppliers.map((supplier,index) => (
+                                <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
+                            ))}
+                        </SelectField>
+                        <div  style={{textAlign: 'center',padding:'10px'}}>
+                            <p>-OR-</p>
                         </div>
+                        <NewSupplierModal/>
 
 
 
@@ -196,6 +197,7 @@ class CreateEquipmentModal extends Component {
                                     hintText="Enter Quantity"
                                     floatingLabelText="Quantity"
                                     name="quantity"
+                                    type="number"
                                     onChange={this.handleChange}
                                     value={this.state.quantity}
                                     fullWidth={true}
@@ -203,20 +205,39 @@ class CreateEquipmentModal extends Component {
                             </div>
                             <div className="column is-4">
 
-                                <SelectField
+                                <TextField
+                                    hintText="Enter Unit (lb, boxes, litres, etc)"
                                     floatingLabelText="Unit"
-                                    hintText="Select Unit"
-                                    onChange={this.handleSelect}
-                                    name="unit"
-                                    autoWidth={false}
-                                    style={{width:"100%"}}
+                                    name="quantity"
+                                    onChange={this.handleChange}
                                     value={this.state.unit}
-                                    errorText={this.state.errors.unit}
-                                >
-                                    <MenuItem value="n/a" label="n/a" primaryText="n/a"/>
-                                    <MenuItem value="kg" label="kg" primaryText="kg"/>
-                                    <MenuItem value="lb" label="lb" primaryText="lb"/>
-                                </SelectField>
+                                    fullWidth={true}
+                                    errorText={this.state.errors.unit}/>
+                            </div>
+                        </div>
+                        <p>Unit Details (optional)</p>
+                        <div className="columns">
+                            <div className="column is-8">
+                                <TextField
+                                    hintText="Enter Quantity per Unit"
+                                    floatingLabelText="Quantity per Unit"
+                                    name="per_unit_quantity"
+                                    type="number"
+                                    onChange={this.handleChange}
+                                    value={this.state.per_unit_quantity}
+                                    fullWidth={true}
+                                    errorText={this.state.errors.per_unit_quantity}/>
+                            </div>
+                            <div className="column is-4">
+
+                                <TextField
+                                    hintText="Enter Base Unit"
+                                    floatingLabelText="Base Unit"
+                                    name="per_unit_unit"
+                                    onChange={this.handleChange}
+                                    value={this.state.per_unit_unit}
+                                    fullWidth={true}
+                                    errorText={this.state.errors.per_unit_unit}/>
                             </div>
                         </div>
 
