@@ -1,15 +1,16 @@
 /**
- * Created by Xingyu on 8/23/2017.
+ * Created by Xingyu on 8/24/2017.
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem'
+
 /**
  * Select from Equipment
  */
-class EquipmentSelector extends Component {
+class PesticideSelector extends Component {
 
     constructor(props) {
         super(props);
@@ -21,9 +22,9 @@ class EquipmentSelector extends Component {
 
     };
 
-    handleUpdateInput(event, index, value){
+    handleUpdateInput(value){
         this.setState({
-            selectedItem: value
+            selectedItem: value,
         });
     };
 
@@ -37,8 +38,8 @@ class EquipmentSelector extends Component {
                 onChange={this.handleUpdateInput}
             >
                 {
-                    this.props.equipments.map((item) => (
-                      <MenuItem value={item._id} primaryText={item.name}/>
+                    this.props.pesticides.map((item) => (
+                        <MenuItem value={item._id} primaryText={item.name}/>
                     ))
                 }
             </SelectField>
@@ -46,14 +47,14 @@ class EquipmentSelector extends Component {
     }
 }
 
-EquipmentSelector.propTypes = {
-    equipments: PropTypes.array.isRequired,
+PesticideSelector.propTypes = {
+    pesticides: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
-        equipments: state.equipments,
+        pesticides: state.pesticides,
     }
 };
 
-export default connect(mapStateToProps) (EquipmentSelector);
+export default connect(mapStateToProps) (PesticideSelector);

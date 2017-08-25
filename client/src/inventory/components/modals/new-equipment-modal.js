@@ -161,14 +161,7 @@ class CreateEquipmentModal extends Component {
                     <Divider/>
                     <form>
                         <p>Product Detail (mandatory)</p>
-                        <TextField
-                            hintText="Enter Equipment Name"
-                            floatingLabelText="Product Name"
-                            name="name"
-                            onChange={this.handleChange}
-                            value={this.state.name}
-                            fullWidth={true}
-                            errorText={this.state.errors.name}/>
+                    handlec
 
                         <SelectField
                             floatingLabelText="Existing Supplier"

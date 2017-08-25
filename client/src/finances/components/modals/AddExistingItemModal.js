@@ -15,72 +15,34 @@ import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField'
 import Toggle from 'material-ui/Toggle';
 import { Link, IndexLink } from 'react-router';
-import EquipmentSelector from '../ItemSelectors/EquipmentSelector'
+import {fetchSeeds} from '../../../inventory/actions/seeds-get';
+import {fetchTransplants} from '../../../inventory/actions/transplant-actions';
+import {fetchFertilizers} from '../../../inventory/actions/fertilizer-actions';
+import {fetchPesticides} from '../../../inventory/actions/pest-actions';
+import {fetchEquipments} from '../../../inventory/actions/equipment-actions';
+import {fetchVehicles} from '../../../inventory/actions/vehicles-action';
+import {fetchHarvested} from '../../../inventory/actions/harvested_actions';
+import {fetchSuppliers} from '../../actions/supplier-actions';
+import SelectField from 'material-ui/SelectField';
+import EquipmentSelector from '../ItemSelectors/EquipmentSelector';
+import FertilizerSelector from '../ItemSelectors/FertilizerSelector';
+import HarvestedSelector from '../ItemSelectors/HarvestedSelector';
+import PesticideSelector from '../ItemSelectors/PesticideSelector';
+import SeedSelector from '../ItemSelectors/SeedSelector';
+import TransplantSelector from '../ItemSelectors/TransplantSelector';
+import VehicleSelector from '../ItemSelectors/VehicleSelector'
 
-const styles = {
-    toggle: {
-        marginBottom: 16,
-    },
-};
-
-const inventoriesList = [
-    {
-        text: 'Seeds',
-        value: (
-            <MenuItem
-                primaryText="Seeds"
-            />
-        ),
-    },
-    {
-        text: 'Transplanting',
-        value: (
-            <MenuItem
-                primaryText="Transplanting"
-            />
-        ),
-    },
-    {
-        text: 'Fertilizers',
-        value: (
-            <MenuItem
-                primaryText="Fertilizers"
-            />
-        ),
-    },
-    {
-        text: 'Pest Control',
-        value: (
-            <MenuItem
-                primaryText="Pest Control"
-            />
-        ),
-    },
-    {
-        text: 'Equipment',
-        value: (
-            <MenuItem
-                primaryText="Equipment"
-            />
-        ),
-    },
-    {
-        text: 'Vehicles',
-        value: (
-            <MenuItem
-                primaryText="Vehicles"
-            />
-        ),
-    },
-    {
-        text: 'Harvested Produce',
-        value: (
-            <MenuItem
-                primaryText="Harvested Produce"
-            />
-        ),
-    },
+const Selectors = [
+    SeedSelector,
+    TransplantSelector,
+    FertilizerSelector,
+    PesticideSelector,
+    EquipmentSelector,
+    VehicleSelector,
+    HarvestedSelector
 ];
+
+
 
 /**
  * Modal for adding existing item to Purchase form
@@ -93,10 +55,11 @@ class AddExistingItemModal extends Component {
         super(props);
 
         this.state = {
-            inventoriesMenuData: inventoriesList,
-            itemSelectorMenuData: {},
             selectedInventory: 'Equipment',
+            selectedInventoryIndex: 4,
             selectedItem: {},
+            selectedSupplier: '',
+            unitprice: '',
             errors: {},
             open: false,
             validated: false,
@@ -109,9 +72,20 @@ class AddExistingItemModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInventoryChange = this.handleInventoryChange.bind(this);
         this.handleItemChange = this.handleItemChange.bind(this);
+        this.handleSupplierChange = this.handleSupplierChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     };
 
     componentDidMount() {
+        //fetch from databases here
+        this.props.fetchSeeds();
+        this.props.fetchTransplants();
+        this.props.fetchFertilizers();
+        this.props.fetchPesticides();
+        this.props.fetchEquipments();
+        this.props.fetchVehicles();
+        this.props.fetchHarvested();
+        this.props.fetchSuppliers();
     }
 
     handleOpen() {
@@ -135,14 +109,29 @@ class AddExistingItemModal extends Component {
      *
      */
 
-    handleInventoryChange(chosenRequest,index){
-        this.setState({
-            selectedInventory: this.props.inventoriesMenuData[index].text,
-        });
-    };
+    handleInventoryChange(event, index, value){this.setState({selectedInventoryIndex: value});};
+    handleSupplierChange(event, index, value){this.setState({selectedSupplier: value});};
 
     handleItemChange(item){
         this.setState({selectedItem: item});
+    };
+
+    handleChange(e){
+        if(this.state.errors[e.target.name]){
+            console.log("handle error fired");
+            let errors = Object.assign({}, this.state.errors);
+            delete errors[e.target.name];
+            this.setState({
+                [e.target.name]: e.target.value,
+                errors,
+            });
+        }else{
+            this.setState({
+                [e.target.name]: e.target.value,
+            });
+
+        }
+
     };
 
 
@@ -198,6 +187,8 @@ class AddExistingItemModal extends Component {
             />,
         ];
 
+        const SelectItem = Selectors[this.state.selectedInventoryIndex];
+
         return (
             <div key={this.state.timestamp}>
                 <div>
@@ -215,18 +206,59 @@ class AddExistingItemModal extends Component {
                             <div className="columns">
 
                                 <div className="column">
+                                    <SelectField
+                                        floatingLabelText="Inventory"
+                                        hintText="Select Inventory"
+                                        fullWidth={true}
+                                        value={this.state.selectedInventoryIndex}
+                                        onChange={this.handleInventoryChange}
+                                    >
+                                        <MenuItem value={0} primaryText="Seeds"/>
+                                        <MenuItem value={1} primaryText="Transplanting" />
+                                        <MenuItem value={2} primaryText="Fertilizers"  />
+                                        <MenuItem value={3} primaryText="Pest Control"  />
+                                        <MenuItem value={4} primaryText="Equipment" />
+                                        <MenuItem value={5} primaryText="Vehicles" />
+                                        <MenuItem value={6} primaryText="Harvested Produce" />
+                                    </SelectField>
 
                                 </div>
 
 
                                 <div className="column">
-
-
-                                    <EquipmentSelector/>
-
+                                    <SelectItem/>
                                 </div>
 
+                            </div>
 
+                            <div className="columns">
+                                <div className="column">
+                                    <SelectField
+                                        floatingLabelText="Supplier"
+                                        hintText="Select a Supplier"
+                                        fullWidth={true}
+                                        value={this.state.selectedItem}
+                                        onChange={this.handleSupplierChange}
+                                    >
+                                        {
+                                            this.props.suppliers.map((item) => (
+                                                <MenuItem value={item._id} primaryText={item.name}/>
+                                            ))
+                                        }
+                                    </SelectField>
+                                </div>
+                                <div className="column">
+                                    <TextField
+                                        hintText="Enter Unit Price"
+                                        floatingLabelText="Unit Price"
+                                        type="number"
+                                        name="unitprice"
+                                        onChange={this.handleChange}
+                                        value={this.state.unitprice}
+                                        fullWidth={true}
+                                        errorText={this.state.errors.unitprice}/>
+
+                                </div>
                             </div>
 
 
@@ -242,13 +274,37 @@ class AddExistingItemModal extends Component {
 }
 
 AddExistingItemModal.propTypes = {
+    seeds: PropTypes.array.isRequired,
+    fetchSeeds: PropTypes.func.isRequired,
+    transplants: PropTypes.array.isRequired,
+    fetchTransplants: PropTypes.func.isRequired,
+    fertilizers: PropTypes.array.isRequired,
+    fetchFertilizers: PropTypes.func.isRequired,
+    pesticides: PropTypes.array.isRequired,
+    fetchPesticides: PropTypes.func.isRequired,
+    vehicles: PropTypes.array.isRequired,
+    fetchVehicles: PropTypes.func.isRequired,
+    harvested: PropTypes.array.isRequired,
+    fetchHarvested: PropTypes.func.isRequired,
+    equipments: PropTypes.array.isRequired,
+    fetchEquipments: PropTypes.func.isRequired,
 
+    suppliers: PropTypes.array.isRequired,
+    fetchSuppliers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
+        seeds: state.seeds,
+        transplants: state.transplants,
+        fertilizers: state.fertilizers,
+        pesticides: state.pesticides,
+        vehicles: state.vehicles,
+        harvested: state.harvested,
+        equipments: state.equipments,
 
+        suppliers: state.suppliers,
         }
 };
 
-export default connect(mapStateToProps)(AddExistingItemModal);
+export default connect(mapStateToProps,{fetchSeeds,fetchTransplants,fetchFertilizers,fetchPesticides,fetchEquipments,fetchVehicles,fetchHarvested, fetchSuppliers})(AddExistingItemModal);
