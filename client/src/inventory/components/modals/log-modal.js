@@ -12,6 +12,7 @@ import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 import {logEquipment} from '../../actions/equipment-actions';
 import {logVehicle} from '../../actions/vehicles-action';
+import {logSeed} from '../../actions/seeds-put';
 import LogScatter from '../visuals/LogScatter';
 import Divider from 'material-ui/Divider';
 import NewSupplierModal from './new-supplier-modal-nested';
@@ -35,16 +36,6 @@ const styles = {
 
 };
 
-const logArray = {
-    // 'seeds': logSeed,
-    // 'transplants': logTransplant,
-    // 'fertilizers': logFertilizer,
-    // 'pesticides': logPesticide,
-    'equipments': logEquipment,
-    'vehicles': logVehicle,
-    // 'harvested': logHarvested,
-
-};
 
 
 
@@ -105,12 +96,12 @@ class LogItemModal extends Component {
         });
 
         //push changes to database
-        console.log(this.props.item.suppliers);
-        console.log(logArray[this.props.inventory]);
         this.setState({loading: true});
-        let func = logArray[this.props.inventory];
 
         switch(this.props.inventory){
+            case 'seeds':
+                this.props.logSeed({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                break;
             case 'equipments':
                 this.props.logEquipment({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
                 break;
@@ -283,4 +274,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {logEquipment, logVehicle})(LogItemModal);
+export default connect(mapStateToProps, {logSeed, logEquipment, logVehicle})(LogItemModal);

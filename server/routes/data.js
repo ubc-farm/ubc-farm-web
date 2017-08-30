@@ -230,10 +230,9 @@ router.post('/seeds', (req, res) => {
     console.log(req.body);
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
-        const{
-            crop,variety,weight,unit,quantity,product,store,price} = req.body;
+        const{name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} = req.body;
 
-        Seed.create({crop,variety,weight,unit,quantity,product,store,price} ,
+        Seed.create({name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} ,
 
             function(err, result){
                 if(err){
@@ -244,6 +243,37 @@ router.post('/seeds', (req, res) => {
                     res.status(200).json({seed: result});
                 }
             });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+
+router.put('/seeds', (req, res) => {
+    console.log(req.body);
+
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        Seed.findByIdAndUpdate(
+            req.body.id,
+            {
+                quantity: req.body.log.value,
+                $push: {log:{timestamp: req.body.log.timestamp, value: req.body.log.value}},
+                $set: {suppliers: req.body.suppliers},
+
+            },
+            {safe: true, new: true},
+            function(err, updatedItem){
+                if(err){
+                    console.log(err);
+                }
+                res.json({item: updatedItem});
+
+            }
+        );
+
+
     }else{
         res.status(400).json({errors});
     }

@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
+import LogItemModel from './modals/log-modal';
 import {
     Table,
     TableBody,
@@ -40,7 +41,7 @@ class SeedList extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.fieldNameFromId = this.fieldNameFromId.bind(this);
         this.dateTransformer = this.dateTransformer.bind(this);
-        this.typeTransftormer = this.typeTransformer.bind(this);
+        this.typeTransformer = this.typeTransformer.bind(this);
     }
 
     //returns seed object
@@ -141,16 +142,16 @@ class SeedList extends Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        {this.props.seeds.map( (seed, index) => (
+                        {this.props.seeds.map( (item, index) => (
                             <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.crop}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.variety}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.weight}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.unit}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.quantity}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.product}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.store}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{seed.price}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.crop}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.variety}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.weight}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.unit}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.product}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.store}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.price}</TableRowColumn>
 
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>
                                     <div className="columns">
@@ -159,11 +160,7 @@ class SeedList extends Component {
 
                                         </div>
                                         <div className="column">
-                                            <FlatButton
-                                                label="Log"
-                                                primary={true}
-                                                onTouchTap={this.props.deleteSeed}
-                                            />
+                                            <LogItemModel item={item} inventory="seeds"/>
                                         </div>
                                     </div>
                                 </TableRowColumn>
