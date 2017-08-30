@@ -39,8 +39,9 @@ const Base = ({ children }) => (
 		<Link to="/fields">Fields</Link>
 		<Link to="/tasks">Tasks</Link>
         <Link to="/inventory">Inventories</Link>
-		<Link to="/graphs">Graphs</Link>
+		<Link to="/reports">Reports</Link>
 		<Link to="/finances">Finances</Link>
+        <Link to="/users">Users</Link>
         <Link to="/logout">Log out</Link>
         </div>
       ) : (

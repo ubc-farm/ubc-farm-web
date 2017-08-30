@@ -59,13 +59,14 @@ class TasksPage extends React.Component {
                     onChange={this.handleChange}
                 >
                     <Tab label="List" value="list">
+                        <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "20px"}}>
                         <div className="columns">
                             <div className = "column is-2-desktop">
-                        <h2 style={styles.headline}>Task List</h2>
+                                <h2 style={styles.headline}>Task List</h2>
                             </div>
-                        <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
-                            <NewTaskModal isFieldProvided={false}/>
-                        </div>
+                            <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
+                                <NewTaskModal isFieldProvided={false}/>
+                            </div>
                         </div>
 
                         <Divider/>
@@ -73,11 +74,23 @@ class TasksPage extends React.Component {
                         <div>
                             <TaskList/>
                         </div>
+                        </div>
                     </Tab>
                     <Tab label="Timeline" value="timeline">
+                        <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "20px"}}>
+                        <div className="columns">
+                            <div className = "column is-2-desktop">
+                                <h2 style={styles.headline}>Task Timeline</h2>
+                            </div>
+                            <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
+                                <NewTaskModal isFieldProvided={false}/>
+                            </div>
+                        </div>
+
+                        <Divider/>
                         <div>
-                            <h2 style={styles.headline}>Task Timeline</h2>
                             <TimeLine/>
+                        </div>
                         </div>
                     </Tab>
                 </Tabs>

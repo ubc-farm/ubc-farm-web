@@ -58,11 +58,6 @@ class EquipmentList extends Component {
                             <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
 
                             <TableHeaderColumn/>
-                            name: String,
-                            price: Number,
-                            store: String,
-                            life: Number,
-                            quantity: Number
                         </TableRow>
                     </TableHeader>
                     <TableBody
@@ -83,7 +78,7 @@ class EquipmentList extends Component {
 
                                         </div>
                                         <div className="column">
-                                            <LogItemModel item={item}/>
+                                            <LogItemModel item={item} inventory="equipments"/>
                                         </div>
                                     </div>
                                 </TableRowColumn>

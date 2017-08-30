@@ -2,12 +2,18 @@
  * Created by Xingyu on 7/5/2017.
  */
 const mongoose = require('mongoose');
+let inventory_log_schema = require('./log_inventory');
 
 // define the Pesticide model schema
 const PesticideSchema = new mongoose.Schema({
 
-    type: String,
     name: String,
+    suppliers:[],
+    log: [inventory_log_schema],
+    quantity: Number,
+    unit: String,
+
+    type: String,
     rate: Number,
     ratio: String,
     location: String,

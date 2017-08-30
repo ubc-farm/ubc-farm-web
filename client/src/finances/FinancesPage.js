@@ -11,6 +11,7 @@ import NewPurchasePage from './components/NewPurchasePage';
 import NewInvoicePage from './components/NewInvoicePage';
 import NewClientModal from './components/NewCliendModal';
 
+
 class FinancesPage extends React.Component{
 
     // Constructor is responsible for setting up props and setting initial state
@@ -30,7 +31,7 @@ class FinancesPage extends React.Component{
     }
 
     componentDidMount(){
-        //fetch from databases here
+
 
     }
 
@@ -56,7 +57,7 @@ class FinancesPage extends React.Component{
                         Invoices here
                     </Tab>
                     <Tab label="New Purchase Order">
-                        Purchases here
+                        <NewPurchasePage/>
                     </Tab>
                 </Tabs>
             </div>
@@ -70,9 +71,9 @@ FinancesPage.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-    return{
+    return {
 
     }
 };
 
-export default connect(mapStateToProps, {})(FinancesPage);
+export default connect(mapStateToProps)(FinancesPage);

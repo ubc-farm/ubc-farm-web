@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
+import LogItemModel from '../modals/log-modal';
 
 import {
     Table,
@@ -85,11 +86,7 @@ class FertilizerList extends Component {
 
                                         </div>
                                         <div className="column">
-                                            <FlatButton
-                                                label="Log"
-                                                primary={true}
-                                                onTouchTap={this.props.deleteTranpslant}
-                                            />
+                                            <LogItemModel item={item} inventory="fertilizers"/>
                                         </div>
                                     </div>
                                 </TableRowColumn>

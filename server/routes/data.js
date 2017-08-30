@@ -18,6 +18,7 @@ let Equipment = require('mongoose').model('Equipment');
 let Vehicle = require('mongoose').model('Vehicle');
 let Harvested = require('mongoose').model('Harvested');
 let Supplier = require('mongoose').model('Supplier');
+let User = require('mongoose').model('User');
 
 router.get('/fields', (req, res) => {
 
@@ -230,10 +231,9 @@ router.post('/seeds', (req, res) => {
     console.log(req.body);
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
-        const{
-            crop,variety,weight,unit,quantity,product,store,price} = req.body;
+        const{name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} = req.body;
 
-        Seed.create({crop,variety,weight,unit,quantity,product,store,price} ,
+        Seed.create({name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} ,
 
             function(err, result){
                 if(err){
@@ -244,6 +244,37 @@ router.post('/seeds', (req, res) => {
                     res.status(200).json({seed: result});
                 }
             });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+
+router.put('/seeds', (req, res) => {
+    console.log(req.body);
+
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        Seed.findByIdAndUpdate(
+            req.body.id,
+            {
+                quantity: req.body.log.value,
+                $push: {log:{timestamp: req.body.log.timestamp, value: req.body.log.value}},
+                $set: {suppliers: req.body.suppliers},
+
+            },
+            {safe: true, new: true},
+            function(err, updatedItem){
+                if(err){
+                    console.log(err);
+                }
+                res.json({item: updatedItem});
+
+            }
+        );
+
+
     }else{
         res.status(400).json({errors});
     }
@@ -268,9 +299,9 @@ router.post('/transplants', (req, res) => {
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
         const{
-            crop,variety,weight,unit,quantity,product,store,price} = req.body;
+            name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} = req.body;
 
-        Transplant.create({crop,variety,weight,unit,quantity,product,store,price} ,
+        Transplant.create({name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} ,
 
             function(err, result){
                 if(err){
@@ -281,6 +312,36 @@ router.post('/transplants', (req, res) => {
                     res.status(200).json({transplant: result});
                 }
             });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+router.put('/transplants', (req, res) => {
+    console.log(req.body);
+
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        Transplant.findByIdAndUpdate(
+            req.body.id,
+            {
+                quantity: req.body.log.value,
+                $push: {log:{timestamp: req.body.log.timestamp, value: req.body.log.value}},
+                $set: {suppliers: req.body.suppliers},
+
+            },
+            {safe: true, new: true},
+            function(err, updatedItem){
+                if(err){
+                    console.log(err);
+                }
+                res.json({item: updatedItem});
+
+            }
+        );
+
+
     }else{
         res.status(400).json({errors});
     }
@@ -305,9 +366,9 @@ router.post('/fertilizers', (req, res) => {
     console.log(req.body);
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
-        const{type,name,rate,ratio,tc,no3,nh4,k2o,p2o5,price,quantity} = req.body;
+        const{suppliers,log,unit,type,name,rate,ratio,tc,no3,nh4,k2o,p2o5,price,quantity} = req.body;
 
-        Fertilizer.create({type,name,rate,ratio,tc,no3,nh4,k2o,p2o5,price,quantity} ,
+        Fertilizer.create({suppliers,log,unit,type,name,rate,ratio,tc,no3,nh4,k2o,p2o5,price,quantity} ,
 
             function(err, result){
                 if(err){
@@ -318,6 +379,36 @@ router.post('/fertilizers', (req, res) => {
                     res.status(200).json({transplant: result});
                 }
             });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+router.put('/fertilizers', (req, res) => {
+    console.log(req.body);
+
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        Fertilizer.findByIdAndUpdate(
+            req.body.id,
+            {
+                quantity: req.body.log.value,
+                $push: {log:{timestamp: req.body.log.timestamp, value: req.body.log.value}},
+                $set: {suppliers: req.body.suppliers},
+
+            },
+            {safe: true, new: true},
+            function(err, updatedItem){
+                if(err){
+                    console.log(err);
+                }
+                res.json({item: updatedItem});
+
+            }
+        );
+
+
     }else{
         res.status(400).json({errors});
     }
@@ -342,9 +433,9 @@ router.post('/pesticides', (req, res) => {
     console.log(req.body);
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
-        const{type,name,rate,ratio,location,entry,harvest,active,percentage} = req.body;
+        const{suppliers,log,quantity,unit,type,name,rate,ratio,location,entry,harvest,active,percentage} = req.body;
 
-        Pesticide.create({type,name,rate,ratio,location,entry,harvest,active,percentage},
+        Pesticide.create({suppliers,log,quantity,unit,type,name,rate,ratio,location,entry,harvest,active,percentage},
 
             function(err, result){
                 if(err){
@@ -355,6 +446,36 @@ router.post('/pesticides', (req, res) => {
                     res.status(200).json({pesticide: result});
                 }
             });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+router.put('/pesticides', (req, res) => {
+    console.log(req.body);
+
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        Pesticide.findByIdAndUpdate(
+            req.body.id,
+            {
+                quantity: req.body.log.value,
+                $push: {log:{timestamp: req.body.log.timestamp, value: req.body.log.value}},
+                $set: {suppliers: req.body.suppliers},
+
+            },
+            {safe: true, new: true},
+            function(err, updatedItem){
+                if(err){
+                    console.log(err);
+                }
+                res.json({item: updatedItem});
+
+            }
+        );
+
+
     }else{
         res.status(400).json({errors});
     }
@@ -445,9 +566,9 @@ router.get('/vehicles', (req, res) => {
 router.post('/vehicles', (req, res) => {
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
-        const{brand,model,year,price,quantity} = req.body;
+        const{name, suppliers, log, quantity,brand,model,year,price} = req.body;
 
-        Vehicle.create({brand,model,year,price,quantity},
+        Vehicle.create({name, suppliers, log, quantity,brand,model,year,price},
 
             function(err, result){
                 if(err){
@@ -463,6 +584,37 @@ router.post('/vehicles', (req, res) => {
     }
 
 });
+
+router.put('/vehicles', (req, res) => {
+    console.log(req.body);
+
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        Vehicle.findByIdAndUpdate(
+            req.body.id,
+            {
+                quantity: req.body.log.value,
+                $push: {log:{timestamp: req.body.log.timestamp, value: req.body.log.value}},
+                $set: {suppliers: req.body.suppliers},
+
+            },
+            {safe: true, new: true},
+            function(err, updatedItem){
+                if(err){
+                    console.log(err);
+                }
+                res.json({item: updatedItem});
+
+            }
+        );
+
+
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
 
 //ROUTES FOR HARVESTED
 router.get('/harvested', (req, res) => {
@@ -481,9 +633,9 @@ router.get('/harvested', (req, res) => {
 router.post('/harvested', (req, res) => {
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
-        const{name,variety,price,quantity,unit} = req.body;
+        const{name,suppliers,log,variety,price,quantity,unit} = req.body;
 
-        Harvested.create({name,variety,price,quantity,unit},
+        Harvested.create({name,suppliers,log,variety,price,quantity,unit},
 
             function(err, result){
                 if(err){
@@ -494,6 +646,36 @@ router.post('/harvested', (req, res) => {
                     res.status(200).json({harvested: result});
                 }
             });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+router.put('/harvested', (req, res) => {
+    console.log(req.body);
+
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        Harvested.findByIdAndUpdate(
+            req.body.id,
+            {
+                quantity: req.body.log.value,
+                $push: {log:{timestamp: req.body.log.timestamp, value: req.body.log.value}},
+                $set: {suppliers: req.body.suppliers},
+
+            },
+            {safe: true, new: true},
+            function(err, updatedItem){
+                if(err){
+                    console.log(err);
+                }
+                res.json({item: updatedItem});
+
+            }
+        );
+
+
     }else{
         res.status(400).json({errors});
     }
@@ -533,6 +715,20 @@ router.post('/suppliers', (req, res) => {
     }else{
         res.status(400).json({errors});
     }
+
+});
+
+//USERS
+router.get('/users', (req, res) => {
+
+    User.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving harvested');
+        } else {
+            res.json({items});
+        }
+
+    });
 
 });
 

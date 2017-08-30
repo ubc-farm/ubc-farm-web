@@ -4,6 +4,7 @@
 import {SET_SEEDS} from "../actions/seeds-get.js"
 import {SEED_DELETED} from "../actions/seeds-delete.js"
 import {ADD_SEED} from "../actions/seeds-post.js"
+import {UPDATE_SEED} from "../actions/seeds-put"
 
 export default function seeds(state=[], action={}){
     switch(action.type) {
@@ -24,6 +25,15 @@ export default function seeds(state=[], action={}){
                 action.seed
             ];
             break;
+        case UPDATE_SEED:
+            console.log(action);
+            const index = state.findIndex(i => i._id === action.item._id);
+            console.log(index);
+            return [
+                ...state.slice(0,index),
+                action.item,
+                ...state.slice(index + 1)
+            ];
 
         default:
             return state;

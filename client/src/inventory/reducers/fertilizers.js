@@ -1,7 +1,7 @@
 /**
  * Created by Xingyu on 6/29/2017.
  */
-import {SET_FERTILIZERS, FERTILIZER_DELETED, ADD_FERTILIZER} from "../actions/fertilizer-actions"
+import {SET_FERTILIZERS, FERTILIZER_DELETED, ADD_FERTILIZER,UPDATE_FERTILIZER} from "../actions/fertilizer-actions"
 
 export default function transplants(state=[], action={}){
     switch(action.type) {
@@ -19,6 +19,14 @@ export default function transplants(state=[], action={}){
             return[
                 ...state,
                 action.fertilizer
+            ];
+            break;
+        case UPDATE_FERTILIZER:
+            const index = state.findIndex(i => i._id === action.item._id);
+            return [
+                ...state.slice(0,index),
+                action.item,
+                ...state.slice(index + 1)
             ];
             break;
 
