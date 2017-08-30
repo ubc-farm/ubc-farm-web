@@ -10,7 +10,11 @@ import Divider from 'material-ui/Divider';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
 import {SavePesticide} from '../../actions/pest-actions';
+import {fetchSuppliers} from '../../../finances/actions/supplier-actions';
 import MenuItem from 'material-ui/MenuItem'
+import NewSupplierModal from '../../../finances/components/NewSupplierModal';
+import SelectField from 'material-ui/SelectField'
+import PropTypes from 'prop-types';
 
 /**
  * A modal for creating pest control items
@@ -41,6 +45,7 @@ class CreatePesticideModal extends Component{
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
 
     };
     handleOpen(){
@@ -67,6 +72,10 @@ class CreatePesticideModal extends Component{
         }
 
     };
+    handleSelectSupplier(event, index, value){
+        console.log(value);
+        this.setState({supplier: value});
+    };
     handleSubmit(e){
         e.preventDefault();
 
@@ -79,9 +88,37 @@ class CreatePesticideModal extends Component{
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
-            const{type,name,rate,ratio,location,entry,harvest,active,percentage} = this.state;
+            //create first date in log
+            const first_log = [{
+                timestamp: Date.now(),
+                value: this.state.quantity,
+            }];
+
+            //create supplier
+            const first_supplier = this.props.suppliers[this.state.supplier];
+            first_supplier.quantity = parseInt(this.state.quantity);
+            first_supplier.unit = this.state.unit;
+
+            //create pesticide
+            const new_pesticide = {
+                name: this.state.name,
+                suppliers:[first_supplier],
+                log: first_log,
+                quantity: this.state.quantity,
+                unit: 'pesticide',
+
+                type: this.state.type,
+                rate: this.state.rate,
+                ratio: this.state.ratio,
+                location: this.state.location,
+                entry: this.state.entry,
+                harvest: this.state.harvest,
+                active: this.state.active,
+                percentage: this.state.percentage,
+            };
+
             this.setState({loading: true});
-            this.props.SavePesticide({type,name,rate,ratio,location,entry,harvest,active,percentage}).then(
+            this.props.SavePesticide(new_pesticide).then(
                 (response) => {console.log("should catch error here")}
             );
             this.setState({done: true, loading: false});
@@ -115,6 +152,25 @@ class CreatePesticideModal extends Component{
                     open={this.state.open}
                 >
                     <form>
+                        <p>Supplier Detail</p>
+                        <SelectField
+                            floatingLabelText="Existing Supplier"
+                            hintText="Select Supplier"
+                            name="supplier"
+                            autoWidth={false}
+                            style={{width:"100%"}}
+                            value={this.state.supplier}
+                            onChange={this.handleSelectSupplier}
+                            errorText={this.state.errors.supplier}
+                        >
+                            {this.props.suppliers.map((supplier,index) => (
+                                <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
+                            ))}
+                        </SelectField>
+                        <div  style={{textAlign: 'center',padding:'10px'}}>
+                            <p>-OR-</p>
+                        </div>
+                        <NewSupplierModal/>
                         <h3>Pest Control Detail</h3>
                         <TextField
                             hintText="Enter Pest Control Type"
@@ -222,5 +278,16 @@ class CreatePesticideModal extends Component{
         );
     }
 }
+CreatePesticideModal.propTypes={
+    suppliers: PropTypes.array.isRequired,
+    fetchSuppliers: PropTypes.func.isRequired,
+};
 
-export default connect(null, {SavePesticide})(CreatePesticideModal);
+const mapStateToProps = (state) => {
+    return {
+        suppliers: state.suppliers,
+
+    }
+};
+
+export default connect(mapStateToProps, {fetchSuppliers, SavePesticide})(CreatePesticideModal);

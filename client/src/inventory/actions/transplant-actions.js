@@ -56,3 +56,30 @@ export function SaveTransplant(data){
             .then(data => dispatch(AddTransplant(data.transplant)));
     }
 }
+
+//PUT action
+export const UPDATE_TRANSPLANT = 'UPDATE_TRANSPLANT';
+
+export function updateTransplant(item){
+    console.log("seed should update");
+    console.log(item);
+    return{
+        type: UPDATE_TRANSPLANT,
+        item
+    }
+}
+
+export function logTransplant(data){
+    console.log(data);
+    return dispatch => {
+        return fetch('data/transplants', {
+            credentials: 'same-origin',
+            method: 'put',
+            body: JSON.stringify(data),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(handleResponse)
+            .then(data => dispatch(updateTransplant(data.item)));
+    }
+}

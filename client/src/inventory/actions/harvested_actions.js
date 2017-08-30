@@ -54,3 +54,29 @@ export function SaveHarvested(data){
             .then(data => dispatch(AddHarvested(data.harvested)));
     }
 }
+//PUT action
+export const UPDATE_HARVESTED = 'UPDATE_HARVESTED';
+
+export function updateHarvested(item){
+    console.log("harvested should update");
+    console.log(item);
+    return{
+        type: UPDATE_HARVESTED,
+        item
+    }
+}
+
+export function logHarvested(data){
+    console.log(data);
+    return dispatch => {
+        return fetch('data/harvested', {
+            credentials: 'same-origin',
+            method: 'put',
+            body: JSON.stringify(data),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(handleResponse)
+            .then(data => dispatch(updateHarvested(data.item)));
+    }
+}

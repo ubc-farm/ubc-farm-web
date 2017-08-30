@@ -56,3 +56,29 @@ export function SavePesticide(data){
             .then(data => dispatch(AddPesticide(data.pesticide)));
     }
 }
+//PUT action
+export const UPDATE_PESTICIDE = 'UPDATE_PESTICIDE';
+
+export function updatePesticide(item){
+    console.log("pesticide should update");
+    console.log(item);
+    return{
+        type: UPDATE_PESTICIDE,
+        item
+    }
+}
+
+export function logPesticide(data){
+    console.log(data);
+    return dispatch => {
+        return fetch('data/pesticides', {
+            credentials: 'same-origin',
+            method: 'put',
+            body: JSON.stringify(data),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(handleResponse)
+            .then(data => dispatch(updatePesticide(data.item)));
+    }
+}

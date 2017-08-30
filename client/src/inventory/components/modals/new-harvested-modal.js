@@ -10,8 +10,11 @@ import Divider from 'material-ui/Divider';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
 import {SaveHarvested} from '../../actions/harvested_actions';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+import {fetchSuppliers} from '../../../finances/actions/supplier-actions';
+import MenuItem from 'material-ui/MenuItem'
+import NewSupplierModal from '../../../finances/components/NewSupplierModal';
+import SelectField from 'material-ui/SelectField'
+import PropTypes from 'prop-types';
 
 
 let shortid = require('shortid');
@@ -45,6 +48,7 @@ class CreatedHarvestedModal extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
     };
 
     handleOpen(){
@@ -71,6 +75,10 @@ class CreatedHarvestedModal extends Component {
         }
 
     };
+    handleSelectSupplier(event, index, value){
+        console.log(value);
+        this.setState({supplier: value});
+    };
     handleSubmit(e){
         e.preventDefault();
 
@@ -84,14 +92,36 @@ class CreatedHarvestedModal extends Component {
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
-            const{name,variety,price,quantity,unit} = this.state;
+            //create first date in log
+            const first_log = [{
+                timestamp: Date.now(),
+                value: this.state.quantity,
+            }];
+
+            //create supplier
+            const first_supplier = this.props.suppliers[this.state.supplier];
+            first_supplier.quantity = parseInt(this.state.quantity);
+            first_supplier.unit = this.state.unit;
+
+            //create harvested
+            const new_harvested = {
+                name: this.state.name,
+                suppliers:[first_supplier],
+                log: first_log,
+                quantity: this.state.quantity,
+                unit: this.state.unit,
+
+                variety: this.state.variety,
+                price: this.state.price,
+
+            };
+
             this.setState({loading: true});
-            this.props.SaveHarvested({name,variety,price,quantity,unit}).then(
+            this.props.SaveHarvested(new_harvested).then(
                 (response) => {console.log("should catch error here")}
             );
             this.setState({done: true, loading: false});
             this.handleClose();
-
         }
 
 
@@ -127,6 +157,26 @@ class CreatedHarvestedModal extends Component {
                     open={this.state.open}
                 >
                     <form>
+                        <p>Supplier Detail</p>
+                        <SelectField
+                            floatingLabelText="Existing Supplier"
+                            hintText="Select Supplier"
+                            name="supplier"
+                            autoWidth={false}
+                            style={{width:"100%"}}
+                            value={this.state.supplier}
+                            onChange={this.handleSelectSupplier}
+                            errorText={this.state.errors.supplier}
+                        >
+                            {this.props.suppliers.map((supplier,index) => (
+                                <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
+                            ))}
+                        </SelectField>
+                        <div  style={{textAlign: 'center',padding:'10px'}}>
+                            <p>-OR-</p>
+                        </div>
+                        <NewSupplierModal/>
+                        <h3>Harvested Product Detail</h3>
                         <TextField
                             hintText="Enter Item Name"
                             floatingLabelText="Item Name"
@@ -198,5 +248,16 @@ class CreatedHarvestedModal extends Component {
         );
     }
 }
+CreatedHarvestedModal.propTypes={
+    suppliers: PropTypes.array.isRequired,
+    fetchSuppliers: PropTypes.func.isRequired,
+};
 
-export default connect(null, {SaveHarvested})(CreatedHarvestedModal);
+const mapStateToProps = (state) => {
+    return {
+        suppliers: state.suppliers,
+
+    }
+};
+
+export default connect(mapStateToProps, {fetchSuppliers, SaveHarvested})(CreatedHarvestedModal);

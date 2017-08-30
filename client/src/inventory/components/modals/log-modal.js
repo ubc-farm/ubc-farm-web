@@ -13,6 +13,10 @@ import PropTypes from 'prop-types';
 import {logEquipment} from '../../actions/equipment-actions';
 import {logVehicle} from '../../actions/vehicles-action';
 import {logSeed} from '../../actions/seeds-put';
+import {logTransplant} from '../../actions/transplant-actions'
+import {logFertilizer} from '../../actions/fertilizer-actions'
+import {logPesticide} from '../../actions/pest-actions'
+import {logHarvested} from '../../actions/harvested_actions'
 import LogScatter from '../visuals/LogScatter';
 import Divider from 'material-ui/Divider';
 import NewSupplierModal from './new-supplier-modal-nested';
@@ -102,12 +106,24 @@ class LogItemModal extends Component {
             case 'seeds':
                 this.props.logSeed({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
                 break;
+            case 'transplants':
+                this.props.logTransplant({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                break;
+            case 'fertilizers':
+                this.props.logFertilizer({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                break;
+            case 'pesticides':
+                this.props.logPesticide({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                break;
             case 'equipments':
                 this.props.logEquipment({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
                 break;
             case 'vehicles':
                 this.props.logVehicle({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
                 break;
+            case 'harvested':
+            this.props.logHarvested({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+            break;
 
         }
 
@@ -274,4 +290,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {logSeed, logEquipment, logVehicle})(LogItemModal);
+export default connect(mapStateToProps, {logSeed,logTransplant, logEquipment, logVehicle,logFertilizer,logPesticide,logHarvested})(LogItemModal);

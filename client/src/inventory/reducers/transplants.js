@@ -2,7 +2,7 @@
  * Created by Xingyu on 7/5/2017.
  */
 
-import {SET_TRANSPLANTS, TRANSPLANT_DELETED, ADD_TRANSPLANT} from "../actions/transplant-actions"
+import {SET_TRANSPLANTS, TRANSPLANT_DELETED, ADD_TRANSPLANT, UPDATE_TRANSPLANT} from "../actions/transplant-actions"
 
 export default function transplants(state=[], action={}){
     switch(action.type) {
@@ -22,6 +22,15 @@ export default function transplants(state=[], action={}){
                 action.transplant
             ];
             break;
+        case UPDATE_TRANSPLANT:
+            console.log(action);
+            const index = state.findIndex(i => i._id === action.item._id);
+            console.log(index);
+            return [
+                ...state.slice(0,index),
+                action.item,
+                ...state.slice(index + 1)
+            ];
 
         default:
             return state;

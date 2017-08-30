@@ -54,3 +54,30 @@ export function SaveFertilizer(data){
             .then(data => dispatch(AddFertilizer(data.fertilizer)));
     }
 }
+
+//PUT action
+export const UPDATE_FERTILIZER = 'UPDATE_FERTILIZER';
+
+export function updateFertilizer(item){
+    console.log("fertilizer should update");
+    console.log(item);
+    return{
+        type: UPDATE_FERTILIZER,
+        item
+    }
+}
+
+export function logFertilizer(data){
+    console.log(data);
+    return dispatch => {
+        return fetch('data/fertilizers', {
+            credentials: 'same-origin',
+            method: 'put',
+            body: JSON.stringify(data),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(handleResponse)
+            .then(data => dispatch(updateFertilizer(data.item)));
+    }
+}

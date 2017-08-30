@@ -2,17 +2,19 @@
  * Created by Xingyu on 7/5/2017.
  */
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField'
 import Divider from 'material-ui/Divider';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
 import {SaveFertilizer} from '../../actions/fertilizer-actions';
+import {fetchSuppliers} from '../../../finances/actions/supplier-actions';
 import MenuItem from 'material-ui/MenuItem'
-
-let shortid = require('shortid');
+import NewSupplierModal from '../../../finances/components/NewSupplierModal';
 
 /**
  * A modal form for creating new transplant items
@@ -49,6 +51,7 @@ class CreateFertilizerModal extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
     };
 
     handleOpen(){
@@ -76,6 +79,10 @@ class CreateFertilizerModal extends Component {
         }
 
     };
+    handleSelectSupplier(event, index, value){
+        console.log(value);
+        this.setState({supplier: value});
+    };
     handleSubmit(e){
         e.preventDefault();
 
@@ -89,18 +96,44 @@ class CreateFertilizerModal extends Component {
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
-            const{type,name,ratio,rate,tc,no3,nh4,k2o,p2o5,price,quantity} = this.state;
+            //create first date in log
+            const first_log = [{
+                timestamp: Date.now(),
+                value: this.state.quantity,
+            }];
+
+            //create supplier
+            const first_supplier = this.props.suppliers[this.state.supplier];
+            first_supplier.quantity = parseInt(this.state.quantity);
+            first_supplier.unit = this.state.unit;
+
+            //create seed
+            const new_fertilizer = {
+                name: this.state.name,
+                suppliers:[first_supplier],
+                log: first_log,
+                quantity: this.state.quantity,
+                unit: 'fertilizer',
+
+                type: this.state.type,
+                rate: this.state.rate,
+                ratio: this.state.ratio,
+                tc: this.state.tc,
+                no3: this.state.no3,
+                nh4: this.state.nh4,
+                k2o: this.state.k2o,
+                p2o5: this.state.p2o5,
+                price: this.state.price,
+            };
+
             this.setState({loading: true});
-            this.props.SaveFertilizer({type,name,ratio,rate,tc,no3,nh4,k2o,p2o5,price,quantity}).then(
+            this.props.SaveFertilizer(new_fertilizer).then(
                 (response) => {console.log("should catch error here")}
             );
             this.setState({done: true, loading: false});
             this.handleClose();
 
         }
-
-
-
 
     };
 
@@ -132,6 +165,26 @@ class CreateFertilizerModal extends Component {
                     open={this.state.open}
                 >
                     <form>
+                        <p>Supplier Detail</p>
+                        <SelectField
+                            floatingLabelText="Existing Supplier"
+                            hintText="Select Supplier"
+                            name="supplier"
+                            autoWidth={false}
+                            style={{width:"100%"}}
+                            value={this.state.supplier}
+                            onChange={this.handleSelectSupplier}
+                            errorText={this.state.errors.supplier}
+                        >
+                            {this.props.suppliers.map((supplier,index) => (
+                                <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
+                            ))}
+                        </SelectField>
+                        <div  style={{textAlign: 'center',padding:'10px'}}>
+                            <p>-OR-</p>
+                        </div>
+                        <NewSupplierModal/>
+                        <h3>Fertilizer Detail</h3>
                         <TextField
                             hintText="Enter Fertilizer Type (Compost, NPK, etc)"
                             floatingLabelText="Fertilizer Type"
@@ -259,5 +312,16 @@ class CreateFertilizerModal extends Component {
         );
     }
 }
+CreateFertilizerModal.propTypes={
+    suppliers: PropTypes.array.isRequired,
+    fetchSuppliers: PropTypes.func.isRequired,
+};
 
-export default connect(null, {SaveFertilizer})(CreateFertilizerModal);
+const mapStateToProps = (state) => {
+    return {
+        suppliers: state.suppliers,
+
+    }
+};
+
+export default connect(mapStateToProps, {fetchSuppliers, SaveFertilizer})(CreateFertilizerModal);

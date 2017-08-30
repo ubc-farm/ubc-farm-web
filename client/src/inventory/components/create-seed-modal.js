@@ -24,7 +24,7 @@ let shortid = require('shortid');
 /**
  * A modal dialog can only be closed by selecting one of the actions.
  */
-class CreateFieldModal extends Component {
+class CreateSeedModal extends Component {
     /**
      * Class constructor.
      */
@@ -263,7 +263,7 @@ class CreateFieldModal extends Component {
         );
     }
 }
-CreateFieldModal.propTypes={
+CreateSeedModal.propTypes={
     suppliers: PropTypes.array.isRequired,
     fetchSuppliers: PropTypes.func.isRequired,
 };
@@ -275,4 +275,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {fetchSuppliers, SaveSeed})(CreateFieldModal);
+export default connect(mapStateToProps, {fetchSuppliers, SaveSeed})(CreateSeedModal);
