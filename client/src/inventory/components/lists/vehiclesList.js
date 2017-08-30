@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
+import LogItemModel from '../modals/log-modal';
 
 import {
     Table,
@@ -77,11 +78,7 @@ class VehicleList extends Component {
 
                                         </div>
                                         <div className="column">
-                                            <FlatButton
-                                                label="Log"
-                                                primary={true}
-                                                onTouchTap={this.props.deleteEquipment}
-                                            />
+                                            <LogItemModel item={item} inventory="vehicles"/>
                                         </div>
                                     </div>
                                 </TableRowColumn>

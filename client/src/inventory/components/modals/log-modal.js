@@ -11,6 +11,7 @@ import {logItem} from '../../actions/universal-actions';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 import {logEquipment} from '../../actions/equipment-actions';
+import {logVehicle} from '../../actions/vehicles-action';
 import LogScatter from '../visuals/LogScatter';
 import Divider from 'material-ui/Divider';
 import NewSupplierModal from './new-supplier-modal-nested';
@@ -31,6 +32,17 @@ const styles = {
     button:{
         margin:12
     }
+
+};
+
+const logArray = {
+    // 'seeds': logSeed,
+    // 'transplants': logTransplant,
+    // 'fertilizers': logFertilizer,
+    // 'pesticides': logPesticide,
+    'equipments': logEquipment,
+    'vehicles': logVehicle,
+    // 'harvested': logHarvested,
 
 };
 
@@ -94,10 +106,21 @@ class LogItemModal extends Component {
 
         //push changes to database
         console.log(this.props.item.suppliers);
+        console.log(logArray[this.props.inventory]);
         this.setState({loading: true});
-        this.props.logEquipment({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers}).then(
-            (response) => {console.log("should catch error here")}
-        );
+        let func = logArray[this.props.inventory];
+
+        switch(this.props.inventory){
+            case 'equipments':
+                this.props.logEquipment({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                break;
+            case 'vehicles':
+                this.props.logVehicle({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                break;
+
+        }
+
+        // this.props.logEquipment({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
         //TO DO - ADD SUPPLIER INFO TO SUPPLIER DATABASE
         this.setState({done: true, loading: false});
         this.handleClose();
@@ -250,6 +273,7 @@ class LogItemModal extends Component {
 
 LogItemModal.propTypes = {
     item: PropTypes.object.isRequired,
+    inventory: PropTypes.string.isRequired,
 
 };
 
@@ -259,4 +283,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {logEquipment})(LogItemModal);
+export default connect(mapStateToProps, {logEquipment, logVehicle})(LogItemModal);

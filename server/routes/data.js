@@ -445,9 +445,9 @@ router.get('/vehicles', (req, res) => {
 router.post('/vehicles', (req, res) => {
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
-        const{brand,model,year,price,quantity} = req.body;
+        const{name, suppliers, log, quantity,brand,model,year,price} = req.body;
 
-        Vehicle.create({brand,model,year,price,quantity},
+        Vehicle.create({name, suppliers, log, quantity,brand,model,year,price},
 
             function(err, result){
                 if(err){
@@ -463,6 +463,37 @@ router.post('/vehicles', (req, res) => {
     }
 
 });
+
+router.put('/vehicles', (req, res) => {
+    console.log(req.body);
+
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        Vehicle.findByIdAndUpdate(
+            req.body.id,
+            {
+                quantity: req.body.log.value,
+                $push: {log:{timestamp: req.body.log.timestamp, value: req.body.log.value}},
+                $set: {suppliers: req.body.suppliers},
+
+            },
+            {safe: true, new: true},
+            function(err, updatedItem){
+                if(err){
+                    console.log(err);
+                }
+                res.json({item: updatedItem});
+
+            }
+        );
+
+
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
 
 //ROUTES FOR HARVESTED
 router.get('/harvested', (req, res) => {

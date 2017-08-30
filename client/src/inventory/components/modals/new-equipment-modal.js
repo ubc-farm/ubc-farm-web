@@ -161,8 +161,6 @@ class CreateEquipmentModal extends Component {
                     <Divider/>
                     <form>
                         <p>Product Detail (mandatory)</p>
-                    handlec
-
                         <SelectField
                             floatingLabelText="Existing Supplier"
                             hintText="Select Supplier"

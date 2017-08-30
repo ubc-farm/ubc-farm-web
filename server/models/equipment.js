@@ -5,14 +5,14 @@ const mongoose = require('mongoose');
 let inventory_log_schema = require('./log_inventory');
 
 
-// define the Pesticide model schema
+// define the Equipment model schema
 const EquipmentSchema = new mongoose.Schema({
 
     name: String,
-    quantity: Number,
-    unit: String,
     suppliers:[],
     log: [inventory_log_schema],
+    quantity: Number,
+    unit: String,
 
 });
 

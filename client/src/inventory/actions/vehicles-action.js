@@ -55,3 +55,30 @@ export function SaveVehicle(data){
             .then(data => dispatch(AddVehicle(data.vehicle)));
     }
 }
+
+//PUT DATA ACTION
+export const UPDATE_VEHICLE = 'UPDATE_VEHICLE';
+
+export function updateVehicle(item){
+    console.log("vehicle should update");
+    console.log(item);
+    return{
+        type: UPDATE_VEHICLE,
+        item
+    }
+}
+
+export function logVehicle(data){
+    console.log(data);
+    return dispatch => {
+        return fetch('data/vehicles', {
+            credentials: 'same-origin',
+            method: 'put',
+            body: JSON.stringify(data),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(handleResponse)
+            .then(data => dispatch(updateVehicle(data.item)));
+    }
+}
