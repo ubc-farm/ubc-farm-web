@@ -59,7 +59,8 @@ class AddExistingItemModal extends Component {
             selectedInventoryIndex: 4,
             selectedItem: {},
             selectedSupplier: '',
-            unitprice: '',
+            price: '',
+            quantity: '',
             errors: {},
             open: false,
             validated: false,
@@ -113,6 +114,7 @@ class AddExistingItemModal extends Component {
     handleSupplierChange(event, index, value){this.setState({selectedSupplier: value});};
 
     handleItemChange(item){
+        console.log(item);
         this.setState({selectedItem: item});
     };
 
@@ -145,27 +147,16 @@ class AddExistingItemModal extends Component {
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if (isValid) {
-            const {field,
-                type,
-                description,
-                time,
-                multiDay,
-                startDate,
-                endDate} = this.state;
+            const newItem = {
+                selectedInventoryIndex: this.state.selectedInventoryIndex,
+                selectedItem: this.state.selectedItem,
+                selectedSupplier: this.state.selectedSupplier,
+                price: this.state.price,
+                quantity: this.state.quantity,
 
-            this.setState({loading: true});
+            };
 
-            this.props.SaveTask({field,
-                type,
-                description,
-                time,
-                multiDay,
-                startDate,
-                endDate}).then(
-                (response) => {
-                    console.log("should catch error here")
-                }
-            );
+            this.props.addItem(newItem);
             this.setState({done: true, loading: false});
             this.handleClose();
         }
@@ -203,60 +194,74 @@ class AddExistingItemModal extends Component {
                         contentStyle={{width:'100%'}}
                     >
                         <form>
+                            <SelectField
+                                floatingLabelText="Inventory"
+                                hintText="Select Inventory"
+                                fullWidth={true}
+                                value={this.state.selectedInventoryIndex}
+                                onChange={this.handleInventoryChange}
+                            >
+                                <MenuItem value={0} primaryText="Seeds"/>
+                                <MenuItem value={1} primaryText="Transplanting" />
+                                <MenuItem value={2} primaryText="Fertilizers"  />
+                                <MenuItem value={3} primaryText="Pest Control"  />
+                                <MenuItem value={4} primaryText="Equipment" />
+                                <MenuItem value={5} primaryText="Vehicles" />
+                                <MenuItem value={6} primaryText="Harvested Produce" />
+                            </SelectField>
+
                             <div className="columns">
 
                                 <div className="column">
-                                    <SelectField
-                                        floatingLabelText="Inventory"
-                                        hintText="Select Inventory"
-                                        fullWidth={true}
-                                        value={this.state.selectedInventoryIndex}
-                                        onChange={this.handleInventoryChange}
-                                    >
-                                        <MenuItem value={0} primaryText="Seeds"/>
-                                        <MenuItem value={1} primaryText="Transplanting" />
-                                        <MenuItem value={2} primaryText="Fertilizers"  />
-                                        <MenuItem value={3} primaryText="Pest Control"  />
-                                        <MenuItem value={4} primaryText="Equipment" />
-                                        <MenuItem value={5} primaryText="Vehicles" />
-                                        <MenuItem value={6} primaryText="Harvested Produce" />
-                                    </SelectField>
+
+                                    <SelectItem value={this.state.selectedItem} primaryText={this.state.selectedItem.name} handleItemChange={this.handleItemChange}/>
 
                                 </div>
 
 
                                 <div className="column">
-                                    <SelectItem/>
+
+                                    <SelectField
+                                        floatingLabelText="Supplier"
+                                        hintText="Select a Supplier"
+                                        fullWidth={true}
+                                        value={this.state.selectedSupplier}
+                                        onChange={this.handleSupplierChange}
+                                    >
+                                        {
+                                            this.props.suppliers.map((item) => (
+                                                <MenuItem key={item._id} value={item._id} primaryText={item.name}/>
+                                            ))
+                                        }
+                                    </SelectField>
                                 </div>
 
                             </div>
 
                             <div className="columns">
                                 <div className="column">
-                                    <SelectField
-                                        floatingLabelText="Supplier"
-                                        hintText="Select a Supplier"
-                                        fullWidth={true}
-                                        value={this.state.selectedItem}
-                                        onChange={this.handleSupplierChange}
-                                    >
-                                        {
-                                            this.props.suppliers.map((item) => (
-                                                <MenuItem value={item._id} primaryText={item.name}/>
-                                            ))
-                                        }
-                                    </SelectField>
-                                </div>
-                                <div className="column">
+
                                     <TextField
                                         hintText="Enter Unit Price"
                                         floatingLabelText="Unit Price"
                                         type="number"
-                                        name="unitprice"
+                                        name="price"
                                         onChange={this.handleChange}
-                                        value={this.state.unitprice}
+                                        value={this.state.price}
                                         fullWidth={true}
-                                        errorText={this.state.errors.unitprice}/>
+                                        errorText={this.state.errors.price}/>
+                                </div>
+                                <div className="column">
+
+                                    <TextField
+                                        hintText="Enter Quantity"
+                                        floatingLabelText="Quantity"
+                                        type="number"
+                                        name="quantity"
+                                        onChange={this.handleChange}
+                                        value={this.state.quantity}
+                                        fullWidth={true}
+                                        errorText={this.state.errors.quantity}/>
 
                                 </div>
                             </div>
@@ -291,6 +296,8 @@ AddExistingItemModal.propTypes = {
 
     suppliers: PropTypes.array.isRequired,
     fetchSuppliers: PropTypes.func.isRequired,
+
+    addItem: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {

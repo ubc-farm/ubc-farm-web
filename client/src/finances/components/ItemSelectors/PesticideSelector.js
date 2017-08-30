@@ -22,10 +22,11 @@ class PesticideSelector extends Component {
 
     };
 
-    handleUpdateInput(value){
+    handleUpdateInput(event, index, value){
         this.setState({
-            selectedItem: value,
+            selectedItem: value
         });
+        this.props.handleItemChange(value);
     };
 
     render() {
@@ -39,7 +40,7 @@ class PesticideSelector extends Component {
             >
                 {
                     this.props.pesticides.map((item) => (
-                        <MenuItem value={item._id} primaryText={item.name}/>
+                        <MenuItem key={item._id} value={item} primaryText={item.name}/>
                     ))
                 }
             </SelectField>
@@ -49,6 +50,7 @@ class PesticideSelector extends Component {
 
 PesticideSelector.propTypes = {
     pesticides: PropTypes.array.isRequired,
+    handleItemChange: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {

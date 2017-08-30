@@ -25,6 +25,7 @@ class EquipmentSelector extends Component {
         this.setState({
             selectedItem: value
         });
+        this.props.handleItemChange(value);
     };
 
     render() {
@@ -38,7 +39,7 @@ class EquipmentSelector extends Component {
             >
                 {
                     this.props.equipments.map((item) => (
-                      <MenuItem value={item._id} primaryText={item.name}/>
+                      <MenuItem key={item._id} value={item} primaryText={item.name}/>
                     ))
                 }
             </SelectField>
@@ -48,6 +49,7 @@ class EquipmentSelector extends Component {
 
 EquipmentSelector.propTypes = {
     equipments: PropTypes.array.isRequired,
+    handleItemChange: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {

@@ -10,6 +10,7 @@ import InventoryPage from './inventory/InventoryPage'
 import Auth from './modules/Auth';
 import TasksPage from './tasks/TasksPage';
 import FinancesPage from './finances/FinancesPage';
+import UserPage from './users/UserPage'
 
 export default (
     <Route component={Base}>
@@ -39,6 +40,7 @@ export default (
         <Route path="/inventory" component={InventoryPage}/>
         <Route path="/tasks" component={TasksPage}/>
         <Route path="/finances" component={FinancesPage}/>
+        <Route path="/users" component={UserPage}/>
 
     </Route>
 )

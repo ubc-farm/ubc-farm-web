@@ -18,6 +18,7 @@ let Equipment = require('mongoose').model('Equipment');
 let Vehicle = require('mongoose').model('Vehicle');
 let Harvested = require('mongoose').model('Harvested');
 let Supplier = require('mongoose').model('Supplier');
+let User = require('mongoose').model('User');
 
 router.get('/fields', (req, res) => {
 
@@ -714,6 +715,20 @@ router.post('/suppliers', (req, res) => {
     }else{
         res.status(400).json({errors});
     }
+
+});
+
+//USERS
+router.get('/users', (req, res) => {
+
+    User.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving harvested');
+        } else {
+            res.json({items});
+        }
+
+    });
 
 });
 

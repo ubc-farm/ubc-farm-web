@@ -32,12 +32,17 @@ class NewPurchasePage extends React.Component {
             date: {},
             notes: '',
             invoice_number: '',
-            total: '',
             errors: {},
+            items: [],
+
+            subtotal: 0,
+            total: 0,
+            tax_rate: 1.12,
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.handleNewItemAddition = this.handleNewItemAddition.bind(this);
 
     }
 
@@ -62,6 +67,19 @@ class NewPurchasePage extends React.Component {
     handleDateChange(event, date) {
         this.setState({date: date});
     };
+
+    handleNewItemAddition(item){
+        console.log("handling new item addition!");
+        console.log(item);
+        this.setState({
+            items: [
+                ...this.state.items,
+                item
+            ],
+            subtotal: this.state.subtotal + item.quantity * item.price,
+        });
+    }
+
 
     render(){
         return(
@@ -120,7 +138,7 @@ class NewPurchasePage extends React.Component {
                             <TableHeaderColumn style={{verticalAlign: "middle"}}>
                                 <div className="columns">
                                     <div className="column">
-                                        <AddExistingItemModal/>
+                                        <AddExistingItemModal addItem={this.handleNewItemAddition}/>
                                     </div>
                                     <div className="column">
 
@@ -145,11 +163,22 @@ class NewPurchasePage extends React.Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
+                        {this.state.items.map( (item, index) => (
+                            <TableRow key={index}>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.selectedItem.name}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{(item.price * 1.0).toFixed(2)}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: "middle"}}>$ {(item.price * item.quantity).toFixed(2)}</TableRowColumn>
+
+                            </TableRow>
+                        ))}
                         <TableRow>
                             <TableRowColumn/>
                             <TableRowColumn/>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Total</TableRowColumn>
-                            <TableRowColumn>$</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>Subtotal</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>$ {
+                                (this.state.subtotal).toFixed(2)
+                            }</TableRowColumn>
                         </TableRow>
 
                     </TableBody>
@@ -158,13 +187,14 @@ class NewPurchasePage extends React.Component {
                         <TableRow selectable={false}>
                             <TableRowColumn/>
                             <TableRowColumn/>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Total</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>$</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle', fontWeight: 'bold'}}>Total</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle', fontWeight: 'bold'}}>$ {(this.state.subtotal * this.state.tax_rate).toFixed(2)}
+                            </TableRowColumn>
                         </TableRow>
                     </TableFooter>
                 </Table>
-
             </div>
+
 
         </div>
 
