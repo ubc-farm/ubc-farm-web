@@ -5,9 +5,6 @@ This repository contains the application files that make up the current iteratio
 
 # How to Install
 * src
- * dashboard
-    ***DashboardComponent.jsx**
-    ***DashboardContainer.jsx**
-  ***fields**
+   * dashboard
 
 
