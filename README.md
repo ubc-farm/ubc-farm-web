@@ -30,7 +30,7 @@ This repository contains the application files that make up the current iteratio
 		* **reducers**
 			* *Redux reducer files for **fields***
 		* *Finance Page base component files*
-	* **Inventory**
+	* **inventory**
 		* **actions**
 			* *Redux action creation files for **inventory items***
 		* **components** 
@@ -40,9 +40,31 @@ This repository contains the application files that make up the current iteratio
 				* *CRUD update components for inventories*
 			* **visuals**
 				* *D3 Components for inventories*
-			* *Inventory base component files
+			* *Inventory base component files*
 		* **reducers**
+			* *Redux reducer files for **inventory items*
 		* *Inventory Page base component files*
+	* **login**
+		* *login components and containers*
+	* **modules**
+		* *currently only contains Auth Module*
+	* **navigation**
+		* *main navigation drawer container and component files*
+	* **reducers**
+		* *main reducer file*
+	* **reports**
+		* *Report page*
+	* **signup**
+		* *signup component and container files*
+	* **tasks**
+		* **actions**
+			* *redux action creater files for **tasks***
+		* **components**
+			* *child component files for **tasks***
+		* **reducers**
+			* *Redux Reducer files for **tasks***
+		* *Task Page main component file*
+		
 
 
 # How to Install
