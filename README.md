@@ -8,12 +8,7 @@ This repository contains the application files that make up the current iteratio
 		* *Dashboard container and component files*
 	* **fields**
 		* **actions**
-			* delete-field.js
-			* deleteTaskByField.js
-			* fetch-fields.js
-			* fetchTaskByField.js
-			* save-field.js
-			* select-field.js
+			* *Redux creater files for **fields** * 
 		* **maps**
 			* **utils**
 				* GoogleMaps.js
