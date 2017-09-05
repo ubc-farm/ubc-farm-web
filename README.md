@@ -11,7 +11,7 @@ This repository contains the application files that make up the current iteratio
 			* *Redux action creater files for **fields*** 
 		* **maps**
 			* **utils**
-				* *React wrapper files for **google maps API**
+				* *React wrapper files for **google maps API***
 			* *Google Maps component and container files*
 		* **reducers**
 			* *Redux reducer files for **fields***
@@ -28,7 +28,21 @@ This repository contains the application files that make up the current iteratio
 				* *modals for adding items to purchase and invoice forms*
 			* *pages and modals for **finances***
 		* **reducers**
-		* FinancesPage.js
+			* *Redux reducer files for **fields***
+		* *Finance Page base component files*
+	* **Inventory**
+		* **actions**
+			* *Redux action creation files for **inventory items***
+		* **components** 
+			* **lists**
+				* *list components for inventories*
+			* **modals**
+				* *CRUD update components for inventories*
+			* **visuals**
+				* *D3 Components for inventories*
+			* *Inventory base component files
+		* **reducers**
+		* *Inventory Page base component files*
 
 
 # How to Install
