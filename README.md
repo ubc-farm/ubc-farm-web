@@ -5,8 +5,7 @@ This repository contains the application files that make up the current iteratio
 (last updated on Sept 4th, 2017)
 * **src**
 	* **dashboard**
-		* DashboardComponent.jsx
-		* DashboardContainer.jsx
+		* *Dashboard container and component files*
 	* **fields**
 		* **actions**
 			* delete-field.js
