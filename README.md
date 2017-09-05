@@ -42,7 +42,7 @@ This repository contains the application files that make up the current iteratio
 				* *D3 Components for inventories*
 			* *Inventory base component files*
 		* **reducers**
-			* *Redux reducer files for **inventory items*
+			* *Redux reducer files for **inventory items***
 		* *Inventory Page base component files*
 	* **login**
 		* *login components and containers*
@@ -64,7 +64,15 @@ This repository contains the application files that make up the current iteratio
 		* **reducers**
 			* *Redux Reducer files for **tasks***
 		* *Task Page main component file*
-		
+	* **users**
+		* **actions**
+			* *redux action creater files for **users***
+		* **components**
+			* *child component files for **users***
+		* **reducers**
+			* *Redux Reducer files for **users***
+		* *User Page main component file*
+	* base component files and react routing
 
 
 # How to Install
