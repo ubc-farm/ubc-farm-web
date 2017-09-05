@@ -8,7 +8,7 @@ This repository contains the application files that make up the current iteratio
 		* *Dashboard container and component files*
 	* **fields**
 		* **actions**
-			* *Redux creater files for **fields** * 
+			* *Redux creater files for **fields*** 
 		* **maps**
 			* **utils**
 				* GoogleMaps.js
