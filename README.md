@@ -22,6 +22,9 @@ This repository contains the application files that make up the current iteratio
 			* **NewFieldMapComponent.jsx**
 			* **SummaryMap.js**
 		* **reducers**
+			* **FieldTasksReducer.js**
+			* **reducer-fields-cations.js**
+			* **reducer-fields.js**
 		* **FieldTaskList.js**
 		* **FieldsComponent.jsx**
 		* **Radar.js**
@@ -30,6 +33,13 @@ This repository contains the application files that make up the current iteratio
 		* **field-detail.js**
 		* **field-selector.js**
 		* **field-selector2.js**
+	* **finances**
+		* **actions**
+			* **purchase-actions.js**
+			* **supplier-actions.js**
+		* **components**
+		* **reducers**
+		* **FinancesPage.js**
 
 
 # How to Install
