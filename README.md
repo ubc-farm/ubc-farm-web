@@ -14,17 +14,8 @@ This repository contains the application files that make up the current iteratio
 				* *React wrapper files for **google maps API**
 			* *Google Maps component and container files*
 		* **reducers**
-			* FieldTasksReducer.js
-			* reducer-fields-cations.js
-			* reducer-fields.js
-		* FieldTaskList.js
-		* FieldsComponent.jsx
-		* Radar.js
-		* create-field-modal.js
-		* delete-field-modal.js
-		* field-detail.js
-		* field-selector.js
-		* field-selector2.js
+			* *Redux reducer files for **fields**
+		* *field creation and detailed view component files*
 	* **finances**
 		* **actions**
 			* purchase-actions.js
