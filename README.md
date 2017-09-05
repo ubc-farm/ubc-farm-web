@@ -2,9 +2,11 @@
 This repository contains the application files that make up the current iteration fo the UBC Farm Application. 
 
 # Folder Structure
-
-# How to Install
+(last updated on Sept 4th, 2017)
 * **src**
    * **dashboard**
+    * **DashboardComponent.jsx**
+    * **DashboardContainer.jsx**
 
 
+# How to Install
