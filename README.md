@@ -5,11 +5,11 @@ This repository contains the application files that make up the current iteratio
 (last updated on Sept 4th, 2017)
 * **src**
 	* **dashboard**
-		* **DashboardComponent.jsx**
-		* **DashboardContainer.jsx**
+		* DashboardComponent.jsx
+		* DashboardContainer.jsx
 	* **fields**
 		* **actions**
-			* **delete-field.js**
+			* delete-field.js
 			* **deleteTaskByField.js**
 			* **fetch-fields.js**
 			* **fetchTaskByField.js**
