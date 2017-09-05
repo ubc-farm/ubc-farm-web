@@ -8,13 +8,11 @@ This repository contains the application files that make up the current iteratio
 		* *Dashboard container and component files*
 	* **fields**
 		* **actions**
-			* *Redux creater files for **fields*** 
+			* *Redux creater action files for **fields*** 
 		* **maps**
 			* **utils**
-				* GoogleMaps.js
-				* GoogleMapsJS.js
-			* NewFieldMapComponent.jsx
-			* SummaryMap.js
+				* *React wrapper files for **google maps API**
+			* *Google Maps component and container files*
 		* **reducers**
 			* FieldTasksReducer.js
 			* reducer-fields-cations.js
