@@ -14,7 +14,7 @@ This repository contains the application files that make up the current iteratio
 				* *React wrapper files for **google maps API**
 			* *Google Maps component and container files*
 		* **reducers**
-			* *Redux reducer files for **fields**
+			* *Redux reducer files for **fields***
 		* *field creation and detailed view component files*
 	* **finances**
 		* **actions**
