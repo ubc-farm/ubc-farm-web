@@ -4,10 +4,10 @@ This repository contains the application files that make up the current iteratio
 # Folder Structure
 
 # How to Install
-**src**
-&nbsp;**dashboard**
-&nbsp;&nbsp;**DashboardComponent.jsx**
-&nbsp;&nbsp;**DashboardContainer.jsx**
-&nbsp;**fields**
+***src**
+  ***dashboard**
+    ***DashboardComponent.jsx**
+    ***DashboardContainer.jsx**
+  ***fields**
 
 
