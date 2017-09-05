@@ -79,4 +79,16 @@ This repository contains the application files that make up the current iteratio
 1. Install [Node.js](https://nodejs.org/en/)
 2. With node istalled, use npm and follow [Redux instructions](http://redux.js.org/docs/basics/UsageWithReact.html)
 3. Clone this package into your own environment
-4. run >npm install
+4. Install node modules
+```bash
+npm install
+```
+5. On two separate terminal windows run the following two commands
+```bash
+npm run bundle
+```
+and
+```bash
+npm run start
+```
+6. Open a browser and navigate to ```localhols:3000``` 
