@@ -5,8 +5,8 @@ This repository contains the application files that make up the current iteratio
 (last updated on Sept 4th, 2017)
 * **src**
    * **dashboard**
-    * **DashboardComponent.jsx**
-    * **DashboardContainer.jsx**
+      * **DashboardComponent.jsx**
+      * **DashboardContainer.jsx**
 
 
 # How to Install
