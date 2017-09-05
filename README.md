@@ -76,3 +76,7 @@ This repository contains the application files that make up the current iteratio
 
 
 # How to Install
+1. Install [Node.js](https://nodejs.org/en/)
+2. With node istalled, use npm and follow [Redux instructions](http://redux.js.org/docs/basics/UsageWithReact.html)
+3. Clone this package into your own environment
+4. run >npm install
