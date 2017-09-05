@@ -9,10 +9,27 @@ This repository contains the application files that make up the current iteratio
 		* **DashboardContainer.jsx**
 	* **fields**
 		* **actions**
+			* **delete-field.js**
+			* **deleteTaskByField.js**
+			* **fetch-fields.js**
+			* **fetchTaskByField.js**
+			* **save-field.js**
+			* **select-field.js**
 		* **maps**
+			* **utils**
+				* **GoogleMaps.js**
+				* **GoogleMapsJS.js**
+			* **NewFieldMapComponent.jsx**
+			* **SummaryMap.js**
 		* **reducers**
 		* **FieldTaskList.js**
 		* **FieldsComponent.jsx**
+		* **Radar.js**
+		* **create-field-modal.js**
+		* **delete-field-modal.js**
+		* **field-detail.js**
+		* **field-selector.js**
+		* **field-selector2.js**
 
 
 # How to Install
