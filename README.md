@@ -10,36 +10,43 @@ This repository contains the application files that make up the current iteratio
 	* **fields**
 		* **actions**
 			* delete-field.js
-			* **deleteTaskByField.js**
-			* **fetch-fields.js**
-			* **fetchTaskByField.js**
-			* **save-field.js**
-			* **select-field.js**
+			* deleteTaskByField.js
+			* fetch-fields.js
+			* fetchTaskByField.js
+			* save-field.js
+			* select-field.js
 		* **maps**
 			* **utils**
-				* **GoogleMaps.js**
-				* **GoogleMapsJS.js**
-			* **NewFieldMapComponent.jsx**
-			* **SummaryMap.js**
+				* GoogleMaps.js
+				* GoogleMapsJS.js
+			* NewFieldMapComponent.jsx
+			* SummaryMap.js
 		* **reducers**
-			* **FieldTasksReducer.js**
-			* **reducer-fields-cations.js**
-			* **reducer-fields.js**
-		* **FieldTaskList.js**
-		* **FieldsComponent.jsx**
-		* **Radar.js**
-		* **create-field-modal.js**
-		* **delete-field-modal.js**
-		* **field-detail.js**
-		* **field-selector.js**
-		* **field-selector2.js**
+			* FieldTasksReducer.js
+			* reducer-fields-cations.js
+			* reducer-fields.js
+		* FieldTaskList.js
+		* FieldsComponent.jsx
+		* Radar.js
+		* create-field-modal.js
+		* delete-field-modal.js
+		* field-detail.js
+		* field-selector.js
+		* field-selector2.js
 	* **finances**
 		* **actions**
-			* **purchase-actions.js**
-			* **supplier-actions.js**
+			* purchase-actions.js
+			* supplier-actions.js
 		* **components**
+			* **ItemSelectors**
+				* EquipmentSelector.js
+				* FertilizerSelector.js
+				HarvestedSelector.js
+				
+			* **lists**
+			* **modals**
 		* **reducers**
-		* **FinancesPage.js**
+		* FinancesPage.js
 
 
 # How to Install
