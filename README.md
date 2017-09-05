@@ -91,4 +91,4 @@ and
 ```bash
 npm run start
 ```
-6. Open a browser and navigate to ```localhols:3000``` 
+6. Open a browser and navigate to ```localhost:3000``` 
