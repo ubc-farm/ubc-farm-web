@@ -1,21 +1,22 @@
 /**
- * Created by Xingyu on 6/28/2017.
+ * Created by Xingyu on 10/6/2017.
  */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import timeline from './TimeLineJS';
-import {fetchFields} from '../../fields/actions/fetch-fields.js'
-import {fetchTasks} from '../actions/fetch-tasks';
+import timeline from '../tasks/components/TimeLineJS';
+import {fetchFields} from './actions/fetch-fields.js'
+import {fetchTasks} from '../tasks/actions/fetch-tasks';
 
-class TimeLine extends React.Component{
+class FieldTimeLine extends React.Component{
     constructor(props) {
         super(props);
 
         this.state={
             tasks:[],
-            fields:[]
+            fields:[],
+            fieldTasks:[],
         };
 
         this.loadItems = this.loadItems.bind(this);
@@ -53,10 +54,10 @@ class TimeLine extends React.Component{
 
 
     loadItems(){
-        return this.props.tasks.map( (task) => (
+        return this.props.fieldTasks.map( (task) => (
             {
                 id: task._id,
-                group: task.field,
+                group: task.type,
                 content: this.typeTransformer(task.type),
                 start: this.dateTransformer(task.startDate),
                 end: (task.startDate == task.endDate ? this.getTomorrow(task.startDate): this.dateTransformer(task.endDate))
@@ -64,11 +65,20 @@ class TimeLine extends React.Component{
     }
 
     loadGroups(){
-        return this.props.fields.map( (field) => (
+        let task_type = this.props.fieldTasks.map( (task) => (
             {
-                id: field._id,
-                content: field.name
+                id: task.type,
+                content: task.type
             }));
+        let unique_type = [];
+        let unique_task_type = [];
+        task_type.forEach(function(task){
+            if (unique_type.indexOf(task.id) < 0){
+                unique_type.push(task.id);
+                unique_task_type.push(task);
+            }
+        });
+        return unique_task_type;
 
     }
 
@@ -118,7 +128,7 @@ class TimeLine extends React.Component{
 
     render(){
         return(
-            <div className="TimeLine"></div>
+            <div className="FieldTimeLine"></div>
         )
 
     }
@@ -126,20 +136,22 @@ class TimeLine extends React.Component{
 
 }
 
-TimeLine.propTypes = {
+FieldTimeLine.propTypes = {
     fields: PropTypes.array.isRequired,
     fetchFields: PropTypes.func.isRequired,
     tasks: PropTypes.array.isRequired,
-    fetchTasks: PropTypes.func.isRequired
+    fetchTasks: PropTypes.func.isRequired,
+
+    fieldTasks: PropTypes.array.isRequired,
+
 };
 
 const mapStateToProps = (state) => {
     return {
         fields: state.fields,
-        tasks: state.tasks
+        tasks: state.tasks,
+        fieldTasks: state.fieldTasks
     }
 };
 
-export default connect(mapStateToProps, {fetchFields, fetchTasks})(TimeLine);
-
-
+export default connect(mapStateToProps, {fetchTasks, fetchFields})(FieldTimeLine);

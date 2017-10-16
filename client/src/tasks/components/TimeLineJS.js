@@ -9,7 +9,8 @@ let groups_dataset;
 timeline.create = function(container, items, groups, options){
     items_dataset = new vis.DataSet(items);
     groups_dataset = new vis.DataSet(groups);
-    vis_timeline = new vis.Timeline(container,items_dataset, groups_dataset, options);
+    vis_timeline = new vis.Timeline(container, items_dataset, groups_dataset, options);
+
 };
 
 timeline.fit = function([options]){

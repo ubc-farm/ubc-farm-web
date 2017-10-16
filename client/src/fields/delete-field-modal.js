@@ -86,8 +86,8 @@ class DeleteFieldModal extends Component {
         ];
 
         const form = (
-            <div>
-                <FlatButton label="Delete Field" secondary={true} onTouchTap={this.handleOpen} />
+            <div style={{minWidth: '100%', height: '100%'}}>
+                <FlatButton label="Delete Field" secondary={true} style={{minWidth: '100%', height: '100%'}} onTouchTap={this.handleOpen} />
                 <Dialog
                     title={"Are you sure you want to delete " + this.props.field.name + "?"}
                     actions={actions}
@@ -102,7 +102,7 @@ class DeleteFieldModal extends Component {
         );
 
         return (
-            <div key={this.state.timestamp}>
+            <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%'}}>
                 {form}
             </div>
 

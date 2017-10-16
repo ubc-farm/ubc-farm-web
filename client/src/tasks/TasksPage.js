@@ -10,7 +10,7 @@ import {fetchFields} from '../fields/actions/fetch-fields.js'
 import {fetchTasks} from '../tasks/actions/fetch-tasks';
 import NewTaskModal from './components/NewTaskModal';
 import Divider from 'material-ui/Divider';
-import TimeLine from './components/Timeline';
+import TimeLine from './components/TimeLine';
 
 
 const styles = {
@@ -56,7 +56,7 @@ class TasksPage extends React.Component {
             <div>
                 <Tabs
                     value={this.state.value}
-                    onChange={this.handleChange}
+                    onChange={this.handleMenuClick}
                 >
                     <Tab label="List" value="list">
                         <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "20px"}}>

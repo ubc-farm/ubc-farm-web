@@ -41,9 +41,8 @@ const styles = {
 
 class FieldSelector2 extends Component{
     createListItems(){
-        return this.props.fields.map((field) => {
-            return(
-                <div>
+        return this.props.fields.map((field) => (
+                <div key={field._id}>
                     <Divider/>
                     <div>
                 <ListItem
@@ -60,9 +59,9 @@ class FieldSelector2 extends Component{
                 </ListItem>
                 <Divider/>
                     </div>
-                </div>
-            );
-        });
+                </div>));
+
+
 
     }
 
@@ -80,14 +79,16 @@ class FieldSelector2 extends Component{
                 <div style={{minWidth: '100%', height: '20%'}} >
                     <Divider/>
                     <div style={{position: 'bottom', bottom: '0px', height: '50%'}} >
+                        <CreateFieldModal />
 
-                    <FlatButton label="Summary" primary={true} style={{minWidth: '100%', height: '100%'}} />
+
                     </div>
 
                     <Divider/>
 
                     <div style={{height: '50%'}}>
-                    <CreateFieldModal />
+                        <FlatButton label="Summary" primary={true} style={{minWidth: '100%', height: '100%'}}
+                                    onClick={() => {this.props.selectField("")}}/>
                     <Divider/>
                     </div>
 

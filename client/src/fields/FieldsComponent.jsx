@@ -11,7 +11,8 @@ import styled from 'styled-components';
 import 'bulma/css/bulma.css';
 import SummaryMap from './maps/SummaryMap';
 import FieldSelector2 from './field-selector2.js';
-import FieldDetail from './field-detail.js';
+import FieldDetail from './FieldDetail.js';
+import FieldTasks from './FieldTasks';
 import {connect} from 'react-redux';
 import {fetchFields} from './actions/fetch-fields.js'
 import Radar from './Radar';
@@ -68,21 +69,24 @@ class FieldsComponent extends React.Component {
         ]
         return (
             <div className="columns is-gapless" style={styles.centerContainer}>
-                <div className="column is-9-desktop">
-                    <div className="is-parent is-vertical is-gapless" style={styles.centerContainer}>
-                        <NewFieldMap className="is-child" style={{margin: 0, padding: 0}}>
-                            <SummaryMap fields={this.state.fields} style={{zIndex: 500}} />
-                        </NewFieldMap>
-                        <div className="is-child" style={styles.fieldSelector}>
-                            <FieldDetail/>
-                        </div>
-                    </div>
-                </div>
-                <div className="column is-3-desktop" style={{ backgroundColor: '#F5F5F5'}}>
+                <div className="column is-2-desktop" style={{ backgroundColor: '#F2F2F2'}}>
                     <FieldSelector2/>
                     <Radar/>
 
                 </div>
+                <div className="column is-8-desktop">
+                    <div className="is-parent is-vertical is-gapless" style={styles.centerContainer}>
+                        <NewFieldMap className="is-child" style={{margin: 0, padding: 0, height:"50%"}}>
+                            <SummaryMap fields={this.state.fields} style={{zIndex: 500}} />
+                        </NewFieldMap>
+                        <FieldTasks/>
+
+                    </div>
+                </div>
+                <div className="column is-2-desktop field_detail_column">
+                    <FieldDetail/>
+                </div>
+
             </div>
         );
     }

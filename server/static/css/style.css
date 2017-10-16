@@ -104,3 +104,20 @@ a:hover {
     top: 80px;
     z-index: 100;
 }
+
+/*Fields Page*/
+.field_detail_column{
+
+  background-color: #F2F2F2
+}
+.field_info{
+  padding: 16px;
+  height:85%
+}
+.field_name {
+  font-weight: bold;
+  padding-bottom:3px;
+}
+.field_detail{
+  margin-top: 15px;
+}

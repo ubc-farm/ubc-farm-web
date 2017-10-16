@@ -184,7 +184,8 @@ class CreateFieldModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="New Field" secondary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <FlatButton label="New Field" onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%', color:"#8AA62F"}}  />
+
                 <Dialog
                     title="Create New Field"
                     actions={actions}

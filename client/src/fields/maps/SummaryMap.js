@@ -43,6 +43,8 @@ const SummaryMapComponent = withGoogleMap(props => (
     </GoogleMap>
 ));
 
+const farmBounds = [{lat:49.251935,lng:-123.239568},{lat:49.249828, lng:-123.233245},{lat:49.247568, lng:-123.234412},{lat:49.247568, lng:-123.234412}];
+
 
 class SummaryMap extends React.Component {
 
@@ -89,6 +91,12 @@ class SummaryMap extends React.Component {
                 bounds.extend(e);
             });
             this._mapComponent.fitBounds(bounds);
+        }else{
+            let b = new google.maps.LatLngBounds();
+            farmBounds.forEach(function(point){
+                b.extend(point);
+            });
+            this._mapComponent.fitBounds(b);
         }
 
 

@@ -124,7 +124,6 @@ class FieldTaskList extends Component {
         return (
             <div >
                 <Table
-                    height={'500px'}
                     fixedHeader={true}
                     fixedFooter={false}
                     selectable={false}

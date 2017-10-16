@@ -101,7 +101,7 @@ const typeData = [
 /**
  * Modal for creating new Task
  */
-class CreateFieldModal extends Component {
+class NewTaskModal extends Component {
     /**
      * Class constructor.
      */
@@ -139,7 +139,7 @@ class CreateFieldModal extends Component {
         if(this.props.isFieldProvided){
             this.setState({field: this.props.field._id});
         }
-        console.log(this.state.field);
+
     }
 
     createFieldsMenu() {
@@ -264,9 +264,10 @@ class CreateFieldModal extends Component {
         return (
             <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%'}}>
                 <div style={{minWidth: '100%', height: '100%'}}>
-                    <div style={{justifyContent: 'center', alignItems: 'center', paddingTop: "18px"}}>
-                        <FlatButton label="New Task" onTouchTap={this.handleOpen} labelStyle={{color: '#FFFFFF'}} style={{}} backgroundColor={'#8AA62F'} hoverColor={"#a4c639"}/>
-                    </div>
+
+                    <FlatButton label="New Task" onTouchTap={this.handleOpen} style={this.props.buttonStyle} />
+                        {/*labelStyle={{color: '#FFFFFF'}} style={{}} backgroundColor={'#8AA62F'} hoverColor={"#a4c639"}*/}
+
                     <Dialog
                         title="Create New Task"
                         actions={actions}
@@ -406,9 +407,10 @@ class CreateFieldModal extends Component {
     }
 }
 
-CreateFieldModal.propTypes = {
+NewTaskModal.propTypes = {
     fieldsMenuData: PropTypes.array.isRequired,
     isFieldProvided: PropTypes.bool.isRequired,
+    buttonStyle: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -429,4 +431,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {SaveTask})(CreateFieldModal);
+export default connect(mapStateToProps, {SaveTask})(NewTaskModal);
