@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import LinearProgress from 'material-ui/LinearProgress';
 import NewFieldMapComponent from './maps/NewFieldMapComponent.jsx';
+import Toggle from 'material-ui/Toggle';
 import {Route,Redirect} from 'react-router';
 import DatePikcer from 'material-ui/DatePicker'
 
@@ -30,6 +31,14 @@ const styles = {
     radioButton: {
         marginBottom: 16,
     },
+
+    buttonGroup: {
+        paddingTop: "15px",
+    },
+    buttonGroupTitle: {
+        color: "black",
+        size: "1.3em"
+    }
 };
 
 let shortid = require('shortid');
@@ -46,6 +55,8 @@ class CreateFieldModal extends Component {
 
         this.state = {
             name: '',
+            size:'',
+            rotation:'',
             errors: {},
             open: false,
             validated: false,
@@ -211,7 +222,9 @@ class CreateFieldModal extends Component {
                         </NewFieldMap>
                         <div className="column is-3-desktop">
                             <form>
-                                <RadioButtonGroup name="buildingOrField" defaultSelected="field">
+                                <h3 style={styles.buttonGroupTitle}>Type</h3>
+                                <Divider/>
+                                <RadioButtonGroup style={styles.buttonGroup} name="buildingOrField" defaultSelected="field">
                                     <RadioButton
                                         value="building"
                                         label="Building"
@@ -223,6 +236,34 @@ class CreateFieldModal extends Component {
                                         style={styles.radioButton}
                                     />
                                 </RadioButtonGroup>
+                                <h3 style={styles.buttonGroupTitle}>Subfields</h3>
+                                <Divider/>
+                                <div  style={styles.buttonGroup}>
+                                    <Toggle
+                                        defaultToggled={false}
+                                        label="Enabled"
+                                        labelPosition="right"
+                                    />
+                                    <TextField
+                                        hintText="Rotation Degrees"
+                                        floatingLabelText="Rotation"
+                                        name="rotation"
+                                        onChange={this.handleChange}
+                                        value={this.state.rotation}
+                                        errorText={this.state.errors.rotation}
+                                        style={{width: "100%", margin: "0px", padding:"0px"}}
+                                    />
+                                    <TextField
+                                        hintText="Grid Size"
+                                        floatingLabelText="Size"
+                                        name="size"
+                                        onChange={this.handleChange}
+                                        value={this.state.size}
+                                        errorText={this.state.errors.size}
+                                        style={{width: "100%",margin: "0px", padding:"0px"}}
+                                    />
+                                </div>
+
                             </form>
                         </div>
                     </div>

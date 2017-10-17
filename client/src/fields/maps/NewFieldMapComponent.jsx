@@ -16,17 +16,19 @@ const NewFieldMapComponent = withGoogleMap(props => (
             {...props}
             onOverlaycomplete={props.handleOverlayComplete}
             options={
-            {
-                drawingControlOptions: {
-                    position: google.maps.ControlPosition.TOP_CENTER,
-                    drawingModes:['marker', 'polygon']
+                {
+                    drawingControlOptions: {
+                        position: google.maps.ControlPosition.TOP_CENTER,
+                        drawingModes:['marker', 'polygon']
 
-                },
-                polygonOptions: {
-                    editable: true
+                    },
+                    polygonOptions: {
+                        editable: true
+                    }
+
+
                 }
-
-                    }}
+            }
         />
     </GoogleMap>
 ));
