@@ -96,6 +96,10 @@ npm run start
 # Third Party Documentation
 This web applications uses a few (well, a bunch of them) third party libraries to provide some of its core functionality and presentation. They are listed out below, with related documentation. 
 ### React-Redux
+We use react-redux to manage state changes within and across pages. What redux does better than other frameworks such as Angular is providing a globally accessible *store*, so that shared states/variables are instantly updated across pages. Redux makes sure that state changes can only be triggered by *actions*, and it works well with react components. Combining the two together creates so called *React-Redux* patterns which most components in this project follow.
+
+[Redux Documentation](http://redux.js.org/)
+[React-Redux Example](http://redux.js.org/docs/basics/ExampleTodoList.html)
 
 ### D3.js
 
