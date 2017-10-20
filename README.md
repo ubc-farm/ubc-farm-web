@@ -92,3 +92,15 @@ and
 npm run start
 ```
 6. Open a browser and navigate to ```localhost:3000``` 
+
+# Third Party Documentation
+This web applications uses a few (well, a bunch of them) third party libraries to provide some of its core functionality and presentation. They are listed out below, with related documentation. 
+### React-Redux
+
+### D3.js
+
+### vis.js
+
+### Bulma
+
+### Material UI
