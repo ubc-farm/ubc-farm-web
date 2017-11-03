@@ -22,7 +22,6 @@ import {fetchPesticides} from '../../../inventory/actions/pest-actions';
 import {fetchEquipments} from '../../../inventory/actions/equipment-actions';
 import {fetchVehicles} from '../../../inventory/actions/vehicles-action';
 import {fetchHarvested} from '../../../inventory/actions/harvested_actions';
-import {fetchSuppliers} from '../../actions/supplier-actions';
 import SelectField from 'material-ui/SelectField';
 import EquipmentSelector from '../ItemSelectors/EquipmentSelector';
 import FertilizerSelector from '../ItemSelectors/FertilizerSelector';
@@ -86,7 +85,6 @@ class AddExistingItemModal extends Component {
         this.props.fetchEquipments();
         this.props.fetchVehicles();
         this.props.fetchHarvested();
-        this.props.fetchSuppliers();
     }
 
     handleOpen() {
@@ -150,10 +148,8 @@ class AddExistingItemModal extends Component {
             const newItem = {
                 selectedInventoryIndex: this.state.selectedInventoryIndex,
                 selectedItem: this.state.selectedItem,
-                selectedSupplier: this.state.selectedSupplier,
-                price: this.state.price,
-                quantity: this.state.quantity,
-
+                price: 0,
+                quantity: 0,
             };
 
             this.props.addItem(newItem);
@@ -210,63 +206,7 @@ class AddExistingItemModal extends Component {
                                 <MenuItem value={6} primaryText="Harvested Produce" />
                             </SelectField>
 
-                            <div className="columns">
-
-                                <div className="column">
-
-                                    <SelectItem value={this.state.selectedItem} primaryText={this.state.selectedItem.name} handleItemChange={this.handleItemChange}/>
-
-                                </div>
-
-
-                                <div className="column">
-
-                                    <SelectField
-                                        floatingLabelText="Supplier"
-                                        hintText="Select a Supplier"
-                                        fullWidth={true}
-                                        value={this.state.selectedSupplier}
-                                        onChange={this.handleSupplierChange}
-                                    >
-                                        {
-                                            this.props.suppliers.map((item) => (
-                                                <MenuItem key={item._id} value={item._id} primaryText={item.name}/>
-                                            ))
-                                        }
-                                    </SelectField>
-                                </div>
-
-                            </div>
-
-                            <div className="columns">
-                                <div className="column">
-
-                                    <TextField
-                                        hintText="Enter Unit Price"
-                                        floatingLabelText="Unit Price"
-                                        type="number"
-                                        name="price"
-                                        onChange={this.handleChange}
-                                        value={this.state.price}
-                                        fullWidth={true}
-                                        errorText={this.state.errors.price}/>
-                                </div>
-                                <div className="column">
-
-                                    <TextField
-                                        hintText="Enter Quantity"
-                                        floatingLabelText="Quantity"
-                                        type="number"
-                                        name="quantity"
-                                        onChange={this.handleChange}
-                                        value={this.state.quantity}
-                                        fullWidth={true}
-                                        errorText={this.state.errors.quantity}/>
-
-                                </div>
-                            </div>
-
-
+                            <SelectItem value={this.state.selectedItem} primaryText={this.state.selectedItem.name} handleItemChange={this.handleItemChange}/>
 
                         </form>
                     </Dialog>
@@ -294,9 +234,6 @@ AddExistingItemModal.propTypes = {
     equipments: PropTypes.array.isRequired,
     fetchEquipments: PropTypes.func.isRequired,
 
-    suppliers: PropTypes.array.isRequired,
-    fetchSuppliers: PropTypes.func.isRequired,
-
     addItem: PropTypes.func.isRequired,
 };
 
@@ -309,9 +246,7 @@ const mapStateToProps = (state) => {
         vehicles: state.vehicles,
         harvested: state.harvested,
         equipments: state.equipments,
-
-        suppliers: state.suppliers,
         }
 };
 
-export default connect(mapStateToProps,{fetchSeeds,fetchTransplants,fetchFertilizers,fetchPesticides,fetchEquipments,fetchVehicles,fetchHarvested, fetchSuppliers})(AddExistingItemModal);
+export default connect(mapStateToProps,{fetchSeeds,fetchTransplants,fetchFertilizers,fetchPesticides,fetchEquipments,fetchVehicles,fetchHarvested})(AddExistingItemModal);

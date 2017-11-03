@@ -49,10 +49,10 @@ class FinancesPage extends React.Component{
                     <Tab label="Clients">
                         Client List
                     </Tab>
-                    <Tab label="Suppliers">
-                        Suppliers List
-                        <NewSupplierModal/>
-                    </Tab>
+                    {/*<Tab label="Suppliers">*/}
+                        {/*Suppliers List*/}
+                        {/*<NewSupplierModal/>*/}
+                    {/*</Tab>*/}
                     <Tab label="New Invoice">
                         Invoices here
                     </Tab>

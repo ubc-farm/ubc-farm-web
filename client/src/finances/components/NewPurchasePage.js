@@ -10,7 +10,8 @@ import AddExistingItemModal from './modals/AddExistingItemModal'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
-import {fetchSuppliers} from '../actions/supplier-actions'
+import ChangePriceField from './ChangePriceField';
+import ChangeQuantityField from './ChangeQuantityField';
 import {
     Table,
     TableBody,
@@ -23,7 +24,6 @@ import {
 
 class NewPurchasePage extends React.Component {
     componentDidMount(){
-        this.props.fetchSuppliers();
     }
 
     constructor(props){
@@ -43,6 +43,7 @@ class NewPurchasePage extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleNewItemAddition = this.handleNewItemAddition.bind(this);
+        this.handlePriceQuantityChange = this.handlePriceQuantityChange.bind(this);
 
     }
 
@@ -76,7 +77,18 @@ class NewPurchasePage extends React.Component {
                 ...this.state.items,
                 item
             ],
-            subtotal: this.state.subtotal + item.quantity * item.price,
+        });
+    }
+
+    handlePriceQuantityChange(){
+        let i;
+        let subtotal = 0;
+        for (i = 0; i < this.state.items.length; i++){
+            let item = this.state.items[i];
+            subtotal += (item.price * item.quantity);
+        }
+        this.setState({
+            subtotal: subtotal,
         });
     }
 
@@ -166,8 +178,12 @@ class NewPurchasePage extends React.Component {
                         {this.state.items.map( (item, index) => (
                             <TableRow key={index}>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{item.selectedItem.name}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{(item.price * 1.0).toFixed(2)}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                    <ChangePriceField item={item} handlePriceQuantityChange={this.handlePriceQuantityChange}/>
+                                </TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                    <ChangeQuantityField item={item} handlePriceQuantityChange={this.handlePriceQuantityChange}/>
+                                </TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: "middle"}}>$ {(item.price * item.quantity).toFixed(2)}</TableRowColumn>
 
                             </TableRow>
@@ -203,17 +219,14 @@ class NewPurchasePage extends React.Component {
 }
 
 NewPurchasePage.propTypes = {
-    suppliers: PropTypes.array.isRequired,
-    fetchSuppliers: PropTypes.func.isRequired,
 
 };
 
 const mapStateToProps = (state) => {
     return {
-        suppliers: state.suppliers,
     }
 
 };
 
-export default connect(mapStateToProps,{fetchSuppliers})(NewPurchasePage);
+export default connect(mapStateToProps)(NewPurchasePage);
 
