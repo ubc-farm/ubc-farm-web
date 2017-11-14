@@ -96,7 +96,7 @@ class NewPurchasePage extends React.Component {
         });
     }
 
-    deleteItem(e,item){
+    deleteItem(item){
         // let i;
         // let newItems = this.state.items;
         // for (i = 0; i < this.state.items.length; i++){
@@ -108,6 +108,13 @@ class NewPurchasePage extends React.Component {
         //     items: newItems,
         // });
         console.log("delete item");
+        const newState = this.state.items;
+        if (newState.indexOf(item) > -1) {
+            newState.splice(newState.indexOf(item), 1);
+            this.setState({items: newState})
+            this.handlePriceQuantityChange();
+        }
+        console.log(this.state.items);
     }
 
 
@@ -201,7 +208,7 @@ class NewPurchasePage extends React.Component {
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>
                                     <FlatButton
                                         icon={<Clear color="#000000" />}
-                                        onClick={this.deleteItem()}
+                                        onClick={this.deleteItem.bind(this,item)}
                                     />
                                 </TableRowColumn>
 
