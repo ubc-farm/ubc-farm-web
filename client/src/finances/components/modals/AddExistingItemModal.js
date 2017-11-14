@@ -180,7 +180,7 @@ class AddExistingItemModal extends Component {
             <div key={this.state.timestamp}>
                 <div>
 
-                    <RaisedButton label="Add existing Item" primary={true} onTouchTap={this.handleOpen} style={{marginRight: "10px"}}/>
+                    <RaisedButton label="Add existing Item" fullWidth={true} primary={true} onTouchTap={this.handleOpen} style={{margin: "5px"}}/>
 
                     <Dialog
                         title="Add Existing Item"
@@ -190,21 +190,39 @@ class AddExistingItemModal extends Component {
                         contentStyle={{width:'100%'}}
                     >
                         <form>
-                            <SelectField
-                                floatingLabelText="Inventory"
-                                hintText="Select Inventory"
-                                fullWidth={true}
-                                value={this.state.selectedInventoryIndex}
-                                onChange={this.handleInventoryChange}
-                            >
-                                <MenuItem value={0} primaryText="Seeds"/>
-                                <MenuItem value={1} primaryText="Transplanting" />
-                                <MenuItem value={2} primaryText="Fertilizers"  />
-                                <MenuItem value={3} primaryText="Pest Control"  />
-                                <MenuItem value={4} primaryText="Equipment" />
-                                <MenuItem value={5} primaryText="Vehicles" />
-                                <MenuItem value={6} primaryText="Harvested Produce" />
-                            </SelectField>
+
+                            {this.props.isHarvest == true ? (
+                                        <SelectField
+                                            floatingLabelText="Inventory"
+                                            hintText="Select Inventory"
+                                            fullWidth={true}
+                                            value={this.state.selectedInventoryIndex}
+                                            onChange={this.handleInventoryChange}
+                                        >
+                                        <MenuItem value={6} primaryText="Harvested Produce" />
+                                        </SelectField>
+
+                                    ) : (
+                                            <SelectField
+                                            floatingLabelText="Inventory"
+                                            hintText="Select Inventory"
+                                            fullWidth={true}
+                                            value={this.state.selectedInventoryIndex}
+                                            onChange={this.handleInventoryChange}
+                                            >
+                                            <MenuItem value={0} primaryText="Seeds"/>
+                                            <MenuItem value={1} primaryText="Transplanting" />
+                                            <MenuItem value={2} primaryText="Fertilizers"  />
+                                            <MenuItem value={3} primaryText="Pest Control"  />
+                                            <MenuItem value={4} primaryText="Equipment" />
+                                            <MenuItem value={5} primaryText="Vehicles" />
+                                </SelectField>
+
+
+                                    )}
+
+
+
 
                             <SelectItem value={this.state.selectedItem} primaryText={this.state.selectedItem.name} handleItemChange={this.handleItemChange}/>
 
@@ -235,6 +253,9 @@ AddExistingItemModal.propTypes = {
     fetchEquipments: PropTypes.func.isRequired,
 
     addItem: PropTypes.func.isRequired,
+
+    isHarvest: PropTypes.bool.isRequired,
+
 };
 
 const mapStateToProps = (state) => {

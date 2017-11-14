@@ -9,7 +9,7 @@ import Divider from 'material-ui/Divider';
 import NewSupplierModal from './components/NewSupplierModal';
 import NewPurchasePage from './components/NewPurchasePage';
 import NewInvoicePage from './components/NewInvoicePage';
-import NewClientModal from './components/NewCliendModal';
+import ClientPage from './components/ClientPage';
 
 
 class FinancesPage extends React.Component{
@@ -22,17 +22,10 @@ class FinancesPage extends React.Component{
         this.state = {
             // State needed
             activeTab: 'summary',
-            fields: [],
-            tasks:[],
-            value: 'test value',
+            clients: [],
         };
 
         this.handleMenuClick = this.handleMenuClick.bind(this);
-    }
-
-    componentDidMount(){
-
-
     }
 
     handleMenuClick(e, { name }){
@@ -47,14 +40,14 @@ class FinancesPage extends React.Component{
                         Summary should appear here
                     </Tab>
                     <Tab label="Clients">
-                        Client List
+                        <ClientPage/>
                     </Tab>
                     {/*<Tab label="Suppliers">*/}
                         {/*Suppliers List*/}
                         {/*<NewSupplierModal/>*/}
                     {/*</Tab>*/}
                     <Tab label="New Invoice">
-                        Invoices here
+                        <NewInvoicePage/>
                     </Tab>
                     <Tab label="New Purchase Order">
                         <NewPurchasePage/>

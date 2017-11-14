@@ -19,6 +19,7 @@ let Vehicle = require('mongoose').model('Vehicle');
 let Harvested = require('mongoose').model('Harvested');
 let Supplier = require('mongoose').model('Supplier');
 let User = require('mongoose').model('User');
+let Client = require('mongoose').model('Client');
 
 router.get('/fields', (req, res) => {
 
@@ -687,7 +688,7 @@ router.get('/suppliers', (req, res) => {
 
     Supplier.find({}).lean().exec(function (err, items) {
         if (err) {
-            res.send('error retrieving harvested');
+            res.send('error retrieving suppliers');
         } else {
             res.json({items});
         }
@@ -706,7 +707,7 @@ router.post('/suppliers', (req, res) => {
             function(err, result){
                 if(err){
                     console.log(err);
-                    res.status(500).json({errors: {global: "mongodb errored while saving harvested"}});
+                    res.status(500).json({errors: {global: "mongodb errored while saving suppliers"}});
                 }else{
                     delete result.__v;
                     res.status(200).json({supplier: result});
@@ -723,12 +724,48 @@ router.get('/users', (req, res) => {
 
     User.find({}).lean().exec(function (err, items) {
         if (err) {
-            res.send('error retrieving harvested');
+            res.send('error retrieving users');
         } else {
             res.json({items});
         }
 
     });
+
+});
+
+//ROUTES FOR CLIENTS
+router.get('/clients', (req, res) => {
+
+    Client.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving clients');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/clients', (req, res) => {
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{name,address,telephone} = req.body;
+
+        Client.create({name,address,telephone},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving client"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({client: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
 
 });
 

@@ -16,6 +16,7 @@ import HarvestedReducer from '../inventory/reducers/harvested'
 import PesticideReducer from '../inventory/reducers/pest-control'
 import SupplierReducer from '../finances/reducers/supplier-reducer'
 import UserReducer from '../users/reducers/user_reducer'
+import ClientReducer from '../finances/reducers/client-reducer';
 
 const allReducers = combineReducers({
     fields : FieldReducer,
@@ -32,6 +33,7 @@ const allReducers = combineReducers({
     harvested: HarvestedReducer,
     suppliers: SupplierReducer,
     users: UserReducer,
+    clients: ClientReducer,
 
 });
 

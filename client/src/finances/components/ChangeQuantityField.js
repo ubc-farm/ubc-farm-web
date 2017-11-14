@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 
-class ChnageQuantityField extends React.Component {
+class ChangeQuantityField extends React.Component {
 
     constructor(props){
         super(props);
@@ -39,9 +39,9 @@ class ChnageQuantityField extends React.Component {
     }
 }
 
-ChnageQuantityField.propTypes = {
+ChangeQuantityField.propTypes = {
     item: PropTypes.object.isRequired,
     handlePriceQuantityChange: PropTypes.func.isRequired,
 };
 
-export default ChnageQuantityField;
+export default ChangeQuantityField;

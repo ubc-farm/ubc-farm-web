@@ -8,10 +8,13 @@ import {connect} from 'react-redux';
 import Divider from 'material-ui/Divider';
 import AddExistingItemModal from './modals/AddExistingItemModal'
 import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
 import ChangePriceField from './ChangePriceField';
 import ChangeQuantityField from './ChangeQuantityField';
+import Clear from 'material-ui/svg-icons/content/clear';
+import RemoveItemButton from './RemoveItemButton';
 import {
     Table,
     TableBody,
@@ -44,6 +47,7 @@ class NewPurchasePage extends React.Component {
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleNewItemAddition = this.handleNewItemAddition.bind(this);
         this.handlePriceQuantityChange = this.handlePriceQuantityChange.bind(this);
+        this.deleteItem = this.deleteItem.bind(this);
 
     }
 
@@ -90,6 +94,20 @@ class NewPurchasePage extends React.Component {
         this.setState({
             subtotal: subtotal,
         });
+    }
+
+    deleteItem(e,item){
+        // let i;
+        // let newItems = this.state.items;
+        // for (i = 0; i < this.state.items.length; i++){
+        //     if (item.selectedItem._id == this.state.items[i].selectedItem._id){
+        //         newItems = this.state.items.splice(i,1);
+        //     }
+        // }
+        // this.setState({
+        //     items: newItems,
+        // });
+        console.log("delete item");
     }
 
 
@@ -147,17 +165,11 @@ class NewPurchasePage extends React.Component {
                             <TableRowColumn/>
                             <TableRowColumn/>
                             <TableRowColumn/>
-                            <TableHeaderColumn style={{verticalAlign: "middle"}}>
-                                <div className="columns">
-                                    <div className="column">
-                                        <AddExistingItemModal addItem={this.handleNewItemAddition}/>
-                                    </div>
-                                    <div className="column">
-
-                                        <RaisedButton primary={true} label="Add New Item"/>
-                                    </div>
-                                </div>
-                            </TableHeaderColumn>
+                            <TableRowColumn/>
+                            <TableRowColumn style={{verticalAlign: "middle"}}>
+                                <AddExistingItemModal isHarvest={false} addItem={this.handleNewItemAddition}/>
+                                <RaisedButton primary={true} fullWidth={true} style={{margin:"5px"}} label="Add New Item"/>
+                            </TableRowColumn>
 
                         </TableRow>
 
@@ -166,6 +178,7 @@ class NewPurchasePage extends React.Component {
                             <TableHeaderColumn style={{verticalAlign: 'middle'}}>Unit Cost</TableHeaderColumn>
                             <TableHeaderColumn style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
                             <TableHeaderColumn style={{verticalAlign: "middle"}}>Price</TableHeaderColumn>
+                            <TableHeaderColumn style={{verticalAlign: "middle"}}>Remove Item</TableHeaderColumn>
 
                         </TableRow>
                     </TableHeader>
@@ -185,6 +198,12 @@ class NewPurchasePage extends React.Component {
                                     <ChangeQuantityField item={item} handlePriceQuantityChange={this.handlePriceQuantityChange}/>
                                 </TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: "middle"}}>$ {(item.price * item.quantity).toFixed(2)}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                    <FlatButton
+                                        icon={<Clear color="#000000" />}
+                                        onClick={this.deleteItem()}
+                                    />
+                                </TableRowColumn>
 
                             </TableRow>
                         ))}
@@ -195,6 +214,7 @@ class NewPurchasePage extends React.Component {
                             <TableRowColumn style={{verticalAlign: 'middle'}}>$ {
                                 (this.state.subtotal).toFixed(2)
                             }</TableRowColumn>
+                            <TableRowColumn/>
                         </TableRow>
 
                     </TableBody>
@@ -203,9 +223,10 @@ class NewPurchasePage extends React.Component {
                         <TableRow selectable={false}>
                             <TableRowColumn/>
                             <TableRowColumn/>
-                            <TableRowColumn style={{verticalAlign: 'middle', fontWeight: 'bold'}}>Total</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle', fontWeight: 'bold'}}>Total Purchase Value</TableRowColumn>
                             <TableRowColumn style={{verticalAlign: 'middle', fontWeight: 'bold'}}>$ {(this.state.subtotal * this.state.tax_rate).toFixed(2)}
                             </TableRowColumn>
+                            <TableRowColumn/>
                         </TableRow>
                     </TableFooter>
                 </Table>
