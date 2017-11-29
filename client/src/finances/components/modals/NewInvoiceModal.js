@@ -5,15 +5,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Divider from 'material-ui/Divider';
-import AddExistingItemModal from './modals/AddExistingItemModal'
+import AddExistingItemModal from './AddExistingItemModal'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
-import ChangePriceField from './ChangePriceField';
-import ChangeQuantityField from './ChangeQuantityField';
+import ChangePriceField from '../ChangePriceField';
+import ChangeQuantityField from '../ChangeQuantityField';
 import Clear from 'material-ui/svg-icons/content/clear';
-import RemoveItemButton from './RemoveItemButton';
+import Dialog from 'material-ui/Dialog';
+import RemoveItemButton from '../RemoveItemButton';
 import {
     Table,
     TableBody,
@@ -24,7 +25,12 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
-class NewInvoicePage extends React.Component {
+const fullWidthDialog = {
+    width: '100%',
+    maxWidth: 'none',
+};
+
+class NewInvoiceModal extends React.Component {
     componentDidMount(){
     }
 
@@ -40,6 +46,11 @@ class NewInvoicePage extends React.Component {
             subtotal: 0,
             total: 0,
             tax_rate: 1.12,
+
+            open: false,
+            validated: false,
+            loading: false,
+            done: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -48,7 +59,51 @@ class NewInvoicePage extends React.Component {
         this.handlePriceQuantityChange = this.handlePriceQuantityChange.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
 
+        this.handleOpen = this.handleOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
+    handleOpen(){
+        this.setState({open: true});
+    };
+
+    handleClose(){
+        this.setState({open: false, name: ''});
+    };
+
+    handleSubmit(e){
+        e.preventDefault();
+
+        //validation
+        let errors = {};
+        if(this.state.name === '')
+            errors.name  = "This field is Required";
+        this.setState({errors});
+
+        //if valid, create post request
+        const isValid = Object.keys(errors).length === 0;
+        if(isValid){
+            // const new_client = {
+            //     name: this.state.name,
+            //     address:
+            //         {
+            //             number: this.state.number,
+            //             street: this.state.street,
+            //             postal: this.state.postal,
+            //             city: this.state.city,
+            //         },
+            //     telephone: this.state.telephone,
+            // };
+
+            this.setState({loading: true});
+            // this.props.SaveClient(new_client).then(
+            //     (response) => {console.log("should catch error here")}
+            // );
+            this.setState({done: true, loading: false});
+            this.handleClose();
+        }
+    };
+
 
     handleChange(e){
         if(this.state.errors[e.target.name]){
@@ -100,7 +155,7 @@ class NewInvoicePage extends React.Component {
         const newState = this.state.items;
         if (newState.indexOf(item) > -1) {
             newState.splice(newState.indexOf(item), 1);
-            this.setState({items: newState})
+            this.setState({items: newState});
             this.handlePriceQuantityChange();
         }
         console.log(this.state.items);
@@ -108,10 +163,39 @@ class NewInvoicePage extends React.Component {
 
 
     render(){
+        const actions = [
+            <FlatButton
+                label="Cancel"
+                secondary={true}
+                onTouchTap={this.handleClose}
+            />,
+            <FlatButton
+                label={this.state.loading ? '' : "Submit"}
+                primary={true}
+                disabled={false}
+                onTouchTap={this.handleSubmit}
+                icon={this.state.loading ? <CircularProgress /> : ''}
+            />,
+        ];
+
+        // const form = (
+        //
+        //
+        // );
+
         return(
-            <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "20px"}}>
-                <div className="title is-3">Invoice Form</div>
-                <div classID="purchase_form_header" className="columns">
+            <div key={this.state.timestamp}>
+                <FlatButton label="New Invoice" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <Dialog
+                    title="Invoice Form"
+                    actions={actions}
+                    modal={true}
+                    contentStyle={fullWidthDialog}
+                    open={this.state.open}
+                    autoDetectWindowHeight={true}
+                    autoScrollBodyContent={true}
+                >
+                <div classID="invoice_form_header" className="columns">
                     <div classID="details" className="column is-4">
 
                         <TextField
@@ -226,6 +310,7 @@ class NewInvoicePage extends React.Component {
                         </TableFooter>
                     </Table>
                 </div>
+                </Dialog>
 
 
             </div>
@@ -234,14 +319,4 @@ class NewInvoicePage extends React.Component {
     };
 }
 
-NewInvoicePage.propTypes = {
-
-};
-
-const mapStateToProps = (state) => {
-    return {
-    }
-
-};
-
-export default connect(mapStateToProps)(NewInvoicePage);
+export default connect()(NewInvoiceModal);

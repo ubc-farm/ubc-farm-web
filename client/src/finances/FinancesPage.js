@@ -7,8 +7,9 @@ import {connect} from 'react-redux';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Divider from 'material-ui/Divider';
 import NewSupplierModal from './components/NewSupplierModal';
-import NewPurchasePage from './components/NewPurchasePage';
-import NewInvoicePage from './components/NewInvoicePage';
+import NewPurchaseModal from './components/modals/NewPurchaseModal';
+import PurchasePage from './components/PurchasePage'
+import InvoicePage from './components/InvoicePage';
 import ClientPage from './components/ClientPage';
 
 
@@ -42,15 +43,15 @@ class FinancesPage extends React.Component{
                     <Tab label="Clients">
                         <ClientPage/>
                     </Tab>
-                    {/*<Tab label="Suppliers">*/}
-                        {/*Suppliers List*/}
-                        {/*<NewSupplierModal/>*/}
-                    {/*</Tab>*/}
-                    <Tab label="New Invoice">
-                        <NewInvoicePage/>
+                    <Tab label="Suppliers">
+                        Suppliers List
+                        <NewSupplierModal/>
                     </Tab>
-                    <Tab label="New Purchase Order">
-                        <NewPurchasePage/>
+                    <Tab label="Invoices">
+                        <InvoicePage/>
+                    </Tab>
+                    <Tab label="Purchase Orders">
+                        <PurchasePage/>
                     </Tab>
                 </Tabs>
             </div>
