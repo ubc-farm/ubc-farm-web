@@ -23,7 +23,7 @@ export function fetchPurchases(){
 }
 
 //POST DATA ACTION
-export const ADD_PURCHASE = 'ADD_PURCHASE';
+export const ADD_PURCHASE = 'ADD_INVOICE';
 
 function handleResponse(response){
     console.log(response.json);

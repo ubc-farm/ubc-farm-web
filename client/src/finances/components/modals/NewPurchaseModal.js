@@ -44,7 +44,7 @@ class NewPurchaseModal extends React.Component {
         this.state={
             date: {},
             notes: '',
-            purchase_number: null,
+            invoice_number: '',
             errors: {},
             items: [],
 
@@ -76,7 +76,7 @@ class NewPurchaseModal extends React.Component {
 
     handlePurchaseNumber(event, value){
         console.log("purhcase " + value);
-        this.setState({purchase_number: value});};
+        this.setState({invoice_number: value});};
     handleSupplierSelect(event, index, value){this.setState({supplier_id: value});};
     handleOpen(){
         this.setState({open: true});
@@ -128,7 +128,7 @@ class NewPurchaseModal extends React.Component {
         }
         this.setState({
             subtotal: subtotal,
-            total: this.state.subtotal * this.state.tax_rate,
+            total: subtotal * 1.12,
         });
     }
 
@@ -164,7 +164,7 @@ class NewPurchaseModal extends React.Component {
             ))];
 
             const new_purchase = {
-                purchaseNumber: this.state.purchase_number,
+                purchaseNumber: this.state.invoice_number,
                 date: this.state.date,
                 supplierID: this.state.supplier_id,
                 itemSummary: itemSummary,
@@ -220,9 +220,9 @@ class NewPurchaseModal extends React.Component {
                                     name="purchase_number"
                                     type="number"
                                     onChange={this.handlePurchaseNumber}
-                                    value={this.state.purchase_number}
+                                    value={this.state.invoice_number}
                                     fullWidth={false}
-                                    errorText={this.state.errors.purchase_number}/>
+                                    errorText={this.state.errors.invoice_number}/>
 
                                 <DatePicker
                                     hintText="Enter Date of Purchase"

@@ -14,7 +14,12 @@ import ChangePriceField from '../ChangePriceField';
 import ChangeQuantityField from '../ChangeQuantityField';
 import Clear from 'material-ui/svg-icons/content/clear';
 import Dialog from 'material-ui/Dialog';
-import RemoveItemButton from '../RemoveItemButton';
+import NewClientModal from './NewClientModal';
+import {fetchClients} from '../../actions/client-actions';
+import {saveInvoice} from '../../actions/invoice-actions';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+
 import {
     Table,
     TableBody,
@@ -29,7 +34,6 @@ const fullWidthDialog = {
     width: '100%',
     maxWidth: 'none',
 };
-
 class NewInvoiceModal extends React.Component {
     componentDidMount(){
     }
@@ -51,6 +55,8 @@ class NewInvoiceModal extends React.Component {
             validated: false,
             loading: false,
             done: false,
+
+            client_id: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -62,48 +68,22 @@ class NewInvoiceModal extends React.Component {
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClientSelect = this.handleClientSelect.bind(this);
+        this.handleInvoiceNumber = this.handleInvoiceNumber.bind(this);
+
     }
+
+    handleInvoiceNumber(event, value){
+        console.log("invoice " + value);
+        this.setState({invoice_number: value});};
+    handleClientSelect(event, index, value){this.setState({client_id: value});};
     handleOpen(){
         this.setState({open: true});
     };
 
     handleClose(){
-        this.setState({open: false, name: ''});
+        this.setState({open: false});
     };
-
-    handleSubmit(e){
-        e.preventDefault();
-
-        //validation
-        let errors = {};
-        if(this.state.name === '')
-            errors.name  = "This field is Required";
-        this.setState({errors});
-
-        //if valid, create post request
-        const isValid = Object.keys(errors).length === 0;
-        if(isValid){
-            // const new_client = {
-            //     name: this.state.name,
-            //     address:
-            //         {
-            //             number: this.state.number,
-            //             street: this.state.street,
-            //             postal: this.state.postal,
-            //             city: this.state.city,
-            //         },
-            //     telephone: this.state.telephone,
-            // };
-
-            this.setState({loading: true});
-            // this.props.SaveClient(new_client).then(
-            //     (response) => {console.log("should catch error here")}
-            // );
-            this.setState({done: true, loading: false});
-            this.handleClose();
-        }
-    };
-
 
     handleChange(e){
         if(this.state.errors[e.target.name]){
@@ -147,10 +127,11 @@ class NewInvoiceModal extends React.Component {
         }
         this.setState({
             subtotal: subtotal,
+            total: subtotal * 1.12,
         });
     }
 
-    deleteItem(e,item){
+    deleteItem(item){
         console.log("delete item");
         const newState = this.state.items;
         if (newState.indexOf(item) > -1) {
@@ -160,6 +141,44 @@ class NewInvoiceModal extends React.Component {
         }
         console.log(this.state.items);
     }
+
+    handleSubmit(e){
+        e.preventDefault();
+
+        //validation
+        let errors = {};
+        if(this.state.name === '')
+            errors.name  = "This field is Required";
+        this.setState({errors});
+
+        //if valid, create post request
+        const isValid = Object.keys(errors).length === 0;
+        if(isValid){
+            const itemSummary = [(this.state.items.map((item) => ({
+                    itemId: item._id,
+                    price: item.price,
+                    quantity: item.quantity,
+                })
+
+            ))];
+
+            const new_invoice = {
+                invoiceNumber: this.state.invoice_number,
+                date: this.state.date,
+                clientID: this.state.client_id,
+                itemSummary: itemSummary,
+                subtotal: this.state.subtotal,
+                total: this.state.total,
+            };
+
+            this.setState({loading: true});
+            this.props.saveInvoice(new_invoice).then(
+                (response) => {console.log("should catch error here")}
+            );
+            this.setState({done: true, loading: false});
+            this.handleClose();
+        }
+    };
 
 
     render(){
@@ -178,11 +197,6 @@ class NewInvoiceModal extends React.Component {
             />,
         ];
 
-        // const form = (
-        //
-        //
-        // );
-
         return(
             <div key={this.state.timestamp}>
                 <FlatButton label="New Invoice" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
@@ -195,128 +209,157 @@ class NewInvoiceModal extends React.Component {
                     autoDetectWindowHeight={true}
                     autoScrollBodyContent={true}
                 >
-                <div classID="invoice_form_header" className="columns">
-                    <div classID="details" className="column is-4">
 
-                        <TextField
-                            hintText="Enter Invoice Number"
-                            floatingLabelText="Invoice #"
-                            name="invoice_number"
-                            type="number"
-                            onChange={this.handleChange}
-                            value={this.state.purchase_number}
-                            fullWidth={false}
-                            errorText={this.state.errors.purchase_number}/>
+                    <div classID="invoice_form_header" className="columns" >
+                        <div classID="client_info" className="column is-4">
 
-                        <DatePicker
-                            hintText="Enter Date of Sale"
-                            floatingLabelText="Date of Sale"
-                            container="inline"
-                            fullWidth={false}
-                            onChange={this.handleDateChange}
-                            name="date"
-                            value={this.state.date}
-                            errorText={this.state.errors.date}
-                        />
+                            <TextField
+                                hintText="Enter Invoice Number"
+                                floatingLabelText="Invoice #"
+                                name="invoice_number"
+                                type="number"
+                                onChange={this.handleInvoiceNumber}
+                                value={this.state.invoice_number}
+                                fullWidth={false}
+                                errorText={this.state.errors.invoice_number}/>
 
+                            <DatePicker
+                                hintText="Enter Invoice Date"
+                                floatingLabelText="Invoice Date"
+                                container="inline"
+                                fullWidth={false}
+                                onChange={this.handleDateChange}
+                                name="date"
+                                value={this.state.date}
+                                errorText={this.state.errors.date}
+                            />
+
+                        </div>
+                        <div className="column is-4" style={{verticalAlign: 'middle'}}>
+                            <SelectField
+                                floatingLabelText="Existing Client"
+                                hintText="Select an Exisiting Client"
+                                fullWidth={true}
+                                value={this.state.client_id}
+                                onChange={this.handleClientSelect}
+                            >
+                                {
+                                    this.props.clients.map((item) => (
+                                        <MenuItem key={item._id} value={item} primaryText={item.name}/>
+                                    ))
+                                }
+                            </SelectField>
+                            <div style={{textAlign:'center', width:'100%'}}>OR</div>
+                            <NewClientModal/>
+
+
+                        </div>
+                        <div className="column is-4">
+
+                        </div>
                     </div>
-                    <div className="column is-4">
-
-                    </div>
-                    <div className="column is-4">
-
-                    </div>
-                </div>
-                <div classID="order_items_table">
-                    <Table
-                        height={'700px'}
-                        fixedHeader={true}
-                        fixedFooter={false}
-                        selectable={false}
-                        multiSelectable={false}
-                    >
-                        <TableHeader
-                            displaySelectAll={false}
-                            adjustForCheckbox={false}
-                            enableSelectAll={false}
-                            style={{verticalAlign: 'middle'}}
+                    <div classID="order_items_table">
+                        <Table
+                            height={'700px'}
+                            fixedHeader={true}
+                            fixedFooter={false}
+                            selectable={false}
+                            multiSelectable={false}
                         >
-                            <TableRow>
-                                <TableRowColumn/>
-                                <TableRowColumn/>
-                                <TableRowColumn/>
-                                <TableRowColumn/>
-                                <TableRowColumn style={{verticalAlign: "middle"}}>
-                                    <AddExistingItemModal addItem={this.handleNewItemAddition} isHarvest={true}/>
-                                </TableRowColumn>
+                            <TableHeader
+                                displaySelectAll={false}
+                                adjustForCheckbox={false}
+                                enableSelectAll={false}
+                                style={{verticalAlign: 'middle'}}
+                            >
+                                <TableRow>
+                                    <TableRowColumn/>
+                                    <TableRowColumn/>
+                                    <TableRowColumn/>
+                                    <TableRowColumn/>
+                                    <TableRowColumn style={{verticalAlign: "middle"}}>
+                                        <AddExistingItemModal isHarvest={true} addItem={this.handleNewItemAddition}/>
 
-                            </TableRow>
-
-                            <TableRow>
-                                <TableHeaderColumn style={{verticalAlign: 'middle'}}>Item Name</TableHeaderColumn>
-                                <TableHeaderColumn style={{verticalAlign: 'middle'}}>Unit Cost</TableHeaderColumn>
-                                <TableHeaderColumn style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                                <TableHeaderColumn style={{verticalAlign: "middle"}}>Price</TableHeaderColumn>
-                                <TableHeaderColumn style={{verticalAlign: "middle"}}>Remove Item</TableHeaderColumn>
-
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody
-                            displayRowCheckbox={false}
-                            deselectOnClickaway={true}
-                            showRowHover={true}
-                            stripedRows={false}
-                        >
-                            {this.state.items.map( (item, index) => (
-                                <TableRow key={index}>
-                                    <TableRowColumn style={{verticalAlign: 'middle'}}>{item.selectedItem.name}</TableRowColumn>
-                                    <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                        <ChangePriceField item={item} handlePriceQuantityChange={this.handlePriceQuantityChange}/>
-                                    </TableRowColumn>
-                                    <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                        <ChangeQuantityField item={item} handlePriceQuantityChange={this.handlePriceQuantityChange}/>
-                                    </TableRowColumn>
-                                    <TableRowColumn style={{verticalAlign: "middle"}}>$ {(item.price * item.quantity).toFixed(2)}</TableRowColumn>
-                                    <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                        <FlatButton
-                                            icon={<Clear color="#000000" />}
-                                            onClick={this.deleteItem.bind(this,item)}
-                                        />
                                     </TableRowColumn>
 
                                 </TableRow>
-                            ))}
-                            <TableRow>
-                                <TableRowColumn/>
-                                <TableRowColumn/>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>Subtotal</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>$ {
-                                    (this.state.subtotal).toFixed(2)
-                                }</TableRowColumn>
-                                <TableRowColumn/>
-                            </TableRow>
 
-                        </TableBody>
-                        <TableFooter adjustForCheckbox={false}>
+                                <TableRow>
+                                    <TableHeaderColumn style={{verticalAlign: 'middle'}}>Item Name</TableHeaderColumn>
+                                    <TableHeaderColumn style={{verticalAlign: 'middle'}}>Unit Cost</TableHeaderColumn>
+                                    <TableHeaderColumn style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
+                                    <TableHeaderColumn style={{verticalAlign: "middle"}}>Price</TableHeaderColumn>
+                                    <TableHeaderColumn style={{verticalAlign: "middle"}}>Remove Item</TableHeaderColumn>
 
-                            <TableRow selectable={false}>
-                                <TableRowColumn/>
-                                <TableRowColumn/>
-                                <TableRowColumn style={{verticalAlign: 'middle', fontWeight: 'bold'}}>Total Sales Value</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle', fontWeight: 'bold'}}>$ {(this.state.subtotal * this.state.tax_rate).toFixed(2)}
-                                </TableRowColumn>
-                                <TableRowColumn/>
-                            </TableRow>
-                        </TableFooter>
-                    </Table>
-                </div>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody
+                                displayRowCheckbox={false}
+                                deselectOnClickaway={true}
+                                showRowHover={true}
+                                stripedRows={false}
+                            >
+                                {this.state.items.map( (item, index) => (
+                                    <TableRow key={index}>
+                                        <TableRowColumn style={{verticalAlign: 'middle'}}>{item.selectedItem.name}</TableRowColumn>
+                                        <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                            <ChangePriceField item={item} handlePriceQuantityChange={this.handlePriceQuantityChange}/>
+                                        </TableRowColumn>
+                                        <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                            <ChangeQuantityField item={item} handlePriceQuantityChange={this.handlePriceQuantityChange}/>
+                                        </TableRowColumn>
+                                        <TableRowColumn style={{verticalAlign: "middle"}}>$ {(item.price * item.quantity).toFixed(2)}</TableRowColumn>
+                                        <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                            <FlatButton
+                                                icon={<Clear color="#000000" />}
+                                                onClick={this.deleteItem.bind(this,item)}
+                                            />
+                                        </TableRowColumn>
+
+                                    </TableRow>
+                                ))}
+                                <TableRow>
+                                    <TableRowColumn/>
+                                    <TableRowColumn/>
+                                    <TableRowColumn style={{verticalAlign: 'middle'}}>Subtotal</TableRowColumn>
+                                    <TableRowColumn style={{verticalAlign: 'middle'}}>$ {
+                                        (this.state.subtotal).toFixed(2)
+                                    }</TableRowColumn>
+                                    <TableRowColumn/>
+                                </TableRow>
+
+                            </TableBody>
+                            <TableFooter adjustForCheckbox={false}>
+
+                                <TableRow selectable={false}>
+                                    <TableRowColumn/>
+                                    <TableRowColumn/>
+                                    <TableRowColumn style={{verticalAlign: 'middle', fontWeight: 'bold'}}>Total Invoice Value</TableRowColumn>
+                                    <TableRowColumn style={{verticalAlign: 'middle', fontWeight: 'bold'}}>$ {(this.state.subtotal * this.state.tax_rate).toFixed(2)}
+                                    </TableRowColumn>
+                                    <TableRowColumn/>
+                                </TableRow>
+                            </TableFooter>
+                        </Table>
+                    </div>
                 </Dialog>
-
-
             </div>
+
 
         )
     };
 }
 
-export default connect()(NewInvoiceModal);
+NewInvoiceModal.propTypes = {
+    clients: PropTypes.array.isRequired,
+    fetchClients: PropTypes.func.isRequired,
+    saveInvoice: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => {
+    return {
+        clients: state.clients,
+    }
+};
+
+export default connect(mapStateToProps, {fetchClients, saveInvoice})(NewInvoiceModal);

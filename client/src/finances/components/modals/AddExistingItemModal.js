@@ -194,7 +194,6 @@ class AddExistingItemModal extends Component {
                             {this.props.isHarvest == true ? (
                                         <SelectField
                                             floatingLabelText="Inventory"
-                                            hintText="Select Inventory"
                                             fullWidth={true}
                                             value={this.state.selectedInventoryIndex}
                                             onChange={this.handleInventoryChange}

@@ -18,6 +18,7 @@ import SupplierReducer from '../finances/reducers/supplier-reducer'
 import UserReducer from '../users/reducers/user_reducer'
 import ClientReducer from '../finances/reducers/client-reducer';
 import PurchaseReducer from '../finances/reducers/purchase-reducer';
+import InvoiceReducer from '../finances/reducers/invoice-reducer';
 
 const allReducers = combineReducers({
     fields : FieldReducer,
@@ -36,6 +37,8 @@ const allReducers = combineReducers({
     users: UserReducer,
     clients: ClientReducer,
     purchases: PurchaseReducer,
+    invoices: InvoiceReducer,
+
 
 });
 

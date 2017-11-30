@@ -39,7 +39,9 @@ class FinancesPage extends React.Component{
             <div>
                 <Tabs>
                     <Tab label="Summary">
-                        Summary should appear here
+                        <div className="title" style={{width: '100%', textAlign:'center',}}>
+                            <div style={{marginTop:'100px'}}>Summary section under construction (Nov 2017)</div>
+                        </div>
                     </Tab>
                     <Tab label="Clients">
                         <ClientPage/>

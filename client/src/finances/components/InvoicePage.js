@@ -4,15 +4,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-//import {fetchClients} from '../actions/client-actions';
-//import SupplierList from './lists/SupplierList';
+import {fetchInvoices} from '../actions/invoice-actions';
+import InvoiceList from './lists/InvoiceList';
 import NewInvoiceModal from './modals/NewInvoiceModal';
 import Divider from 'material-ui/Divider';
+import Paper from 'material-ui/Paper';
 
 const fullWidthDialog = {
     width: '100%',
     maxWidth: 'none',
+
 };
+
 const paperStyle = {
     height: 100,
     width: 100,
@@ -25,7 +28,7 @@ const paperStyle = {
 class InvoicePage extends React.Component{
 
     componentDidMount(){
-        //this.props.fetchClients();
+        this.props.fetchInvoices();
     }
 
     // Constructor is responsible for setting up props and setting initial state
@@ -55,7 +58,7 @@ class InvoicePage extends React.Component{
                 <div>
                     <div style={paperStyle}>
                         <div className="">Total</div>
-                        <div className="">0</div>
+                        <div className="">{this.props.invoices.length}</div>
                     </div>
                     <div style={paperStyle}>
                         <div className="">This Week</div>
@@ -65,7 +68,9 @@ class InvoicePage extends React.Component{
                 </div>
                 <Divider/>
 
+
                 <div>
+                    <InvoiceList/>
                 </div>
 
             </div>
@@ -74,14 +79,14 @@ class InvoicePage extends React.Component{
 }
 
 InvoicePage.propTypes = {
-    // clients: PropTypes.array.isRequired,
-    // fetchClients: PropTypes.func.isRequired,
+    invoices: PropTypes.array.isRequired,
+    fetchInvoices: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
-        // clients: state.clients,
+        invoices: state.invoices,
     }
 };
 
-export default connect(mapStateToProps,)(InvoicePage);
+export default connect(mapStateToProps,{fetchInvoices})(InvoicePage);

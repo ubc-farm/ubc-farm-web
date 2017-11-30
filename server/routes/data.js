@@ -825,9 +825,9 @@ router.get('/invoices', (req, res) => {
 router.post('/invoices', (req, res) => {
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
-        const{date,clientID,itemSummary,subtotal,total} = req.body;
+        const{invoiceNumber,date,clientID,itemSummary,subtotal,total} = req.body;
 
-        Invoice.create({date,clientID,itemSummary,subtotal,total},
+        Invoice.create({invoiceNumber,date,clientID,itemSummary,subtotal,total},
 
             function(err, result){
                 if(err){

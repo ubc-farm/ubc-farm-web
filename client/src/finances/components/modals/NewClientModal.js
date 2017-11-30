@@ -116,8 +116,8 @@ class NewClientModal extends Component {
             />,
         ];
 
-        const form = (
-            <div style={{minWidth: '100%', height: '100%'}}>
+        return (
+            <div key={this.state.timestamp}>
                 <FlatButton label="New Client" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                 <Dialog
                     title="Add Client"
@@ -195,13 +195,6 @@ class NewClientModal extends Component {
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
                     <p>{this.state.errors.global}</p>
                 </Dialog>
-            </div>
-
-        );
-
-        return (
-            <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%'}} >
-                {form}
             </div>
 
         );
