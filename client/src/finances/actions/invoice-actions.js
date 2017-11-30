@@ -1,29 +1,29 @@
 /**
- * Created by Xingyu on 8/23/2017.
+ * Created by Xingyu on 11/20/2017.
  */
 //FETCH DATA ACTION
-export const SET_PURCHASE = 'SET_PURCHASE';
+export const SET_INVOICE = 'SET_INVOICE';
 
-export function setPurchase(purchases){
-    console.log(purchases);
+export function setInvoice(invoices){
+    console.log(invoices);
     return{
-        type: SET_PURCHASE,
-        purchases
+        type: invoices,
+        invoices
     }
 
 }
 
-export function fetchPurchases(){
-    console.log("fetch purhcases");
+export function fetchInvoices(){
+    console.log("fetch invoices");
     return dispatch => {
-        fetch('/data/purchases')
+        fetch('/data/invoices')
             .then(res => res.json())
-            .then(data => dispatch(setPurchase(data.items)));
+            .then(data => dispatch(setInvoice(data.items)));
     }
 }
 
 //POST DATA ACTION
-export const ADD_PURCHASE = 'ADD_INVOICE';
+export const ADD_INVOICE = 'ADD_INVOICE';
 
 function handleResponse(response){
     console.log(response.json);
@@ -36,23 +36,23 @@ function handleResponse(response){
     }
 }
 
-export function addPurchase(purchase){
+export function addInvoice(invoice){
     return{
-        type: ADD_PURCHASE,
-        purchase
+        type: ADD_INVOICE,
+        invoice
     }
 }
 
-export function savePurchase(data){
+export function saveInvoice(data){
     console.log(data);
     return dispatch => {
-        return fetch('/data/purchases', {
+        return fetch('/data/invoices', {
             method: 'post',
             body: JSON.stringify(data),
             headers:{
                 "Content-Type":"application/json"
             }
         }).then(handleResponse)
-            .then(data => dispatch(addPurchase(data.purchase)));
+            .then(data => dispatch(addInvoice(data.invoice)));
     }
 }

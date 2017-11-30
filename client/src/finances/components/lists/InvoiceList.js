@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {fetchPurchases} from '../../actions/purchase-actions';
+import {fetchInvoices} from '../../actions/invoice-actions';
 
 import {
     Table,
@@ -16,10 +16,10 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
-//List of Purchases
-class PurchaseList extends React.Component {
+//List of Invoices
+class InvoiceList extends React.Component {
     componentDidMount(){
-        this.props.fetchPurchases();
+        this.props.fetchInvoices();
     }
 
     constructor(props, context) {
@@ -71,9 +71,9 @@ class PurchaseList extends React.Component {
                     >
 
                         <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Purchase Number" style={{verticalAlign: 'middle'}}>Purhcase #</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Invoice Number" style={{verticalAlign: 'middle'}}>Invoice #</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Date" style={{verticalAlign: 'middle'}}>Date</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Supplier" style={{verticalAlign: 'middle'}}>Supplier</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Client" style={{verticalAlign: 'middle'}}>Client</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
 
                         </TableRow>
@@ -84,11 +84,11 @@ class PurchaseList extends React.Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        {this.props.purchases.map( (item, index) => (
+                        {this.props.invoices.map( (item, index) => (
                             <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.purchaseNumber}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.invoiceNumber}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{item.date}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.supplierID}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.clientID}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{item.total.toFixed(2)}</TableRowColumn>
                             </TableRow>
                         ))}
@@ -97,9 +97,9 @@ class PurchaseList extends React.Component {
                         adjustForCheckbox={false}
                     >
                         <TableRow>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Purchase #</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>Invoice #</TableRowColumn>
                             <TableRowColumn style={{verticalAlign: 'middle'}}>Date</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Supplier</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>Client</TableRowColumn>
                             <TableRowColumn style={{verticalAlign: 'middle'}}>Price</TableRowColumn>
                         </TableRow>
                     </TableFooter>
@@ -109,15 +109,15 @@ class PurchaseList extends React.Component {
     }
 }
 
-PurchaseList.propTypes = {
-    purchases: PropTypes.array.isRequired,
-    fetchPurchases: PropTypes.func.isRequired,
+InvoiceList.propTypes = {
+    invoices: PropTypes.array.isRequired,
+    fetchInvoices: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
-        purchases: state.purchases,
+        invoices: state.invoices,
     }
 };
 
-export default connect(mapStateToProps,{fetchPurchases})(PurchaseList);
+export default connect(mapStateToProps,{fetchInvoices})(InvoiceList);

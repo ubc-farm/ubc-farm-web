@@ -1,20 +1,16 @@
 /**
- * Created by Xingyu on 7/27/2017.
+ * Created by Xingyu on 11/20/2017.
  */
 import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import Divider from 'material-ui/Divider';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
-import {SaveSupplier} from '../actions/supplier-actions';
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
+import {SaveSupplier} from '../../actions/supplier-actions';
 
 /**
- * A modal form for creating new transplant items
+ * A modal form for creating new Supplier object
  */
 class NewSupplierModal extends Component {
     /**
@@ -80,29 +76,26 @@ class NewSupplierModal extends Component {
             errors.name  = "This field is Required";
         this.setState({errors});
 
-
-
-
-
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
             const new_supplier = {
                 name: this.state.name,
                 address:
-                {
-                    number: this.state.number,
-                    street: this.state.street,
-                    postal: this.state.postal,
-                    city: this.state.city,
-                },
+                    {
+                        number: this.state.number,
+                        street: this.state.street,
+                        postal: this.state.postal,
+                        city: this.state.city,
+                    },
                 telephone: this.state.telephone,
             };
 
             this.setState({loading: true});
-            this.props.SaveSupplier(new_supplier).then(
-                (response) => {console.log("should catch error here")}
-            );
+            this.props.SaveSupplier(new_supplier);
+            //     .then(
+            //     (response) => {console.log("should catch error here")}
+            // );
             this.setState({done: true, loading: false});
             this.handleClose();
         }
@@ -126,7 +119,7 @@ class NewSupplierModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="New Supplier" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <FlatButton label="New Supplier" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%'}}  />
                 <Dialog
                     title="Add Supplier"
                     actions={actions}

@@ -1,10 +1,10 @@
 /**
- * Created by Xingyu on 11/17/2017.
+ * Created by Xingyu on 11/13/2017.
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {fetchPurchases} from '../../actions/purchase-actions';
+import {fetchClients} from '../../actions/client-actions';
 
 import {
     Table,
@@ -16,10 +16,10 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
-//List of Purchases
-class PurchaseList extends React.Component {
+//List of Clients
+class ClientList extends React.Component {
     componentDidMount(){
-        this.props.fetchPurchases();
+        this.props.fetchClients();
     }
 
     constructor(props, context) {
@@ -71,10 +71,9 @@ class PurchaseList extends React.Component {
                     >
 
                         <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Purchase Number" style={{verticalAlign: 'middle'}}>Purhcase #</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Date" style={{verticalAlign: 'middle'}}>Date</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Supplier" style={{verticalAlign: 'middle'}}>Supplier</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Name</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Field" style={{verticalAlign: 'middle'}}>Email</TableHeaderColumn>
+                            <TableHeaderColumn/>
 
                         </TableRow>
                     </TableHeader>
@@ -84,12 +83,17 @@ class PurchaseList extends React.Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        {this.props.purchases.map( (item, index) => (
+                        {this.props.clients.map( (item, index) => (
                             <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.purchaseNumber}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.date}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.supplierID}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.total.toFixed(2)}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.name}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.telephone}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                    <div className="columns">
+                                        <div className="column">
+                                            Delete
+                                        </div>
+                                    </div>
+                                </TableRowColumn>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -97,10 +101,9 @@ class PurchaseList extends React.Component {
                         adjustForCheckbox={false}
                     >
                         <TableRow>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Purchase #</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Date</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Supplier</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Price</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>Name</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>Telephone</TableRowColumn>
+                            <TableHeaderColumn/>
                         </TableRow>
                     </TableFooter>
                 </Table>
@@ -109,15 +112,15 @@ class PurchaseList extends React.Component {
     }
 }
 
-PurchaseList.propTypes = {
-    purchases: PropTypes.array.isRequired,
-    fetchPurchases: PropTypes.func.isRequired,
+ClientList.propTypes = {
+    clients: PropTypes.array.isRequired,
+    fetchClients: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
-        purchases: state.purchases,
+        clients: state.clients,
     }
 };
 
-export default connect(mapStateToProps,{fetchPurchases})(PurchaseList);
+export default connect(mapStateToProps,{fetchClients})(ClientList);

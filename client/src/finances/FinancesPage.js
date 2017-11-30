@@ -7,9 +7,11 @@ import {connect} from 'react-redux';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Divider from 'material-ui/Divider';
 import NewSupplierModal from './components/NewSupplierModal';
-import NewPurchasePage from './components/NewPurchasePage';
-import NewInvoicePage from './components/NewInvoicePage';
-import NewClientModal from './components/NewCliendModal';
+import NewPurchaseModal from './components/modals/NewPurchaseModal';
+import PurchasePage from './components/PurchasePage'
+import InvoicePage from './components/InvoicePage';
+import ClientPage from './components/ClientPage';
+import SupplierPage from './components/SupplierPage';
 
 
 class FinancesPage extends React.Component{
@@ -22,17 +24,10 @@ class FinancesPage extends React.Component{
         this.state = {
             // State needed
             activeTab: 'summary',
-            fields: [],
-            tasks:[],
-            value: 'test value',
+            clients: [],
         };
 
         this.handleMenuClick = this.handleMenuClick.bind(this);
-    }
-
-    componentDidMount(){
-
-
     }
 
     handleMenuClick(e, { name }){
@@ -44,20 +39,21 @@ class FinancesPage extends React.Component{
             <div>
                 <Tabs>
                     <Tab label="Summary">
-                        Summary should appear here
+                        <div className="title" style={{width: '100%', textAlign:'center',}}>
+                            <div style={{marginTop:'100px'}}>Summary section under construction (Nov 2017)</div>
+                        </div>
                     </Tab>
                     <Tab label="Clients">
-                        Client List
+                        <ClientPage/>
                     </Tab>
                     <Tab label="Suppliers">
-                        Suppliers List
-                        <NewSupplierModal/>
+                        <SupplierPage/>
                     </Tab>
-                    <Tab label="New Invoice">
-                        Invoices here
+                    <Tab label="Invoices">
+                        <InvoicePage/>
                     </Tab>
-                    <Tab label="New Purchase Order">
-                        <NewPurchasePage/>
+                    <Tab label="Purchase Orders">
+                        <PurchasePage/>
                     </Tab>
                 </Tabs>
             </div>

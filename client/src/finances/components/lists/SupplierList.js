@@ -1,10 +1,10 @@
 /**
- * Created by Xingyu on 7/31/2017.
+ * Created by Xingyu on 11/17/2017.
  */
-import React, {Component} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import FlatButton from 'material-ui/FlatButton';
-import EditSupplierModal from './EditSupplierModal';
+import {fetchSuppliers} from '../../actions/supplier-actions';
 
 import {
     Table,
@@ -15,31 +15,49 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
-import PropTypes from 'prop-types';
 
-/**
- * Table form representation of Transplanting Items
- */
-class EquipmentList extends Component {
+//List of Suppliers
+class SupplierList extends React.Component {
+    componentDidMount(){
+        this.props.fetchSuppliers();
+    }
+
     constructor(props, context) {
         super(props, context);
 
         // set the initial component state
         this.state = {
             fixedHeader: true,
-
+            fixedFooter: true,
+            stripedRows: false,
+            showRowHover: false,
+            selectable: true,
+            multiSelectable: false,
+            enableSelectAll: false,
+            deselectOnClickaway: true,
+            showCheckboxes: true,
+            height: '300px',
         };
 
-
-
+        this.handleToggle = this.handleToggle.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
+    handleToggle(event, toggled){
+        this.setState({
+            [event.target.name]: toggled,
+        });
+    }
 
-    render(){
+    handleChange(event){
+        this.setState({height: event.target.value});
+    }
+
+    render() {
         return (
             <div>
                 <Table
-                    height={'100%'}
+                    height={'500px'}
                     fixedHeader={true}
                     fixedFooter={false}
                     selectable={false}
@@ -53,16 +71,10 @@ class EquipmentList extends Component {
                     >
 
                         <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
-
+                            <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Name</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Field" style={{verticalAlign: 'middle'}}>Email</TableHeaderColumn>
                             <TableHeaderColumn/>
-                            name: String,
-                            price: Number,
-                            store: String,
-                            life: Number,
-                            quantity: Number
+
                         </TableRow>
                     </TableHeader>
                     <TableBody
@@ -71,19 +83,14 @@ class EquipmentList extends Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        {this.props.equipments.map( (item, index) => (
+                        {this.props.suppliers.map( (item, index) => (
                             <TableRow key={index}>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>{item.name}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.unit}</TableRowColumn>
+                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.telephone}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>
                                     <div className="columns">
                                         <div className="column">
                                             Delete
-
-                                        </div>
-                                        <div className="column">
-                                            <LogItemModel item={item}/>
                                         </div>
                                     </div>
                                 </TableRowColumn>
@@ -94,32 +101,27 @@ class EquipmentList extends Component {
                         adjustForCheckbox={false}
                     >
                         <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>Name</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>Telephone</TableRowColumn>
                             <TableHeaderColumn/>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn colSpan="4" style={{textAlign: 'center'}}>
-                                Super Footer
-                            </TableRowColumn>
                         </TableRow>
                     </TableFooter>
                 </Table>
-
             </div>
-        )
+        );
     }
 }
 
-EquipmentList.propTypes = {
-    equipments: PropTypes.array.isRequired,
+SupplierList.propTypes = {
+    suppliers: PropTypes.array.isRequired,
+    fetchSuppliers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
-        equipments: state.equipments,
+        suppliers: state.suppliers,
     }
 };
 
-export default connect(mapStateToProps)(EquipmentList);
+
+export default connect(mapStateToProps,{fetchSuppliers})(SupplierList);

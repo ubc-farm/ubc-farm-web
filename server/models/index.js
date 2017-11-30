@@ -30,4 +30,7 @@ module.exports.connect = (uri) => {
   require('./fertilizer_model');
   require('./log_inventory');
   require('./supplier');
+  require('./client');
+  require('./invoice');
+  require('./purchase');
 };
