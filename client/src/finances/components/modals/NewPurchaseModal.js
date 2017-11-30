@@ -15,7 +15,12 @@ import ChangePriceField from '../ChangePriceField';
 import ChangeQuantityField from '../ChangeQuantityField';
 import Clear from 'material-ui/svg-icons/content/clear';
 import Dialog from 'material-ui/Dialog';
-import RemoveItemButton from '../RemoveItemButton';
+import NewSupplierModal from './NewSupplierModal';
+import {fetchSuppliers} from '../../actions/supplier-actions';
+import {savePurchase} from '../../actions/purchase-actions';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+
 import {
     Table,
     TableBody,
@@ -39,7 +44,7 @@ class NewPurchaseModal extends React.Component {
         this.state={
             date: {},
             notes: '',
-            invoice_number: '',
+            purchase_number: null,
             errors: {},
             items: [],
 
@@ -51,6 +56,8 @@ class NewPurchaseModal extends React.Component {
             validated: false,
             loading: false,
             done: false,
+
+            supplier_id: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -62,15 +69,21 @@ class NewPurchaseModal extends React.Component {
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSupplierSelect = this.handleSupplierSelect.bind(this);
+        this.handlePurchaseNumber = this.handlePurchaseNumber.bind(this);
 
     }
 
+    handlePurchaseNumber(event, value){
+        console.log("purhcase " + value);
+        this.setState({purchase_number: value});};
+    handleSupplierSelect(event, index, value){this.setState({supplier_id: value});};
     handleOpen(){
         this.setState({open: true});
     };
 
     handleClose(){
-        this.setState({open: false, name: ''});
+        this.setState({open: false});
     };
 
     handleChange(e){
@@ -115,6 +128,7 @@ class NewPurchaseModal extends React.Component {
         }
         this.setState({
             subtotal: subtotal,
+            total: this.state.subtotal * this.state.tax_rate,
         });
     }
 
@@ -141,22 +155,27 @@ class NewPurchaseModal extends React.Component {
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
-            // const new_client = {
-            //     name: this.state.name,
-            //     address:
-            //         {
-            //             number: this.state.number,
-            //             street: this.state.street,
-            //             postal: this.state.postal,
-            //             city: this.state.city,
-            //         },
-            //     telephone: this.state.telephone,
-            // };
+            const itemSummary = [(this.state.items.map((item) => ({
+                itemId: item._id,
+                price: item.price,
+                quantity: item.quantity,
+            })
+
+            ))];
+
+            const new_purchase = {
+                purchaseNumber: this.state.purchase_number,
+                date: this.state.date,
+                supplierID: this.state.supplier_id,
+                itemSummary: itemSummary,
+                subtotal: this.state.subtotal,
+                total: this.state.total,
+            };
 
             this.setState({loading: true});
-            // this.props.SaveClient(new_client).then(
-            //     (response) => {console.log("should catch error here")}
-            // );
+            this.props.savePurchase(new_purchase).then(
+                (response) => {console.log("should catch error here")}
+            );
             this.setState({done: true, loading: false});
             this.handleClose();
         }
@@ -179,11 +198,6 @@ class NewPurchaseModal extends React.Component {
             />,
         ];
 
-        // const form = (
-        //
-        //
-        // );
-
         return(
             <div key={this.state.timestamp}>
                     <FlatButton label="New Purchase" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
@@ -201,14 +215,14 @@ class NewPurchaseModal extends React.Component {
                             <div classID="supplier_info" className="column is-4">
 
                                 <TextField
-                                    hintText="Enter Invoice Number"
-                                    floatingLabelText="Invoice #"
-                                    name="invoice_number"
+                                    hintText="Enter Purchase Number"
+                                    floatingLabelText="Purhcase #"
+                                    name="purchase_number"
                                     type="number"
-                                    onChange={this.handleChange}
-                                    value={this.state.invoice_number}
+                                    onChange={this.handlePurchaseNumber}
+                                    value={this.state.purchase_number}
                                     fullWidth={false}
-                                    errorText={this.state.errors.invoice_number}/>
+                                    errorText={this.state.errors.purchase_number}/>
 
                                 <DatePicker
                                     hintText="Enter Date of Purchase"
@@ -222,7 +236,23 @@ class NewPurchaseModal extends React.Component {
                                 />
 
                             </div>
-                            <div className="column is-4">
+                            <div className="column is-4" style={{verticalAlign: 'middle'}}>
+                                <SelectField
+                                    floatingLabelText="Existing Supplier"
+                                    hintText="Select an Exisiting Supplier"
+                                    fullWidth={true}
+                                    value={this.state.supplier_id}
+                                    onChange={this.handleSupplierSelect}
+                                >
+                                    {
+                                        this.props.suppliers.map((item) => (
+                                            <MenuItem key={item._id} value={item} primaryText={item.name}/>
+                                        ))
+                                    }
+                                </SelectField>
+                                <div style={{textAlign:'center', width:'100%'}}>OR</div>
+                                <NewSupplierModal/>
+
 
                             </div>
                             <div className="column is-4">
@@ -250,7 +280,7 @@ class NewPurchaseModal extends React.Component {
                                         <TableRowColumn/>
                                         <TableRowColumn style={{verticalAlign: "middle"}}>
                                             <AddExistingItemModal isHarvest={false} addItem={this.handleNewItemAddition}/>
-                                            <RaisedButton primary={true} fullWidth={true} style={{margin:"5px"}} label="Add New Item"/>
+
                                         </TableRowColumn>
 
                                     </TableRow>
@@ -321,5 +351,17 @@ class NewPurchaseModal extends React.Component {
     };
 }
 
-export default connect()(NewPurchaseModal);
+NewPurchaseModal.propTypes = {
+    suppliers: PropTypes.array.isRequired,
+    fetchSuppliers: PropTypes.func.isRequired,
+    savePurchase: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => {
+    return {
+        suppliers: state.suppliers,
+    }
+};
+
+export default connect(mapStateToProps, {fetchSuppliers, savePurchase})(NewPurchaseModal);
 

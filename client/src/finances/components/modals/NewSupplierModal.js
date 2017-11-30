@@ -1,5 +1,5 @@
 /**
- * Created by Xingyu on 7/27/2017.
+ * Created by Xingyu on 11/20/2017.
  */
 import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
@@ -7,12 +7,12 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
-import {SaveClient} from '../../actions/client-actions';
+import {SaveSupplier} from '../../actions/supplier-actions';
 
 /**
- * A modal form for creating new Client object
+ * A modal form for creating new Supplier object
  */
-class NewClientModal extends Component {
+class NewSupplierModal extends Component {
     /**
      * Class constructor.
      */
@@ -79,7 +79,7 @@ class NewClientModal extends Component {
         //if valid, create post request
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
-            const new_client = {
+            const new_supplier = {
                 name: this.state.name,
                 address:
                     {
@@ -92,9 +92,10 @@ class NewClientModal extends Component {
             };
 
             this.setState({loading: true});
-            this.props.SaveClient(new_client).then(
-                (response) => {console.log("should catch error here")}
-            );
+            this.props.SaveSupplier(new_supplier);
+            //     .then(
+            //     (response) => {console.log("should catch error here")}
+            // );
             this.setState({done: true, loading: false});
             this.handleClose();
         }
@@ -118,17 +119,17 @@ class NewClientModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="New Client" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <FlatButton label="New Supplier" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%'}}  />
                 <Dialog
-                    title="Add Client"
+                    title="Add Supplier"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
                 >
                     <form>
                         <TextField
-                            hintText="Enter Client Name"
-                            floatingLabelText="Client Name"
+                            hintText="Enter Supplier Name"
+                            floatingLabelText="Supplier Name"
                             name="name"
                             onChange={this.handleChange}
                             value={this.state.name}
@@ -208,4 +209,4 @@ class NewClientModal extends Component {
     }
 }
 
-export default connect(null, {SaveClient})(NewClientModal);
+export default connect(null, {SaveSupplier})(NewSupplierModal);

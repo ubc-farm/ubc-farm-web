@@ -11,6 +11,7 @@ import NewPurchaseModal from './components/modals/NewPurchaseModal';
 import PurchasePage from './components/PurchasePage'
 import InvoicePage from './components/InvoicePage';
 import ClientPage from './components/ClientPage';
+import SupplierPage from './components/SupplierPage';
 
 
 class FinancesPage extends React.Component{
@@ -44,8 +45,7 @@ class FinancesPage extends React.Component{
                         <ClientPage/>
                     </Tab>
                     <Tab label="Suppliers">
-                        Suppliers List
-                        <NewSupplierModal/>
+                        <SupplierPage/>
                     </Tab>
                     <Tab label="Invoices">
                         <InvoicePage/>

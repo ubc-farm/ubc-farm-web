@@ -9,6 +9,15 @@ import ClientList from './lists/ClientList';
 import NewClientModal from './modals/NewClientModal';
 import Divider from 'material-ui/Divider';
 
+const paperStyle = {
+    height: 100,
+    width: 100,
+    display: 'table-cell',
+    verticalAlign:'middle',
+    textAlign: 'center',
+
+};
+
 class ClientPage extends React.Component{
 
     componentDidMount(){
@@ -38,6 +47,18 @@ class ClientPage extends React.Component{
                     </div>
                 </div>
 
+                <Divider/>
+                <div>
+                    <div style={paperStyle}>
+                        <div className="">Total</div>
+                        <div className="">{this.props.clients.length}</div>
+                    </div>
+                    <div style={paperStyle}>
+                        <div className="">This Week</div>
+                        <div className="">0</div>
+                    </div>
+
+                </div>
                 <Divider/>
 
                 <div>

@@ -31,4 +31,6 @@ module.exports.connect = (uri) => {
   require('./log_inventory');
   require('./supplier');
   require('./client');
+  require('./invoice');
+  require('./purchase');
 };

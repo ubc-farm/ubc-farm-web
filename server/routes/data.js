@@ -20,6 +20,8 @@ let Harvested = require('mongoose').model('Harvested');
 let Supplier = require('mongoose').model('Supplier');
 let User = require('mongoose').model('User');
 let Client = require('mongoose').model('Client');
+let Invoice = require('mongoose').model('Invoice');
+let Purchase = require('mongoose').model('Purchase');
 
 router.get('/fields', (req, res) => {
 
@@ -701,6 +703,7 @@ router.post('/suppliers', (req, res) => {
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
         const{name,address,telephone} = req.body;
+        console.log("server save supplier");
 
         Supplier.create({name,address,telephone},
 
@@ -761,6 +764,78 @@ router.post('/clients', (req, res) => {
                 }else{
                     delete result.__v;
                     res.status(200).json({client: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+//ROUTES FOR PURCHASES
+router.get('/purchases', (req, res) => {
+
+    Purchase.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving clients');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/purchases', (req, res) => {
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{purchaseNumber,date,supplierID,itemSummary,subtotal,total} = req.body;
+
+        Purchase.create({purchaseNumber,date,supplierID,itemSummary,subtotal,total},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving purchase"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({purchase: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
+//ROUTES FOR INVOICES
+router.get('/invoices', (req, res) => {
+
+    Invoice.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving clients');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/invoices', (req, res) => {
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{date,clientID,itemSummary,subtotal,total} = req.body;
+
+        Invoice.create({date,clientID,itemSummary,subtotal,total},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving invoice"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({invoice: result});
                 }
             });
     }else{

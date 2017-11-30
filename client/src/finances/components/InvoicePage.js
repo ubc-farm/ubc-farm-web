@@ -5,13 +5,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 //import {fetchClients} from '../actions/client-actions';
-//import ClientList from './lists/ClientList';
+//import SupplierList from './lists/SupplierList';
 import NewInvoiceModal from './modals/NewInvoiceModal';
 import Divider from 'material-ui/Divider';
 
 const fullWidthDialog = {
     width: '100%',
     maxWidth: 'none',
+};
+const paperStyle = {
+    height: 100,
+    width: 100,
+    display: 'table-cell',
+    verticalAlign:'middle',
+    textAlign: 'center',
+
 };
 
 class InvoicePage extends React.Component{
@@ -26,7 +34,7 @@ class InvoicePage extends React.Component{
         super(props);
         // Set initial state
         this.state = {
-            purchases: [],
+            invoices: [],
             // State needed
         };
     }
@@ -43,6 +51,18 @@ class InvoicePage extends React.Component{
                     </div>
                 </div>
 
+                <Divider/>
+                <div>
+                    <div style={paperStyle}>
+                        <div className="">Total</div>
+                        <div className="">0</div>
+                    </div>
+                    <div style={paperStyle}>
+                        <div className="">This Week</div>
+                        <div className="">0</div>
+                    </div>
+
+                </div>
                 <Divider/>
 
                 <div>

@@ -9,10 +9,19 @@ import SupplierList from './lists/SupplierList';
 import NewSupplierModal from './modals/NewSupplierModal';
 import Divider from 'material-ui/Divider';
 
+const paperStyle = {
+    height: 100,
+    width: 100,
+    display: 'table-cell',
+    verticalAlign:'middle',
+    textAlign: 'center',
+
+};
+
 class SupplierPage extends React.Component{
 
     componentDidMount(){
-        this.props.fetchClients();
+        this.props.fetchSuppliers();
     }
 
     // Constructor is responsible for setting up props and setting initial state
@@ -21,7 +30,7 @@ class SupplierPage extends React.Component{
         super(props);
         // Set initial state
         this.state = {
-            clients: [],
+            suppliers: [],
             // State needed
         };
     }
@@ -31,17 +40,29 @@ class SupplierPage extends React.Component{
             <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "20px"}}>
                 <div className="columns">
                     <div className = "column is-2-desktop">
-                        <div className="title">Client List</div>
+                        <div className="title">Supplier List</div>
                     </div>
                     <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
-                        <NewClientModal/>
+                        <NewSupplierModal/>
                     </div>
                 </div>
 
                 <Divider/>
+                <div>
+                    <div style={paperStyle}>
+                        <div className="">Total</div>
+                        <div className="">{this.props.suppliers.length}</div>
+                    </div>
+                    <div style={paperStyle}>
+                        <div className="">This Week</div>
+                        <div className="">0</div>
+                    </div>
+
+                </div>
+                <Divider/>
 
                 <div>
-                    <ClientList/>
+                    <SupplierList suppliers={this.props.suppliers}/>
                 </div>
 
             </div>
@@ -49,15 +70,15 @@ class SupplierPage extends React.Component{
     }
 }
 
-ClientPage.propTypes = {
-    clients: PropTypes.array.isRequired,
-    fetchClients: PropTypes.func.isRequired,
+SupplierPage.propTypes = {
+    suppliers: PropTypes.array.isRequired,
+    fetchSuppliers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
-        clients: state.clients,
+        suppliers: state.suppliers,
     }
 };
 
-export default connect(mapStateToProps, {fetchClients, })(ClientPage);
+export default connect(mapStateToProps, {fetchSuppliers, })(SupplierPage);

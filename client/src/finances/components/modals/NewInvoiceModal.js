@@ -204,9 +204,9 @@ class NewInvoiceModal extends React.Component {
                             name="invoice_number"
                             type="number"
                             onChange={this.handleChange}
-                            value={this.state.invoice_number}
+                            value={this.state.purchase_number}
                             fullWidth={false}
-                            errorText={this.state.errors.invoice_number}/>
+                            errorText={this.state.errors.purchase_number}/>
 
                         <DatePicker
                             hintText="Enter Date of Sale"

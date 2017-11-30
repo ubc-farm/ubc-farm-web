@@ -4,8 +4,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-//import {fetchClients} from '../actions/client-actions';
-//import ClientList from './lists/ClientList';
+import {fetchPurchases} from '../actions/purchase-actions';
+import PurchaseList from './lists/PurchaseList';
 import NewPurchaseModal from './modals/NewPurchaseModal';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
@@ -13,20 +13,22 @@ import Paper from 'material-ui/Paper';
 const fullWidthDialog = {
     width: '100%',
     maxWidth: 'none',
+
 };
 
 const paperStyle = {
     height: 100,
     width: 100,
-    margin: 20,
+    display: 'table-cell',
+    verticalAlign:'middle',
     textAlign: 'center',
-    display: 'inline-block',
+
 };
 
 class PurchasePage extends React.Component{
 
     componentDidMount(){
-        //this.props.fetchClients();
+        this.props.fetchPurchases();
     }
 
     // Constructor is responsible for setting up props and setting initial state
@@ -54,22 +56,21 @@ class PurchasePage extends React.Component{
 
                 <Divider/>
                 <div>
-                    <Paper style={paperStyle} zDepth={1}
-                           children={
-                               <div>
-                                   <div>Total</div>
-                                   <div>{this.state.purchases.length}</div>
-                               </div>
-                           }
-                    />
-                    <Paper style={paperStyle} zDepth={1} />
-                    <Paper style={paperStyle} zDepth={1} />
-                    <Paper style={paperStyle} zDepth={1} />
+                    <div style={paperStyle}>
+                        <div className="">Total</div>
+                        <div className="">{this.props.purchases.length}</div>
+                    </div>
+                    <div style={paperStyle}>
+                        <div className="">This Week</div>
+                        <div className="">0</div>
+                    </div>
 
                 </div>
+                <Divider/>
 
 
                 <div>
+                    <PurchaseList/>
                 </div>
 
             </div>
@@ -78,14 +79,14 @@ class PurchasePage extends React.Component{
 }
 
 PurchasePage.propTypes = {
-    // clients: PropTypes.array.isRequired,
-    // fetchClients: PropTypes.func.isRequired,
+     purchases: PropTypes.array.isRequired,
+     fetchPurchases: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
-        // clients: state.clients,
+         purchases: state.purchases,
     }
 };
 
-export default connect(mapStateToProps,)(PurchasePage);
+export default connect(mapStateToProps,{fetchPurchases})(PurchasePage);

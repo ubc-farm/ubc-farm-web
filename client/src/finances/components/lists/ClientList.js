@@ -16,9 +16,7 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
-/**
- * A more complex example, allowing the table height to be set, and key boolean properties to be toggled.
- */
+//List of Clients
 class ClientList extends React.Component {
     componentDidMount(){
         this.props.fetchClients();

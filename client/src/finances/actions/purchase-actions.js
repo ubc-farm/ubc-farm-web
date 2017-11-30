@@ -14,7 +14,7 @@ export function setPurchase(purchases){
 }
 
 export function fetchPurchases(){
-    console.log("fetch purhcase s");
+    console.log("fetch purhcases");
     return dispatch => {
         fetch('/data/purchases')
             .then(res => res.json())
@@ -36,14 +36,14 @@ function handleResponse(response){
     }
 }
 
-export function AddPurchase(purchase){
+export function addPurchase(purchase){
     return{
         type: ADD_PURCHASE,
         purchase
     }
 }
 
-export function SavePurchase(data){
+export function savePurchase(data){
     console.log(data);
     return dispatch => {
         return fetch('/data/purchases', {
@@ -53,6 +53,6 @@ export function SavePurchase(data){
                 "Content-Type":"application/json"
             }
         }).then(handleResponse)
-            .then(data => dispatch(AddPurchase(data.purchase)));
+            .then(data => dispatch(addPurchase(data.purchase)));
     }
 }
