@@ -3,6 +3,8 @@
  */
 //FETCH DATA ACTION
 export const SET_HARVESTED = 'SET_HARVESTED';
+export const HARVEST_DELETED  = 'HARVEST_DELETED';
+export const UPDATE_HARVESTED = 'UPDATE_HARVESTED';
 
 export function setHarvested(harvested){
     console.log(harvested);
@@ -54,8 +56,7 @@ export function SaveHarvested(data){
             .then(data => dispatch(AddHarvested(data.harvested)));
     }
 }
-//PUT action
-export const UPDATE_HARVESTED = 'UPDATE_HARVESTED';
+
 
 export function updateHarvested(item){
     console.log("harvested should update");
@@ -64,6 +65,22 @@ export function updateHarvested(item){
         type: UPDATE_HARVESTED,
         item
     }
+}
+
+
+export function deleteHarvested(id){
+    return dispatch => {
+        return fetch(`/data/harvested/${id}`, {
+            method: 'delete',
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then((data) => {
+            dispatch({type: HARVEST_DELETED, harvestedID:id});
+        }).catch((error)=>{
+            
+        });
+    }    
 }
 
 export function logHarvested(data){

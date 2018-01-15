@@ -1,7 +1,7 @@
 /**
  * Created by Xingyu on 6/29/2017.
  */
-import {SET_EQUIPMENTS, EQUIPMENT_DELETED, ADD_EQUIPMENT, UPDATE_EQUIPMENT} from "../actions/equipment-actions"
+import {SET_EQUIPMENTS, REMOVE_EQUIPMENT, ADD_EQUIPMENT, UPDATE_EQUIPMENT} from "../actions/equipment-actions"
 
 export default function equipments(state=[], action={}){
     switch(action.type) {
@@ -10,7 +10,7 @@ export default function equipments(state=[], action={}){
             return action.equipments;
             break;
 
-        case EQUIPMENT_DELETED:
+        case REMOVE_EQUIPMENT:
 
             return state.filter(item => item._id !== action.equipmentID);
             break;

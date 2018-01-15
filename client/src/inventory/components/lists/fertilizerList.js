@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import LogItemModel from '../modals/log-modal';
-
+import EditableList from '../lists/EditableList';
 import {
     Table,
     TableBody,
@@ -15,6 +15,8 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+import {deleteFertilizer, logFertilizer} from '../../actions/fertilizer-actions.js';
+
 import PropTypes from 'prop-types';
 
 /**
@@ -32,91 +34,51 @@ class FertilizerList extends Component {
 
 
     }
-    render(){
+
+
+    render() {
+        //modal 
+        let columns = [
+        {title:'Crop',toolTip:'Sort by Crop'},
+        {title:'Product name',toolTip:'Sort by Product name'},
+        {title:'Application rate',toolTip:'Sort by Application rate'},
+        {title:'Mix ratio',toolTip:'Sort by Mix ratio'},
+        {title:'TC', toolTip:'TC'},
+        {title:'NO3', toolTip:'NO3'},
+        {title:'NH4', toolTip:'NH4'},
+        {title:'K2O', toolTip:'K2O'},
+        {title:'P2O5', toolTip:'P2O5'},
+        {title:'Price',toolTip:'Sort by Price'},
+        {title:'Quantity',toolTip:'Sort by Quantity'},
+        {title:'Delete',toolTip:'Delete item'}];
+
+        var itemList = [];
+
+        itemList = this.props.fertilizers.map((item)=>{
+            var newItem = {
+                _id:item._id,
+                type:{title:item.type},
+                name:{title:item.name},
+                rate:{title:item.rate},
+                ratio:{title:item.ratio},
+                TC:{title:item.tc},
+                NO3:{title:item.no3},
+                NH4:{title:item.nh4},
+                K2O:{title:item.k2o},
+                P2O5:{title:item.p2o5},
+                price:{title:item.price || "N/A"},
+                quantity:{title:item.quantity, isEditable:true, func:logFertilizer},
+                deleteButton:{deleteFunc:deleteFertilizer}
+            };
+            return newItem;
+        });
         return (
-            <div>
-                <Table
-                    height={'100%'}
-                    fixedHeader={true}
-                    fixedFooter={false}
-                    selectable={false}
-                    multiSelectable={false}
-                >
-                    <TableHeader
-                        displaySelectAll={false}
-                        adjustForCheckbox={false}
-                        enableSelectAll={false}
-                        style={{verticalAlign: 'middle'}}
-                    >
-
-                        <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Application Rate" style={{verticalAlign: 'middle'}}>Application Rate</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Mix Ratio" style={{verticalAlign: 'middle'}}>Mix Ratio</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="View Active Ingredients" style={{verticalAlign: 'middle'}} width={400}>Active Ingredients</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Unit Price</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                            <TableHeaderColumn/>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody
-                        displayRowCheckbox={false}
-                        deselectOnClickaway={true}
-                        showRowHover={true}
-                        stripedRows={false}
-                    >
-
-                        {this.props.fertilizers.map( (item, index) => (
-                            <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.type}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.name}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.rate}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.ratio}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}} width={400}>
-                                    TC%: {item.tc}, NO3%: {item.no3}, NH4%: {item.nh4}, K2O%: {item.k2o}, P2O5%: {item.p2o5}
-                                </TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.price}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
-
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                    <div className="columns">
-                                        <div className="column">
-                                            Delete
-
-                                        </div>
-                                        <div className="column">
-                                            <LogItemModel item={item} inventory="fertilizers"/>
-                                        </div>
-                                    </div>
-                                </TableRowColumn>
-                            </TableRow>
-                        ))}
-
-                    </TableBody>
-                    <TableFooter
-                        adjustForCheckbox={false}
-                    >
-                        <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Application Rate" style={{verticalAlign: 'middle'}}>Application Rate</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Mix Ratio" style={{verticalAlign: 'middle'}}>Mix Ratio</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="View Active Ingredients" style={{verticalAlign: 'middle'}}>Active Ingredients</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Unit Price</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                            <TableHeaderColumn/>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn colSpan="8" style={{textAlign: 'center'}}>
-                                Super Footer
-                            </TableRowColumn>
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-
-            </div>
-        )
+            <EditableList 
+                items={itemList} 
+                columns={columns} 
+                id="seedList" 
+                isEditable={true}/>
+        );
     }
 }
 

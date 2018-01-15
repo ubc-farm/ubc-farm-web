@@ -26,12 +26,13 @@ export default function seeds(state=[], action={}){
             ];
             break;
         case UPDATE_SEED:
-            console.log(action);
-            const index = state.findIndex(i => i._id === action.item._id);
-            console.log(index);
+            const index = state.findIndex(i => i._id === action.item.id);
+            //change this when new edits come in
+            var updatedSeed = state[index];
+            updatedSeed.quantity = action.item.log.value;
             return [
                 ...state.slice(0,index),
-                action.item,
+                updatedSeed,
                 ...state.slice(index + 1)
             ];
 

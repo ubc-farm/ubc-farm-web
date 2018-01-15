@@ -87,30 +87,21 @@ class CreateFertilizerModal extends Component {
         e.preventDefault();
 
         //validation
-        let errors = {};
-        if(this.state.type === '')
-            errors.type  = "This field is Required";
-        this.setState({errors});
 
+        this.validateForm();
 
-        //if valid, create post request
-        const isValid = Object.keys(errors).length === 0;
-        if(isValid){
+        let errors = this.state.errors;
+        
+        if(Object.keys(errors).length === 0 && errors.constructor === Object){
             //create first date in log
             const first_log = [{
                 timestamp: Date.now(),
                 value: this.state.quantity,
             }];
 
-            //create supplier
-            const first_supplier = this.props.suppliers[this.state.supplier];
-            first_supplier.quantity = parseInt(this.state.quantity);
-            first_supplier.unit = this.state.unit;
-
             //create seed
             const new_fertilizer = {
                 name: this.state.name,
-                suppliers:[first_supplier],
                 log: first_log,
                 quantity: this.state.quantity,
                 unit: 'fertilizer',
@@ -127,8 +118,25 @@ class CreateFertilizerModal extends Component {
             };
 
             this.setState({loading: true});
+            
             this.props.SaveFertilizer(new_fertilizer).then(
-                (response) => {console.log("should catch error here")}
+                (response) => {
+                    this.setState({
+                        name: "",
+                        quantity:"",
+                        unit: 'fertilizer',
+
+                        type: '',
+                        rate: '',
+                        ratio:'',
+                        tc:'',
+                        no3:'',
+                        nh4:'',
+                        k2o: '',
+                        p2o5: '',
+                        price: '',                        
+                    });
+                }
             );
             this.setState({done: true, loading: false});
             this.handleClose();
@@ -136,6 +144,38 @@ class CreateFertilizerModal extends Component {
         }
 
     };
+
+    validateForm(){
+        if(!(this.state.type.length &&
+            this.state.name.length &&
+            this.state.ratio.length && 
+            this.state.price.length && 
+            this.state.quantity.length)){
+            let errors = this.state.errors;
+
+            if(!this.state.type.length){
+                errors.type = "Quantity field is mandatory";
+
+            }            
+            
+            if(!this.state.name.length){
+                errors.name = "Quantity field is mandatory";
+            }
+
+            if(!this.state.ratio.length){
+                errors.ratio = "Quantity field is mandatory";
+            }
+
+            if(!this.state.price.length){
+                errors.price = "Quantity field is mandatory";
+            }            
+            
+            if(!this.state.quantity.toString().length || this.state.quantity > 0){
+                errors.quantity = "Quantity field is mandatory";
+            }
+            this.setState({errors});
+        }
+    }
 
     handleSelect(event, index, value){this.setState({unit: value});}
 
@@ -162,28 +202,9 @@ class CreateFertilizerModal extends Component {
                     title="Add Fertilizer to Inventory"
                     actions={actions}
                     modal={true}
-                    open={this.state.open}
-                >
+                    autoScrollBodyContent={true}
+                    open={this.state.open}>
                     <form>
-                        <p>Supplier Detail</p>
-                        <SelectField
-                            floatingLabelText="Existing Supplier"
-                            hintText="Select Supplier"
-                            name="supplier"
-                            autoWidth={false}
-                            style={{width:"100%"}}
-                            value={this.state.supplier}
-                            onChange={this.handleSelectSupplier}
-                            errorText={this.state.errors.supplier}
-                        >
-                            {this.props.suppliers.map((supplier,index) => (
-                                <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
-                            ))}
-                        </SelectField>
-                        <div  style={{textAlign: 'center',padding:'10px'}}>
-                            <p>-OR-</p>
-                        </div>
-                        <NewSupplierModal/>
                         <h3>Fertilizer Detail</h3>
                         <TextField
                             hintText="Enter Fertilizer Type (Compost, NPK, etc)"
@@ -305,23 +326,12 @@ class CreateFertilizerModal extends Component {
         );
 
         return (
-            <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%'}} >
+            <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%',overflowY:'scroll'}} >
                 {form}
             </div>
 
         );
     }
 }
-CreateFertilizerModal.propTypes={
-    suppliers: PropTypes.array.isRequired,
-    fetchSuppliers: PropTypes.func.isRequired,
-};
 
-const mapStateToProps = (state) => {
-    return {
-        suppliers: state.suppliers,
-
-    }
-};
-
-export default connect(mapStateToProps, {fetchSuppliers, SaveFertilizer})(CreateFertilizerModal);
+export default connect(()=>{},{SaveFertilizer})(CreateFertilizerModal);

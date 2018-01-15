@@ -16,7 +16,8 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 import PropTypes from 'prop-types';
-
+import EditableList from '../lists/EditableList';
+import {deletePesticide, logPesticide} from '../../actions/pest-actions.js';
 /**
  * Table form representation of Transplanting Items
  */
@@ -33,91 +34,44 @@ class PestControlList extends Component {
 
     }
     render(){
+
+        let columns = [
+        {title:'Type',toolTip:'Sort by Type'},
+        {title:'Product name',toolTip:'Sort by Product name'},
+        {title:'Application Rate',toolTip:'Sort by Application Rate'},
+        {title:'Mix ratio (Water : Mix)',toolTip:'Sort by Mix ratio'},
+        {title:'Application Location',toolTip:'Sort by Application Location'},
+        {title:'Entry Interval',toolTip:'Sort by Entry Interval'},
+        {title:'Harvest Interval',toolTip:'Sort by Harvest Interval'},
+        {title:'Active Ingredient',toolTip:'Sort by Active Ingredient'},
+        {title:'Active Ingredient %',toolTip:'Sort by Active Ingredient %'},
+        {title:'Delete',toolTip:'Delete fertilizers'}];
+
+        var itemList = [];
+        itemList = this.props.pesticides.map((item)=>{
+            var newItem = {
+                _id:item._id,
+                type:{title:item.type},
+                name:{title:item.name},
+                rate:{title:item.rate},
+                ratio:{title:item.ratio},
+                location:{title:item.location}, //, isEditable:true, func:logPesticide
+                entry:{title:item.entry},
+                harvest:{title:item.harvest},
+                active:{title:item.active},
+                activePercentage:{title:item.percentage},
+                deleteButton:{deleteFunc:deletePesticide}
+            };
+            return newItem;            
+        });
+
+
         return (
-            <div>
-                <Table
-                    height={'100%'}
-                    fixedHeader={true}
-                    fixedFooter={false}
-                    selectable={false}
-                    multiSelectable={false}
-                >
-                    <TableHeader
-                        displaySelectAll={false}
-                        adjustForCheckbox={false}
-                        enableSelectAll={false}
-                        style={{verticalAlign: 'middle'}}
-                    >
-
-                        <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Application Rate" style={{verticalAlign: 'middle'}}>Application Rate</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Mix Ratio" style={{verticalAlign: 'middle'}}>Mix Ratio (Water : Mix)</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Application Location" style={{verticalAlign: 'middle'}}>Application Location</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Entry Interval" style={{verticalAlign: 'middle'}}>Entry Interval</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Harvest Interval" style={{verticalAlign: 'middle'}}>Harvest Interval</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Active Ingredient" style={{verticalAlign: 'middle'}}>Active Ingredient</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Active Ingredient %" style={{verticalAlign: 'middle'}}>Active Ingredient %</TableHeaderColumn>
-                            <TableHeaderColumn/>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody
-                        displayRowCheckbox={false}
-                        deselectOnClickaway={true}
-                        showRowHover={true}
-                        stripedRows={false}
-                    >
-                        {this.props.pesticides.map( (item, index) => (
-                            <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.type}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.name}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.rate}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.ratio}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.location}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.entry}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.harvest}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.active}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.percentage}</TableRowColumn>
-
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                    <div className="columns">
-                                        <div className="column">
-                                            Delete
-
-                                        </div>
-                                        <div className="column">
-                                            <LogItemModel item={item} inventory="pesticides"/>
-                                        </div>
-                                    </div>
-                                </TableRowColumn>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                    <TableFooter
-                        adjustForCheckbox={false}
-                    >
-                        <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Application Rate" style={{verticalAlign: 'middle'}}>Application Rate</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Mix Ratio" style={{verticalAlign: 'middle'}}>Mix Ratio (Water : Mix)</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Application Location" style={{verticalAlign: 'middle'}}>Application Location</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Entry Interval" style={{verticalAlign: 'middle'}}>Entry Interval</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Harvest Interval" style={{verticalAlign: 'middle'}}>Harvest Interval</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Active Ingredient" style={{verticalAlign: 'middle'}}>Active Ingredient</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Active Ingredient %" style={{verticalAlign: 'middle'}}>Active Ingredient %</TableHeaderColumn>
-                            <TableHeaderColumn/>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn colSpan="10" style={{textAlign: 'center'}}>
-                                Super Footer
-                            </TableRowColumn>
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-
-            </div>
+            <EditableList 
+                items={itemList} 
+                columns={columns} 
+                id="pestList" 
+                isEditable={true}/>
         )
     }
 }

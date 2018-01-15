@@ -30,7 +30,6 @@ router.get('/fields', (req, res) => {
         }
 
     });
-
 });
 
 function serverSideValidateField(data){
@@ -53,6 +52,21 @@ function serverSideValidateTask(data){
     const isValid = Object.keys(errors).length === 0;
 
     return {errors, isValid};
+}
+
+
+function deleteObject(obj, id, res){
+    if(!id){
+        return res.status(400).json({errors: {global: "null"}});
+    }else {
+        obj.findByIdAndRemove(id, function (err, result) {
+            if (err) {
+               return res.status(500).json({errors: {global: "mongodb errored while deleting"}});
+            } else {
+               return res.status(200).json({});
+            }
+        });
+    }
 }
 
 /**
@@ -78,20 +92,7 @@ router.post('/fields', (req, res) => {
 });
 
 router.delete('/fields/:_id', (req, res) => {
-    if(!req.params._id){
-        res.status(400).json({errors: {global: "null"}});
-    }else {
-
-        Field.findByIdAndRemove(req.params._id, function (err, result) {
-            if (err) {
-                res.status(500).json({errors: {global: "mongodb errored while deleting"}});
-            } else {
-                delete result.__v;
-                res.status(200).json({});
-            }
-        });
-    }
-
+    deleteObject(Field, req.params._id, res);
 });
 
 /**
@@ -147,20 +148,7 @@ router.post('/tasks', (req, res) => {
 });
 
 router.delete('/tasks/:_id', (req, res) => {
-    if(!req.params._id){
-        res.status(400).json({errors: {global: "null"}});
-    }else {
-
-        Task.findByIdAndRemove(req.params._id, function (err, result) {
-            if (err) {
-                res.status(500).json({errors: {global: "mongodb errored while deleting"}});
-            } else {
-                delete result.__v;
-                res.status(200).json({});
-            }
-        });
-    }
-
+    deleteObject(Task, req.params._id, res);
 });
 
 /**
@@ -168,25 +156,7 @@ router.delete('/tasks/:_id', (req, res) => {
  */
 
 router.delete('/fieldtasks/:_id', (req, res) => {
-    if(!req.params._id){
-        res.status(400).json({errors: {global: "null"}});
-    }else {
-
-        Task.findOneAndRemove({'field': req.params._id}, function (err, task) {
-            if (err) {
-                res.status(500).json({errors: {global: "mongodb errored while deleting"}});
-            }
-
-            if(task){
-                res.status(200).json({deletedTaskId: task._id});
-            }
-
-            else {
-                res.status(200).json({});
-            }
-        });
-    }
-
+    deleteObject(Task, req.params._id, res);
 });
 
 router.get('/fieldtasks/:_id', (req, res) => {
@@ -204,9 +174,6 @@ router.get('/fieldtasks/:_id', (req, res) => {
 
         });
     }
-
-
-
 });
 
 /**
@@ -224,7 +191,10 @@ router.get('/seeds', (req, res) => {
         }
 
     });
+});
 
+router.delete('/seeds/:seed_id', (req, res) => {
+    deleteObject(Seed, req.params._id, res);
 });
 
 router.post('/seeds', (req, res) => {
@@ -247,7 +217,6 @@ router.post('/seeds', (req, res) => {
     }else{
         res.status(400).json({errors});
     }
-
 });
 
 
@@ -261,7 +230,7 @@ router.put('/seeds', (req, res) => {
             {
                 quantity: req.body.log.value,
                 $push: {log:{timestamp: req.body.log.timestamp, value: req.body.log.value}},
-                $set: {suppliers: req.body.suppliers},
+                // $set: {suppliers: req.body.suppliers},
 
             },
             {safe: true, new: true},
@@ -278,7 +247,6 @@ router.put('/seeds', (req, res) => {
     }else{
         res.status(400).json({errors});
     }
-
 });
 
 //ROUTES FOR TRANSPLANTS
@@ -292,7 +260,6 @@ router.get('/transplants', (req, res) => {
         }
 
     });
-
 });
 
 router.post('/transplants', (req, res) => {
@@ -315,8 +282,11 @@ router.post('/transplants', (req, res) => {
     }else{
         res.status(400).json({errors});
     }
-
 });
+
+router.delete('/transplants/:_id', (req,res)=> {
+    deleteObject(Transplant, req.params._id, res);
+})
 
 router.put('/transplants', (req, res) => {
     console.log(req.body);
@@ -415,6 +385,10 @@ router.put('/fertilizers', (req, res) => {
 
 });
 
+router.delete('/fertilizer/:_id', (req, res) => {
+    deleteObject(Fertilizer, req.params._id, res);
+});
+
 //ROUTES FOR PESTICIDES
 router.get('/pesticides', (req, res) => {
 
@@ -450,6 +424,10 @@ router.post('/pesticides', (req, res) => {
         res.status(400).json({errors});
     }
 
+});
+
+router.delete('/pesticide/:_id', (req, res) => {
+    deleteObject(Pesticide, req.params._id, res);
 });
 
 router.put('/pesticides', (req, res) => {
@@ -549,6 +527,10 @@ router.put('/equipments', (req, res) => {
 
 });
 
+router.delete('/equipments/:_id', (req, res) => {
+    deleteObject(Equipment, req.params._id, res);
+});
+
 //ROUTES FOR VEHICLES
 router.get('/vehicles', (req, res) => {
 
@@ -612,7 +594,10 @@ router.put('/vehicles', (req, res) => {
     }else{
         res.status(400).json({errors});
     }
+});
 
+router.delete('/vehicles/:_id', (req, res) => {
+    deleteObject(Vehicle, req.params._id, res);
 });
 
 

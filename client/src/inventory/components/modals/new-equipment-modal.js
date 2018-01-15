@@ -26,10 +26,6 @@ class CreateEquipmentModal extends Component {
      * Class constructor.
      */
 
-    componentDidMount(){
-        this.props.fetchSuppliers();
-    }
-
     constructor(props) {
         super(props);
 
@@ -87,35 +83,22 @@ class CreateEquipmentModal extends Component {
 
     handleSubmit(e){
         e.preventDefault();
+        this.validateForm();
 
-        //validation
-        let errors = {};
-        if(this.state.name === '')
-            errors.name  = "This field is Required";
-        this.setState({errors});
-
-
-        //if valid, create post request
-        const isValid = Object.keys(errors).length === 0;
-        if(isValid){
+        let errors = this.state.errors;
+        
+        if(Object.keys(errors).length === 0 && errors.constructor === Object){
             //create first date in log
             const first_log = [{
                 timestamp: Date.now(),
                 value: this.state.quantity,
             }];
 
-            //create default supplier
-            const farm_supplier = this.props.suppliers[this.state.supplier];
-            farm_supplier.quantity = parseInt(this.state.quantity);
-            farm_supplier.unit = this.state.unit;
-            farm_supplier.per_unit_quantity = this.state.per_unit_quantity;
-            farm_supplier.per_unit_unit = this.state.per_unit_unit;
 
             const new_equipment = {
                 name: this.state.name,
                 quantity: this.state.quantity,
                 unit: this.state.unit,
-                suppliers:[farm_supplier],
                 log: first_log,
             };
 
@@ -127,11 +110,22 @@ class CreateEquipmentModal extends Component {
             this.handleClose();
 
         }
-
-
-
-
     };
+
+//form validation
+    validateForm(){
+   
+        let validationRulesLenghtMoreThan0 = ['name','quantity'];
+        let errors = this.state.errors;
+        validationRulesLenghtMoreThan0.forEach((rule) =>{
+            if(!this.state[rule].length){
+                errors[rule] = "This field is mandatory";
+            }
+        });
+        this.setState({errors});
+    }
+
+
 
     render() {
         const actions = [
@@ -156,31 +150,20 @@ class CreateEquipmentModal extends Component {
                     title="Add New Equipment to Inventory"
                     actions={actions}
                     modal={true}
+                    autoScrollBodyContent={true}
                     open={this.state.open}
                 >
                     <Divider/>
                     <form>
-                        <p>Product Detail (mandatory)</p>
-                        <SelectField
-                            floatingLabelText="Existing Supplier"
-                            hintText="Select Supplier"
-                            name="supplier"
-                            autoWidth={false}
-                            style={{width:"100%"}}
-                            value={this.state.supplier}
-                            onChange={this.handleSelectSupplier}
-                            errorText={this.state.errors.supplier}
-                        >
-                            {this.props.suppliers.map((supplier,index) => (
-                                <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
-                            ))}
-                        </SelectField>
-                        <div  style={{textAlign: 'center',padding:'10px'}}>
-                            <p>-OR-</p>
-                        </div>
-                        <NewSupplierModal/>
-
-
+                       <p>Equipment name</p>
+                        <TextField
+                            hintText="Enter Equipment name"
+                            floatingLabelText="Equipment name"
+                            name="name"
+                            onChange={this.handleChange}
+                            value={this.state.name}
+                            fullWidth={true}
+                            errorText={this.state.errors.name}/>
 
                         <div className="columns">
                             <div className="column is-8">
@@ -199,7 +182,7 @@ class CreateEquipmentModal extends Component {
                                 <TextField
                                     hintText="Enter Unit (lb, boxes, litres, etc)"
                                     floatingLabelText="Unit"
-                                    name="quantity"
+                                    name="unit"
                                     onChange={this.handleChange}
                                     value={this.state.unit}
                                     fullWidth={true}
@@ -250,11 +233,6 @@ class CreateEquipmentModal extends Component {
     }
 }
 
-CreateEquipmentModal.propTypes={
-    suppliers: PropTypes.array.isRequired,
-    fetchSuppliers: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = (state) => {
     return {
         suppliers: state.suppliers,
@@ -262,4 +240,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {fetchSuppliers, SaveEquipment})(CreateEquipmentModal);
+export default connect(()=>{},{SaveEquipment})(CreateEquipmentModal);

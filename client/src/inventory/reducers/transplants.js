@@ -12,11 +12,10 @@ export default function transplants(state=[], action={}){
             break;
         case TRANSPLANT_DELETED:
 
-            return state.filter(item => item._id !== action.seedId);
+            return state.filter(item => item._id !== action.transPlantId);
             break;
 
         case ADD_TRANSPLANT:
-
             return[
                 ...state,
                 action.transplant
@@ -31,7 +30,6 @@ export default function transplants(state=[], action={}){
                 action.item,
                 ...state.slice(index + 1)
             ];
-
         default:
             return state;
     }

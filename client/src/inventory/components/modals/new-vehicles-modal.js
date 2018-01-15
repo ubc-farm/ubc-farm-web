@@ -26,10 +26,6 @@ class CreateVehicleModal extends Component {
      * Class constructor.
      */
 
-    componentDidMount(){
-        this.props.fetchSuppliers();
-    }
-
     constructor(props) {
         super(props);
 
@@ -82,57 +78,76 @@ class CreateVehicleModal extends Component {
         this.setState({supplier: value});
     };
     handleSubmit(e){
-        e.preventDefault();
+    e.preventDefault();
+        //create first date in log
+    const log = [{
+       timestamp: Date.now(),
+        value: this.state.quantity,
+    }];
 
-        //validation
-        let errors = {};
-        if(this.state.name === '')
-            errors.name  = "This field is Required";
-        this.setState({errors});
+    this.validateForm();
 
-
-        //if valid, create post request
-        const isValid = Object.keys(errors).length === 0;
-        if(isValid){
-            //create first date in log
-            const first_log = [{
-               timestamp: Date.now(),
-                value: this.state.quantity,
-            }];
-
-            //create supplier
-            const first_supplier = this.props.suppliers[this.state.supplier];
-            first_supplier.quantity = parseInt(this.state.quantity);
-            first_supplier.unit = this.state.unit;
-
-            //create vehicle
+    let errors = this.state.errors;
+    
+    if(Object.keys(errors).length === 0 && errors.constructor === Object){
+        //create vehicle
             const new_vehicle = {
-                name: this.state.model,
-                suppliers:[first_supplier],
-                log: first_log,
+                // name: this.state.model,
+                log: log,
                 quantity: this.state.quantity,
                 unit: 'vehicle',
-
+    
                 brand: this.state.brand,
                 model: this.state.model,
                 year: this.state.year,
                 price: this.state.price,
             };
-
-
+    
+    
             this.setState({loading: true});
             this.props.SaveVehicle(new_vehicle).then(
-                (response) => {console.log("should catch error here")}
-            );
+                (response) => {
+                    this.setState({brand:"",quantity:"",year:"",model:""});
+                }
+            ).catch((error)=>{
+                console.log("There was an error trying to create new vehcile "+error)
+            });
             this.setState({done: true, loading: false});
             this.handleClose();
-
         }
 
-
-
-
+        
     };
+
+
+    validateForm(){
+        if(!(this.state.quantity.length && this.state.model.length && this.state.brand.length && this.state.year.length)){
+            let errors = this.state.errors;
+            if(!this.state.quantity.length){
+                errors.quantity = "Quantity field is mandatory";
+                console.log("The quantity is 0");
+
+            }
+
+            if(!this.state.brand.length){   
+                errors.brand = "Brand field is mandatory"; 
+            }
+
+            if(!this.state.model.length){
+                errors.model = "Model field is mandatory";
+            }
+            if(!this.state.price.length && this.state.price == 0){
+                errors.price = "Enter correct price";
+            }
+            if(this.state.year.length != 4){
+                errors.year = "Fill out a valid year"
+            }
+
+            this.setState({errors});
+
+
+        }
+    }
 
     render() {
         const actions = [
@@ -156,30 +171,11 @@ class CreateVehicleModal extends Component {
                 <Dialog
                     title="Add Vehicle to Inventory"
                     actions={actions}
+                    autoScrollBodyContent={true}
                     modal={true}
                     open={this.state.open}
                 >
                     <form>
-                        <p>Supplier Detail</p>
-                        <SelectField
-                            floatingLabelText="Existing Supplier"
-                            hintText="Select Supplier"
-                            name="supplier"
-                            autoWidth={false}
-                            style={{width:"100%"}}
-                            value={this.state.supplier}
-                            onChange={this.handleSelectSupplier}
-                            errorText={this.state.errors.supplier}
-                        >
-                            {this.props.suppliers.map((supplier,index) => (
-                                <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
-                            ))}
-                        </SelectField>
-                        <div  style={{textAlign: 'center',padding:'10px'}}>
-                            <p>-OR-</p>
-                        </div>
-                        <NewSupplierModal/>
-
                         <h3>Vehicle Detail</h3>
                         <TextField
                             hintText="Enter Vehicle Brand"
@@ -241,16 +237,4 @@ class CreateVehicleModal extends Component {
     }
 }
 
-CreateVehicleModal.propTypes={
-    suppliers: PropTypes.array.isRequired,
-    fetchSuppliers: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-    return {
-        suppliers: state.suppliers,
-
-    }
-};
-
-export default connect(mapStateToProps, {fetchSuppliers, SaveVehicle})(CreateVehicleModal);
+export default connect(()=>{}, {fetchSuppliers, SaveVehicle})(CreateVehicleModal);
