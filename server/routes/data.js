@@ -3,7 +3,7 @@
  */
 const bodyParser = require('body-parser');
 const express = require('express');
-const router = new express.Router();
+const router = express();
 const mongoose = require('mongoose');
 
 router.use(bodyParser.json());
@@ -20,8 +20,9 @@ let Harvested = require('mongoose').model('Harvested');
 let Supplier = require('mongoose').model('Supplier');
 let User = require('mongoose').model('User');
 
-router.get('/fields', (req, res) => {
+let seedController = require('../controller/seedController');
 
+router.get('/fields', (req, res) => {
     Field.find({}).lean().exec(function (err, fields) {
         if (err) {
             res.send('error retrieveing fields');
@@ -108,7 +109,6 @@ router.get('/tasks', (req, res) => {
         }
 
     });
-
 });
 
 router.post('/tasks', (req, res) => {
@@ -176,78 +176,14 @@ router.get('/fieldtasks/:_id', (req, res) => {
     }
 });
 
-/**
- * ROUTER CODE FOR INVENTORY PAGE
- */
-
-//ROUTES FOR SEEDS
-router.get('/seeds', (req, res) => {
-
-    Seed.find({}).lean().exec(function (err, items) {
-        if (err) {
-            res.send('error retrieveing tasks');
-        } else {
-            res.json({items});
-        }
-
-    });
-});
-
-router.delete('/seeds/:seed_id', (req, res) => {
-    deleteObject(Seed, req.params._id, res);
-});
-
-router.post('/seeds', (req, res) => {
-    console.log(req.body);
-    const{errors, isValid} = serverSideValidateTask(req.body);
-    if(isValid){
-        const{name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} = req.body;
-
-        Seed.create({name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} ,
-
-            function(err, result){
-                if(err){
-                    console.log(err);
-                    res.status(500).json({errors: {global: "mongodb errored while saving seed"}});
-                }else{
-                    delete result.__v;
-                    res.status(200).json({seed: result});
-                }
-            });
-    }else{
-        res.status(400).json({errors});
-    }
-});
+router.route("/seeds")
+    .get(seedController.getSeeds)
+    .post(seedController.postSeeds)
+    .put(seedController.putSeeds);
 
 
-router.put('/seeds', (req, res) => {
-    console.log(req.body);
-
-    const{errors, isValid} = serverSideValidateTask(req.body);
-    if(isValid){
-        Seed.findByIdAndUpdate(
-            req.body.id,
-            {
-                quantity: req.body.log.value,
-                $push: {log:{timestamp: req.body.log.timestamp, value: req.body.log.value}},
-                // $set: {suppliers: req.body.suppliers},
-
-            },
-            {safe: true, new: true},
-            function(err, updatedItem){
-                if(err){
-                    console.log(err);
-                }
-                res.json({item: updatedItem});
-
-            }
-        );
-
-
-    }else{
-        res.status(400).json({errors});
-    }
-});
+router.route("/seeds/:seed_id")
+    .delete(seedController.deleteSeed);
 
 //ROUTES FOR TRANSPLANTS
 router.get('/transplants', (req, res) => {
