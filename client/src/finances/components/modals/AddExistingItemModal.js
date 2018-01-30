@@ -180,7 +180,7 @@ class AddExistingItemModal extends Component {
             <div key={this.state.timestamp}>
                 <div>
 
-                    <RaisedButton label="Add existing Item" fullWidth={true} primary={true} onTouchTap={this.handleOpen} style={{margin: "5px"}}/>
+                    <RaisedButton label="Add existing Item" fullWidth={false} primary={true} onTouchTap={this.handleOpen} style={{margin: "5px"}}/>
 
                     <Dialog
                         title="Add Existing Item"

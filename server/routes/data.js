@@ -22,6 +22,7 @@ let User = require('mongoose').model('User');
 let Client = require('mongoose').model('Client');
 let Invoice = require('mongoose').model('Invoice');
 let Purchase = require('mongoose').model('Purchase');
+let TaskLog = require('mongoose').model('TaskLog');
 
 router.get('/fields', (req, res) => {
 
@@ -843,6 +844,43 @@ router.post('/invoices', (req, res) => {
     }
 
 });
+
+//ROUTES FOR TASKLOGS
+router.get('/tasklogs', (req, res) => {
+
+    TaskLog.find({}).lean().exec(function (err, items) {
+        if (err) {
+            res.send('error retrieving tasklogs');
+        } else {
+            res.json({items});
+        }
+
+    });
+
+});
+
+router.post('/tasklogs', (req, res) => {
+    const{errors, isValid} = serverSideValidateTask(req.body);
+    if(isValid){
+        const{userName,date,hours,description,items} = req.body;
+
+        TaskLog.create({userName,date,hours,description,items},
+
+            function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({errors: {global: "mongodb errored while saving tasklog"}});
+                }else{
+                    delete result.__v;
+                    res.status(200).json({tasklog: result});
+                }
+            });
+    }else{
+        res.status(400).json({errors});
+    }
+
+});
+
 
 
 module.exports = router;

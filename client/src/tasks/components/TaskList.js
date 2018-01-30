@@ -13,9 +13,10 @@ import {
     TableHeaderColumn,
     TableRow,
     TableRowColumn,
+
 } from 'material-ui/Table';
 import PropTypes from 'prop-types';
-
+import TaskLogModal from './TaskLogModal';
 /**
  * A more complex example, allowing the table height to be set, and key boolean properties to be toggled.
  */
@@ -149,11 +150,7 @@ class TaskList extends Component {
                                     <DeleteTaskModal task = {task}/>
                                         </div>
                                         <div className="column">
-                                    <FlatButton
-                                        label="Log"
-                                        primary={true}
-                                        onTouchTap={this.props.deleteTask}
-                                    />
+                                            <TaskLogModal task={task} fieldName={this.fieldNameFromId(task.field)} typeTransformer={this.typeTransformer} dateTransformer={this.dateTransformer}/>
                                         </div>
                                     </div>
                                 </TableRowColumn>

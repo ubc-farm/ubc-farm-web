@@ -33,4 +33,5 @@ module.exports.connect = (uri) => {
   require('./client');
   require('./invoice');
   require('./purchase');
+  require('./tasklog');
 };

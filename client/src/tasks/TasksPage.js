@@ -50,6 +50,7 @@ class TasksPage extends React.Component {
     }
 
     render() {
+        const newTaskButtonStyle = {minWidth: '100%', height: '100%', color:"#8AA62F"};
 
 
         return (
@@ -65,7 +66,7 @@ class TasksPage extends React.Component {
                                     <h2 style={styles.headline}>Task List</h2>
                                 </div>
                                 <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
-                                    <NewTaskModal isFieldProvided={false}/>
+                                    <NewTaskModal isFieldProvided={false} buttonStyle={newTaskButtonStyle}/>
                                 </div>
                             </div>
 
@@ -83,7 +84,7 @@ class TasksPage extends React.Component {
                                 <h2 style={styles.headline}>Task Timeline</h2>
                             </div>
                             <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
-                                <NewTaskModal isFieldProvided={false}/>
+                                <NewTaskModal isFieldProvided={false} buttonStyle={newTaskButtonStyle}/>
                             </div>
                         </div>
 
