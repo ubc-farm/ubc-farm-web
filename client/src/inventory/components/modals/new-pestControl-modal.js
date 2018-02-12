@@ -28,7 +28,6 @@ class CreatePesticideModal extends Component{
             name: '',
             rate: '',
             ratio: '',
-            location: '',
             entry: '',
             harvest: '',
             active: '',
@@ -100,7 +99,6 @@ class CreatePesticideModal extends Component{
                 type: this.state.type,
                 rate: this.state.rate,
                 ratio: this.state.ratio,
-                location: this.state.location,
                 entry: this.state.entry,
                 harvest: this.state.harvest,
                 active: this.state.active,
@@ -186,14 +184,6 @@ class CreatePesticideModal extends Component{
 
                             fullWidth={true}
                             errorText={this.state.errors.name}/>
-                        <TextField
-                            hintText="Enter Application Location"
-                            floatingLabelText="Application Location"
-                            name="name"
-                            onChange={this.handleChange}
-                            value={this.state.location}
-                            fullWidth={true}
-                            errorText={this.state.errors.location}/>
 
                         <div className="columns">
                             <div className="column">

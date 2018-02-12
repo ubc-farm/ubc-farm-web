@@ -10,7 +10,6 @@ import {
     Table,
     TableHeader,
     TableBody,
-    TableFooter,
     TableHeaderColumn
 } from 'material-ui';
 import IconButton from 'material-ui/IconButton';
@@ -23,7 +22,7 @@ import EditableListItem from './EditableListItem'
 class EditableList extends Component {
     render() {
         let {columns, items, id, isEditable} = this.props;
-        let headerFooter = (
+        let header = (
                 <TableRow>
                     {columns.map( (item,index) => (<TableHeaderColumn key={index} tooltip={item.toolTip} style={{verticalAlign: 'middle'}}>{item.title}</TableHeaderColumn>))}
                 </TableRow>);
@@ -42,7 +41,7 @@ class EditableList extends Component {
                         enableSelectAll={false}
                         style={{verticalAlign: 'middle'}}
                     >
-                    {headerFooter}
+                    {header}
                     </TableHeader>
                     <TableBody
                         displayRowCheckbox={false}
@@ -53,12 +52,7 @@ class EditableList extends Component {
                     {items.map( (item, index) => (<EditableListItem item={item} key={index}/>))}
 
                     </TableBody>
-                    <TableFooter
-                        adjustForCheckbox={false}
-                        style={{verticalAlign: 'middle'}}
-                    >
-                        {headerFooter}
-                    </TableFooter>
+
                 </Table>
 
         );

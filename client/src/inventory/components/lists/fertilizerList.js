@@ -49,6 +49,7 @@ class FertilizerList extends Component {
         {title:'K2O', toolTip:'K2O'},
         {title:'P2O5', toolTip:'P2O5'},
         {title:'Price',toolTip:'Sort by Price'},
+        {title:'Currency',toolTip:'Sort by Price'},
         {title:'Quantity',toolTip:'Sort by Quantity'},
         {title:'Delete',toolTip:'Delete item'}];
 
@@ -67,6 +68,7 @@ class FertilizerList extends Component {
                 K2O:{title:item.k2o},
                 P2O5:{title:item.p2o5},
                 price:{title:item.price || "N/A"},
+                currency:{title:item.currency},
                 quantity:{title:item.quantity, isEditable:true, func:logFertilizer},
                 deleteButton:{deleteFunc:deleteFertilizer}
             };

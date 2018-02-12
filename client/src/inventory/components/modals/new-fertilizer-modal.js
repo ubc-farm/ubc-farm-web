@@ -44,7 +44,8 @@ class CreateFertilizerModal extends Component {
             validated: false,
             loading: false,
             done: false,
-
+            errorMessage:"",
+            currency:'CAD'
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -77,12 +78,17 @@ class CreateFertilizerModal extends Component {
             });
 
         }
-
     };
+
     handleSelectSupplier(event, index, value){
         console.log(value);
         this.setState({supplier: value});
     };
+
+    showError(e){
+        this.setState({showError:true, errorMessage:e})
+    }
+
     handleSubmit(e){
         e.preventDefault();
 
@@ -115,6 +121,7 @@ class CreateFertilizerModal extends Component {
                 k2o: this.state.k2o,
                 p2o5: this.state.p2o5,
                 price: this.state.price,
+                currency: this.state.currency
             };
 
             this.setState({loading: true});
@@ -137,12 +144,13 @@ class CreateFertilizerModal extends Component {
                         price: '',                        
                     });
                 }
-            );
+            ).catch((err)=>{
+                this.showError("Unable to create seed");
+            });
             this.setState({done: true, loading: false});
             this.handleClose();
 
         }
-
     };
 
     validateForm(){
@@ -295,15 +303,45 @@ class CreateFertilizerModal extends Component {
                             </div>
                         </div>
 
-                        <TextField
-                            hintText="Enter Price"
-                            floatingLabelText="Price"
-                            name="price"
-                            type="number"
-                            onChange={this.handleChange}
-                            fullWidth={true}
-                            value={this.state.price}
-                            errorText={this.state.errors.price}/>
+
+
+                              <div className="columns">
+                                    <div className="column is-8-desktop">
+                                        <TextField
+                                            hintText="Enter Price"
+                                            floatingLabelText="Price"
+                                            name="price"
+                                            type="number"
+                                            onChange={this.handleChange}
+                                            fullWidth={true}
+                                            value={this.state.price}
+                                            errorText={this.state.errors.price}/>
+                                    </div>
+                            <div className="column is-4-desktop">
+
+                                <SelectField
+                                    floatingLabelText="Currency"
+                                    onChange={this.handleCurrencyChange}
+                                    id="currency"
+                                    autoWidth={false}
+                                    style={{width:"100%"}}
+                                    value={this.state.currency}
+                                    errorText={this.state.errors.currency}>
+                                    {Object.keys(this.props.currencies).map(e=>
+                                        <MenuItem value={e} 
+                                        label={`${e} - ${this.props.currencies[e]}`} 
+                                        primaryText={`${e} - ${this.props.currencies[e]}`}/>)
+                                    }
+                                </SelectField>
+                            </div>
+                         </div>
+
+
+
+
+
+
+
                         <TextField
                             hintText="Enter Quantity"
                             floatingLabelText="Quantity"
@@ -320,7 +358,7 @@ class CreateFertilizerModal extends Component {
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
                     <p>{this.state.errors.global}</p>
-                </Dialog>
+                </Dialog>              
             </div>
 
         );
@@ -334,4 +372,11 @@ class CreateFertilizerModal extends Component {
     }
 }
 
-export default connect(()=>{},{SaveFertilizer})(CreateFertilizerModal);
+const mapStateToProps = (state) => {
+    return {
+        currencies: state.currency,
+    }
+};
+
+
+export default connect(mapStateToProps,{SaveFertilizer})(CreateFertilizerModal);

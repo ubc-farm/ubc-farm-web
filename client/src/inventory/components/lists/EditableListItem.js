@@ -33,17 +33,17 @@ class EditableColumn extends Component{
         return (<TableRowColumn style={{verticalAlign: 'middle'}}>                                    
                        {this.state.isEditButtonVisible && 
                         <div style={{display: 'inline-block'}}>
-                            <div style={{display: 'inline-block', width:"80%"}}>{cell.title}</div>
-                        <IconButton 
-                            onClick={()=>{this.setState({isEditButtonVisible:false})}} 
-                            tooltip="bottom-right" touch={true} 
-                            tooltipPosition="bottom-right">
-                          <ModeEdit/>
-                        </IconButton>                        
+                            <div style={{display: 'inline-block', width:"35px"}}>{cell.title}</div>
+                            <IconButton 
+                                onClick={()=>{this.setState({isEditButtonVisible:false})}} 
+                                tooltip="bottom-right" touch={true} 
+                                tooltipPosition="bottom-right">
+                                    <ModeEdit/>
+                            </IconButton>
                         </div>}
 
                         {!this.state.isEditButtonVisible &&
-                            <div style={{display: 'inline-block'}}>
+                            <div style={{display: 'inline-block', width:"35px"}}>
                                 <TextField
                                     defaultValue={this.props.cell.title}
                                     type="number"
