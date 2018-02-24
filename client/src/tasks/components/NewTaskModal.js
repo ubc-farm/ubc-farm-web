@@ -116,9 +116,9 @@ class NewTaskModal extends Component {
             validated: false,
             loading: false,
             done: false,
-            startDate: {},
-            endDate: {},
-            field:{},
+            startDate: '',
+            endDate: '',
+            field:'',
             type:''
         };
         this.handleOpen = this.handleOpen.bind(this);
@@ -211,39 +211,55 @@ class NewTaskModal extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-
-        //validation
-        let errors = {};
-        this.setState({errors});
-
         //if valid, create post request
-        const isValid = Object.keys(errors).length === 0;
-        if (isValid) {
-            const {field,
-                type,
-                description,
-                time,
-                multiDay,
-                startDate,
-                endDate} = this.state;
 
-            this.setState({loading: true});
+        this.setState({errors:{}},()=>{
+            this.validateForm();
 
-            this.props.SaveTask({field,
-                type,
-                description,
-                time,
-                multiDay,
-                startDate,
-                endDate}).then(
-                (response) => {
-                    console.log("should catch error here")
-                }
-            );
-            this.setState({done: true, loading: false});
-            this.handleClose();
-        }
+            let errors = this.state.errors;
+            
+            if(Object.keys(errors).length === 0 && errors.constructor === Object){
+                const {field,
+                    type,
+                    description,
+                    time,
+                    multiDay,
+                    startDate,
+                    endDate} = this.state;
+
+                this.setState({loading: true});
+
+                this.props.SaveTask({field,
+                    type,
+                    description,
+                    time,
+                    multiDay,
+                    startDate,
+                    endDate}).then(
+                    (response) => {
+
+                    }).catch((error)=>{
+                        console.log("There was an error "+error);
+                    });
+                this.setState({done: true, loading: false});
+                this.handleClose();
+            }
+        })
     };
+
+
+    validateForm(){
+        //lenght grater than 0
+        let validationRulesLenghtG0 = ['startDate','endDate','type','field'];
+        let errors = this.state.errors;
+        validationRulesLenghtG0.forEach((rule) =>{
+            console.log("The lenght is "+this.state[rule]);
+            if(this.state[rule].length == 0){
+                errors[rule] = "This field is mandatory";
+            }
+        });
+        this.setState({errors});
+    }
 
     render() {
         const actions = [
@@ -304,7 +320,7 @@ class NewTaskModal extends Component {
                                                 onChange={this.handleStartDateChange}
                                                 name="startDate"
                                                 value={this.state.startDate}
-                                                errorText={this.state.errors.name}
+                                                errorText={this.state.errors.startDate}
                                             />
 
                                         </div>
@@ -316,7 +332,7 @@ class NewTaskModal extends Component {
                                                 onChange={this.handleEndDateChange}
                                                 name="endDate"
                                                 value={this.state.endDate}
-                                                errorText={this.state.errors.name}
+                                                errorText={this.state.errors.endDate}
                                             />
                                         </div>
                                     </div>
@@ -330,7 +346,7 @@ class NewTaskModal extends Component {
                                                     onChange={this.handleStartDateChange}
                                                     name="startDate"
                                                     value={this.state.startDate}
-                                                    errorText={this.state.errors.name}
+                                                    errorText={this.state.errors.startDate}
                                                 />
 
                                             </div>
@@ -356,7 +372,7 @@ class NewTaskModal extends Component {
                                         onNewRequest={this.handleFieldChange}
                                         name="field"
                                         value={this.state.field}
-                                        errorText={this.state.errors.name}
+                                        errorText={this.state.errors.field}
                                         />
                                             </div>
 
@@ -376,6 +392,7 @@ class NewTaskModal extends Component {
                                         onUpdateInput={this.handleTypeChange}
                                         name="type"
                                         value={this.state.type}
+                                        errorText={this.state.errors.type}
                                     />
 
                                 </div>

@@ -48,8 +48,6 @@ class SeedList extends Component {
         this.handleToggle = this.handleToggle.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.fieldNameFromId = this.fieldNameFromId.bind(this);
-        this.dateTransformer = this.dateTransformer.bind(this);
-        this.typeTransformer = this.typeTransformer.bind(this);
     }
 
     //returns seed object
@@ -59,51 +57,6 @@ class SeedList extends Component {
         });
         return seed;
     }
-
-    dateTransformer(dateString){
-        let d = new Date(dateString);
-        let options = {
-            weekday: "long", year: "numeric", month: "short",
-            day: "numeric"
-        };
-        let fullDate = d.toLocaleTimeString("en-us", options);
-        let components = fullDate.split(",");
-        return components[0] + "," + components[1] +  "," + components[2];
-
-    }
-
-    typeTransformer(typeString){
-        switch(typeString){
-            case "seeding":
-                return "\u{1F331}" + " " + typeString;
-                break;
-            case "irrigation":
-                return "\u{1F4A7}" + " " + typeString;
-                break;
-            case "pest-control":
-                return "\u{1F41C}" + " " + typeString;
-                break;
-            case "transplanting":
-                return "\u{1F33F}" + " " + typeString;
-                break;
-            case "soil-sampling":
-                return "\u{1F52C}" + " " + typeString;
-                break;
-            case "scouting-harvest":
-                return "\u{1F4CB}" + " " + typeString;
-                break;
-            case "scouting-pests":
-                return "\u{1F4CC}" + " " + typeString;
-                break;
-            case "fertilizing":
-                return "\u{1F4A9}" + " " + typeString;
-                break;
-            default:
-                return typeString;
-                break;
-        }
-    }
-
 
     handleToggle(event, toggled){
         this.setState({
@@ -127,7 +80,7 @@ class SeedList extends Component {
         {title:'Variety',toolTip:'Sort by Variety'},
         {title:'Weight',toolTip:'Sort by Weight'},
         {title:'Unit',toolTip:'Sort by Unit'},
-        {title:'Quantity',toolTip:'Sort by Quantity'},
+        {title:'Quantity 222',toolTip:'Sort by Quantity'},
         {title:'Store',toolTip:'Sort by Product Store'},
         {title:'Price',toolTip:'Sort by Price'},
         {title:'Currency', toolTip:'Sort by Currency'},

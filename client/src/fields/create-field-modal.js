@@ -191,7 +191,19 @@ class CreateFieldModal extends Component {
                     actions={actions}
                     modal={true}
                     open={this.state.open}
+                    autoScrollBodyContent={true}
                 >
+                <form>
+                    <div className="column">
+                        <TextField
+                            hintText="Enter Name for new Field"
+                            floatingLabelText="Enter Name for new Field"
+                            name="name"
+                            fullWidth={true}
+                            onChange={this.handleChange}
+                            value={this.state.name}
+                            errorText={this.state.errors.name}/>
+                      </div>                  
                     <div className="columns">
                         <NewFieldMap style={{margin: 0, padding: 0}} className="column is-9-desktop">
                             <div style={{height: `100%`}}>
@@ -226,16 +238,8 @@ class CreateFieldModal extends Component {
                             </form>
                         </div>
                     </div>
-                    <form>
-                        <TextField
-                            hintText="Enter Name for new Field"
-                            floatingLabelText="Enter Name for new Field"
-                            name="name"
-                            onChange={this.handleChange}
-                            value={this.state.name}
-                            errorText={this.state.errors.name}/>
 
-                    </form>
+                </form>
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
                     <p>{this.state.errors.global}</p>
                 </Dialog>

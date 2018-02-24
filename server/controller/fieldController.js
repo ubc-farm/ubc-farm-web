@@ -1,19 +1,19 @@
 let mongoose = require('mongoose');
-let Seed = require('mongoose').model('Seed');
+let Field = require('mongoose').model('Field');
 let objectActions = require('./objectController');
 
-async function getSeeds(req, res){
+async function getFields(req, res){
 
 	try{
-		let returnObject = await objectActions.getAllObject(Seed);
+		let returnObject = await objectActions.getAllObject(Field);
 		res.send({items:returnObject});
 	}catch(err){
-		return res.status(400).json("There was an error retriving seeds "+err);
+		return res.status(400).json("There was an error retriving fields "+err);
 	}
 }
 
-//will return true if seed is valid false otherwise
-function isSeedValid(data){
+//will return true if field is valid false otherwise
+function isFieldValid(data){
 	let isValid = true;
     let validationRulesLenghtMoreThan0 = ['name', 'log', 'quantity', 'unit', 'crop', 'variety', 'weight', 'product', 'store', 'price'];
     validationRulesLenghtMoreThan0.forEach((rule) =>{
@@ -24,32 +24,32 @@ function isSeedValid(data){
     return isValid;
 }
 
-function postSeeds(req,res){
-    if(isSeedValid(req.body)){
-        const {name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price, currency} = req.body;
-        Seed.create({name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price, currency} ,
+function postFields(req,res){
+    if(isFieldValid(req.body)){
+        const {name,polygon} = req.body;
+        Field.create({name,polygon} ,
 
             function(err, result){
                 if(err){
                     console.log(err);
-                    res.status(500).json({errors: {global: "There was some error trying to save the seed"}});
+                    res.status(500).json({errors: {global: "There was some error trying to save the field"}});
                 }else{
                     delete result.__v;
-                    res.status(200).json({seed: result});
+                    res.status(200).json({field: result});
                 }
             });
     }else{
-        res.status(400).json("The seed information provided is not valid");
+        res.status(400).json("The field information provided is not valid");
     }
 }
 
-function putSeeds(req,res){
+function putFields(req,res){
 
 
-    if(isSeedValid(req.body)){
+    if(isFieldValid(req.body)){
         let timeStamp = req.body.log.timestamp;
         let value = req.body.log.value;
-        Seed.findByIdAndUpdate(
+        Field.findByIdAndUpdate(
             req.body.id,
             {
                 quantity: req.body.log.value,
@@ -74,8 +74,8 @@ function putSeeds(req,res){
     }
 }
 
-function deleteSeed(req,res){
-	objectActions.deleteObject(Seed, req.params.seed_id, res);
+function deleteField(req,res){
+	objectActions.deleteObject(Field, req.params.field_id, res);
 }
 
-module.exports = {getSeeds,postSeeds,putSeeds,deleteSeed}
+module.exports = {getFields,postFields,putFields,deleteField}

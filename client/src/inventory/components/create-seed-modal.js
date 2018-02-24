@@ -147,7 +147,7 @@ class CreateSeedModal extends Component {
 
     validateForm(){
         if(!(this.state.crop && this.state.variety && this.state.quantity && this.state.weight)){
-            var errors = {};
+            var errors = this.state.errors;
 
             if(this.state.crop.length == 0){
                 errors.crop = "This field is required";

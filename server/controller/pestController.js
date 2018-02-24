@@ -1,21 +1,22 @@
 let mongoose = require('mongoose');
-let Seed = require('mongoose').model('Seed');
+let Pest = require('mongoose').model('Pesticide');
 let objectActions = require('./objectController');
 
-async function getSeeds(req, res){
+async function getPest(req, res){
 
 	try{
-		let returnObject = await objectActions.getAllObject(Seed);
+		let returnObject = await objectActions.getAllObject(Pest);
 		res.send({items:returnObject});
 	}catch(err){
-		return res.status(400).json("There was an error retriving seeds "+err);
+		return res.status(400).json("There was an error retriving pest "+err);
 	}
 }
 
-//will return true if seed is valid false otherwise
-function isSeedValid(data){
+//will return true if pest is valid false otherwise
+function isPestValid(data){
 	let isValid = true;
-    let validationRulesLenghtMoreThan0 = ['name', 'log', 'quantity', 'unit', 'crop', 'variety', 'weight', 'product', 'store', 'price'];
+    let validationRulesLenghtMoreThan0 = ['name','log','quantity','unit','type','rate','ratio','entry','harvest','active','percentage'];
+
     validationRulesLenghtMoreThan0.forEach((rule) =>{
         if(data[rule] && !data[rule].toString().length){
         	isValid = isValid && false
@@ -24,18 +25,20 @@ function isSeedValid(data){
     return isValid;
 }
 
-function postSeeds(req,res){
-    if(isSeedValid(req.body)){
-        const {name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price, currency} = req.body;
-        Seed.create({name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price, currency} ,
+function postPests(req,res){
+    if(isPestValid(req.body)){
+
+
+        const {log,quantity,unit,type,name,rate,ratio,location,entry,harvest,active,percentage} = req.body;
+        Pest.create({log,quantity,unit,type,name,rate,ratio,location,entry,harvest,active,percentage} ,
 
             function(err, result){
                 if(err){
                     console.log(err);
-                    res.status(500).json({errors: {global: "There was some error trying to save the seed"}});
+                    res.status(500).json({errors: {global: "There was some error trying to save the Pest"}});
                 }else{
                     delete result.__v;
-                    res.status(200).json({seed: result});
+                    res.status(200).json({pesticide: result});
                 }
             });
     }else{
@@ -43,13 +46,13 @@ function postSeeds(req,res){
     }
 }
 
-function putSeeds(req,res){
+function putPests(req,res){
 
 
-    if(isSeedValid(req.body)){
+    if(isPestValid(req.body)){
         let timeStamp = req.body.log.timestamp;
         let value = req.body.log.value;
-        Seed.findByIdAndUpdate(
+        Pest.findByIdAndUpdate(
             req.body.id,
             {
                 quantity: req.body.log.value,
@@ -74,8 +77,8 @@ function putSeeds(req,res){
     }
 }
 
-function deleteSeed(req,res){
-	objectActions.deleteObject(Seed, req.params.seed_id, res);
+function deletePest(req,res){
+	objectActions.deleteObject(Pest, req.params.pest_id, res);
 }
 
-module.exports = {getSeeds,postSeeds,putSeeds,deleteSeed}
+module.exports = {getPest,postPests,putPests,deletePest}

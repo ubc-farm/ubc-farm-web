@@ -43,7 +43,6 @@ class CreatePesticideModal extends Component{
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
 
     };
     handleOpen(){
@@ -69,10 +68,6 @@ class CreatePesticideModal extends Component{
 
         }
 
-    };
-    handleSelectSupplier(event, index, value){
-        console.log(value);
-        this.setState({supplier: value});
     };
     handleSubmit(e){
         e.preventDefault();
