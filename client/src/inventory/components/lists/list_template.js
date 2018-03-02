@@ -3,7 +3,6 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import FlatButton from 'material-ui/FlatButton';
 
 import {
     Table,

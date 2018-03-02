@@ -4,8 +4,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem'
+import TextField from 'material-ui/TextField';
+import MenuItem from 'material-ui/Menu'
 
 /**
  * Select from Equipment
@@ -31,7 +31,8 @@ class HarvestedSelector extends Component {
 
     render() {
         return (
-            <SelectField
+            <TextField
+                select
                 floatingLabelText="Item"
                 hintText="Select an Item"
                 fullWidth={true}
@@ -43,7 +44,7 @@ class HarvestedSelector extends Component {
                         <MenuItem key={item._id} value={item} primaryText={item.name}/>
                     ))
                 }
-            </SelectField>
+            </TextField>
         );
     }
 }

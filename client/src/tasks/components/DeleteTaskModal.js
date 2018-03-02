@@ -3,8 +3,8 @@
  */
 import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import CircularProgress from 'material-ui/CircularProgress';
+import Button from 'material-ui/Button';
+import CircularProgress from 'material-ui/Progress';
 import {connect} from 'react-redux';
 import {deleteTask} from '../actions/delete-task.js';
 
@@ -63,13 +63,13 @@ class DeleteFieldModal extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
                 style={styles.button}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Delete"}
                 primary={true}
                 disabled={false}
@@ -81,7 +81,7 @@ class DeleteFieldModal extends Component {
 
         const form = (
             <div>
-                <FlatButton label="Delete" secondary={true} onTouchTap={this.handleOpen} />
+                <Button label="Delete" secondary={true} onTouchTap={this.handleOpen} />
                 <Dialog
                     title="Confirm Task Deletion"
                     actions={actions}

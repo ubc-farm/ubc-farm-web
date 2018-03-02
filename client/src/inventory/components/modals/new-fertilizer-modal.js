@@ -4,16 +4,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField'
-import Divider from 'material-ui/Divider';
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from 'material-ui/Progress';
 import {connect} from 'react-redux';
 import {SaveFertilizer} from '../../actions/fertilizer-actions';
 import {fetchSuppliers} from '../../../finances/actions/supplier-actions';
-import MenuItem from 'material-ui/MenuItem'
+import MenuItem from 'material-ui/Menu'
 import NewSupplierModal from '../../../finances/components/NewSupplierModal';
 
 /**
@@ -141,12 +138,12 @@ class CreateFertilizerModal extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Submit"}
                 primary={true}
                 disabled={false}
@@ -157,7 +154,7 @@ class CreateFertilizerModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="New Fertilizer" secondary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <Button label="New Fertilizer" secondary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                 <Dialog
                     title="Add Fertilizer to Inventory"
                     actions={actions}
@@ -166,7 +163,8 @@ class CreateFertilizerModal extends Component {
                 >
                     <form>
                         <p>Supplier Detail</p>
-                        <SelectField
+                        <TextField
+                            select
                             floatingLabelText="Existing Supplier"
                             hintText="Select Supplier"
                             name="supplier"
@@ -179,7 +177,7 @@ class CreateFertilizerModal extends Component {
                             {this.props.suppliers.map((supplier,index) => (
                                 <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
                             ))}
-                        </SelectField>
+                        </TextField>
                         <div  style={{textAlign: 'center',padding:'10px'}}>
                             <p>-OR-</p>
                         </div>

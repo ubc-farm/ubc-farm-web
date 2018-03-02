@@ -8,10 +8,10 @@ import {selectField} from './actions/select-field.js';
 import {fetchTaskByField} from './actions/fetchTaskByField';
 import CreateFieldModal from './create-field-modal.js'
 import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
+import ListSubHeader from 'material-ui/List/ListSubheader';
 import Divider from 'material-ui/Divider';
-import CircularProgress from 'material-ui/CircularProgress';
-import FlatButton from 'material-ui/FlatButton';
+import CircularProgress from 'material-ui/Progress';
+import Button from 'material-ui/Button';
 
 const styles = {
     root: {
@@ -68,28 +68,28 @@ class FieldSelector2 extends Component{
     render(){
         return(
             <div style={styles.root}>
-                <List style={styles.gridList}>
-                    <Subheader>
+                <List classes={{}} style={styles.gridList}>
+                    <ListSubHeader>
                         Fields with Updates
-                    </Subheader>
+                    </ListSubHeader>
                     {this.createListItems()}
                 </List>
 
 
                 <div style={{minWidth: '100%', height: '20%'}} >
-                    <Divider/>
+                    <Divider classes={{}} />
                     <div style={{position: 'bottom', bottom: '0px', height: '50%'}} >
                         <CreateFieldModal />
 
 
                     </div>
 
-                    <Divider/>
+                    <Divider classes={{}} />
 
                     <div style={{height: '50%'}}>
-                        <FlatButton label="Summary" primary={true} style={{minWidth: '100%', height: '100%'}}
+                        <Button classes={{}}  label="Summary" primary={true} style={{minWidth: '100%', height: '100%'}}
                                     onClick={() => {this.props.selectField("")}}/>
-                    <Divider/>
+                    <Divider classes={{}} />
                     </div>
 
                 </div>
@@ -113,4 +113,5 @@ function matchDispatchToProps(dispatch){
     }, dispatch)
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(FieldSelector2);
+FieldSelector2 = connect(mapStateToProps, matchDispatchToProps)(FieldSelector2);
+export default FieldSelector2;

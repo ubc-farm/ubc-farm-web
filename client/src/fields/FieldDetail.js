@@ -5,9 +5,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import DeleteFieldModal from './delete-field-modal';
 import NewTaskModal from '../tasks/components/NewTaskModal';
-import PropTypes from 'prop-types';
 import '../../../server/static/css/style.css';
-import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider'
 
 class FieldDetail extends Component{

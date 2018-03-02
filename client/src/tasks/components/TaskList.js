@@ -3,16 +3,9 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import FlatButton from 'material-ui/FlatButton';
 import DeleteTaskModal from '../components/DeleteTaskModal';
-import {
-    Table,
-    TableBody,
-    TableFooter,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn,
+import Table,{
+    TableBody, TableCell, TableHead, TableRow
 
 } from 'material-ui/Table';
 import PropTypes from 'prop-types';
@@ -110,69 +103,46 @@ class TaskList extends Component {
     render() {
         return (
             <div>
-                <Table
-                    fixedHeader={true}
-                    fixedFooter={false}
-                    selectable={false}
-                    multiSelectable={false}
-                >
-                    <TableHeader
-                        displaySelectAll={false}
-                        adjustForCheckbox={false}
-                        enableSelectAll={false}
-                        style={{verticalAlign: 'middle'}}
-                    >
-
+                <Table>
+                    <TableHead>
                         <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Field" style={{verticalAlign: 'middle'}}>Field</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Start Date" style={{verticalAlign: 'middle'}}>Start Date</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by End Date" style={{verticalAlign: 'middle'}}>End Date</TableHeaderColumn>
-                            <TableHeaderColumn/>
+                            <TableCell tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableCell>
+                            <TableCell tooltip="Sort by Field" style={{verticalAlign: 'middle'}}>Field</TableCell>
+                            <TableCell tooltip="Sort by Start Date" style={{verticalAlign: 'middle'}}>Start Date</TableCell>
+                            <TableCell tooltip="Sort by End Date" style={{verticalAlign: 'middle'}}>End Date</TableCell>
+                            <TableCell/>
 
                         </TableRow>
-                    </TableHeader>
+                    </TableHead>
                     <TableBody
-                        displayRowCheckbox={false}
-                        deselectOnClickaway={true}
-                        showRowHover={true}
-                        stripedRows={false}
+
                     >
                         {this.props.tasks.map( (task, index) => (
                             <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.typeTransftormer(task.type)}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.fieldNameFromId(task.field)}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.startDate)}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.endDate)}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                                <TableCell
+                                    style={{verticalAlign: 'middle'}}>{this.typeTransftormer(task.type)}</TableCell>
+                                <TableCell
+                                    style={{verticalAlign: 'middle'}}>{this.fieldNameFromId(task.field)}</TableCell>
+                                <TableCell
+                                    style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.startDate)}</TableCell>
+                                <TableCell
+                                    style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.endDate)}</TableCell>
+                                <TableCell style={{verticalAlign: 'middle'}}>
                                     <div className="columns">
                                         <div className="column">
-                                    <DeleteTaskModal task = {task}/>
+                                            <DeleteTaskModal task={task}/>
                                         </div>
                                         <div className="column">
-                                            <TaskLogModal task={task} fieldName={this.fieldNameFromId(task.field)} typeTransformer={this.typeTransformer} dateTransformer={this.dateTransformer}/>
+                                            <TaskLogModal task={task} fieldName={this.fieldNameFromId(task.field)}
+                                                          typeTransformer={this.typeTransformer}
+                                                          dateTransformer={this.dateTransformer}/>
                                         </div>
                                     </div>
-                                </TableRowColumn>
+                                </TableCell>
                             </TableRow>
                         ))}
+
                     </TableBody>
-                    <TableFooter
-                        adjustForCheckbox={false}
-                    >
-                        <TableRow>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Type</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Field</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Start Date</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>End Date</TableRowColumn>
-                            <TableHeaderColumn/>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn colSpan="5" style={{textAlign: 'center'}}>
-                                Super Footer
-                            </TableRowColumn>
-                        </TableRow>
-                    </TableFooter>
                 </Table>
             </div>
         );

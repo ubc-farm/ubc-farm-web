@@ -3,19 +3,15 @@
  */
 import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import Divider from 'material-ui/Divider';
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from 'material-ui/Progress';
 import {connect} from 'react-redux';
 import {saveField} from './actions/save-field';
 import styled from 'styled-components';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import LinearProgress from 'material-ui/LinearProgress';
+import {Radio, RadioGroup} from 'material-ui/Radio';
+import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
 import NewFieldMapComponent from './maps/NewFieldMapComponent.jsx';
-import {Route,Redirect} from 'react-router';
-import DatePikcer from 'material-ui/DatePicker'
 
 
 //STATIC STYLES - [TODO: CONSOLIDATE STYLINGS]
@@ -51,7 +47,8 @@ class CreateFieldModal extends Component {
             validated: false,
             loading: false,
             done: false,
-            polygon: []
+            polygon: [],
+            fieldType: '',
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -168,12 +165,12 @@ class CreateFieldModal extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Submit"}
                 primary={true}
                 disabled={false}
@@ -184,7 +181,7 @@ class CreateFieldModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="New Field" onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%', color:"#8AA62F"}}  />
+                <Button label="New Field" onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%', color:"#8AA62F"}}  />
 
                 <Dialog
                     title="Create New Field"
@@ -211,18 +208,15 @@ class CreateFieldModal extends Component {
                         </NewFieldMap>
                         <div className="column is-3-desktop">
                             <form>
-                                <RadioButtonGroup name="buildingOrField" defaultSelected="field">
-                                    <RadioButton
-                                        value="building"
-                                        label="Building"
-                                        style={styles.radioButton}
-                                    />
-                                    <RadioButton
-                                        value="field"
-                                        label="Field"
-                                        style={styles.radioButton}
-                                    />
-                                </RadioButtonGroup>
+                                <RadioGroup
+                                    label="Structure Type"
+                                    name="fieldType"
+                                    value={this.state.fieldType}
+                                    onChange={this.handleChange}
+                                >
+                                    <FormControlLabel value="building" control={<Radio />} label="Building" />
+                                    <FormControlLabel value="field" control={<Radio />} label="Field" />
+                                </RadioGroup>
                             </form>
                         </div>
                     </div>
@@ -250,5 +244,5 @@ class CreateFieldModal extends Component {
         );
     }
 }
-
-export default connect(null, {saveField})(CreateFieldModal);
+CreateFieldModal = connect(null, {saveField})(CreateFieldModal);
+export default CreateFieldModal;

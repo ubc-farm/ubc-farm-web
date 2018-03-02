@@ -4,13 +4,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Tabs, Tab} from 'material-ui/Tabs';
+import Tabs, {Tab} from 'material-ui/Tabs';
 import TaskList from './components/TaskList';
 import {fetchFields} from '../fields/actions/fetch-fields.js'
 import {fetchTasks} from '../tasks/actions/fetch-tasks';
 import NewTaskModal from './components/NewTaskModal';
 import Divider from 'material-ui/Divider';
 import TimeLine from './components/TimeLine';
+import AppBar from 'material-ui/AppBar';
+import Typography from 'material-ui/Typography';
 
 
 const styles = {
@@ -20,8 +22,19 @@ const styles = {
         fontWeight: 400,
     },
 };
+function TabContainer(props) {
+    return (
+        <Typography component="div" style={{ padding: 8 * 3 }}>
+            {props.children}
+        </Typography>
+    );
+}
+TabContainer.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 
 class TasksPage extends React.Component {
+
 
     componentDidMount() {
         console.log("task page finished mounting");
@@ -29,9 +42,9 @@ class TasksPage extends React.Component {
         this.props.fetchTasks();
     }
 
-    handleMenuClick(e, { name }){
-        this.setState({ activeItem: name });
-    }
+    handleMenuClick(e, tab){
+        //this.setState({ tab });
+    };
 
 
     // Constructor is responsible for setting up props and setting initial state
@@ -41,7 +54,7 @@ class TasksPage extends React.Component {
         // Set initial state
         this.state = {
             // State needed
-            activeItem: 'list',
+            tab: 'list',
             fields: [],
             tasks:[]
         };
@@ -52,49 +65,51 @@ class TasksPage extends React.Component {
     render() {
         const newTaskButtonStyle = {minWidth: '100%', height: '100%', color:"#8AA62F"};
 
-
+        const tab = this.state.tab;
         return (
             <div>
-                <Tabs
-                    value={this.state.value}
-                    onChange={this.handleMenuClick}
-                >
-                    <Tab label="List" value="list">
-                        <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "20px"}}>
-                            <div className="columns">
-                                <div className = "column is-2-desktop">
-                                    <h2 style={styles.headline}>Task List</h2>
-                                </div>
-                                <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
-                                    <NewTaskModal isFieldProvided={false} buttonStyle={newTaskButtonStyle}/>
-                                </div>
-                            </div>
+                <AppBar position="static">
+                    <Tabs
+                        value={tab}
+                        onChange={this.handleMenuClick}
+                        fullWidth
+                    >
+                        <Tab label="List" value="list" />
+                        <Tab label="Timeline" value="timeline" />
+                    </Tabs>
+                </AppBar>
+                {tab === 'list' && <TabContainer style={{marginLeft: "10%", marginRight: "10%", marginTop: "20px"}}>
+                    <div className="columns">
+                        <div className = "column is-2-desktop">
+                            <h2 style={styles.headline}>Task List</h2>
+                        </div>
+                        <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
+                            <NewTaskModal isFieldProvided={false} buttonStyle={newTaskButtonStyle}/>
+                        </div>
+                    </div>
 
-                            <Divider/>
+                    <Divider/>
 
-                            <div>
-                                <TaskList/>
-                            </div>
+                    <div>
+                        <TaskList/>
+                    </div>
+                </TabContainer>}
+                {tab === 'timeline' && <TabContainer style={{marginLeft: "10%", marginRight: "10%", marginTop: "20px"}}>
+                    <div className="columns">
+                        <div className = "column is-2-desktop">
+                            <h2 style={styles.headline}>Task Timeline</h2>
                         </div>
-                    </Tab>
-                    <Tab label="Timeline" value="timeline">
-                        <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "20px"}}>
-                        <div className="columns">
-                            <div className = "column is-2-desktop">
-                                <h2 style={styles.headline}>Task Timeline</h2>
-                            </div>
-                            <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
-                                <NewTaskModal isFieldProvided={false} buttonStyle={newTaskButtonStyle}/>
-                            </div>
+                        <div className="column is-10-desktop" style={{textAlign: 'center',padding:'10px'}}>
+                            <NewTaskModal isFieldProvided={false} buttonStyle={newTaskButtonStyle}/>
                         </div>
+                    </div>
 
-                        <Divider/>
-                        <div>
-                            <TimeLine/>
-                        </div>
-                        </div>
-                    </Tab>
-                </Tabs>
+                    <Divider/>
+                    <div>
+                        <TimeLine/>
+                    </div>
+                </TabContainer>}
+
 
             </div>
         );

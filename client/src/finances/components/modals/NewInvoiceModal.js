@@ -4,21 +4,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import Divider from 'material-ui/Divider';
 import AddExistingItemModal from './AddExistingItemModal'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import DatePicker from 'material-ui/DatePicker';
 import ChangePriceField from '../ChangePriceField';
 import ChangeQuantityField from '../ChangeQuantityField';
-import Clear from 'material-ui/svg-icons/content/clear';
+import Clear from 'material-ui-icons/Clear';
 import Dialog from 'material-ui/Dialog';
 import NewClientModal from './NewClientModal';
 import {fetchClients} from '../../actions/client-actions';
 import {saveInvoice} from '../../actions/invoice-actions';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+import MenuItem from 'material-ui/Menu';
 
 import {
     Table,
@@ -183,12 +179,12 @@ class NewInvoiceModal extends React.Component {
 
     render(){
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Submit"}
                 primary={true}
                 disabled={false}
@@ -199,7 +195,7 @@ class NewInvoiceModal extends React.Component {
 
         return(
             <div key={this.state.timestamp}>
-                <FlatButton label="New Invoice" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <Button label="New Invoice" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                 <Dialog
                     title="Invoice Form"
                     actions={actions}
@@ -223,20 +219,23 @@ class NewInvoiceModal extends React.Component {
                                 fullWidth={false}
                                 errorText={this.state.errors.invoice_number}/>
 
-                            <DatePicker
+                            <TextField
+                                id="invoiceDate"
                                 hintText="Enter Invoice Date"
-                                floatingLabelText="Invoice Date"
-                                container="inline"
-                                fullWidth={false}
-                                onChange={this.handleDateChange}
+                                label="Invoice Date"
+                                type="date"
+                                defaultValue=""
                                 name="date"
+                                fullWidth={false}
                                 value={this.state.date}
                                 errorText={this.state.errors.date}
+                                onChange = {this.handleDateChange}
                             />
 
                         </div>
                         <div className="column is-4" style={{verticalAlign: 'middle'}}>
-                            <SelectField
+                            <TextField
+                                select
                                 floatingLabelText="Existing Client"
                                 hintText="Select an Exisiting Client"
                                 fullWidth={true}
@@ -248,7 +247,7 @@ class NewInvoiceModal extends React.Component {
                                         <MenuItem key={item._id} value={item} primaryText={item.name}/>
                                     ))
                                 }
-                            </SelectField>
+                            </TextField>
                             <div style={{textAlign:'center', width:'100%'}}>OR</div>
                             <NewClientModal/>
 
@@ -310,7 +309,7 @@ class NewInvoiceModal extends React.Component {
                                         </TableRowColumn>
                                         <TableRowColumn style={{verticalAlign: "middle"}}>$ {(item.price * item.quantity).toFixed(2)}</TableRowColumn>
                                         <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                            <FlatButton
+                                            <Button
                                                 icon={<Clear color="#000000" />}
                                                 onClick={this.deleteItem.bind(this,item)}
                                             />

@@ -4,15 +4,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import Divider from 'material-ui/Divider';
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from 'material-ui/Progress';
 import {connect} from 'react-redux';
 import {SaveEquipment} from '../../actions/equipment-actions';
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
+import MenuItem from 'material-ui/Menu'
 import NewSupplierModal from '../../../finances/components/NewSupplierModal';
 import {fetchSuppliers} from '../../../finances/actions/supplier-actions'
 
@@ -130,12 +127,12 @@ class AddSupplierModal extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Submit"}
                 primary={true}
                 disabled={false}
@@ -146,7 +143,7 @@ class AddSupplierModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="Add Supplier" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <Button label="Add Supplier" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                 <Dialog
                     title="Add Supplier"
                     actions={actions}
@@ -155,7 +152,8 @@ class AddSupplierModal extends Component {
                 >
                     <form>
                         <p>Please select an existing supplier or create a new one</p>
-                        <SelectField
+                        <TextField
+                            select
                             floatingLabelText="Existing Supplier"
                             hintText="Select Supplier"
                             name="supplier"
@@ -168,7 +166,7 @@ class AddSupplierModal extends Component {
                             {this.props.suppliers.map((supplier,index) => (
                                 <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
                             ))}
-                        </SelectField>
+                        </TextField>
 
                         <NewSupplierModal/>
 
@@ -184,7 +182,8 @@ class AddSupplierModal extends Component {
                                     errorText={this.state.errors.quantity}/>
                             </div>
                             <div className="column is-4">
-                                <SelectField
+                                <TextField
+                                    select
                                     floatingLabelText="Unit"
                                     hintText="Select Unit"
                                     onChange={this.handleSelectUnit}
@@ -197,7 +196,7 @@ class AddSupplierModal extends Component {
                                     <MenuItem value="kg" label="kg" primaryText="kg"/>
                                     <MenuItem value="lb" label="lb" primaryText="lb"/>
                                     <MenuItem value="custom" label="custom" primaryText="custom"/>
-                                </SelectField>
+                                </TextField>
                             </div>
                         </div>
 
@@ -213,7 +212,8 @@ class AddSupplierModal extends Component {
                                     errorText={this.state.errors.per_unit_quantity}/>
                             </div>
                             <div className="column is-4">
-                                <SelectField
+                                <TextField
+                                    select
                                     floatingLabelText="Base Unit"
                                     hintText="Select Base Unit"
                                     onChange={this.handleSelectBaseUnit}
@@ -226,7 +226,7 @@ class AddSupplierModal extends Component {
                                     <MenuItem value="kg" label="kg" primaryText="kg"/>
                                     <MenuItem value="lb" label="lb" primaryText="lb"/>
                                     <MenuItem value="object" label="object" primaryText="object"/>
-                                </SelectField>
+                                </TextField>
                             </div>
                         </div>
 

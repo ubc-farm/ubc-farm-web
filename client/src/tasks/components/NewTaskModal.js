@@ -3,16 +3,15 @@
  */
 import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import CircularProgress from 'material-ui/CircularProgress';
+import Button from 'material-ui/Button';
+import CircularProgress from 'material-ui/Progress';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import AutoComplete from 'material-ui/AutoComplete';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider'
-import DatePicker from 'material-ui/DatePicker';
+import MenuItem from 'material-ui/Menu';
+//import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField'
-import Toggle from 'material-ui/Toggle';
+//import Toggle from 'material-ui/Toggle';
+import Switch from 'material-ui/Switch';
 import {SaveTask} from '../actions/save-task';
 import { Link, IndexLink } from 'react-router';
 
@@ -247,12 +246,12 @@ class NewTaskModal extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Submit"}
                 primary={true}
                 disabled={false}
@@ -265,7 +264,7 @@ class NewTaskModal extends Component {
             <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%'}}>
                 <div style={{minWidth: '100%', height: '100%'}}>
 
-                    <FlatButton label="New Task" onTouchTap={this.handleOpen} style={this.props.buttonStyle} />
+                    <Button label="New Task" onTouchTap={this.handleOpen} style={this.props.buttonStyle} />
                         {/*labelStyle={{color: '#FFFFFF'}} style={{}} backgroundColor={'#8AA62F'} hoverColor={"#a4c639"}*/}
 
                     <Dialog
@@ -286,51 +285,60 @@ class NewTaskModal extends Component {
                             </div>
                         </article>
                         <form>
-                            <Toggle
-                                label="Multi-Day Task"
-                                style={styles.toggle}
-                                labelPosition="right"
-                                onToggle={this.toggleDay}
+                            <Switch
+                                checked={this.state.multiDay}
+                                onChange={this.toggleDay}
+                                value="multiDay"
                             />
                             <div style={{marginBottom:'5px'}}>
                                 {this.state.multiDay ?
                                     (
                                     <div className="columns" style={{margin:0}}>
                                         <div className="column">
-                                            <DatePicker
-                                                hintText="Start Date"
-                                                container="inline"
-                                                fullWidth={true}
-                                                onChange={this.handleStartDateChange}
+                                            <TextField
+                                                id="startDate"
+                                                label="Start Date"
+                                                type="date"
+                                                defaultValue=""
                                                 name="startDate"
                                                 value={this.state.startDate}
-                                                errorText={this.state.errors.name}
+                                                onChange = {this.handleStartDateChange}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                             />
 
                                         </div>
                                         <div className="column">
-                                            <DatePicker
-                                                hintText="Finish Date"
-                                                container="inline"
-                                                fullWidth={true}
-                                                onChange={this.handleEndDateChange}
+                                            <TextField
+                                                id="endDate"
+                                                label="Finish Date"
+                                                type="date"
+                                                defaultValue=""
                                                 name="endDate"
                                                 value={this.state.endDate}
-                                                errorText={this.state.errors.name}
+                                                onChange = {this.handleEndDateChange}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                             />
                                         </div>
                                     </div>
                                     ) : (
                                         <div className="columns">
                                             <div className="column">
-                                                <DatePicker
-                                                    hintText="Date"
-                                                    container="inline"
-                                                    fullWidth={true}
-                                                    onChange={this.handleStartDateChange}
+                                                <TextField
+                                                    id="date"
+                                                    label="Date"
+                                                    type="date"
+                                                    defaultValue=""
                                                     name="startDate"
                                                     value={this.state.startDate}
-                                                    errorText={this.state.errors.name}
+                                                    onChange = {this.handleStartDateChange}
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                    fullWidth={true}
                                                 />
 
                                             </div>
@@ -346,37 +354,44 @@ class NewTaskModal extends Component {
 
                                         ) : (
                                             <div className="column">
-                                        <AutoComplete
-                                        floatingLabelText="Field"
-                                        filter={AutoComplete.caseInsensitiveFilter}
-                                        dataSourceConfig={{text: 'text', value: 'value', id:'id'}}
-                                        dataSource={this.props.fieldsMenuData}
-                                        openOnFocus={true}
-                                        fullWidth={true}
-                                        onNewRequest={this.handleFieldChange}
-                                        name="field"
-                                        value={this.state.field}
-                                        errorText={this.state.errors.name}
-                                        />
+                                                <TextField
+                                                    select
+                                                    floatingLabelText="Field"
+                                                    hintText="Select Field"
+                                                    name="field"
+                                                    autoWidth={false}
+                                                    value={this.state.field}
+                                                    onChange={this.handleFieldChange}
+                                                    errorText={this.state.errors.name}
+                                                >
+                                                    {this.props.fieldsMenuData.map((text,value) => (
+                                                        value
+                                                    ))}
+                                                </TextField>
                                             </div>
+
+
 
 
                                         )}
 
 
+
                                 <div className="column">
-
-
-                                    <AutoComplete
+                                    <TextField
+                                        select
                                         floatingLabelText="Activity Type"
-                                        filter={AutoComplete.caseInsensitiveFilter}
-                                        dataSource={typeData}
-                                        openOnFocus={true}
-                                        fullWidth={true}
-                                        onUpdateInput={this.handleTypeChange}
+                                        hintText="Select Activity Type"
                                         name="type"
+                                        autoWidth={false}
                                         value={this.state.type}
-                                    />
+                                        onChange={this.handleTypeChange()}
+                                        errorText={this.state.errors.type}
+                                    >
+                                        {typeData.map((text,value) => (
+                                            value
+                                        ))}
+                                    </TextField>
 
                                 </div>
 

@@ -2,10 +2,9 @@
  * Created by Xingyu on 7/12/2017.
  */
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import CircularProgress from 'material-ui/CircularProgress';
+import Button from 'material-ui/Button';
+import CircularProgress from 'material-ui/Progress';
 import {connect} from 'react-redux';
 import {logItem} from '../../actions/universal-actions';
 import TextField from 'material-ui/TextField';
@@ -18,7 +17,6 @@ import {logFertilizer} from '../../actions/fertilizer-actions'
 import {logPesticide} from '../../actions/pest-actions'
 import {logHarvested} from '../../actions/harvested_actions'
 import LogScatter from '../visuals/LogScatter';
-import Divider from 'material-ui/Divider';
 import NewSupplierModal from './new-supplier-modal-nested';
 import update from 'immutability-helper'
 import PieChart from '../visuals/PieChart';
@@ -94,35 +92,31 @@ class LogItemModal extends Component {
 
         //set new quantities for total and suppliers
         let newValue = 0;
-        this.props.item.suppliers.map((supplier, index) => {
-            supplier.quantity = parseFloat(supplier.quantity) + this.state.suppliers_change[index];
-            newValue += supplier.quantity;
-        });
 
         //push changes to database
         this.setState({loading: true});
 
         switch(this.props.inventory){
             case 'seeds':
-                this.props.logSeed({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                this.props.logSeed({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue}});
                 break;
             case 'transplants':
-                this.props.logTransplant({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                this.props.logTransplant({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue}});
                 break;
             case 'fertilizers':
-                this.props.logFertilizer({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                this.props.logFertilizer({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue}});
                 break;
             case 'pesticides':
-                this.props.logPesticide({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                this.props.logPesticide({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue}});
                 break;
             case 'equipments':
-                this.props.logEquipment({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                this.props.logEquipment({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue}});
                 break;
             case 'vehicles':
-                this.props.logVehicle({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+                this.props.logVehicle({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue}});
                 break;
             case 'harvested':
-            this.props.logHarvested({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue},suppliers:this.props.item.suppliers});
+            this.props.logHarvested({id: this.props.item._id,log: {timestamp: Date.now(),value: newValue}});
             break;
 
         }
@@ -175,13 +169,13 @@ class LogItemModal extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
                 style={styles.button}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Edit"}
                 primary={true}
                 disabled={false}
@@ -195,7 +189,7 @@ class LogItemModal extends Component {
         return (
             <div key={this.state.timestamp}>
                 <div>
-                    <FlatButton label="Edit" primary={true} onTouchTap={this.handleOpen} />
+                    <Button label="Edit" primary={true} onTouchTap={this.handleOpen} />
                     <Dialog
                         title={"Edit " + this.props.item.name + " Quantity"}
                         actions={actions}

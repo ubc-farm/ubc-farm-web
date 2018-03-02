@@ -3,18 +3,11 @@
  */
 import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import CircularProgress from 'material-ui/CircularProgress';
+import Button from 'material-ui/Button';
+import CircularProgress from 'material-ui/Progress';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import AutoComplete from 'material-ui/AutoComplete';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider'
-import DatePicker from 'material-ui/DatePicker';
-import TextField from 'material-ui/TextField'
-import Toggle from 'material-ui/Toggle';
-import { Link, IndexLink } from 'react-router';
+import MenuItem from 'material-ui/Menu';
 import {fetchSeeds} from '../../../inventory/actions/seeds-get';
 import {fetchTransplants} from '../../../inventory/actions/transplant-actions';
 import {fetchFertilizers} from '../../../inventory/actions/fertilizer-actions';
@@ -22,7 +15,7 @@ import {fetchPesticides} from '../../../inventory/actions/pest-actions';
 import {fetchEquipments} from '../../../inventory/actions/equipment-actions';
 import {fetchVehicles} from '../../../inventory/actions/vehicles-action';
 import {fetchHarvested} from '../../../inventory/actions/harvested_actions';
-import SelectField from 'material-ui/SelectField';
+import TextField from 'material-ui/TextField';
 import EquipmentSelector from '../ItemSelectors/EquipmentSelector';
 import FertilizerSelector from '../ItemSelectors/FertilizerSelector';
 import HarvestedSelector from '../ItemSelectors/HarvestedSelector';
@@ -160,12 +153,12 @@ class AddExistingItemModal extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Submit"}
                 primary={true}
                 disabled={false}
@@ -180,7 +173,7 @@ class AddExistingItemModal extends Component {
             <div key={this.state.timestamp}>
                 <div>
 
-                    <RaisedButton label="Add existing Item" fullWidth={false} primary={true} onTouchTap={this.handleOpen} style={{margin: "5px"}}/>
+                    <Button variant="raised" label="Add existing Item" fullWidth={false} primary={true} onTouchTap={this.handleOpen} style={{margin: "5px"}}/>
 
                     <Dialog
                         title="Add Existing Item"
@@ -192,17 +185,19 @@ class AddExistingItemModal extends Component {
                         <form>
 
                             {this.props.isHarvest == true ? (
-                                        <SelectField
+                                        <TextField
+                                            select
                                             floatingLabelText="Inventory"
                                             fullWidth={true}
                                             value={this.state.selectedInventoryIndex}
                                             onChange={this.handleInventoryChange}
                                         >
                                         <MenuItem value={6} primaryText="Harvested Produce" />
-                                        </SelectField>
+                                        </TextField>
 
                                     ) : (
-                                            <SelectField
+                                            <TextField
+                                                select
                                             floatingLabelText="Inventory"
                                             hintText="Select Inventory"
                                             fullWidth={true}
@@ -215,7 +210,7 @@ class AddExistingItemModal extends Component {
                                             <MenuItem value={3} primaryText="Pest Control"  />
                                             <MenuItem value={4} primaryText="Equipment" />
                                             <MenuItem value={5} primaryText="Vehicles" />
-                                </SelectField>
+                                </TextField>
 
 
                                     )}

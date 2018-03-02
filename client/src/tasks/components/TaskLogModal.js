@@ -4,16 +4,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import Divider from 'material-ui/Divider';
 import AddExistingItemModal from '../../finances/components/modals/AddExistingItemModal';
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField';
-import DatePicker from 'material-ui/DatePicker';
-import Clear from 'material-ui/svg-icons/content/clear';
+import Clear from 'material-ui-icons/Clear';
 import Dialog from 'material-ui/Dialog';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import ChangeQuantityField from '../../finances/components/ChangeQuantityField';
 import {fetchTaskLogs,saveTaskLog} from '../actions/tasklog-actions';
 import LogList from './LogList';
@@ -179,7 +174,7 @@ class TaskLogModal extends React.Component {
 
     render(){
         const actions = [
-            <FlatButton
+            <Button
                 label="Exit"
                 secondary={true}
                 onTouchTap={this.handleClose}
@@ -188,7 +183,7 @@ class TaskLogModal extends React.Component {
 
         return(
             <div key={this.state.timestamp}>
-                <FlatButton label="Log" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <Button label="Log" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
 
                 <Dialog
                     title = {this.props.fieldName + " task log"}
@@ -277,7 +272,7 @@ class TaskLogModal extends React.Component {
                                                 <ChangeQuantityField item={item} handlePriceQuantityChange={this.handlePriceQuantityChange}/>
                                             </TableRowColumn>
                                             <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                                <FlatButton
+                                                <Button
                                                     icon={<Clear color="#000000" />}
                                                     onClick={this.deleteItem.bind(this,item)}
                                                 />
@@ -301,7 +296,8 @@ class TaskLogModal extends React.Component {
                                     </TableRow>
                                 </TableFooter>
                             </Table>
-                            <RaisedButton
+                            <Button
+                                variant="raised"
                                 label={this.state.loading ? '' : "Submit"}
                                 primary={true}
                                 disabled={false}

@@ -4,15 +4,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from 'material-ui/Progress';
 import {connect} from 'react-redux';
 import {SaveEquipment} from '../../actions/equipment-actions';
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
+import MenuItem from 'material-ui/Menu'
 import {fetchSuppliers} from '../../../finances/actions/supplier-actions'
 import NewSupplierModal from '../../../finances/components/NewSupplierModal';
 
@@ -135,12 +133,12 @@ class CreateEquipmentModal extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Submit"}
                 primary={true}
                 disabled={false}
@@ -151,7 +149,7 @@ class CreateEquipmentModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="New Equipment" secondary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <Button label="New Equipment" secondary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                 <Dialog
                     title="Add New Equipment to Inventory"
                     actions={actions}
@@ -161,7 +159,8 @@ class CreateEquipmentModal extends Component {
                     <Divider/>
                     <form>
                         <p>Product Detail (mandatory)</p>
-                        <SelectField
+                        <TextField
+                            select
                             floatingLabelText="Existing Supplier"
                             hintText="Select Supplier"
                             name="supplier"
@@ -174,7 +173,7 @@ class CreateEquipmentModal extends Component {
                             {this.props.suppliers.map((supplier,index) => (
                                 <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
                             ))}
-                        </SelectField>
+                        </TextField>
                         <div  style={{textAlign: 'center',padding:'10px'}}>
                             <p>-OR-</p>
                         </div>

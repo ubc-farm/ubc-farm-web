@@ -4,9 +4,8 @@
 
 import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import CircularProgress from 'material-ui/CircularProgress';
+import Button from 'material-ui/Button';
+import CircularProgress from 'material-ui/Progress';
 import {connect} from 'react-redux';
 import {deleteField} from './actions/delete-field.js';
 import {deleteTaskByField} from './actions/deleteTaskByField';
@@ -69,13 +68,15 @@ class DeleteFieldModal extends Component {
 
     render() {
         const actions = [
-            <RaisedButton
+            <Button
+                variant="raised"
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
                 style={styles.button}
             />,
-            <RaisedButton
+            <Button
+                variant="raised"
                 label={this.state.loading ? '' : "Delete"}
                 primary={true}
                 disabled={false}
@@ -87,7 +88,7 @@ class DeleteFieldModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="Delete Field" secondary={true} style={{minWidth: '100%', height: '100%'}} onTouchTap={this.handleOpen} />
+                <Button label="Delete Field" secondary={true} style={{minWidth: '100%', height: '100%'}} onTouchTap={this.handleOpen} />
                 <Dialog
                     title={"Are you sure you want to delete " + this.props.field.name + "?"}
                     actions={actions}

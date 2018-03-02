@@ -3,9 +3,9 @@
  */
 import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from 'material-ui/Progress';
 import {connect} from 'react-redux';
 import {SaveSupplier} from '../../actions/supplier-actions';
 
@@ -103,12 +103,12 @@ class NewSupplierModal extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Submit"}
                 primary={true}
                 disabled={false}
@@ -119,7 +119,7 @@ class NewSupplierModal extends Component {
 
         const form = (
             <div style={{minWidth: '100%', height: '100%'}}>
-                <FlatButton label="New Supplier" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%'}}  />
+                <Button label="New Supplier" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%'}}  />
                 <Dialog
                     title="Add Supplier"
                     actions={actions}

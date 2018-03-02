@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
 import DeleteTaskModal from '../tasks/components/DeleteTaskModal';
 
 import {
@@ -166,7 +166,7 @@ class FieldTaskList extends Component {
                                             <DeleteTaskModal task = {task}/>
                                         </div>
                                         <div className="column" style={{padding: 0}}>
-                                            <FlatButton
+                                            <Button
                                                 label="Log"
                                                 primary={true}
                                                 onTouchTap={this.props.deleteTask}

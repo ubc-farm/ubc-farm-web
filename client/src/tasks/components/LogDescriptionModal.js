@@ -7,8 +7,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import CircularProgress from 'material-ui/CircularProgress';
+import Button from 'material-ui/Button';
 import {connect} from 'react-redux';
 
 const styles = {
@@ -64,7 +63,7 @@ class LogDescriptionModal extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <Button
                 label="Exit"
                 secondary={true}
                 onTouchTap={this.handleClose}
@@ -74,7 +73,7 @@ class LogDescriptionModal extends Component {
 
         const form = (
             <div>
-                <FlatButton label="Description" primary={true} onTouchTap={this.handleOpen} />
+                <Button label="Description" primary={true} onTouchTap={this.handleOpen} />
                 <Dialog
                     title="Log Description"
                     actions={actions}

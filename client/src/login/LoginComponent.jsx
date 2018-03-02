@@ -8,7 +8,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Card, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
+//import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 
 
@@ -48,7 +49,7 @@ const LoginComponent = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Log in" primary />
+        <Button variant="raised" type="submit" label="Log in" color="primary" />
       </div>
 
       <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>

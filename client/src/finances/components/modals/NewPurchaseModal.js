@@ -5,21 +5,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import Divider from 'material-ui/Divider';
 import AddExistingItemModal from './AddExistingItemModal'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import DatePicker from 'material-ui/DatePicker';
 import ChangePriceField from '../ChangePriceField';
 import ChangeQuantityField from '../ChangeQuantityField';
-import Clear from 'material-ui/svg-icons/content/clear';
+import Clear from 'material-ui-icons/Clear';
 import Dialog from 'material-ui/Dialog';
 import NewSupplierModal from './NewSupplierModal';
 import {fetchSuppliers} from '../../actions/supplier-actions';
 import {savePurchase} from '../../actions/purchase-actions';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+import CircularProgress from 'material-ui/Progress';
+import MenuItem from 'material-ui/Menu';
 
 import {
     Table,
@@ -184,12 +181,12 @@ class NewPurchaseModal extends React.Component {
 
     render(){
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Submit"}
                 primary={true}
                 disabled={false}
@@ -200,7 +197,7 @@ class NewPurchaseModal extends React.Component {
 
         return(
             <div key={this.state.timestamp}>
-                    <FlatButton label="New Purchase" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                    <Button label="New Purchase" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                     <Dialog
                         title="Purchase Form"
                         actions={actions}
@@ -224,20 +221,23 @@ class NewPurchaseModal extends React.Component {
                                     fullWidth={false}
                                     errorText={this.state.errors.invoice_number}/>
 
-                                <DatePicker
-                                    hintText="Enter Date of Purchase"
-                                    floatingLabelText="Date of Purchase"
-                                    container="inline"
-                                    fullWidth={false}
-                                    onChange={this.handleDateChange}
+                                <TextField
+                                    id="purchaseDate"
+                                    label="Date of Purchase"
+                                    type="date"
+                                    defaultValue=""
                                     name="date"
                                     value={this.state.date}
-                                    errorText={this.state.errors.date}
+                                    onChange = {this.handleDateChange}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                 />
 
                             </div>
                             <div className="column is-4" style={{verticalAlign: 'middle'}}>
-                                <SelectField
+                                <TextField
+                                    select
                                     floatingLabelText="Existing Supplier"
                                     hintText="Select an Exisiting Supplier"
                                     fullWidth={true}
@@ -249,7 +249,7 @@ class NewPurchaseModal extends React.Component {
                                             <MenuItem key={item._id} value={item} primaryText={item.name}/>
                                         ))
                                     }
-                                </SelectField>
+                                </TextField>
                                 <div style={{textAlign:'center', width:'100%'}}>OR</div>
                                 <NewSupplierModal/>
 

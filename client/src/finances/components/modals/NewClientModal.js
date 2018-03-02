@@ -3,9 +3,9 @@
  */
 import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from 'material-ui/Progress';
 import {connect} from 'react-redux';
 import {SaveClient} from '../../actions/client-actions';
 
@@ -102,12 +102,12 @@ class NewClientModal extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <Button
                 label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleClose}
             />,
-            <FlatButton
+            <Button
                 label={this.state.loading ? '' : "Submit"}
                 primary={true}
                 disabled={false}
@@ -118,7 +118,7 @@ class NewClientModal extends Component {
 
         return (
             <div key={this.state.timestamp}>
-                <FlatButton label="New Client" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
+                <Button label="New Client" primary={true} onTouchTap={this.handleOpen} style={{minWidth: '100%', height: '100%'}}  />
                 <Dialog
                     title="Add Client"
                     actions={actions}
