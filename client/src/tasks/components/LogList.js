@@ -56,6 +56,13 @@ class LogList extends React.Component {
     }
 
     render() {
+        const filteredLogs = [];
+        const taskIdString = this.props.taskId;
+        this.props.tasklogs.forEach(function(item, index){
+            if(item.taskId == taskIdString){
+                filteredLogs.push(item);
+            }
+        });
         return (
             <div>
                 <Table
@@ -85,18 +92,21 @@ class LogList extends React.Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        {this.props.tasklogs.map( (item, index) => (
+                        {
+                            filteredLogs.map( (item, index) => (
                             <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.date}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.userName}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: "middle"}}>{item.hours}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>{item.date}</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>{item.userName}</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: "middle"}}>{item.hours}</TableRowColumn>
+                            <TableRowColumn style={{verticalAlign: 'middle'}}>
 
-                                    <LogDescriptionModal description={item.description}/>
-                                </TableRowColumn>
+                            <LogDescriptionModal description={item.description}/>
+                            </TableRowColumn>
 
                             </TableRow>
-                        ))}
+
+                            ))
+                        }
 
                     </TableBody>
                     <TableFooter adjustForCheckbox={false}>
@@ -115,6 +125,7 @@ class LogList extends React.Component {
 }
 
 LogList.propTypes = {
+    taskId: PropTypes.string.isRequired,
     tasklogs: PropTypes.array.isRequired,
     fetchTaskLogs: PropTypes.func.isRequired,
 };

@@ -1,9 +1,6 @@
 /**
  * Created by Xingyu on 1/24/2018.
  */
-/**
- * Created by Xingyu on 6/4/2017.
- */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';

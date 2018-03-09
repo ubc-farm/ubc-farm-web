@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const User = require('./user.js');
 
 const TaskLogSchema = new mongoose.Schema({
+    taskId: String,
     userName: String,
     date: Date,
     hours: Number,

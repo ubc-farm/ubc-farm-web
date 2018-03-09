@@ -99,8 +99,6 @@ class TaskLogModal extends React.Component {
     };
 
     handleNewItemAddition(item){
-        console.log("handling new item addition!");
-        console.log(item);
         this.setState({
             items: [
                 ...this.state.items,
@@ -159,6 +157,7 @@ class TaskLogModal extends React.Component {
             const curDate = Date.now();
 
             const new_tasklog = {
+                taskId: this.props.task._id,
                 userName: this.state.userName,
                 date: curDate,
                 hours: this.state.hours,
@@ -210,7 +209,7 @@ class TaskLogModal extends React.Component {
 
                             <div className="title is-5" style={{marginTop: "1em"}}>Previous Logs</div>
 
-                            <LogList/>
+                            <LogList taskId={this.props.task._id}/>
 
 
                         </div>

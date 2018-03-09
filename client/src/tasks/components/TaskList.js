@@ -49,6 +49,9 @@ class TaskList extends Component {
         let field = this.props.fields.find((field) => {
             return field._id === fieldId;
         });
+        if(field == null){
+            return 'undefined';
+        }
         return field.name;
     }
 

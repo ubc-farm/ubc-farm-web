@@ -5,7 +5,6 @@
 export const SET_TASKLOG = 'SET_TASKLOG';
 
 export function setTaskLog(tasklogs){
-    console.log(tasklogs);
     return{
         type: SET_TASKLOG,
         tasklogs
@@ -26,7 +25,6 @@ export function fetchTaskLogs(){
 export const ADD_TASKLOG = 'ADD_TASKLOG';
 
 function handleResponse(response){
-    console.log(response.json);
     if(response.ok){
         return response.json();
     }else{
@@ -44,7 +42,6 @@ export function addTaskLog(tasklog){
 }
 
 export function saveTaskLog(data){
-    console.log(data);
     return dispatch => {
         return fetch('/data/tasklogs', {
             method: 'post',

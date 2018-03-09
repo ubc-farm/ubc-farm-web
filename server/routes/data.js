@@ -862,9 +862,9 @@ router.get('/tasklogs', (req, res) => {
 router.post('/tasklogs', (req, res) => {
     const{errors, isValid} = serverSideValidateTask(req.body);
     if(isValid){
-        const{userName,date,hours,description,items} = req.body;
+        const{taskId,userName,date,hours,description,items} = req.body;
 
-        TaskLog.create({userName,date,hours,description,items},
+        TaskLog.create({taskId,userName,date,hours,description,items},
 
             function(err, result){
                 if(err){
