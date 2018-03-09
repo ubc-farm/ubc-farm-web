@@ -14,7 +14,6 @@ import {SaveEquipment} from '../../actions/equipment-actions';
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import NewSupplierModal from '../../../finances/components/NewSupplierModal';
-import {fetchSuppliers} from '../../../finances/actions/supplier-actions'
 
 let shortid = require('shortid');
 
@@ -25,10 +24,6 @@ class AddSupplierModal extends Component {
     /**
      * Class constructor.
      */
-
-    componentDidMount(){
-        this.props.fetchSuppliers();
-    }
 
     constructor(props) {
         super(props);
@@ -119,12 +114,7 @@ class AddSupplierModal extends Component {
             this.setState({done: true, loading: false});
             this.handleClose();
 
-
-
         }
-
-
-
 
     };
 
@@ -248,18 +238,5 @@ class AddSupplierModal extends Component {
     }
 }
 
-AddSupplierModal.propTypes={
-    suppliers: PropTypes.array.isRequired,
-    fetchSuppliers: PropTypes.func.isRequired,
 
-    addSupplier: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-    return {
-        suppliers: state.suppliers,
-
-    }
-};
-
-export default connect(mapStateToProps, {fetchSuppliers, SaveEquipment})(AddSupplierModal);
+export default connect(()=>{}, {SaveEquipment})(AddSupplierModal);

@@ -11,7 +11,7 @@ export default function vehicles(state=[], action={}){
             break;
         case VEHICLE_DELETED:
 
-            return state.filter(item => item._id !== action.vehicleID);
+            return state.filter(item => item._id !== action.vehicleId);
             break;
 
         case ADD_VEHICLE:

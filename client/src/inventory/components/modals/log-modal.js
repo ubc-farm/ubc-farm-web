@@ -204,8 +204,6 @@ class LogItemModal extends Component {
                         ref = 'dialog'
                     >
 
-                        <LogScatter title={this.props.item.name} data={this.props.item.log.map((log_entry) => ({x:this.dateTransformer(log_entry.timestamp), y: log_entry.value}))}/>
-                        <PieChart total={this.props.item.quantity} offsets={this.state.offsets}  data={this.props.item.suppliers} title={this.props.item.name}/>
                         <Table
                             height={'230px'}
                             fixedHeader={true}

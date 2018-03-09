@@ -5,7 +5,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import LogItemModel from '../modals/log-modal';
-
+import CircularProgress from 'material-ui/CircularProgress';
+import EditableList from '../lists/EditableList';
 import {
     Table,
     TableBody,
@@ -16,7 +17,7 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 import PropTypes from 'prop-types';
-
+import {logTransplant, deleteTransplant} from '../../actions/transplant-actions.js';
 /**
  * Table form representation of Transplanting Items
  */
@@ -32,90 +33,44 @@ class TransplantingList extends Component {
 
 
     }
-    render(){
+    render() {
+       //modal 
+        let columns = [
+        {title:'Crop',toolTip:'Sort by Crop'},
+        {title:'Variety',toolTip:'Sort by Variety'},
+        {title:'Weight',toolTip:'Sort by Weight'},
+        {title:'Unit',toolTip:'Sort by Unit'},
+        {title:'Quantity',toolTip:'Sort by Quantity'},
+        {title:'Name',toolTip:'Sort by Product Name'},
+        {title:'Store',toolTip:'Sort by Product Store'},
+        {title:'Price',toolTip:'Sort by Price'},
+        {title:'Delete',toolTip:'Delete seed'}];
+
+        var itemList = [];
+
+        itemList = this.props.transplants.map((item)=>{
+            var newItem = {
+                _id:item._id,
+                crop:{title:item.crop},
+                variety:{title:item.variety},
+                weight:{title:item.weight},
+                unit:{title:item.unit},
+                quantity:{title:item.quantity, isEditable:true, func:logTransplant},
+                product:{title:item.product},
+                store:{title:item.store},
+                price:{title:item.price},
+                deleteButton:{deleteFunc:deleteTransplant}
+            };
+            return newItem;
+            // itemList.concat(newItem);
+        });
         return (
-            <div>
-                <Table
-                    height={'100%'}
-                    fixedHeader={true}
-                    fixedFooter={false}
-                    selectable={false}
-                    multiSelectable={false}
-                >
-                    <TableHeader
-                        displaySelectAll={false}
-                        adjustForCheckbox={false}
-                        enableSelectAll={false}
-                        style={{verticalAlign: 'middle'}}
-                    >
-
-                        <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Crop" style={{verticalAlign: 'middle'}}>Crop</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Variety" style={{verticalAlign: 'middle'}}>Variety</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Weight" style={{verticalAlign: 'middle'}}>Weight</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Store" style={{verticalAlign: 'middle'}}>Store</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
-                            <TableHeaderColumn/>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody
-                        displayRowCheckbox={false}
-                        deselectOnClickaway={true}
-                        showRowHover={true}
-                        stripedRows={false}
-                    >
-                        {this.props.transplants.map( (item, index) => (
-                            <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.crop}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.variety}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.weight}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.unit}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.product}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.store}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.price}</TableRowColumn>
-
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                    <div className="columns">
-                                        <div className="column">
-                                            Delete
-
-                                        </div>
-                                        <div className="column">
-                                            <LogItemModel item={item} inventory="transplants"/>
-                                        </div>
-                                    </div>
-                                </TableRowColumn>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                    <TableFooter
-                        adjustForCheckbox={false}
-                    >
-                        <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Crop" style={{verticalAlign: 'middle'}}>Crop</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Variety" style={{verticalAlign: 'middle'}}>Variety</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Weight" style={{verticalAlign: 'middle'}}>Weight</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Store" style={{verticalAlign: 'middle'}}>Store</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
-                            <TableHeaderColumn/>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn colSpan="9" style={{textAlign: 'center'}}>
-                                Super Footer
-                            </TableRowColumn>
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-
-            </div>
-        )
+            <EditableList 
+                items={itemList} 
+                columns={columns} 
+                id="seedList" 
+                isEditable={true}/>
+        );
     }
 }
 

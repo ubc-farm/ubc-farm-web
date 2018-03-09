@@ -15,7 +15,8 @@ function handleResponse(response){
     }
 }
 
-export function updateSeed(item){
+function updateSeed(item){
+    
     console.log("seed should update");
     console.log(item);
     return{
@@ -34,7 +35,16 @@ export function logSeed(data){
             headers:{
                 "Content-Type":"application/json"
             }
-        }).then(handleResponse)
-            .then(data => dispatch(updateSeed(data.item)));
+        }).then((response)=>{
+            if(response.ok){
+                dispatch(updateSeed(data));
+            }else{
+                let error = new Error(response.statusText);
+                error.response = response;
+                throw error;
+            }
+        }).cath((error)=>{
+            console.log("There is an error "+error);
+        });
     }
 }

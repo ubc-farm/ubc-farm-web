@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node -- index.js",
+    "debug": "nodemon --exec babel-node --inspect index.js",
     "bundle": "webpack",
     "serve": "webpack-dev-server"
   },
@@ -22,9 +23,15 @@
     "express": "4.14.0",
     "immutability-helper": "^2.3.0",
     "jsonwebtoken": "7.4.0",
+<<<<<<< HEAD
     "keycode": "^2.1.9",
     "material-ui": "^0.16.7",
     "moment": "^2.18.1",
+=======
+    "material-ui": "0.16.7",
+    "material-ui-icons": "^1.0.0-beta.17",
+    "moment": "2.18.1",
+>>>>>>> 3d24b590ea934efbeb9fbc14ece58f0e6728a077
     "mongodb": "2.2.26",
     "mongoose": "4.9.9",
     "object-hash": "^1.1.8",
@@ -49,6 +56,7 @@
     "semantic-ui-react": "0.68.5",
     "shortid": "2.2.8",
     "styled-components": "1.4.6",
+    "underscore": "^1.8.3",
     "validator": "6.2.0",
     "vis": "^4.20.0"
   },
@@ -58,7 +66,10 @@
     "babel-loader": "6.2.8",
     "babel-preset-es2015": "6.24.1",
     "babel-preset-react": "6.16.0",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "css-loader": "0.28.1",
+    "mocha": "^4.1.0",
     "nodemon": "1.11.0",
     "react-hot-loader": "1.3.1",
     "redux-devtools-extension": "2.13.2",

@@ -16,6 +16,7 @@ const passport = require('passport');
 const config = require('./config');
 
 
+
 // connect to the database and load models
 require('./server/models').connect(config.dbUri);
 
@@ -69,3 +70,6 @@ app.get('/*', function (req, res) {
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000 or http://127.0.0.1:3000');
 });
+
+
+module.exports = app;

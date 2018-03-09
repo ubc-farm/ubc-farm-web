@@ -24,7 +24,7 @@ export function fetchTransplants(){
 
 //POST DATA ACTION
 export const ADD_TRANSPLANT = 'ADD_TRANSPLANT';
-
+export const TRANSPLANT_DELETED = 'DELETE_TRANSPLANT';
 function handleResponse(response){
     if(response.ok){
         return response.json();
@@ -35,6 +35,20 @@ function handleResponse(response){
     }
 }
 
+export function deleteTransplant(id){
+   return dispatch => {
+        return fetch(`/data/transplants/${id}`, {
+            method: 'delete',
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then((data) => {
+            dispatch({type:TRANSPLANT_DELETED, transPlantId:id});
+        }).catch((error)=>{
+            
+        });
+    } 
+}
 export function AddTransplant(transplant){
     console.log(transplant);
     return{
@@ -56,6 +70,9 @@ export function SaveTransplant(data){
             .then(data => dispatch(AddTransplant(data.transplant)));
     }
 }
+
+
+
 
 //PUT action
 export const UPDATE_TRANSPLANT = 'UPDATE_TRANSPLANT';

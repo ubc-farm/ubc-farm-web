@@ -3,6 +3,7 @@
  */
 //FETCH DATA ACTION
 export const SET_EQUIPMENTS = 'SET_EQUIPMENTS';
+export const REMOVE_EQUIPMENT = 'REMOVE_EQUIPMENT';
 
 export function setEquipments(equipments){
     console.log(equipments);
@@ -43,6 +44,7 @@ export function AddEquipment(equipment){
     }
 }
 
+
 export function SaveEquipment(data){
     console.log(data);
     return dispatch => {
@@ -56,6 +58,21 @@ export function SaveEquipment(data){
             .then(data => dispatch(AddEquipment(data.equipment)));
     }
 }
+
+export function deleteEquipment(id) {
+        return function (dispatch) {
+            return fetch("/data/equipments/" + id, {
+                method: 'delete',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(function (data) {
+                dispatch({type: REMOVE_EQUIPMENT, equipmentID:id});
+            }).catch(function (error) {});
+        };
+    }
+
+
 
 //PUT DATA ACTION
 export const UPDATE_EQUIPMENT = 'UPDATE_EQUIPMENT';

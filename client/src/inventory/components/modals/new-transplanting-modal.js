@@ -11,7 +11,6 @@ import Divider from 'material-ui/Divider';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
 import {SaveTransplant} from '../../actions/transplant-actions';
-import {fetchSuppliers} from '../../../finances/actions/supplier-actions';
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import NewSupplierModal from '../../../finances/components/NewSupplierModal';
@@ -82,31 +81,19 @@ class CreateTransplantModal extends Component {
     handleSubmit(e){
         e.preventDefault();
 
-        //validation
-        let errors = {};
-        if(this.state.crop === '')
-            errors.crop  = "This field is Required";
-        this.setState({errors});
-
-
+        this.validateForm();
         //if valid, create post request
-        const isValid = Object.keys(errors).length === 0;
-        if(isValid){
+        var errors = this.state.errors;
+        if(Object.keys(errors).length === 0 && errors.constructor === Object){
             //create first date in log
             const first_log = [{
                 timestamp: Date.now(),
                 value: this.state.quantity,
             }];
 
-            //create supplier
-            const first_supplier = this.props.suppliers[this.state.supplier];
-            first_supplier.quantity = parseInt(this.state.quantity);
-            first_supplier.unit = this.state.unit;
-
             //create seed
             const new_transplant = {
                 name: this.state.crop,
-                suppliers:[first_supplier],
                 log: first_log,
                 quantity: this.state.quantity,
                 unit: this.state.unit,
@@ -128,10 +115,42 @@ class CreateTransplantModal extends Component {
 
         }
 
-
-
-
     };
+
+    validateForm(){
+        if(!(this.state.crop && this.state.variety && this.state.quantity && this.state.weight)){
+            var errors = {};
+
+            if(this.state.crop.length == 0){
+                errors.crop = "This field is required";
+            }
+
+            if(this.state.variety.length == 0){
+                errors.variety = "This field is required";
+            }
+
+            if(this.state.quantity.length == 0){
+                errors.quantity = "This field is required";
+            }
+
+            if(this.state.weight.length == 0){
+                errors.weight = "This field is required";
+            }
+
+            if(this.state.price.length == 0){
+                errors.price = "This field is required";
+            }
+            
+            if(this.state.store.length == 0){
+                errors.store = "This field is required";
+            }
+
+            if(this.state.product.length == 0){
+                errors.product = "This field is required";
+            }
+            this.setState({errors})
+        }
+    }
 
     handleSelect(event, index, value){this.setState({unit: value});}
 
@@ -158,28 +177,10 @@ class CreateTransplantModal extends Component {
                     title="Add Transplant Item to Inventory"
                     actions={actions}
                     modal={true}
+                    autoScrollBodyContent={true}
                     open={this.state.open}
                 >
                     <form>
-                        <p>Supplier Detail</p>
-                        <SelectField
-                            floatingLabelText="Existing Supplier"
-                            hintText="Select Supplier"
-                            name="supplier"
-                            autoWidth={false}
-                            style={{width:"100%"}}
-                            value={this.state.supplier}
-                            onChange={this.handleSelectSupplier}
-                            errorText={this.state.errors.supplier}
-                        >
-                            {this.props.suppliers.map((supplier,index) => (
-                                <MenuItem key={supplier._id} value={index} label={supplier.name} primaryText={supplier.name} />
-                            ))}
-                        </SelectField>
-                        <div  style={{textAlign: 'center',padding:'10px'}}>
-                            <p>-OR-</p>
-                        </div>
-                        <NewSupplierModal/>
                         <h3>Crop Detail</h3>
                         <TextField
                             hintText="Enter Crop Type"
@@ -282,17 +283,7 @@ class CreateTransplantModal extends Component {
     }
 }
 
-CreateTransplantModal.propTypes={
-    suppliers: PropTypes.array.isRequired,
-    fetchSuppliers: PropTypes.func.isRequired,
-};
 
-const mapStateToProps = (state) => {
-    return {
-        suppliers: state.suppliers,
 
-    }
-};
-
-export default connect(mapStateToProps, {fetchSuppliers, SaveTransplant})(CreateTransplantModal);
+export default connect(()=>{}, {SaveTransplant})(CreateTransplantModal);
 

@@ -3,7 +3,7 @@
  */
 //FETCH DATA ACTION
 export const SET_VEHICLES = 'SET_VEHICLES';
-
+export const VEHICLE_DELETED = 'VEHICLE_DELETED';
 export function setVehicles(vehicles){
     console.log(vehicles);
     return{
@@ -54,6 +54,18 @@ export function SaveVehicle(data){
         }).then(handleResponse)
             .then(data => dispatch(AddVehicle(data.vehicle)));
     }
+}
+
+export function deleteVehicle(id){
+    return dispatch => {
+        return fetch(`/data/vehicles/${id}`, {
+            method: 'delete',
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(handleResponse)
+            .then(data => dispatch({type:VEHICLE_DELETED, vehicleId:id}));
+    }    
 }
 
 //PUT DATA ACTION

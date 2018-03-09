@@ -8,7 +8,6 @@ let inventory_log_schema = require('./log_inventory');
 const SeedSchema = new mongoose.Schema({
 
     name: String,
-    suppliers:[],
     log: [inventory_log_schema],
     quantity: Number,
     unit: String,

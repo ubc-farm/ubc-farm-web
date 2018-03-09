@@ -34,12 +34,6 @@ function handleResponse(response){
     }
 }
 
-export function AddFertilizer(fertilizer){
-    return{
-        type: ADD_FERTILIZER,
-        fertilizer
-    }
-}
 
 export function SaveFertilizer(data){
     console.log(data);
@@ -51,12 +45,13 @@ export function SaveFertilizer(data){
                 "Content-Type":"application/json"
             }
         }).then(handleResponse)
-            .then(data => dispatch(AddFertilizer(data.fertilizer)));
+            .then(() => dispatch({type: ADD_FERTILIZER,fertilizer:data}));
     }
 }
 
 //PUT action
 export const UPDATE_FERTILIZER = 'UPDATE_FERTILIZER';
+export const FERTILIZER_DELETE = 'FERTILIZER_DELETE';
 
 export function updateFertilizer(item){
     console.log("fertilizer should update");
@@ -66,6 +61,26 @@ export function updateFertilizer(item){
         item
     }
 }
+
+export function deleteFertilizer(id){
+    return dispatch => {
+        return fetch(`/data/fertilizer/${id}`, {
+            method: 'delete',
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then((data) => {
+            dispatch({
+                type:FERTILIZER_DELETE,
+                id:id
+            });
+
+        }).catch((error)=>{
+            
+        });
+    }
+}
+
 
 export function logFertilizer(data){
     console.log(data);

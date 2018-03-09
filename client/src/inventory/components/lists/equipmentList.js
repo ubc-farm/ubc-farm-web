@@ -16,7 +16,8 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 import PropTypes from 'prop-types';
-
+import {deleteEquipment, logEquipment} from '../../actions/equipment-actions.js';
+import EditableList from '../lists/EditableList';
 /**
  * Table form representation of Transplanting Items
  */
@@ -34,77 +35,36 @@ class EquipmentList extends Component {
 
     }
 
-
     render(){
+
+        let columns = [
+        {title:'Product name',toolTip:'Sort by Product name'},
+        {title:'Quantity',toolTip:'Sort by Quantity'},
+        {title:'Unit',toolTip:'Sort by Entry Interval'},
+        {title:'Delete',toolTip:'Delete fertilizers'}];
+
+        var itemList = [];
+        itemList = this.props.equipments.map((item)=>{
+            var newItem = {
+                _id:item._id,
+                name:{title:item.name},
+                quantity:{title:item.quantity, isEditable:true, func:logEquipment},
+                unit:{title:item.unit},
+                deleteButton:{deleteFunc:deleteEquipment}
+            };
+            return newItem;            
+        });
+
+
         return (
-            <div>
-                <Table
-                    height={'100%'}
-                    fixedHeader={true}
-                    fixedFooter={false}
-                    selectable={false}
-                    multiSelectable={false}
-                >
-                    <TableHeader
-                        displaySelectAll={false}
-                        adjustForCheckbox={false}
-                        enableSelectAll={false}
-                        style={{verticalAlign: 'middle'}}
-                    >
-
-                        <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
-
-                            <TableHeaderColumn/>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody
-                        displayRowCheckbox={false}
-                        deselectOnClickaway={true}
-                        showRowHover={true}
-                        stripedRows={false}
-                    >
-                        {this.props.equipments.map( (item, index) => (
-                            <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.name}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.unit}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                    <div className="columns">
-                                        <div className="column">
-                                            Delete
-
-                                        </div>
-                                        <div className="column">
-                                            <LogItemModel item={item} inventory="equipments"/>
-                                        </div>
-                                    </div>
-                                </TableRowColumn>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                    <TableFooter
-                        adjustForCheckbox={false}
-                    >
-                        <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Product Name" style={{verticalAlign: 'middle'}}>Product Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Unit" style={{verticalAlign: 'middle'}}>Unit</TableHeaderColumn>
-                            <TableHeaderColumn/>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn colSpan="4" style={{textAlign: 'center'}}>
-                                Super Footer
-                            </TableRowColumn>
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-
-            </div>
+            <EditableList 
+                items={itemList} 
+                columns={columns} 
+                id="pestList" 
+                isEditable={true}/>
         )
     }
+
 }
 
 EquipmentList.propTypes = {

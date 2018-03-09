@@ -9,7 +9,10 @@ const webpack = require('webpack');
 
 module.exports = {
     //for development
-    devtools: 'eval-source-map',
+    devtool: '#inline-source-map',
+    externals:[{
+        xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+    }],
     // the entry file for the bundle
     entry: [path.join(__dirname, '/client/src/app.jsx'),
         'webpack-hot-middleware/client'

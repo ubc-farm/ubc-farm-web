@@ -4,7 +4,7 @@
 
 //FETCH DATA ACTION
 export const SET_PESTICIDES = 'SET_PESTICIDES';
-
+export const PESTICIDE_DELETED = 'PESTICIDE_DELETED';
 export function setPesticides(pesticides){
     console.log("set Pesticides!");
     return{
@@ -18,8 +18,13 @@ export function fetchPesticides(){
     console.log("fetchPesticides called");
     return dispatch => {
         fetch('/data/pesticides')
-            .then(res => res.json())
-            .then(data => dispatch(setPesticides(data.items)));
+            .then(res => res.json()).then((data) => {
+                if(data.items != undefined){
+                    dispatch(setPesticides(data.items));
+                }else{
+                    dispatch(setPesticides([]));
+                }
+            })
     }
 }
 
@@ -65,6 +70,21 @@ export function updatePesticide(item){
     return{
         type: UPDATE_PESTICIDE,
         item
+    }
+}
+
+export function deletePesticide(id){
+    return dispatch => {
+        return fetch(`/data/pesticide/${id}`, {
+            method: 'delete',
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then((data) => {
+            dispatch({type: PESTICIDE_DELETED, pesticideID:id});
+        }).catch((error)=>{
+            
+        });
     }
 }
 

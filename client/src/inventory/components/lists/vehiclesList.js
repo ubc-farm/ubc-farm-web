@@ -5,7 +5,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import LogItemModel from '../modals/log-modal';
-
+import {deleteVehicle, logVehicle} from '../../actions';
+import EditableList from '../lists/EditableList';
 import {
     Table,
     TableBody,
@@ -32,80 +33,38 @@ class VehicleList extends Component {
 
 
     }
+
     render(){
+
+        let columns = [
+        {title:'Brand',toolTip:'Sort by Brand'},
+        {title:'Model',toolTip:'Sort by Model'},
+        {title:'Year',toolTip:'Sort by Year'},
+        {title:'Price',toolTip:'Sorty by Price'},
+        {title:'Quantity',toolTip:'Sorty by Quantity'},
+        {title:'Delete',toolTip:'Delete'}];
+
+        var itemList = [];
+        itemList = this.props.vehicles.map((item)=>{
+            var newItem = {
+                _id:item._id,
+                brand:{title:item.brand},
+                model:{title:item.model},
+                year:{title:item.year},
+                price:{title:item.price},
+                quantity:{title:item.quantity, isEditable:true, func:logVehicle},
+                deleteButton:{deleteFunc:deleteVehicle}
+            };
+            return newItem;            
+        });
+
         return (
-            <div>
-                <Table
-                    height={'100%'}
-                    fixedHeader={true}
-                    fixedFooter={false}
-                    selectable={false}
-                    multiSelectable={false}
-                >
-                    <TableHeader
-                        displaySelectAll={false}
-                        adjustForCheckbox={false}
-                        enableSelectAll={false}
-                        style={{verticalAlign: 'middle'}}
-                    >
-
-                        <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Brand" style={{verticalAlign: 'middle'}}>Brand</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Model" style={{verticalAlign: 'middle'}}>Model</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Year" style={{verticalAlign: 'middle'}}>Year</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                            <TableHeaderColumn/>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody
-                        displayRowCheckbox={false}
-                        deselectOnClickaway={true}
-                        showRowHover={true}
-                        stripedRows={false}
-                    >
-                        {this.props.vehicles.map( (item, index) => (
-                            <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.brand}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.model}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.year}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.price}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{item.quantity}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                    <div className="columns">
-                                        <div className="column">
-                                            Delete
-
-                                        </div>
-                                        <div className="column">
-                                            <LogItemModel item={item} inventory="vehicles"/>
-                                        </div>
-                                    </div>
-                                </TableRowColumn>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                    <TableFooter
-                        adjustForCheckbox={false}
-                    >
-                        <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Brand" style={{verticalAlign: 'middle'}}>Brand</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Model" style={{verticalAlign: 'middle'}}>Model</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Year" style={{verticalAlign: 'middle'}}>Year</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Price" style={{verticalAlign: 'middle'}}>Price</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Quantity" style={{verticalAlign: 'middle'}}>Quantity</TableHeaderColumn>
-                            <TableHeaderColumn/>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn colSpan="6" style={{textAlign: 'center'}}>
-                                Super Footer
-                            </TableRowColumn>
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-
-            </div>
-        )
+            <EditableList 
+                items={itemList} 
+                columns={columns} 
+                id="seedList" 
+                isEditable={true}/>
+        );
     }
 }
 
