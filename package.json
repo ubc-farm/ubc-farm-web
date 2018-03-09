@@ -23,15 +23,10 @@
     "express": "4.14.0",
     "immutability-helper": "^2.3.0",
     "jsonwebtoken": "7.4.0",
-<<<<<<< HEAD
     "keycode": "^2.1.9",
     "material-ui": "^0.16.7",
     "moment": "^2.18.1",
-=======
-    "material-ui": "0.16.7",
     "material-ui-icons": "^1.0.0-beta.17",
-    "moment": "2.18.1",
->>>>>>> 3d24b590ea934efbeb9fbc14ece58f0e6728a077
     "mongodb": "2.2.26",
     "mongoose": "4.9.9",
     "object-hash": "^1.1.8",
