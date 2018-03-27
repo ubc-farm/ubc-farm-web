@@ -7,9 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import AutoComplete from 'material-ui/AutoComplete';
 import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider'
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField'
 import Toggle from 'material-ui/Toggle';
