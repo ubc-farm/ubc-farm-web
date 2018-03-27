@@ -140,8 +140,8 @@ class TaskLogModal extends React.Component {
 
         //validation
         let errors = {};
-        if(this.state.name === '')
-            errors.name  = "This field is Required";
+        if(this.state.hours === '')
+            errors.hours  = "This field is Required";
         this.setState({errors});
 
         //if valid, create post request
@@ -183,6 +183,13 @@ class TaskLogModal extends React.Component {
                 secondary={true}
                 onTouchTap={this.handleClose}
             />,
+            <FlatButton
+                label={this.state.loading ? '' : "Submit"}
+                primary={true}
+                disabled={false}
+                onTouchTap={this.handleSubmit}
+                icon={this.state.loading ? <CircularProgress /> : ''}
+            />,
         ];
 
         return(
@@ -200,20 +207,9 @@ class TaskLogModal extends React.Component {
                 >
 
                     <div classID="task_log_form" className="columns" style={{marginTop: "1em"}} >
-                        <div classID="task_log_left" className="column is-4">
-                            <div className="title is-5">Summary</div>
-
-                            <div className="text-info">Task Type: {this.props.typeTransformer(this.props.task.type)}</div>
-                            <div className="text-info">Duration: {this.props.dateTransformer(this.props.task.startDate) +" -- " + this.props.dateTransformer(this.props.task.endDate)}</div>
-                            <div className="text-info">Aggregated Hours: {this.state.hours}</div>
-
-                            <div className="title is-5" style={{marginTop: "1em"}}>Previous Logs</div>
-
-                            <LogList taskId={this.props.task._id}/>
+                        <div classID="task_log_left" className="column is-7">
 
 
-                        </div>
-                        <div classID="task_log_rignt" className="column is-2">
                             <div className="title is-5">New Log</div>
                             <TextField
                                 hintText="Log hours worked"
@@ -238,8 +234,10 @@ class TaskLogModal extends React.Component {
                             />
 
 
+
                         </div>
-                        <div className="column is-6">
+
+                        <div className="column is-5">
                             <div className="title is-5">Resources Used</div>
                             <Table
                                 height={'300px'}
@@ -300,13 +298,7 @@ class TaskLogModal extends React.Component {
                                     </TableRow>
                                 </TableFooter>
                             </Table>
-                            <RaisedButton
-                                label={this.state.loading ? '' : "Submit"}
-                                primary={true}
-                                disabled={false}
-                                onTouchTap={this.handleSubmit}
-                                icon={this.state.loading ? <CircularProgress /> : ''}
-                            />
+
                         </div>
                     </div>
 
@@ -321,8 +313,6 @@ class TaskLogModal extends React.Component {
 TaskLogModal.propTypes = {
     task: PropTypes.object.isRequired,
     fieldName: PropTypes.string.isRequired,
-    typeTransformer: PropTypes.func.isRequired,
-    dateTransformer: PropTypes.func.isRequired,
 
     tasklogs: PropTypes.array.isRequired,
     fetchTaskLogs: PropTypes.func.isRequired,

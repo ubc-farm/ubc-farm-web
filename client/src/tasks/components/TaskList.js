@@ -2,9 +2,13 @@
  * Created by Xingyu on 6/2/2017.
  */
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
+import TaskLogModal from './TaskLogModal';
+import LogListModal from './LogListModal';
 import DeleteTaskModal from '../components/DeleteTaskModal';
+
 import {
     Table,
     TableBody,
@@ -15,8 +19,7 @@ import {
     TableRowColumn,
 
 } from 'material-ui/Table';
-import PropTypes from 'prop-types';
-import TaskLogModal from './TaskLogModal';
+
 /**
  * A more complex example, allowing the table height to be set, and key boolean properties to be toggled.
  */
@@ -150,10 +153,13 @@ class TaskList extends Component {
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>
                                     <div className="columns">
                                         <div className="column">
-                                    <DeleteTaskModal task = {task}/>
+                                            <DeleteTaskModal task = {task}/>
                                         </div>
                                         <div className="column">
-                                            <TaskLogModal task={task} fieldName={this.fieldNameFromId(task.field)} typeTransformer={this.typeTransformer} dateTransformer={this.dateTransformer}/>
+                                            <TaskLogModal task={task} fieldName={this.fieldNameFromId(task.field)}/>
+                                        </div>
+                                        <div className="column">
+                                            <LogListModal task={task} typeTransformer={this.typeTransformer} dateTransformer={this.dateTransformer}/>
                                         </div>
                                     </div>
                                 </TableRowColumn>
