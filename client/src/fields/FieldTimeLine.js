@@ -143,6 +143,7 @@ FieldTimeLine.propTypes = {
     fetchTasks: PropTypes.func.isRequired,
 
     fieldTasks: PropTypes.array.isRequired,
+    maxHeight: PropTypes.number.isRequired,
 
 };
 

@@ -15,6 +15,7 @@ import TextField from 'material-ui/TextField'
 import Toggle from 'material-ui/Toggle';
 import {SaveTask} from '../actions/save-task';
 import { Link, IndexLink } from 'react-router';
+import SelectField from 'material-ui/SelectField';
 
 const styles = {
     toggle: {
@@ -22,81 +23,24 @@ const styles = {
     },
 };
 
-const typeData = [
-    {
-        text: 'seeding',
-        value: (
-            <MenuItem
-                primaryText="seeding"
-                secondaryText="&#127793;"
-            />
-        ),
-    },
-    {
-        text: 'irrigation',
-        value: (
-            <MenuItem
-                primaryText="irrigation"
-                secondaryText="&#128166;"
-            />
-        ),
-    },
-    {
-        text: 'pest-control',
-        value: (
-            <MenuItem
-                primaryText="pest-control"
-                secondaryText="&#128028;"
-            />
-        ),
-    },
-    {
-        text: 'transplanting',
-        value: (
-            <MenuItem
-                primaryText="transplanting"
-                secondaryText="&#127807;"
-            />
-        ),
-    },
-    {
-        text: 'soil-sampling',
-        value: (
-            <MenuItem
-                primaryText="soil-sampling"
-                secondaryText="&#128300;"
-            />
-        ),
-    },
-    {
-        text: 'scouting-harvest',
-        value: (
-            <MenuItem
-                primaryText="scouting-harvest"
-                secondaryText="&#128203;"
-            />
-        ),
-    },
-    {
-        text: 'scouting-pests',
-        value: (
-            <MenuItem
-                primaryText="scouting-pests"
-                secondaryText="&#128204;"
-            />
-        ),
-    },
-    {
-        text: 'fertilizing',
-        value: (
-            <MenuItem
-                primaryText="fertilizing"
-                secondaryText="&#128169;"
-            />
-        ),
-    },
+const typeData =
+    ["seeding",
+        "irrigation",
+        "pest-control",
+        "transplanting",
+        "soil sampling",
+        "scouting harvest",
+        "scouting pests",
+        "fertilizing",
+        "bed preparation",
+        "packing",
+        "washing",
+        "washing and packing",
+        "social event",
+        "other",
+    ];
 
-];
+
 
 /**
  * Modal for creating new Task
@@ -197,8 +141,8 @@ class NewTaskModal extends Component {
         this.setState({field: this.props.fieldsMenuData[index].id});
     };
 
-    handleTypeChange(typeString){
-        this.setState({type: typeString});
+    handleTypeChange(event, index, value){
+        this.setState({type: value});
     };
 
     handleDescriptionChange(event){
@@ -346,19 +290,20 @@ class NewTaskModal extends Component {
 
                                         ) : (
                                             <div className="column">
-                                        <AutoComplete
-                                        floatingLabelText="Field"
-                                        filter={AutoComplete.caseInsensitiveFilter}
-                                        dataSourceConfig={{text: 'text', value: 'value', id:'id'}}
-                                        dataSource={this.props.fieldsMenuData}
-                                        openOnFocus={true}
-                                        fullWidth={true}
-                                        onNewRequest={this.handleFieldChange}
-                                        name="field"
-                                        value={this.state.field}
-                                        errorText={this.state.errors.name}
-                                        />
+                                                <AutoComplete
+                                                    floatingLabelText="Field"
+                                                    filter={AutoComplete.caseInsensitiveFilter}
+                                                    dataSourceConfig={{text: 'text', value: 'value', id:'id'}}
+                                                    dataSource={this.props.fieldsMenuData}
+                                                    openOnFocus={true}
+                                                    fullWidth={true}
+                                                    onNewRequest={this.handleFieldChange}
+                                                    name="field"
+                                                    value={this.state.field}
+                                                    errorText={this.state.errors.name}
+                                                />
                                             </div>
+
 
 
                                         )}
@@ -367,16 +312,22 @@ class NewTaskModal extends Component {
                                 <div className="column">
 
 
-                                    <AutoComplete
+                                    <SelectField
                                         floatingLabelText="Activity Type"
-                                        filter={AutoComplete.caseInsensitiveFilter}
-                                        dataSource={typeData}
-                                        openOnFocus={true}
                                         fullWidth={true}
-                                        onUpdateInput={this.handleTypeChange}
+                                        onChange={this.handleTypeChange}
                                         name="type"
                                         value={this.state.type}
-                                    />
+                                        maxHeight={300}
+                                    >
+                                    { typeData.map( (taskName) => (
+                                        <MenuItem
+                                            primaryText={taskName}
+                                            value={taskName}
+                                            key={taskName}
+                                        />))
+                                    }
+                                    </SelectField>
 
                                 </div>
 

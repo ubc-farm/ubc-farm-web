@@ -10,7 +10,6 @@ export default function seeds(state=[], action={}){
     switch(action.type) {
         case SET_SEEDS:
             console.log("set seed!");
-            console.log()
             return action.seeds;
             break;
         case SEED_DELETED:
@@ -28,7 +27,7 @@ export default function seeds(state=[], action={}){
         case UPDATE_SEED:
             const index = state.findIndex(i => i._id === action.item.id);
             //change this when new edits come in
-            var updatedSeed = state[index];
+            let updatedSeed = state[index];
             updatedSeed.quantity = action.item.log.value;
             return [
                 ...state.slice(0,index),
