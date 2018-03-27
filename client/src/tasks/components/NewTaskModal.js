@@ -53,7 +53,7 @@ class NewTaskModal extends Component {
         super(props);
 
         this.state = {
-            fieldsMenuData: [],
+            fields: [],
             multiDay: false,
             errors: {},
             open: false,
@@ -62,7 +62,7 @@ class NewTaskModal extends Component {
             done: false,
             startDate: {},
             endDate: {},
-            field:{},
+            field:'',
             type:''
         };
         this.handleOpen = this.handleOpen.bind(this);
@@ -79,7 +79,7 @@ class NewTaskModal extends Component {
     };
 
     componentDidMount() {
-        this.state.fieldsMenuData = this.createFieldsMenu;
+        this.state.fields = this.createFieldsMenu;
         if(this.props.isFieldProvided){
             this.setState({field: this.props.field._id});
         }
@@ -136,9 +136,9 @@ class NewTaskModal extends Component {
         this.setState({endDate: date});
     };
 
-    handleFieldChange(chosenRequest,index){
-        console.log(this.props.fieldsMenuData[index]);
-        this.setState({field: this.props.fieldsMenuData[index].id});
+    handleFieldChange(event,index,value){
+        console.log(this.props.fields[index]);
+        this.setState({field: this.props.fields[index]._id});
     };
 
     handleTypeChange(event, index, value){
@@ -290,19 +290,24 @@ class NewTaskModal extends Component {
 
                                         ) : (
                                             <div className="column">
-                                                <AutoComplete
+                                                <SelectField
                                                     floatingLabelText="Field"
-                                                    filter={AutoComplete.caseInsensitiveFilter}
-                                                    dataSourceConfig={{text: 'text', value: 'value', id:'id'}}
-                                                    dataSource={this.props.fieldsMenuData}
-                                                    openOnFocus={true}
                                                     fullWidth={true}
-                                                    onNewRequest={this.handleFieldChange}
+                                                    onChange={this.handleFieldChange}
                                                     name="field"
                                                     value={this.state.field}
-                                                    errorText={this.state.errors.name}
-                                                />
+                                                    maxHeight={300}
+                                                >
+                                                    { this.props.fields.map( (field) => (
+                                                        <MenuItem
+                                                            primaryText={field.name}
+                                                            value={field._id}
+                                                            key={field._id}
+                                                        />))
+                                                    }
+                                                </SelectField>
                                             </div>
+
 
 
 
@@ -359,26 +364,14 @@ class NewTaskModal extends Component {
 }
 
 NewTaskModal.propTypes = {
-    fieldsMenuData: PropTypes.array.isRequired,
+    fields: PropTypes.array.isRequired,
     isFieldProvided: PropTypes.bool.isRequired,
     buttonStyle: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
-        fieldsMenuData: state.fields.map((field) => {
-            return {
-                text: field.name,
-                value: (
-                    <MenuItem
-                        key={field._id}
-                        id={field._id}
-                        primaryText={field.name}
-                    />
-                ),
-                id: field._id
-            }
-        })
+        fields: state.fields,
     }
 };
 
