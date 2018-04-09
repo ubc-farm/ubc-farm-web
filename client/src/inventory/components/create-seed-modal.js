@@ -11,6 +11,7 @@ import Divider from 'material-ui/Divider';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
 import {SaveSeed} from '../actions/seeds-post';
+import {getCurrencyList} from '../actions'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import NewSupplierModal from '../../finances/components/NewSupplierModal';
@@ -36,6 +37,7 @@ class CreateSeedModal extends Component {
             variety: '',
             weight: '',
             quantity: 1,
+            currency:'CAD',
             errors: {},
             open: false,
             validated: false,
@@ -48,6 +50,7 @@ class CreateSeedModal extends Component {
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
@@ -109,18 +112,32 @@ class CreateSeedModal extends Component {
                 log: first_log,
                 quantity: this.state.quantity,
                 unit: this.state.unit,
-
                 crop: this.state.crop,
                 variety: this.state.variety,
                 weight: this.state.weight,
                 product: this.state.product,
                 store: this.state.store,
-                price: this.state.price
+                price: this.state.price,
+                currency: this.state.currency
             };
 
             this.setState({loading: true});
             this.props.SaveSeed(new_seed).then(
-                (response) => {console.log("should catch error here")}
+                (response) => {
+                    this.setState({
+                        name: '',
+                        log:'',
+                        quantity: '',
+                        unit: '',
+
+                        crop: '',
+                        variety: '',
+                        weight: '',
+                        product: '',
+                        store: '',
+                        price: '' 
+                    });
+                }
             );
             this.setState({done: true, loading: false});
             this.handleClose();
@@ -156,7 +173,18 @@ class CreateSeedModal extends Component {
         }
     }
 
-    handleSelect(event, index, value){this.setState({unit: value});}
+    handleSelect(event, index, value){
+        this.setState({unit: value});
+    }
+
+    handleCurrencyChange(event, index, value){
+        this.setState({currency: value});
+    }
+
+    componentWillMount(){
+        this.props.getCurrencyList();
+    }
+
 
     render() {
         const actions = [
@@ -181,6 +209,7 @@ class CreateSeedModal extends Component {
                     title="Add Seed to Inventory"
                     actions={actions}
                     modal={true}
+                    autoScrollBodyContent={true}
                     open={this.state.open}
                 >
                             <form>
@@ -191,9 +220,17 @@ class CreateSeedModal extends Component {
                                     name="crop"
                                     onChange={this.handleChange}
                                     value={this.state.crop}
-
                                     fullWidth={true}
                                     errorText={this.state.errors.crop}/>
+                                <TextField
+                                    hintText="Enter store"
+                                    floatingLabelText="store"
+                                    name="store"
+                                    onChange={this.handleChange}
+                                    value={this.state.store}
+                                    fullWidth={true}
+                                    errorText={this.state.errors.store}/>
+                                                                        
                                 <TextField
                                     hintText="Enter Variety"
                                     floatingLabelText="Variety"
@@ -203,28 +240,52 @@ class CreateSeedModal extends Component {
                                     fullWidth={true}
                                     errorText={this.state.errors.variety}/>
 
-                                <TextField
-                                    hintText="Enter Price"
-                                    floatingLabelText="Price"
-                                    name="price"
-                                    onChange={this.handleChange}
-                                    value={this.state.price}
-                                    fullWidth={true}
-                                    errorText={this.state.errors.price}/>
 
+                              <div className="columns">
+                                    <div className="column is-8-desktop">
+                                        <TextField
+                                            hintText="Enter Price"
+                                            floatingLabelText="Price"
+                                            name="price"
+                                            type="number"
+                                            onChange={this.handleChange}
+                                            fullWidth={true}
+                                            value={this.state.price}
+                                            errorText={this.state.errors.price}/>
+                                    </div>
+                                    <div className="column is-4-desktop">
+
+                                <SelectField
+                                    floatingLabelText="Currency"
+                                    onChange={this.handleCurrencyChange}
+                                    id="currency"
+                                    autoWidth={false}
+                                    style={{width:"100%"}}
+                                    value={this.state.currency}
+                                    errorText={this.state.errors.currency}
+                                >
+                                    {Object.keys(this.props.currencies).map(e=>
+                                        <MenuItem value={e} 
+                                        label={`${e} - ${this.props.currencies[e]}`} 
+                                        primaryText={`${e} - ${this.props.currencies[e]}`}/>)
+                                    }
+                                </SelectField>
+                                    </div>
+                                </div>
                                 <div className="columns">
                                     <div className="column is-8-desktop">
-                                <TextField
-                                    hintText="Enter Package Weight"
-                                    floatingLabelText="Package Weight"
-                                    name="weight"
-                                    type="number"
-                                    onChange={this.handleChange}
-                                    fullWidth={true}
-                                    value={this.state.weight}
-                                    errorText={this.state.errors.weight}/>
-                                </div>
+                                        <TextField
+                                            hintText="Enter Package Weight"
+                                            floatingLabelText="Package Weight"
+                                            name="weight"
+                                            type="number"
+                                            onChange={this.handleChange}
+                                            fullWidth={true}
+                                            value={this.state.weight}
+                                            errorText={this.state.errors.weight}/>
+                                    </div>
                                     <div className="column is-4-desktop">
+
                                 <SelectField
                                     floatingLabelText="Measurement unit"
                                     onChange={this.handleSelect}
@@ -266,4 +327,13 @@ class CreateSeedModal extends Component {
     }
 }
 
-export default connect(()=>{}, {SaveSeed})(CreateSeedModal);
+const mapStateToProps = (state) => {
+    return {
+        currencies: state.currency,
+    }
+};
+
+
+
+
+export default connect(mapStateToProps, {SaveSeed, getCurrencyList})(CreateSeedModal);

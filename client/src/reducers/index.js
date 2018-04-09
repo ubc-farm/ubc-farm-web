@@ -20,6 +20,7 @@ import ClientReducer from '../finances/reducers/client-reducer';
 import PurchaseReducer from '../finances/reducers/purchase-reducer';
 import InvoiceReducer from '../finances/reducers/invoice-reducer';
 import TaskLogReducer from '../tasks/reducers/tasklogReducer';
+import currency from '../inventory/reducers/currency'
 
 const allReducers = combineReducers({
     fields : FieldReducer,
@@ -40,9 +41,7 @@ const allReducers = combineReducers({
     purchases: PurchaseReducer,
     invoices: InvoiceReducer,
     tasklogs: TaskLogReducer,
-
-
-
+    currency
 });
 
 export default allReducers;

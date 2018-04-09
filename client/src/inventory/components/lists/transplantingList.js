@@ -44,6 +44,7 @@ class TransplantingList extends Component {
         {title:'Name',toolTip:'Sort by Product Name'},
         {title:'Store',toolTip:'Sort by Product Store'},
         {title:'Price',toolTip:'Sort by Price'},
+        {title:'Currency',toolTip:'Sort by Currency'},
         {title:'Delete',toolTip:'Delete seed'}];
 
         var itemList = [];
@@ -59,6 +60,7 @@ class TransplantingList extends Component {
                 product:{title:item.product},
                 store:{title:item.store},
                 price:{title:item.price},
+                currency:{title:item.currency},
                 deleteButton:{deleteFunc:deleteTransplant}
             };
             return newItem;

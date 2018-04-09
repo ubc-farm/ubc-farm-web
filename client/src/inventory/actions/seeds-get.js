@@ -4,7 +4,6 @@
 export const SET_SEEDS = 'SET_SEEDS';
 
 export function setSeeds(seeds){
-    console.log(seeds);
     return{
         type: SET_SEEDS,
         seeds

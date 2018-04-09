@@ -25,6 +25,7 @@ let Purchase = require('mongoose').model('Purchase');
 let TaskLog = require('mongoose').model('TaskLog');
 
 let seedController = require('../controller/seedController');
+let transplantController = require('../controller/transplantController');
 
 router.get('/fields', (req, res) => {
     Field.find({}).lean().exec(function (err, fields) {
@@ -186,47 +187,21 @@ router.route("/seeds")
     .put(seedController.putSeeds);
 
 
+
 router.route("/seeds/:seed_id")
     .delete(seedController.deleteSeed);
 
+
 //ROUTES FOR TRANSPLANTS
-router.get('/transplants', (req, res) => {
+router.route("/transplants")
+    .get(transplantController.getTransplants)
+    .post(transplantController.postTrasnsplants)
+    .put(transplantController.putTransplants);
 
-    Transplant.find({}).lean().exec(function (err, items) {
-        if (err) {
-            res.send('error retrieveing transplants');
-        } else {
-            res.json({items});
-        }
+router.route("/transplant/:transplant_id")
+    .delete(transplantController.deleteTransplant);
 
-    });
-});
 
-router.post('/transplants', (req, res) => {
-    const{errors, isValid} = serverSideValidateTask(req.body);
-    if(isValid){
-        const{
-            name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} = req.body;
-
-        Transplant.create({name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} ,
-
-            function(err, result){
-                if(err){
-                    console.log(err);
-                    res.status(500).json({errors: {global: "mongodb errored while saving transplant"}});
-                }else{
-                    delete result.__v;
-                    res.status(200).json({transplant: result});
-                }
-            });
-    }else{
-        res.status(400).json({errors});
-    }
-});
-
-router.delete('/transplants/:_id', (req,res)=> {
-    deleteObject(Transplant, req.params._id, res);
-})
 
 router.put('/transplants', (req, res) => {
     console.log(req.body);

@@ -40,7 +40,7 @@ class CreateTransplantModal extends Component {
             unit: 'kg',
             price: '',
             store: '',
-            product: ''
+            currency:'CAD',
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -91,7 +91,7 @@ class CreateTransplantModal extends Component {
                 value: this.state.quantity,
             }];
 
-            //create seed
+            //create transplant
             const new_transplant = {
                 name: this.state.crop,
                 log: first_log,
@@ -103,8 +103,10 @@ class CreateTransplantModal extends Component {
                 weight: this.state.weight,
                 product: this.state.product,
                 store: this.state.store,
-                price: this.state.price
+                price: this.state.price,
+                currency: this.state.currency                
             };
+            debugger
 
             this.setState({loading: true});
             this.props.SaveTransplant(new_transplant).then(
@@ -145,14 +147,15 @@ class CreateTransplantModal extends Component {
                 errors.store = "This field is required";
             }
 
-            if(this.state.product.length == 0){
-                errors.product = "This field is required";
-            }
             this.setState({errors})
         }
     }
 
     handleSelect(event, index, value){this.setState({unit: value});}
+
+    handleCurrencyChange(event, index, value){
+        this.setState({currency: value});
+    }
 
     render() {
         const actions = [
@@ -238,14 +241,37 @@ class CreateTransplantModal extends Component {
                             value={this.state.quantity}
                             errorText={this.state.errors.quantity}/>
                         <h3>Product Detail</h3>
-                        <TextField
-                            hintText="Enter Product Name"
-                            floatingLabelText="Product"
-                            name="product"
-                            onChange={this.handleChange}
-                            fullWidth={true}
-                            value={this.state.product}
-                            errorText={this.state.errors.product}/>
+                              <div className="columns">
+                                    <div className="column is-8-desktop">
+                                        <TextField
+                                            hintText="Enter Price"
+                                            floatingLabelText="Price"
+                                            name="price"
+                                            type="number"
+                                            onChange={this.handleChange}
+                                            fullWidth={true}
+                                            value={this.state.price}
+                                            errorText={this.state.errors.price}/>
+                                    </div>
+                                <div className="column is-4-desktop">
+
+                                <SelectField
+                                    floatingLabelText="Currency"
+                                    onChange={this.handleCurrencyChange}
+                                    id="currency"
+                                    autoWidth={false}
+                                    style={{width:"100%"}}
+                                    value={this.state.currency}
+                                    errorText={this.state.errors.currency}>
+                                    {Object.keys(this.props.currencies).map(e=>
+                                        <MenuItem value={e} 
+                                        label={`${e} - ${this.props.currencies[e]}`} 
+                                        primaryText={`${e} - ${this.props.currencies[e]}`}/>)
+                                    }
+                                </SelectField>
+                            </div>
+                         </div>
+
                         <TextField
                             hintText="Enter Store Name"
                             floatingLabelText="Store"
@@ -254,17 +280,6 @@ class CreateTransplantModal extends Component {
                             fullWidth={true}
                             value={this.state.store}
                             errorText={this.state.errors.store}/>
-
-                        <TextField
-                            hintText="Enter Price"
-                            floatingLabelText="Price"
-                            name="price"
-                            type="number"
-                            onChange={this.handleChange}
-                            fullWidth={true}
-                            value={this.state.price}
-                            errorText={this.state.errors.price}/>
-
                     </form>
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
@@ -284,6 +299,13 @@ class CreateTransplantModal extends Component {
 }
 
 
+const mapStateToProps = (state) => {
+    return {
+        currencies: state.currency,
+    }
+};
 
-export default connect(()=>{}, {SaveTransplant})(CreateTransplantModal);
+
+
+export default connect(mapStateToProps, {SaveTransplant})(CreateTransplantModal);
 

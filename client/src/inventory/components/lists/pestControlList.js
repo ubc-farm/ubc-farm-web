@@ -40,7 +40,6 @@ class PestControlList extends Component {
         {title:'Product name',toolTip:'Sort by Product name'},
         {title:'Application Rate',toolTip:'Sort by Application Rate'},
         {title:'Mix ratio (Water : Mix)',toolTip:'Sort by Mix ratio'},
-        {title:'Application Location',toolTip:'Sort by Application Location'},
         {title:'Entry Interval',toolTip:'Sort by Entry Interval'},
         {title:'Harvest Interval',toolTip:'Sort by Harvest Interval'},
         {title:'Active Ingredient',toolTip:'Sort by Active Ingredient'},
@@ -55,7 +54,6 @@ class PestControlList extends Component {
                 name:{title:item.name},
                 rate:{title:item.rate},
                 ratio:{title:item.ratio},
-                location:{title:item.location}, //, isEditable:true, func:logPesticide
                 entry:{title:item.entry},
                 harvest:{title:item.harvest},
                 active:{title:item.active},

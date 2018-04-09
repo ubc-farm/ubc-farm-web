@@ -1,6 +1,6 @@
 
 function getAllObject(obj){
-        obj.find({}).lean().exec(function (err, fields) {
+        return obj.find({}).lean().exec(function (err, fields) {
         if (err) {
             throw err
         } else {

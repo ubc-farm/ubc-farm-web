@@ -2,11 +2,11 @@ let mongoose = require('mongoose');
 let Seed = require('mongoose').model('Seed');
 let objectActions = require('./objectController');
 
-function getSeeds(req, res){
+async function getSeeds(req, res){
 
 	try{
-		let returnObject = objectActions.getAllObject(Seed);
-		res.send({returnObject});
+		let returnObject = await objectActions.getAllObject(Seed);
+		res.send({items:returnObject});
 	}catch(err){
 		return res.status(400).json("There was an error retriving seeds "+err);
 	}
@@ -26,9 +26,9 @@ function isSeedValid(data){
 
 function postSeeds(req,res){
     if(isSeedValid(req.body)){
-        const {name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} = req.body;
-
-        Seed.create({name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price} ,
+        const {name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price, currency} = req.body;
+        debugger
+        Seed.create({name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price, currency} ,
 
             function(err, result){
                 if(err){

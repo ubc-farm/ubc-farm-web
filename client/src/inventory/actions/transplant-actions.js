@@ -58,7 +58,6 @@ export function AddTransplant(transplant){
 }
 
 export function SaveTransplant(data){
-    console.log(data);
     return dispatch => {
         return fetch('/data/transplants', {
             method: 'post',

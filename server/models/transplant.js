@@ -18,7 +18,8 @@ const TransplantSchema = new mongoose.Schema({
     weight: Number,
     product: String,
     store: String,
-    price: Number
+    price: Number,
+    currency:String
 });
 
 module.exports = mongoose.model('Transplant', TransplantSchema);

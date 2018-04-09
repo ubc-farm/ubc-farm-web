@@ -22,6 +22,7 @@ const FertilizerSchema = new mongoose.Schema({
     k2o: Number,
     p2o5: Number,
     price: Number,
+    currency: String
 });
 
 module.exports = mongoose.model('Fertilizer', FertilizerSchema);
