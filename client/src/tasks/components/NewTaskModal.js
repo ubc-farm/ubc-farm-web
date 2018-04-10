@@ -207,11 +207,11 @@ class NewTaskModal extends Component {
             <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%'}}>
                 <div style={{minWidth: '100%', height: '100%'}}>
 
-                    <FlatButton label="New Task" onTouchTap={this.handleOpen} style={this.props.buttonStyle} />
+                    <FlatButton label="Schedule Task" onTouchTap={this.handleOpen} style={this.props.buttonStyle} />
                         {/*labelStyle={{color: '#FFFFFF'}} style={{}} backgroundColor={'#8AA62F'} hoverColor={"#a4c639"}*/}
 
                     <Dialog
-                        title="Create New Task"
+                        title="Schedule a task"
                         actions={actions}
                         modal={false}
                         open={this.state.open}
