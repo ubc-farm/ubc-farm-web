@@ -53,6 +53,28 @@ const inventoryList = [
     <CreateVehicleModal/>,
     <CreateHarvestedModal/>,
 ];
+
+//list of age groups
+/*const ageGroupList = [
+    {value: 0, text: '0-5'},
+    {value: 1, text: '6-10'},
+    {value: 2, text: '11-15'},
+    {value: 3, text: '16-20'},
+    {value: 4, text: '21-30'},
+    {value: 5, text: '31-40'},
+    {value: 6, text: '41-100'},
+
+];*/
+
+const ageGroupList = [
+    '0-5',
+    '6-10',
+    '11-15',
+    '16-20',
+    '21-30',
+    '31-40',
+    '41-100',
+];
 class TaskLogModal extends React.Component {
     componentDidMount(){
         this.props.fetchTaskLogs();
@@ -99,6 +121,7 @@ class TaskLogModal extends React.Component {
         this.handleSamplingDepth = this.handleSamplingDepth.bind(this);
         this.handleSocialAgeGroup = this.handleSocialAgeGroup.bind(this);
         this.handleNewItemInv = this.handleNewItemInv.bind(this);
+        this.ageGroupListCreator = this.ageGroupListCreator.bind(this);
 
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -231,6 +254,18 @@ class TaskLogModal extends React.Component {
             //this.handleClose();
         }
     };
+
+    ageGroupListCreator(agelist){
+        return ageGroupList.map((group) => (
+            <MenuItem
+                key={group}
+                insetChildren={true}
+                checked={agelist && agelist.indexOf(group) > -1}
+                value={group}
+                primaryText={group}
+            />
+        ));
+    }
 
     taskNameConverter(taskName){
         let optionComponent;
@@ -393,11 +428,7 @@ class TaskLogModal extends React.Component {
                 optionComponent = <div>
                     <div>Age Group</div>
                     <SelectField value={this.state.ageGroups} onChange={this.handleSocialAgeGroup} multiple={true}>
-                        <MenuItem value={"0-5"} primaryText="0-5" />
-                        <MenuItem value={"6-10"} primaryText="6-10" />
-                        <MenuItem value={"11-15"} primaryText="11-15" />
-                        <MenuItem value={"16-20"} primaryText="16-20" />
-                        <MenuItem value={"21-30"} primaryText="21-30" />
+                        {this.ageGroupListCreator(ageGroupList)}
                     </SelectField>
                 </div>;
                 break;
@@ -409,6 +440,8 @@ class TaskLogModal extends React.Component {
 
         return optionComponent;
     }
+
+
 
 
     render(){
