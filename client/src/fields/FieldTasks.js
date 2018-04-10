@@ -79,14 +79,14 @@ class FieldTasks extends Component{
                     <Tab label="List" value="list">
                         <div style={{ marginTop: "20px"}}>
                             <div>
-                                <FieldTaskList />
+                                <FieldTaskList maxHeight={"500px"}/>
                             </div>
                         </div>
                     </Tab>
                     <Tab label="Timeline" value="timeline">
                         <div style={{ marginTop: "20px"}}>
                             <div>
-                                <FieldTimeLine/>
+                                <FieldTimeLine maxHeight={"500px"}/>
                             </div>
                         </div>
                     </Tab>

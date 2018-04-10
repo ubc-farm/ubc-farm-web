@@ -11,7 +11,8 @@ import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import Divider from 'material-ui/Divider';
 import PropTypes from 'prop-types';
 import ActionInfo from 'material-ui/svg-icons/action/info';
-import {selectInventory} from '../actions/select-inventory'
+import {selectInventory} from '../actions/select-inventory';
+
 
 let InventoryList = makeSelectable(List);
 

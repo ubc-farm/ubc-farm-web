@@ -2,9 +2,13 @@
  * Created by Xingyu on 6/2/2017.
  */
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
+import TaskLogModal from './TaskLogModal';
+import LogListModal from './LogListModal';
 import DeleteTaskModal from '../components/DeleteTaskModal';
+
 import {
     Table,
     TableBody,
@@ -15,8 +19,31 @@ import {
     TableRowColumn,
 
 } from 'material-ui/Table';
-import PropTypes from 'prop-types';
-import TaskLogModal from './TaskLogModal';
+/*styles*/
+const localStyle = {
+  pointerContainer: {
+      cursor: 'pointer',
+  },
+    shortH: {
+      width: 200, verticalAlign: 'middle', cursor: 'pointer'
+    },
+    mediumH: {
+      width: 300, verticalAlign: 'middle', cursor: 'pointer'
+    },
+    longH: {
+      width: 500, verticalAlign: 'middle', cursor: 'pointer'
+    },
+    short: {
+        width: 200, verticalAlign: 'middle',
+    },
+    medium: {
+        width: 300, verticalAlign: 'middle',
+    },
+    long: {
+        width: 500, verticalAlign: 'middle',
+    }
+
+};
 /**
  * A more complex example, allowing the table height to be set, and key boolean properties to be toggled.
  */
@@ -35,14 +62,15 @@ class TaskList extends Component {
             enableSelectAll: false,
             deselectOnClickaway: true,
             showCheckboxes: true,
-            height: '300px',
+            height: '500px',
         };
 
         this.handleToggle = this.handleToggle.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.fieldNameFromId = this.fieldNameFromId.bind(this);
         this.dateTransformer = this.dateTransformer.bind(this);
-        this.typeTransftormer = this.typeTransformer.bind(this);
+        this.typeTransformer = this.typeTransformer.bind(this);
+        this.handleSort = this.handleSort.bind(this);
     }
 
     fieldNameFromId(fieldId){
@@ -110,6 +138,10 @@ class TaskList extends Component {
         this.setState({height: event.target.value});
     }
 
+    handleSort(tasks){
+        console.log("sorting tasks");
+    }
+
     render() {
         return (
             <div>
@@ -118,6 +150,7 @@ class TaskList extends Component {
                     fixedFooter={false}
                     selectable={false}
                     multiSelectable={false}
+                    height={this.state.height}
                 >
                     <TableHeader
                         displaySelectAll={false}
@@ -127,10 +160,10 @@ class TaskList extends Component {
                     >
 
                         <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Field" style={{verticalAlign: 'middle'}}>Field</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Start Date" style={{verticalAlign: 'middle'}}>Start Date</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by End Date" style={{verticalAlign: 'middle'}}>End Date</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Type" onClick={() => this.handleSort(this.props.tasks)} style={localStyle.shortH}><div  style={{cursor: 'pointer'}}>Type</div></TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Field" onClick={() => this.handleSort(this.props.tasks)} style={localStyle.shortH}><div  style={{cursor: 'pointer'}}>Field</div></TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Start Date" onClick={() => this.handleSort(this.props.tasks)} style={localStyle.mediumH}><div  style={{cursor: 'pointer'}}>Start Date</div></TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by End Date" onClick={() => this.handleSort(this.props.tasks)} style={localStyle.mediumH}><div style={{cursor: 'pointer'}}>End Date</div></TableHeaderColumn>
                             <TableHeaderColumn/>
 
                         </TableRow>
@@ -140,20 +173,24 @@ class TaskList extends Component {
                         deselectOnClickaway={true}
                         showRowHover={true}
                         stripedRows={false}
+
                     >
                         {this.props.tasks.map( (task, index) => (
                             <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.typeTransftormer(task.type)}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.fieldNameFromId(task.field)}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.startDate)}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.endDate)}</TableRowColumn>
+                                <TableRowColumn style={localStyle.short}>{this.typeTransformer(task.type)}</TableRowColumn>
+                                <TableRowColumn style={localStyle.short}>{this.fieldNameFromId(task.field)}</TableRowColumn>
+                                <TableRowColumn style={localStyle.mediumH}>{this.dateTransformer(task.startDate)}</TableRowColumn>
+                                <TableRowColumn style={localStyle.mediumH}>{this.dateTransformer(task.endDate)}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>
                                     <div className="columns">
                                         <div className="column">
-                                    <DeleteTaskModal task = {task}/>
+                                            <DeleteTaskModal task = {task}/>
                                         </div>
                                         <div className="column">
-                                            <TaskLogModal task={task} fieldName={this.fieldNameFromId(task.field)} typeTransformer={this.typeTransformer} dateTransformer={this.dateTransformer}/>
+                                            <TaskLogModal task={task} fieldName={this.fieldNameFromId(task.field)}/>
+                                        </div>
+                                        <div className="column">
+                                            <LogListModal task={task} typeTransformer={this.typeTransformer} dateTransformer={this.dateTransformer}/>
                                         </div>
                                     </div>
                                 </TableRowColumn>
@@ -164,16 +201,11 @@ class TaskList extends Component {
                         adjustForCheckbox={false}
                     >
                         <TableRow>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Type</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Field</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Start Date</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>End Date</TableRowColumn>
+                            <TableRowColumn tooltip="Sort by Type" onClick={() => this.handleSort(this.props.tasks)} style={localStyle.shortH}>Type</TableRowColumn>
+                            <TableRowColumn tooltip="Sort by Field" onClick={() => this.handleSort(this.props.tasks)} style={localStyle.shortH}>Field</TableRowColumn>
+                            <TableRowColumn tooltip="Sort by Start Date" onClick={() => this.handleSort(this.props.tasks)} style={localStyle.mediumH}>Start Date</TableRowColumn>
+                            <TableRowColumn tooltip="Sort by End Date" onClick={() => this.handleSort(this.props.tasks)} style={localStyle.mediumH}>End Date</TableRowColumn>
                             <TableHeaderColumn/>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn colSpan="5" style={{textAlign: 'center'}}>
-                                Super Footer
-                            </TableRowColumn>
                         </TableRow>
                     </TableFooter>
                 </Table>

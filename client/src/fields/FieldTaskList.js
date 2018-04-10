@@ -129,6 +129,7 @@ class FieldTaskList extends Component {
                     selectable={false}
                     multiSelectable={false}
                     style={{borderLeft: 'solid 2px #f5f5f5',borderBottom: 'solid 2px #f5f5f5'}}
+                    height="300px"
 
 
                 >
@@ -204,6 +205,7 @@ FieldTaskList.propTypes = {
     fieldTasks: PropTypes.array.isRequired,
     fields: PropTypes.array.isRequired,
     tasks: PropTypes.array.isRequired,
+    maxHeight: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => {

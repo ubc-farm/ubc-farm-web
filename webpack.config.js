@@ -32,7 +32,6 @@ module.exports = {
             test: /\.jsx?$/,
             include: path.join(__dirname, '/client/src'),
             loaders: [
-                'react-hot',
                 'babel-loader?' +
                     'presets[]=es2015,' +
                     'presets[]=react'
