@@ -1,21 +1,21 @@
 let mongoose = require('mongoose');
-let Seed = require('mongoose').model('Seed');
+let Transplant = require('mongoose').model('Transplant');
 let objectActions = require('./objectController');
 
-async function getSeeds(req, res){
+async function getTransplants(req, res){
 
 	try{
-		let returnObject = await objectActions.getAllObject(Seed);
+		let returnObject = await objectActions.getAllObject(Transplant);
 		res.send({items:returnObject});
 	}catch(err){
-		return res.status(400).json("There was an error retriving seeds "+err);
+		return res.status(400).json("There was an error retriving transplants "+err);
 	}
 }
 
 //will return true if seed is valid false otherwise
-function isSeedValid(data){
+function isTransplantValid(data){
 	let isValid = true;
-    let validationRulesLenghtMoreThan0 = ['name', 'log', 'quantity', 'unit', 'crop', 'variety', 'weight', 'product', 'store', 'price'];
+    let validationRulesLenghtMoreThan0 = ['name', 'suppliers', 'log', 'currency', 'quantity', 'unit', 'crop', 'variety', 'weight', 'product', 'price'];
     validationRulesLenghtMoreThan0.forEach((rule) =>{
         if(data[rule] && !data[rule].toString().length){
         	isValid = isValid && false
@@ -24,18 +24,19 @@ function isSeedValid(data){
     return isValid;
 }
 
-function postSeeds(req,res){
-    if(isSeedValid(req.body)){
-        const {name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price, currency} = req.body;
-        Seed.create({name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price, currency} ,
+function postTrasnsplants(req,res){
+    if(isTransplantValid(req.body)){
+        const {name, suppliers, predictedYield, log, currency, quantity, unit, crop, variety, weight, product,n,p,k,maturity,nutrientReqUnit, price} = req.body;
+
+        Transplant.create({name, predictedYield, suppliers, currency,log, quantity, unit, crop, variety, weight, product,n,p,k,maturity,nutrientReqUnit, price} ,
 
             function(err, result){
                 if(err){
                     console.log(err);
-                    res.status(500).json({errors: {global: "There was some error trying to save the seed"}});
+                    res.status(500).json({errors: {global: "There was some error trying to save the transplant object"}});
                 }else{
                     delete result.__v;
-                    res.status(200).json({seed: result});
+                    res.status(200).json({transplant: result});
                 }
             });
     }else{
@@ -43,13 +44,13 @@ function postSeeds(req,res){
     }
 }
 
-function putSeeds(req,res){
+function putTransplants(req,res){
 
 
-    if(isSeedValid(req.body)){
+    if(isTransplantValid(req.body)){
         let timeStamp = req.body.log.timestamp;
         let value = req.body.log.value;
-        Seed.findByIdAndUpdate(
+        Transplant.findByIdAndUpdate(
             req.body.id,
             {
                 quantity: req.body.log.value,
@@ -74,8 +75,8 @@ function putSeeds(req,res){
     }
 }
 
-function deleteSeed(req,res){
-	objectActions.deleteObject(Seed, req.params.seed_id, res);
+function deleteTransplant(req,res){
+	objectActions.deleteObject(Transplant, req.params.transplant_id, res);
 }
 
-module.exports = {getSeeds,postSeeds,putSeeds,deleteSeed}
+module.exports = {getTransplants,postTrasnsplants,putTransplants,deleteTransplant}

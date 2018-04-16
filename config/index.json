@@ -1,4 +1,5 @@
 {
-  "dbUri": "mongodb://ubcfarm2:tomatoes@ds141960.mlab.com:41960/ubc-farm-test",
+  "dbUri":"mongodb://ubcfarm2:tomatoes@ds141960.mlab.com:41960/ubc-farm-test",
+  "localDbUri": "mongodb://localhost:27017:ubcfarm",
   "jwtSecret": "a secret phrase!!"
 }

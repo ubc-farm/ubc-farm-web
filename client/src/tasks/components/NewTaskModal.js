@@ -7,13 +7,14 @@ import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import AutoComplete from 'material-ui/AutoComplete';
 import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider'
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField'
 import Toggle from 'material-ui/Toggle';
 import {SaveTask} from '../actions/save-task';
 import { Link, IndexLink } from 'react-router';
-import SelectField from 'material-ui/SelectField';
 
 const styles = {
     toggle: {
@@ -21,24 +22,81 @@ const styles = {
     },
 };
 
-const typeData =
-    ["seeding",
-        "irrigation",
-        "pest-control",
-        "transplanting",
-        "soil sampling",
-        "scouting harvest",
-        "scouting pests",
-        "fertilizing",
-        "bed preparation",
-        "packing",
-        "washing",
-        "washing and packing",
-        "social event",
-        "other",
-    ];
+const typeData = [
+    {
+        text: 'seeding',
+        value: (
+            <MenuItem
+                primaryText="seeding"
+                secondaryText="&#127793;"
+            />
+        ),
+    },
+    {
+        text: 'irrigation',
+        value: (
+            <MenuItem
+                primaryText="irrigation"
+                secondaryText="&#128166;"
+            />
+        ),
+    },
+    {
+        text: 'pest-control',
+        value: (
+            <MenuItem
+                primaryText="pest-control"
+                secondaryText="&#128028;"
+            />
+        ),
+    },
+    {
+        text: 'transplanting',
+        value: (
+            <MenuItem
+                primaryText="transplanting"
+                secondaryText="&#127807;"
+            />
+        ),
+    },
+    {
+        text: 'soil-sampling',
+        value: (
+            <MenuItem
+                primaryText="soil-sampling"
+                secondaryText="&#128300;"
+            />
+        ),
+    },
+    {
+        text: 'scouting-harvest',
+        value: (
+            <MenuItem
+                primaryText="scouting-harvest"
+                secondaryText="&#128203;"
+            />
+        ),
+    },
+    {
+        text: 'scouting-pests',
+        value: (
+            <MenuItem
+                primaryText="scouting-pests"
+                secondaryText="&#128204;"
+            />
+        ),
+    },
+    {
+        text: 'fertilizing',
+        value: (
+            <MenuItem
+                primaryText="fertilizing"
+                secondaryText="&#128169;"
+            />
+        ),
+    },
 
-
+];
 
 /**
  * Modal for creating new Task
@@ -51,15 +109,15 @@ class NewTaskModal extends Component {
         super(props);
 
         this.state = {
-            fields: [],
+            fieldsMenuData: [],
             multiDay: false,
             errors: {},
             open: false,
             validated: false,
             loading: false,
             done: false,
-            startDate: {},
-            endDate: {},
+            startDate: '',
+            endDate: '',
             field:'',
             type:''
         };
@@ -77,7 +135,7 @@ class NewTaskModal extends Component {
     };
 
     componentDidMount() {
-        this.state.fields = this.createFieldsMenu;
+        this.state.fieldsMenuData = this.createFieldsMenu;
         if(this.props.isFieldProvided){
             this.setState({field: this.props.field._id});
         }
@@ -134,13 +192,13 @@ class NewTaskModal extends Component {
         this.setState({endDate: date});
     };
 
-    handleFieldChange(event,index,value){
-        console.log(this.props.fields[index]);
-        this.setState({field: this.props.fields[index]._id});
+    handleFieldChange(chosenRequest,index){
+        console.log(this.props.fieldsMenuData[index]);
+        this.setState({field: this.props.fieldsMenuData[index].id});
     };
 
-    handleTypeChange(event, index, value){
-        this.setState({type: value});
+    handleTypeChange(typeString){
+        this.setState({type: typeString});
     };
 
     handleDescriptionChange(event){
@@ -153,39 +211,55 @@ class NewTaskModal extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-
-        //validation
-        let errors = {};
-        this.setState({errors});
-
         //if valid, create post request
-        const isValid = Object.keys(errors).length === 0;
-        if (isValid) {
-            const {field,
-                type,
-                description,
-                time,
-                multiDay,
-                startDate,
-                endDate} = this.state;
 
-            this.setState({loading: true});
+        this.setState({errors:{}},()=>{
+            this.validateForm();
 
-            this.props.SaveTask({field,
-                type,
-                description,
-                time,
-                multiDay,
-                startDate,
-                endDate}).then(
-                (response) => {
-                    console.log("should catch error here")
-                }
-            );
-            this.setState({done: true, loading: false});
-            this.handleClose();
-        }
+            let errors = this.state.errors;
+            
+            if(Object.keys(errors).length === 0 && errors.constructor === Object){
+                const {field,
+                    type,
+                    description,
+                    time,
+                    multiDay,
+                    startDate,
+                    endDate} = this.state;
+
+                this.setState({loading: true});
+
+                this.props.SaveTask({field,
+                    type,
+                    description,
+                    time,
+                    multiDay,
+                    startDate,
+                    endDate}).then(
+                    (response) => {
+
+                    }).catch((error)=>{
+                        console.log("There was an error "+error);
+                    });
+                this.setState({done: true, loading: false});
+                this.handleClose();
+            }
+        })
     };
+
+
+    validateForm(){
+        //lenght grater than 0
+        let validationRulesLenghtG0 = ['startDate','endDate','type','field'];
+        let errors = this.state.errors;
+        validationRulesLenghtG0.forEach((rule) =>{
+            console.log("The lenght is "+this.state[rule]);
+            if(this.state[rule].length == 0){
+                errors[rule] = "This field is mandatory";
+            }
+        });
+        this.setState({errors});
+    }
 
     render() {
         const actions = [
@@ -207,11 +281,11 @@ class NewTaskModal extends Component {
             <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%'}}>
                 <div style={{minWidth: '100%', height: '100%'}}>
 
-                    <FlatButton label="Schedule Task" onTouchTap={this.handleOpen} style={this.props.buttonStyle} />
+                    <FlatButton label="New Task" onTouchTap={this.handleOpen} style={this.props.buttonStyle} />
                         {/*labelStyle={{color: '#FFFFFF'}} style={{}} backgroundColor={'#8AA62F'} hoverColor={"#a4c639"}*/}
 
                     <Dialog
-                        title="Schedule a task"
+                        title="Create New Task"
                         actions={actions}
                         modal={false}
                         open={this.state.open}
@@ -246,7 +320,7 @@ class NewTaskModal extends Component {
                                                 onChange={this.handleStartDateChange}
                                                 name="startDate"
                                                 value={this.state.startDate}
-                                                errorText={this.state.errors.name}
+                                                errorText={this.state.errors.startDate}
                                             />
 
                                         </div>
@@ -258,7 +332,7 @@ class NewTaskModal extends Component {
                                                 onChange={this.handleEndDateChange}
                                                 name="endDate"
                                                 value={this.state.endDate}
-                                                errorText={this.state.errors.name}
+                                                errorText={this.state.errors.endDate}
                                             />
                                         </div>
                                     </div>
@@ -272,7 +346,7 @@ class NewTaskModal extends Component {
                                                     onChange={this.handleStartDateChange}
                                                     name="startDate"
                                                     value={this.state.startDate}
-                                                    errorText={this.state.errors.name}
+                                                    errorText={this.state.errors.startDate}
                                                 />
 
                                             </div>
@@ -288,25 +362,19 @@ class NewTaskModal extends Component {
 
                                         ) : (
                                             <div className="column">
-                                                <SelectField
-                                                    floatingLabelText="Field"
-                                                    fullWidth={true}
-                                                    onChange={this.handleFieldChange}
-                                                    name="field"
-                                                    value={this.state.field}
-                                                    maxHeight={300}
-                                                >
-                                                    { this.props.fields.map( (field) => (
-                                                        <MenuItem
-                                                            primaryText={field.name}
-                                                            value={field._id}
-                                                            key={field._id}
-                                                        />))
-                                                    }
-                                                </SelectField>
+                                        <AutoComplete
+                                        floatingLabelText="Field"
+                                        filter={AutoComplete.caseInsensitiveFilter}
+                                        dataSourceConfig={{text: 'text', value: 'value', id:'id'}}
+                                        dataSource={this.props.fieldsMenuData}
+                                        openOnFocus={true}
+                                        fullWidth={true}
+                                        onNewRequest={this.handleFieldChange}
+                                        name="field"
+                                        value={this.state.field}
+                                        errorText={this.state.errors.field}
+                                        />
                                             </div>
-
-
 
 
                                         )}
@@ -315,22 +383,17 @@ class NewTaskModal extends Component {
                                 <div className="column">
 
 
-                                    <SelectField
+                                    <AutoComplete
                                         floatingLabelText="Activity Type"
+                                        filter={AutoComplete.caseInsensitiveFilter}
+                                        dataSource={typeData}
+                                        openOnFocus={true}
                                         fullWidth={true}
-                                        onChange={this.handleTypeChange}
+                                        onUpdateInput={this.handleTypeChange}
                                         name="type"
                                         value={this.state.type}
-                                        maxHeight={300}
-                                    >
-                                    { typeData.map( (taskName) => (
-                                        <MenuItem
-                                            primaryText={taskName}
-                                            value={taskName}
-                                            key={taskName}
-                                        />))
-                                    }
-                                    </SelectField>
+                                        errorText={this.state.errors.type}
+                                    />
 
                                 </div>
 
@@ -362,14 +425,26 @@ class NewTaskModal extends Component {
 }
 
 NewTaskModal.propTypes = {
-    fields: PropTypes.array.isRequired,
+    fieldsMenuData: PropTypes.array.isRequired,
     isFieldProvided: PropTypes.bool.isRequired,
     buttonStyle: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
-        fields: state.fields,
+        fieldsMenuData: state.fields.map((field) => {
+            return {
+                text: field.name,
+                value: (
+                    <MenuItem
+                        key={field._id}
+                        id={field._id}
+                        primaryText={field.name}
+                    />
+                ),
+                id: field._id
+            }
+        })
     }
 };
 

@@ -39,18 +39,20 @@ class FertilizerList extends Component {
     render() {
         //modal 
         let columns = [
-        {title:'Crop',toolTip:'Sort by Crop'},
+        {title:'Type',toolTip:'Sort by Type'},
         {title:'Product name',toolTip:'Sort by Product name'},
-        {title:'Application rate',toolTip:'Sort by Application rate'},
-        {title:'Mix ratio',toolTip:'Sort by Mix ratio'},
+        // {title:'Application rate',toolTip:'Sort by Application rate'},
+        // {title:'Mix ratio',toolTip:'Sort by Mix ratio'},
         {title:'TC', toolTip:'TC'},
         {title:'NO3', toolTip:'NO3'},
         {title:'NH4', toolTip:'NH4'},
         {title:'K2O', toolTip:'K2O'},
         {title:'P2O5', toolTip:'P2O5'},
+        {title:'H2O', toolTip:'H2O'},
         {title:'Price',toolTip:'Sort by Price'},
         {title:'Currency',toolTip:'Sort by Price'},
         {title:'Quantity',toolTip:'Sort by Quantity'},
+        {title:'Quantity unit',toolTip:'Sort by Quantity unit'},
         {title:'Delete',toolTip:'Delete item'}];
 
         var itemList = [];
@@ -60,16 +62,18 @@ class FertilizerList extends Component {
                 _id:item._id,
                 type:{title:item.type},
                 name:{title:item.name},
-                rate:{title:item.rate},
-                ratio:{title:item.ratio},
+                // rate:{title:item.rate},
+                // ratio:{title:item.ratio},
                 TC:{title:item.tc},
                 NO3:{title:item.no3},
                 NH4:{title:item.nh4},
                 K2O:{title:item.k2o},
+                H2O:{title:item.h2o},
                 P2O5:{title:item.p2o5},
                 price:{title:item.price || "N/A"},
                 currency:{title:item.currency},
                 quantity:{title:item.quantity, isEditable:true, func:logFertilizer},
+                quantityUnit:{title:item.quantityUnit},
                 deleteButton:{deleteFunc:deleteFertilizer}
             };
             return newItem;

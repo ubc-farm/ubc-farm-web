@@ -8,19 +8,18 @@ let inventory_log_schema = require('./log_inventory');
 const FertilizerSchema = new mongoose.Schema({
 
     name: String,
-    suppliers:[],
     log: [inventory_log_schema],
     quantity: Number,
+    quantityUnit:String,
     unit: String,
 
     type: String,
-    rate: String,
-    ratio: String,
     tc: Number,
     no3: Number,
     nh4: Number,
     k2o: Number,
     p2o5: Number,
+    h20:Number,
     price: Number,
     currency: String
 });

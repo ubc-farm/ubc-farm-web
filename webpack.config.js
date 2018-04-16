@@ -45,6 +45,9 @@ module.exports = {
         ],
         noParse: /\.node_modules\/object-hash\/dist\/object_hash.js/,
     },
+    devServer: {
+         hot: true
+        },    
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),

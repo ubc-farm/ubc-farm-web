@@ -94,7 +94,7 @@ class EditableListItem extends Component {
                                         />                                
                                 </TableRowColumn>) 
                         } else{
-                            return (<TableRowColumn key={key} style={{verticalAlign: 'middle'}}>{item[key].title}</TableRowColumn>)
+                            return (<TableRowColumn id="tyus123"  key={key} style={{verticalAlign: 'middle', maxWidth:'130px' }}>{item[key].title}</TableRowColumn>)
                         }
                       }
                     })};

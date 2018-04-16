@@ -19,6 +19,8 @@ const PesticideSchema = new mongoose.Schema({
     location: String,
     entry: Number,
     harvest: Number,
+    price:Number,
+    currency:String,
     active: String,
     percentage: Number
 

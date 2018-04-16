@@ -147,7 +147,7 @@ class CreateSeedModal extends Component {
 
     validateForm(){
         if(!(this.state.crop && this.state.variety && this.state.quantity && this.state.weight)){
-            var errors = {};
+            var errors = this.state.errors;
 
             if(this.state.crop.length == 0){
                 errors.crop = "This field is required";
@@ -310,6 +310,7 @@ class CreateSeedModal extends Component {
                                     value={this.state.quantity}
                                     errorText={this.state.errors.quantity}/>
 
+
                             </form>
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
@@ -330,6 +331,7 @@ class CreateSeedModal extends Component {
 const mapStateToProps = (state) => {
     return {
         currencies: state.currency,
+        field: state.selectedField
     }
 };
 

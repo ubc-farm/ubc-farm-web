@@ -36,9 +36,11 @@ class CreateFertilizerModal extends Component {
             no3: '',
             nh4: '',
             k2o: '',
+            h2o:'',
             p2o5: '',
             price: '',
             quantity: 1,
+            quantityUnit:'n/a',
             errors: {},
             open: false,
             validated: false,
@@ -113,14 +115,14 @@ class CreateFertilizerModal extends Component {
                 unit: 'fertilizer',
 
                 type: this.state.type,
-                rate: this.state.rate,
-                ratio: this.state.ratio,
                 tc: this.state.tc,
                 no3: this.state.no3,
                 nh4: this.state.nh4,
                 k2o: this.state.k2o,
+                h2o:this.state.h2o,
                 p2o5: this.state.p2o5,
                 price: this.state.price,
+                quantityUnit: this.state.quantityUnit,
                 currency: this.state.currency
             };
 
@@ -134,12 +136,11 @@ class CreateFertilizerModal extends Component {
                         unit: 'fertilizer',
 
                         type: '',
-                        rate: '',
-                        ratio:'',
                         tc:'',
                         no3:'',
                         nh4:'',
                         k2o: '',
+                        h2o:'',
                         p2o5: '',
                         price: '',                        
                     });
@@ -156,9 +157,9 @@ class CreateFertilizerModal extends Component {
     validateForm(){
         if(!(this.state.type.length &&
             this.state.name.length &&
-            this.state.ratio.length && 
             this.state.price.length && 
-            this.state.quantity.length)){
+            this.state.quantity.toString().length && 
+            this.state.quantityUnit.length)){
             let errors = this.state.errors;
 
             if(!this.state.type.length){
@@ -170,17 +171,18 @@ class CreateFertilizerModal extends Component {
                 errors.name = "Quantity field is mandatory";
             }
 
-            if(!this.state.ratio.length){
-                errors.ratio = "Quantity field is mandatory";
-            }
-
             if(!this.state.price.length){
                 errors.price = "Quantity field is mandatory";
             }            
             
-            if(!this.state.quantity.toString().length || this.state.quantity > 0){
+            if(!this.state.quantityUnit.length){
+                errors.quantityUnit = "Quantity unit field is mandatory";
+            }
+
+            if(!this.state.quantity.toString().length || this.state.quantity < 0){
                 errors.quantity = "Quantity field is mandatory";
             }
+
             this.setState({errors});
         }
     }
@@ -232,24 +234,7 @@ class CreateFertilizerModal extends Component {
 
                             fullWidth={true}
                             errorText={this.state.errors.name}/>
-                        <TextField
-                            hintText="Enter Mix Ratio"
-                            floatingLabelText="Mix Ratio"
-                            name="ratio"
-                            onChange={this.handleChange}
-                            value={this.state.ratio}
 
-                            fullWidth={true}
-                            errorText={this.state.errors.ratio}/>
-                        <TextField
-                            hintText="Enter Application Rate"
-                            floatingLabelText="Application Rate"
-                            name="rate"
-                            onChange={this.handleChange}
-                            value={this.state.rate}
-
-                            fullWidth={true}
-                            errorText={this.state.errors.rate}/>
                         <div className="columns">
                             <div className="column">
                                 <TextField
@@ -283,6 +268,16 @@ class CreateFertilizerModal extends Component {
                             </div>
                             <div className="column">
                                 <TextField
+                                    floatingLabelText="H2O%"
+                                    name="h2o"
+                                    type="number"
+                                    onChange={this.handleChange}
+                                    fullWidth={true}
+                                    value={this.state.h2o}
+                                    errorText={this.state.errors.h2o}/>
+                            </div>                            
+                            <div className="column">
+                                <TextField
                                     floatingLabelText="K2O%"
                                     name="k2o"
                                     type="number"
@@ -302,9 +297,6 @@ class CreateFertilizerModal extends Component {
                                     errorText={this.state.errors.p2o5}/>
                             </div>
                         </div>
-
-
-
                               <div className="columns">
                                     <div className="column is-8-desktop">
                                         <TextField
@@ -317,7 +309,7 @@ class CreateFertilizerModal extends Component {
                                             value={this.state.price}
                                             errorText={this.state.errors.price}/>
                                     </div>
-                            <div className="column is-4-desktop">
+                                <div className="column is-4-desktop">
 
                                 <SelectField
                                     floatingLabelText="Currency"
@@ -336,21 +328,39 @@ class CreateFertilizerModal extends Component {
                             </div>
                          </div>
 
+                      <div className="columns">
+                            <div className="column is-8-desktop">
+                                <TextField
+                                    hintText="Enter Quantity"
+                                    floatingLabelText="Quantity"
+                                    name="quantity"
+                                    type="number"
+                                    onChange={this.handleChange}
+                                    fullWidth={true}
+                                    value={this.state.quantity}
+                                    errorText={this.state.errors.quantity}/>
+                            </div>
+                    <div className="column is-4-desktop">
+
+                        <SelectField
+                            floatingLabelText="Measurement unit"
+                            onChange={this.handleSelect}
+                            name="unit"
+                            autoWidth={false}
+                            style={{width:"100%"}}
+                            value={this.state.quantityUnit}
+                            errorText={this.state.errors.quantityUnit}
+                        >
+                            <MenuItem value="n/a" label="n/a" primaryText="n/a"/>
+                            <MenuItem value="kg" label="kg" primaryText="kg"/>
+                            <MenuItem value="lb" label="lb" primaryText="lb"/>
+                        </SelectField>
+                    </div>
+                 </div>
 
 
 
 
-
-
-                        <TextField
-                            hintText="Enter Quantity"
-                            floatingLabelText="Quantity"
-                            name="quantity"
-                            type="number"
-                            onChange={this.handleChange}
-                            fullWidth={true}
-                            value={this.state.quantity}
-                            errorText={this.state.errors.quantity}/>
 
 
 
@@ -370,6 +380,7 @@ class CreateFertilizerModal extends Component {
 
         );
     }
+    handleSelect(event, index, value){this.setState({quantityUnit: value});}
 }
 
 const mapStateToProps = (state) => {

@@ -28,32 +28,33 @@ class EditableList extends Component {
                 </TableRow>);
 
         return (
-                <Table
-                    height={'100%'}
-                    fixedHeader={true}
-                    fixedFooter={false}
-                    selectable={false}
-                    multiSelectable={false}
-                >
-                    <TableHeader
-                        displaySelectAll={false}
-                        adjustForCheckbox={false}
-                        enableSelectAll={false}
-                        style={{verticalAlign: 'middle'}}
+                    <Table
+                        bodyStyle={{overflow:'visible'}}
+                        height={'100%'}
+                        fixedHeader={false} 
+                        style={{ width: "100%", tableLayout: "auto" }}
+                        fixedFooter={false}
+                        selectable={false}
+                        multiSelectable={false}
                     >
-                    {header}
-                    </TableHeader>
-                    <TableBody
-                        displayRowCheckbox={false}
-                        deselectOnClickaway={true}
-                        showRowHover={true}
-                        stripedRows={false}
-                    >
-                    {items.map( (item, index) => (<EditableListItem item={item} key={index}/>))}
+                        <TableHeader
+                            displaySelectAll={false}
+                            adjustForCheckbox={false}
+                            enableSelectAll={false}
+                            style={{verticalAlign: 'middle'}}
+                        >
+                        {header}
+                        </TableHeader>
+                        <TableBody
+                            displayRowCheckbox={false}
+                            deselectOnClickaway={true}
+                            showRowHover={true}
+                            stripedRows={false}
+                        >
+                        {items.map( (item, index) => (<EditableListItem item={item} key={index}/>))}
 
-                    </TableBody>
-
-                </Table>
+                        </TableBody>
+                    </Table>
 
         );
     }

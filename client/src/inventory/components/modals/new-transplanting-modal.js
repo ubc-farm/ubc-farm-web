@@ -40,6 +40,12 @@ class CreateTransplantModal extends Component {
             unit: 'kg',
             price: '',
             store: '',
+            predictedYield:'',
+            n:'',
+            p:'',
+            k:'',
+            maturity:'',
+            nutrientReqUnit:'',
             currency:'CAD',
         };
         this.handleOpen = this.handleOpen.bind(this);
@@ -93,11 +99,16 @@ class CreateTransplantModal extends Component {
 
             //create transplant
             const new_transplant = {
-                name: this.state.crop,
+                name: this.state.name,
                 log: first_log,
                 quantity: this.state.quantity,
                 unit: this.state.unit,
-
+                maturity:this.state.maturity,
+                n:this.state.n,
+                p:this.state.p,
+                k:this.state.k,
+                predictedYield:this.state.predictedYield,
+                nutrientReqUnit:this.state.nutrientReqUnit,
                 crop: this.state.crop,
                 variety: this.state.variety,
                 weight: this.state.weight,
@@ -195,12 +206,20 @@ class CreateTransplantModal extends Component {
                             fullWidth={true}
                             errorText={this.state.errors.crop}/>
                         <TextField
+                            hintText="Enter Product name"
+                            floatingLabelText="Product name"
+                            name="name"
+                            onChange={this.handleChange}
+                            value={this.state.name}
+                            fullWidth={true}
+                            errorText={this.state.errors.name}/>
+
+                        <TextField
                             hintText="Enter Variety"
                             floatingLabelText="Variety"
                             name="variety"
                             onChange={this.handleChange}
                             value={this.state.variety}
-
                             fullWidth={true}
                             errorText={this.state.errors.variety}/>
 
@@ -271,15 +290,66 @@ class CreateTransplantModal extends Component {
                                 </SelectField>
                             </div>
                          </div>
-
+                         <div className="columns">
+                             <div className="column">
+                                <TextField
+                                    hintText="Days to maturity"
+                                    floatingLabelText="Days to maturity"
+                                    name="maturity"
+                                    type="number"
+                                    onChange={this.handleChange}
+                                    fullWidth={true}
+                                    value={this.state.maturity}
+                                    errorText={this.state.errors.maturity}/>
+                            </div>
+                             <div className="column">
+                                    <TextField
+                                        hintText="Predicted yield"
+                                        floatingLabelText="Predicted yield"
+                                        name="predictedYield"
+                                        type="number"
+                                        onChange={this.handleChange}
+                                        fullWidth={true}
+                                        value={this.state.predictedYield}
+                                        errorText={this.state.errors.predictedYield}/>
+                                </div>                       
+                        </div>
+                        <h3>Nutrient req</h3>
+                        <div className="columns">
+                            <div className="column">
+                                <TextField
+                                    floatingLabelText="N"
+                                    name="n"
+                                    type="number"
+                                    onChange={this.handleChange}
+                                    fullWidth={true}
+                                    value={this.state.n}/>
+                            </div>
+                            <div className="column">
+                                <TextField
+                                    floatingLabelText="P"
+                                    name="p"
+                                    type="number"
+                                    onChange={this.handleChange}
+                                    fullWidth={true}
+                                    value={this.state.p}/>
+                            </div>
+                            <div className="column">
+                                <TextField
+                                    floatingLabelText="K"
+                                    name="k"
+                                    type="number"
+                                    onChange={this.handleChange}
+                                    fullWidth={true}
+                                    value={this.state.k}/>
+                            </div>
+                        </div>
                         <TextField
-                            hintText="Enter Store Name"
-                            floatingLabelText="Store"
-                            name="store"
+                            floatingLabelText="Nutrient req unit"
+                            name="nutrientReqUnit"
                             onChange={this.handleChange}
                             fullWidth={true}
-                            value={this.state.store}
-                            errorText={this.state.errors.store}/>
+                            value={this.state.nutrientReqUnit}/>
                     </form>
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}

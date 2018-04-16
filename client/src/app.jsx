@@ -15,13 +15,14 @@ import {createStore, applyMiddleware} from 'redux';
 import allReducers from './reducers';
 import {Provider} from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
+import logger from 'redux-logger'
 import thunk from 'redux-thunk';
 
 //create redux store
 const store = createStore(
     allReducers,
     composeWithDevTools(
-        applyMiddleware(thunk)
+        applyMiddleware(thunk,logger)
     )
 );
 
