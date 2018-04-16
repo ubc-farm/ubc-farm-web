@@ -6,9 +6,11 @@ import DashboardContainer from './dashboard/DashboardContainer.jsx';
 import LoginContainer from './login/LoginContainer.jsx';
 import SignUpContainer from './signup/SignUpContainer.jsx';
 import FieldsComponent from './fields/FieldsComponent.jsx';
+// import Reports from './fields/reports/FieldReport.js'
 import InventoryPage from './inventory/InventoryPage'
 import Auth from './modules/Auth';
 import TasksPage from './tasks/TasksPage';
+import TestView from './sandBox/TestingView';
 import FinancesPage from './finances/FinancesPage';
 import UserPage from './users/UserPage'
 
@@ -40,6 +42,7 @@ export default (
         <Route path="/inventory" component={InventoryPage}/>
         <Route path="/tasks" component={TasksPage}/>
         <Route path="/finances" component={FinancesPage}/>
+        <Route path="/testview" component={TestView}/>
         <Route path="/users" component={UserPage}/>
 
     </Route>

@@ -30,20 +30,34 @@ class PestControlList extends Component {
             fixedHeader: true,
 
         };
-
-
     }
+
+/*
+        ###Pest control
+        #Type(e.g. Systemic, Foliar, Biological, etc.)
+        #Product name
+        #Active ingredient 
+        #Active ingredient %
+        #Entry interval
+        #Harvest interval
+        #Quantity
+        #Quantity unit
+        #Price
+        #Price unit
+        #Add “Location” - draw from list of “fields” from geospatial areas identified
+*/
+
     render(){
 
         let columns = [
         {title:'Type',toolTip:'Sort by Type'},
         {title:'Product name',toolTip:'Sort by Product name'},
-        {title:'Application Rate',toolTip:'Sort by Application Rate'},
-        {title:'Mix ratio (Water : Mix)',toolTip:'Sort by Mix ratio'},
-        {title:'Entry Interval',toolTip:'Sort by Entry Interval'},
-        {title:'Harvest Interval',toolTip:'Sort by Harvest Interval'},
         {title:'Active Ingredient',toolTip:'Sort by Active Ingredient'},
         {title:'Active Ingredient %',toolTip:'Sort by Active Ingredient %'},
+        {title:'Entry Interval',toolTip:'Sort by Entry Interval'},
+        {title:'Harvest Interval',toolTip:'Sort by Harvest Interval'},
+        {title:'Price',toolTip:'Sort by Price'},
+        {title:'Currency',toolTip:'Sort by Currency'},
         {title:'Delete',toolTip:'Delete fertilizers'}];
 
         var itemList = [];
@@ -52,12 +66,12 @@ class PestControlList extends Component {
                 _id:item._id,
                 type:{title:item.type},
                 name:{title:item.name},
-                rate:{title:item.rate},
-                ratio:{title:item.ratio},
-                entry:{title:item.entry},
-                harvest:{title:item.harvest},
                 active:{title:item.active},
                 activePercentage:{title:item.percentage},
+                entry:{title:item.entry},
+                harvest:{title:item.harvest},
+                price:{title:item.price}, 
+                currency:{title:item.currency},
                 deleteButton:{deleteFunc:deletePesticide}
             };
             return newItem;            

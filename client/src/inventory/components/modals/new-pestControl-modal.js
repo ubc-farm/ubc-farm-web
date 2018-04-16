@@ -29,6 +29,8 @@ class CreatePesticideModal extends Component{
             rate: '',
             ratio: '',
             entry: '',
+            price:'',
+            currency:'CAD',
             harvest: '',
             active: '',
             percentage: '',
@@ -42,6 +44,7 @@ class CreatePesticideModal extends Component{
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
     };
@@ -92,12 +95,12 @@ class CreatePesticideModal extends Component{
                 unit: 'pesticide',
 
                 type: this.state.type,
-                rate: this.state.rate,
-                ratio: this.state.ratio,
                 entry: this.state.entry,
                 harvest: this.state.harvest,
                 active: this.state.active,
                 percentage: this.state.percentage,
+                price:this.state.price,
+                currency:this.state.currency
             };
 
             this.setState({loading: true});
@@ -124,7 +127,7 @@ class CreatePesticideModal extends Component{
         */
 
         //lenght grater than 0
-        let validationRulesLenghtG0 = ['type','name','rate','ratio','entry','harvest','active','percentage'];
+        let validationRulesLenghtG0 = ['type','name','entry','harvest','active','percentage','price'];
         let errors = this.state.errors;
         validationRulesLenghtG0.forEach((rule) =>{
             if(!this.state[rule].length){
@@ -133,6 +136,11 @@ class CreatePesticideModal extends Component{
         });
         this.setState({errors});
     }
+
+    handleCurrencyChange(event, index, value){
+        this.setState({currency: value});
+    }
+
 
     render(){
         const actions = [
@@ -183,29 +191,6 @@ class CreatePesticideModal extends Component{
                         <div className="columns">
                             <div className="column">
                                 <TextField
-                                    hintText="Enter Application Rate"
-                                    floatingLabelText="Application Rate"
-                                    name="rate"
-                                    type="number"
-                                    onChange={this.handleChange}
-                                    fullWidth={true}
-                                    value={this.state.rate}
-                                    errorText={this.state.errors.rate}/>
-                            </div>
-                            <div className="column">
-                                <TextField
-                                    hintText="Enter Mixing Ratio"
-                                    floatingLabelText="Mix Ratio (Water : Mix)"
-                                    name="ratio"
-                                    onChange={this.handleChange}
-                                    fullWidth={true}
-                                    value={this.state.ratio}
-                                    errorText={this.state.errors.ratio}/>
-                            </div>
-                        </div>
-                        <div className="columns">
-                            <div className="column">
-                                <TextField
                                     hintText="Enter Entry Interval"
                                     floatingLabelText="Entry Interval"
                                     name="entry"
@@ -252,7 +237,38 @@ class CreatePesticideModal extends Component{
                         </div>
 
 
-                    </form>
+                      <div className="columns">
+                            <div className="column is-8-desktop">
+                                <TextField
+                                    hintText="Enter Price"
+                                    floatingLabelText="Price"
+                                    name="price"
+                                    type="number"
+                                    onChange={this.handleChange}
+                                    fullWidth={true}
+                                    value={this.state.price}
+                                    errorText={this.state.errors.price}/>
+                            </div>
+                        <div className="column is-4-desktop">
+                            <SelectField
+                                floatingLabelText="Currency"
+                                onChange={this.handleCurrencyChange}
+                                id="currency"
+                                autoWidth={false}
+                                style={{width:"100%"}}
+                                value={this.state.currency}
+                                errorText={this.state.errors.currency}>
+                                {Object.keys(this.props.currencies).map(e=>
+                                    <MenuItem value={e} 
+                                    label={`${e} - ${this.props.currencies[e]}`} 
+                                    primaryText={`${e} - ${this.props.currencies[e]}`}/>)
+                                }
+                            </SelectField>
+                    </div>
+                 </div>
+
+
+            </form>
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
                     <p>{this.state.errors.global}</p>
@@ -269,4 +285,10 @@ class CreatePesticideModal extends Component{
     }
 }
 
-export default connect(()=>{}, {SavePesticide})(CreatePesticideModal);
+const mapStateToProps = (state) => {
+    return {
+        currencies: state.currency,
+    }
+};
+
+export default connect(mapStateToProps,{SavePesticide})(CreatePesticideModal);

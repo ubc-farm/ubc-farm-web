@@ -5,6 +5,7 @@ import {combineReducers} from 'redux';
 import FieldReducer from '../fields/reducers/reducer-fields';
 import FieldActionReducer from '../fields/reducers/reducer-fields-actions';
 import TaskReducer from '../tasks/reducers/';
+// import species from '../fields/reducers/species';
 import FieldTaskReducer from '../fields/reducers/FieldTasksReducer';
 import SeedReducer from '../inventory/reducers/seeds'
 import ActiveInventoryReducer from '../inventory/reducers/active_inventory'
@@ -33,6 +34,7 @@ const allReducers = combineReducers({
     harvested: HarvestedReducer,
     suppliers: SupplierReducer,
     users: UserReducer,
+    // species,
     currency
 });
 

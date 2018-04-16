@@ -74,17 +74,24 @@ class SeedList extends Component {
     }
 
     render() {
-        //modal 
+       //modal 
         let columns = [
         {title:'Crop',toolTip:'Sort by Crop'},
         {title:'Variety',toolTip:'Sort by Variety'},
         {title:'Weight',toolTip:'Sort by Weight'},
         {title:'Unit',toolTip:'Sort by Unit'},
-        {title:'Quantity 222',toolTip:'Sort by Quantity'},
-        {title:'Store',toolTip:'Sort by Product Store'},
+        {title:'Quantity',toolTip:'Sort by Quantity'},
+        {title:'Product Name',toolTip:'Sort by Product Name'},
+        {title:'N',toolTip:'N'},
+        {title:'P',toolTip:'P'},
+        {title:'K',toolTip:'K'},
+        {title:'Nutrient Req Unit',toolTip:'Nutrient Req Unit'},
+        {title:'Days to maturity',toolTip:'Days to maturity'},
+        {title:'Predicted yield',toolTip:'Sort by Yield'},
         {title:'Price',toolTip:'Sort by Price'},
-        {title:'Currency', toolTip:'Sort by Currency'},
-        {title:'Delete',toolTip:'Delete fertilizers'}];
+        {title:'Currency',toolTip:'Sort by Currency'},
+        {title:'Location',toolTip:'Sort by Location'},
+        {title:'Delete',toolTip:'Delete seed'}];
 
         var itemList = [];
 
@@ -96,20 +103,29 @@ class SeedList extends Component {
                 weight:{title:item.weight},
                 unit:{title:item.unit},
                 quantity:{title:item.quantity, isEditable:true, func:logSeed},
-                store:{title:item.store},
+                product:{title:item.name},
+                n:{title:item.n},
+                p:{title:item.p},
+                k:{title:item.k},
+                nutrientReqUnit:{title:item.nutrientReqUnit},
+                maturity:{title:item.maturity},
+                yield:{title:item.predictedYield},
                 price:{title:item.price},
                 currency:{title:item.currency},
+                location:{title:item.location},
                 deleteButton:{deleteFunc:deleteSeed}
             };
             return newItem;
             // itemList.concat(newItem);
         });
         return (
-            <EditableList 
-                items={itemList} 
-                columns={columns} 
-                id="seedList" 
-                isEditable={true}/>
+            <div style={{width:'83%'}}>
+                <EditableList 
+                    items={itemList} 
+                    columns={columns} 
+                    id="seedList" 
+                    isEditable={true}/>
+            </div>
         );
     }
 }

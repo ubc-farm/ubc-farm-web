@@ -34,9 +34,11 @@ class FieldDetail extends Component{
         return(
                 <div style={{height: "100%"}}>
                     <div className="field_info">
-                    <div className="field_name">{this.props.field.name}</div>
-                    <Divider/>
-                    <div className="field_detail">Active Tasks: {this.props.fieldTasks.length}</div>
+                        <div className="field_name">{this.props.field.name}</div>
+                        <Divider/>
+                        <div className="field_detail">Active Tasks: {this.props.fieldTasks.length}</div>
+                        <Divider/>
+                        <div className="field_species">Field species: {this.props.fieldTasks.length}</div>
                     </div>
 
                     <div style={{minWidth: '100%', height: '15%'}} >
@@ -58,6 +60,22 @@ class FieldDetail extends Component{
                 </div>
         );
     }
+
+
+
+
+    componentWillUpdate(nextProps, nextState){
+        console.log(nextProps.field.polygon);
+        if(nextProps.field.polygon) {
+            let avgLat = 0; 
+            let avgLon = 0;
+            nextProps.field.polygon.forEach(function(e){
+                
+                console.log("longitude: "+e.lng + "Latitude" + e.lat);
+            });
+            
+        }
+    }
 }
 
 FieldDetail.propTypes = {
@@ -67,6 +85,7 @@ function mapStateToProps(state){
     return{
         field: state.selectedField,
         fieldTasks: state.fieldTasks,
+        species: state.species
     };
 }
 

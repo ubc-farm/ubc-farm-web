@@ -7,7 +7,7 @@
     "start": "nodemon --exec babel-node -- index.js",
     "debug": "nodemon --exec babel-node --inspect index.js",
     "bundle": "webpack",
-    "serve": "webpack-dev-server"
+    "serve": "webpack-dev-server --hot"
   },
   "repository": {
     "type": "git",
@@ -46,6 +46,7 @@
     "react-tap-event-plugin": "2.0.1",
     "recharts": "1.0.0-alpha.0",
     "redux": "3.6.0",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "2.2.0",
     "semantic-ui-react": "0.68.5",
     "shortid": "2.2.8",

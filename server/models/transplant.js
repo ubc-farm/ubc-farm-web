@@ -12,14 +12,19 @@ const TransplantSchema = new mongoose.Schema({
     log: [inventory_log_schema],
     quantity: Number,
     unit: String,
-
     crop: String,
     variety: String,
     weight: Number,
     product: String,
     store: String,
     price: Number,
-    currency:String
+    currency:String,
+    maturity:Number, //days to maturity
+    yield:Number,
+    n:Number,
+    p:Number,
+    k:Number,
+    nutrientReqUnit:String
 });
 
 module.exports = mongoose.model('Transplant', TransplantSchema);

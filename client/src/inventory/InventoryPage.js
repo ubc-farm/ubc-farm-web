@@ -76,6 +76,7 @@ const styles = {
     centerContainer: {
         height: '100%',
         margin: '0',
+        overflow:'scroll',
         padding: '0',
     }
 };
@@ -127,14 +128,12 @@ class InventoryPage extends React.Component {
                 <div className="column is-2-desktop">
                     <InventoryMenu active={this.state.active_inventory}/>
                 </div>
-                <div className="column is-10-desktop" style={{ backgroundColor: '#F5F5F5'}}>
+                <div className="column is-10-desktop" style={{ backgroundColor: '#F5F5F5'/*#F5F5F5*/, minWidth:'70%',overflow:'scroll'}}>
                     <div style={{height:"60px"}}>
                         <NewItemModal/>
                     </div>
                     <Divider/>
                     <InventoryList/>
-
-
                 </div>
             </div>
         );

@@ -41,8 +41,13 @@ class TransplantingList extends Component {
         {title:'Weight',toolTip:'Sort by Weight'},
         {title:'Unit',toolTip:'Sort by Unit'},
         {title:'Quantity',toolTip:'Sort by Quantity'},
-        {title:'Name',toolTip:'Sort by Product Name'},
-        {title:'Store',toolTip:'Sort by Product Store'},
+        {title:'Product Name',toolTip:'Sort by Product Name'},
+        {title:'N',toolTip:'N'},
+        {title:'P',toolTip:'P'},
+        {title:'K',toolTip:'K'},
+        {title:'Nutrient Req Unit',toolTip:'Nutrient Req Unit'},
+        {title:'Days to maturity',toolTip:'Days to maturity'},
+        {title:'Predicted yield',toolTip:'Sort by Yield'},
         {title:'Price',toolTip:'Sort by Price'},
         {title:'Currency',toolTip:'Sort by Currency'},
         {title:'Delete',toolTip:'Delete seed'}];
@@ -57,8 +62,13 @@ class TransplantingList extends Component {
                 weight:{title:item.weight},
                 unit:{title:item.unit},
                 quantity:{title:item.quantity, isEditable:true, func:logTransplant},
-                product:{title:item.product},
-                store:{title:item.store},
+                product:{title:item.name},
+                n:{title:item.n},
+                p:{title:item.p},
+                k:{title:item.k},
+                nutrientReqUnit:{title:item.nutrientReqUnit},
+                maturity:{title:item.maturity},
+                yield:{title:item.predictedYield},
                 price:{title:item.price},
                 currency:{title:item.currency},
                 deleteButton:{deleteFunc:deleteTransplant}
@@ -67,11 +77,13 @@ class TransplantingList extends Component {
             // itemList.concat(newItem);
         });
         return (
-            <EditableList 
-                items={itemList} 
-                columns={columns} 
-                id="seedList" 
-                isEditable={true}/>
+            <div style={{width:'85%'}}>
+                <EditableList 
+                    items={itemList} 
+                    columns={columns} 
+                    id="transplantList" 
+                    isEditable={true}/>
+            </div>
         );
     }
 }

@@ -118,6 +118,10 @@ a:hover {
   font-weight: bold;
   padding-bottom:3px;
 }
+.field_species {
+  font-weight: bold;
+  padding-top:3px;
+}
 .field_detail{
   margin-top: 15px;
 }
