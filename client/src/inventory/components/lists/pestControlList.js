@@ -58,7 +58,8 @@ class PestControlList extends Component {
         {title:'Harvest Interval',toolTip:'Sort by Harvest Interval'},
         {title:'Price',toolTip:'Sort by Price'},
         {title:'Currency',toolTip:'Sort by Currency'},
-        {title:'Delete',toolTip:'Delete fertilizers'}];
+        {title:'Location',toolTip:'Sort by Location'},
+        {title:'Delete',toolTip:'Delete pest'}];
 
         var itemList = [];
         itemList = this.props.pesticides.map((item)=>{
@@ -72,6 +73,7 @@ class PestControlList extends Component {
                 harvest:{title:item.harvest},
                 price:{title:item.price}, 
                 currency:{title:item.currency},
+                location:{title:item.location},
                 deleteButton:{deleteFunc:deletePesticide}
             };
             return newItem;            

@@ -15,7 +15,7 @@ async function getEquipment(req, res){
 //will return true if Equipment is valid false otherwise
 function isEquipmentValid(data){
 	let isValid = true;
-    let validationRulesLenghtMoreThan0 = ['name','quantity','unit','log'];
+    let validationRulesLenghtMoreThan0 = ['name','quantity','unit','log','equipment'];
 
     validationRulesLenghtMoreThan0.forEach((rule) =>{
         if(data[rule] && !data[rule].toString().length){

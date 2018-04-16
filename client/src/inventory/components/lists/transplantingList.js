@@ -50,6 +50,7 @@ class TransplantingList extends Component {
         {title:'Predicted yield',toolTip:'Sort by Yield'},
         {title:'Price',toolTip:'Sort by Price'},
         {title:'Currency',toolTip:'Sort by Currency'},
+        {title:'Location',toolTip:'Sorty by Location'},
         {title:'Delete',toolTip:'Delete seed'}];
 
         var itemList = [];
@@ -71,13 +72,14 @@ class TransplantingList extends Component {
                 yield:{title:item.predictedYield},
                 price:{title:item.price},
                 currency:{title:item.currency},
+                location:{title:item.location},
                 deleteButton:{deleteFunc:deleteTransplant}
             };
             return newItem;
             // itemList.concat(newItem);
         });
         return (
-            <div style={{width:'85%'}}>
+            <div style={{width:'75%'}}>
                 <EditableList 
                     items={itemList} 
                     columns={columns} 

@@ -53,6 +53,7 @@ class FertilizerList extends Component {
         {title:'Currency',toolTip:'Sort by Price'},
         {title:'Quantity',toolTip:'Sort by Quantity'},
         {title:'Quantity unit',toolTip:'Sort by Quantity unit'},
+        {title:'Location',toolTip:'Sort by Location'},
         {title:'Delete',toolTip:'Delete item'}];
 
         var itemList = [];
@@ -74,6 +75,7 @@ class FertilizerList extends Component {
                 currency:{title:item.currency},
                 quantity:{title:item.quantity, isEditable:true, func:logFertilizer},
                 quantityUnit:{title:item.quantityUnit},
+                location:{title:item.location},
                 deleteButton:{deleteFunc:deleteFertilizer}
             };
             return newItem;

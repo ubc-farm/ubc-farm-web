@@ -15,7 +15,7 @@ async function getSeeds(req, res){
 //will return true if seed is valid false otherwise
 function isSeedValid(data){
 	let isValid = true;
-    let validationRulesLenghtMoreThan0 = ['name', 'log', 'quantity', 'unit', 'crop', 'variety', 'weight', 'product', 'store', 'price'];
+    let validationRulesLenghtMoreThan0 = ['name', 'log', 'quantity', 'unit', 'crop', 'variety', 'weight', 'product', 'store', 'price','location'];
     validationRulesLenghtMoreThan0.forEach((rule) =>{
         if(data[rule] && !data[rule].toString().length){
         	isValid = isValid && false
@@ -26,8 +26,8 @@ function isSeedValid(data){
 
 function postSeeds(req,res){
     if(isSeedValid(req.body)){
-        const {name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price, currency} = req.body;
-        Seed.create({name, suppliers, log, quantity, unit, crop, variety, weight, product, store, price, currency} ,
+        const {name, suppliers, predictedYield, log, currency, quantity, unit, crop, variety, weight, product,n,p,k,maturity,nutrientReqUnit, price,location} = req.body;
+        Seed.create({name, suppliers, predictedYield, log, currency, quantity, unit, crop, variety, weight, product,n,p,k,maturity,nutrientReqUnit, price,location} ,
 
             function(err, result){
                 if(err){

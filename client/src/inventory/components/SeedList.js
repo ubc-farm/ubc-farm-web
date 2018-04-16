@@ -90,6 +90,7 @@ class SeedList extends Component {
         {title:'Predicted yield',toolTip:'Sort by Yield'},
         {title:'Price',toolTip:'Sort by Price'},
         {title:'Currency',toolTip:'Sort by Currency'},
+        {title:'Location',toolTip:'Sort by Location'},
         {title:'Delete',toolTip:'Delete seed'}];
 
         var itemList = [];
@@ -111,13 +112,14 @@ class SeedList extends Component {
                 yield:{title:item.predictedYield},
                 price:{title:item.price},
                 currency:{title:item.currency},
+                location:{title:item.location},
                 deleteButton:{deleteFunc:deleteSeed}
             };
             return newItem;
             // itemList.concat(newItem);
         });
         return (
-            <div style={{width:'83%'}}>
+            <div style={{width:'79%'}}>
                 <EditableList 
                     items={itemList} 
                     columns={columns} 

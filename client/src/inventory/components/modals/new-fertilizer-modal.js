@@ -46,6 +46,7 @@ class CreateFertilizerModal extends Component {
             validated: false,
             loading: false,
             done: false,
+            location:'',
             errorMessage:"",
             currency:'CAD'
         };
@@ -54,6 +55,7 @@ class CreateFertilizerModal extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleFieldChange = this.handleFieldChange.bind(this);
         this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
     };
 
@@ -64,6 +66,10 @@ class CreateFertilizerModal extends Component {
     handleClose(){
         this.setState({open: false, name: ''});
     };
+
+    handleFieldChange(event,index,value){
+        this.setState({location:value});
+    }
 
     handleChange(e){
         if(this.state.errors[e.target.name]){
@@ -122,6 +128,7 @@ class CreateFertilizerModal extends Component {
                 h2o:this.state.h2o,
                 p2o5: this.state.p2o5,
                 price: this.state.price,
+                location:this.props.field[this.state.location].name,
                 quantityUnit: this.state.quantityUnit,
                 currency: this.state.currency
             };
@@ -142,11 +149,12 @@ class CreateFertilizerModal extends Component {
                         k2o: '',
                         h2o:'',
                         p2o5: '',
+                        location:'',
                         price: '',                        
                     });
                 }
             ).catch((err)=>{
-                this.showError("Unable to create seed");
+                this.showError("Unable to create fertilzer");
             });
             this.setState({done: true, loading: false});
             this.handleClose();
@@ -179,8 +187,8 @@ class CreateFertilizerModal extends Component {
                 errors.quantityUnit = "Quantity unit field is mandatory";
             }
 
-            if(!this.state.quantity.toString().length || this.state.quantity < 0){
-                errors.quantity = "Quantity field is mandatory";
+            if(this.state.quantity < 0){
+                errors.quantity = "Quantity has to be more than or equal to 1";
             }
 
             this.setState({errors});
@@ -357,14 +365,22 @@ class CreateFertilizerModal extends Component {
                         </SelectField>
                     </div>
                  </div>
-
-
-
-
-
-
-
-                    </form>
+                    <SelectField
+                        floatingLabelText="Location"
+                        onChange={this.handleFieldChange}
+                        name="location"
+                        autoWidth={false}
+                        style={{width:"100%"}}
+                        value={this.state.location}
+                        errorText={this.state.errors.location}
+                        >
+                        {Object.keys(this.props.field).map((e)=>{
+                        return (<MenuItem value={e} 
+                        label={`${this.props.field[e].name}`}
+                        primaryText={`${e} - ${this.props.field[e].name}`} />);
+                        })}
+                    </SelectField>                    
+                </form>
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
                     <p>{this.state.errors.global}</p>
@@ -386,6 +402,7 @@ class CreateFertilizerModal extends Component {
 const mapStateToProps = (state) => {
     return {
         currencies: state.currency,
+        field: state.fields
     }
 };
 

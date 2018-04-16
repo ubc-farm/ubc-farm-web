@@ -40,12 +40,14 @@ class CreateVehicleModal extends Component {
             validated: false,
             loading: false,
             done: false,
+            location:'',
             supplier: '',
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleFieldChange = this.handleFieldChange.bind(this);
         this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
     };
 
@@ -56,6 +58,9 @@ class CreateVehicleModal extends Component {
     handleClose(){
         this.setState({open: false, name: ''});
     };
+    handleFieldChange(event,index,value){
+        this.setState({location:value});
+    }
     handleChange(e){
         if(this.state.errors[e.target.name]){
             console.log("handle error fired");
@@ -100,6 +105,7 @@ class CreateVehicleModal extends Component {
                 brand: this.state.brand,
                 model: this.state.model,
                 year: this.state.year,
+                location:this.props.field[this.state.location].name,
                 price: this.state.price,
             };
     
@@ -218,6 +224,21 @@ class CreateVehicleModal extends Component {
                             value={this.state.quantity}
                             fullWidth={true}
                             errorText={this.state.errors.quantity}/>
+                            <SelectField
+                                        floatingLabelText="Location"
+                                        onChange={this.handleFieldChange}
+                                        name="location"
+                                        autoWidth={false}
+                                        style={{width:"100%"}}
+                                        value={this.state.location}
+                                        errorText={this.state.errors.location}
+                                        >
+                                        {Object.keys(this.props.field).map((e)=>{
+                                        return (<MenuItem value={e} 
+                                        label={`${this.props.field[e].name}`}
+                                        primaryText={`${e} - ${this.props.field[e].name}`} />);
+                                        })}
+                            </SelectField>
 
                     </form>
 
@@ -237,4 +258,10 @@ class CreateVehicleModal extends Component {
     }
 }
 
-export default connect(()=>{}, {fetchSuppliers, SaveVehicle})(CreateVehicleModal);
+function mapStateToProps(state){
+    return{
+        field: state.fields
+
+    };
+}
+export default connect(mapStateToProps, {fetchSuppliers, SaveVehicle})(CreateVehicleModal);

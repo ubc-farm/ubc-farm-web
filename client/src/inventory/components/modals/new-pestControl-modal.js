@@ -33,6 +33,7 @@ class CreatePesticideModal extends Component{
             currency:'CAD',
             harvest: '',
             active: '',
+            location:'',
             percentage: '',
 
             errors: {},
@@ -44,6 +45,7 @@ class CreatePesticideModal extends Component{
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleFieldChange = this.handleFieldChange.bind(this);
         this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -72,6 +74,11 @@ class CreatePesticideModal extends Component{
         }
 
     };
+
+    handleFieldChange(event,index,value){
+        this.setState({location:value});
+    }
+
     handleSubmit(e){
         e.preventDefault();
 
@@ -99,6 +106,7 @@ class CreatePesticideModal extends Component{
                 harvest: this.state.harvest,
                 active: this.state.active,
                 percentage: this.state.percentage,
+                location:this.props.field[this.state.location].name,
                 price:this.state.price,
                 currency:this.state.currency
             };
@@ -266,7 +274,21 @@ class CreatePesticideModal extends Component{
                             </SelectField>
                     </div>
                  </div>
-
+                <SelectField
+                    floatingLabelText="Location"
+                    onChange={this.handleFieldChange}
+                    name="location"
+                    autoWidth={false}
+                    style={{width:"100%"}}
+                    value={this.state.location}
+                    errorText={this.state.errors.location}
+                    >
+                    {Object.keys(this.props.field).map((e)=>{
+                    return (<MenuItem value={e} 
+                    label={`${this.props.field[e].name}`}
+                    primaryText={`${e} - ${this.props.field[e].name}`} />);
+                    })}
+                </SelectField>
 
             </form>
 
@@ -274,7 +296,6 @@ class CreatePesticideModal extends Component{
                     <p>{this.state.errors.global}</p>
                 </Dialog>
             </div>
-
         );
         return (
             <div key={this.state.timestamp} style={{minWidth: '100%', height: '100%'}} >
@@ -288,6 +309,7 @@ class CreatePesticideModal extends Component{
 const mapStateToProps = (state) => {
     return {
         currencies: state.currency,
+        field: state.fields
     }
 };
 

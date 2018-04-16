@@ -12,6 +12,7 @@ const EquipmentSchema = new mongoose.Schema({
     suppliers:[],
     log: [inventory_log_schema],
     quantity: Number,
+    location:String,
     unit: String,
 
 });

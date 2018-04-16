@@ -41,6 +41,7 @@ class HarvestedList extends Component {
         {title:'Price',toolTip:'Sort by Price'},
         {title:'Quantity',toolTip:'Sort by Quantity'},
         {title:'Unit',toolTip:'Sort by Unit'},
+        {title:'Location',toolTip:'Sort by location'},
         {title:'Delete',toolTip:'Delete'}];
         var itemList = [];
         itemList = this.props.harvested.map((item)=>{
@@ -51,6 +52,7 @@ class HarvestedList extends Component {
                 price:{title:item.price},
                 quantity:{title:item.quantity,isEditable:true, func:logHarvested},
                 unit:{title:item.unit},
+                location:{title:item.location},
                 deleteButton:{deleteFunc:deleteHarvested}
             };
             return newItem;
@@ -59,7 +61,7 @@ class HarvestedList extends Component {
             <EditableList 
                 items={itemList} 
                 columns={columns} 
-                id="seedList" 
+                id="harvestList" 
                 isEditable={true}/>
         );
     }

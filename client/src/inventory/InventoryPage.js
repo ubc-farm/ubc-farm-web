@@ -27,6 +27,7 @@ import {fetchFertilizers} from './actions/fertilizer-actions'
 import {fetchPesticides} from './actions/pest-actions'
 import {fetchEquipments} from './actions/equipment-actions'
 import {fetchVehicles} from './actions/vehicles-action'
+import {fetchFields} from '../fields/actions/fetch-fields.js' //spegeti code please refactor later on
 import {fetchHarvested} from './actions/harvested_actions'
 
 
@@ -90,6 +91,7 @@ class InventoryPage extends React.Component {
         this.props.fetchEquipments();
         this.props.fetchVehicles();
         this.props.fetchHarvested();
+        this.props.fetchFields();
     }
 
     // Constructor is responsible for setting up props and setting initial state
@@ -170,4 +172,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {fetchSeeds,fetchTransplants,fetchFertilizers,fetchPesticides,fetchEquipments,fetchVehicles,fetchHarvested})(InventoryPage);
+export default connect(mapStateToProps, {fetchSeeds,fetchTransplants,fetchFertilizers,fetchPesticides,fetchEquipments,fetchVehicles,fetchHarvested, fetchFields})(InventoryPage);

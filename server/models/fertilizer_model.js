@@ -21,6 +21,7 @@ const FertilizerSchema = new mongoose.Schema({
     p2o5: Number,
     h20:Number,
     price: Number,
+    location:String,
     currency: String
 });
 

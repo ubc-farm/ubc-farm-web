@@ -53,6 +53,7 @@ class CreateTransplantModal extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleFieldChange = this.handleFieldChange.bind(this);
         this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
     };
 
@@ -84,6 +85,11 @@ class CreateTransplantModal extends Component {
         console.log(value);
         this.setState({supplier: value});
     };
+
+    handleFieldChange(event,index,value){
+        this.setState({location:value});
+    }
+
     handleSubmit(e){
         e.preventDefault();
 
@@ -115,9 +121,9 @@ class CreateTransplantModal extends Component {
                 product: this.state.product,
                 store: this.state.store,
                 price: this.state.price,
+                location:this.props.field[this.state.location].name,
                 currency: this.state.currency                
             };
-            debugger
 
             this.setState({loading: true});
             this.props.SaveTransplant(new_transplant).then(
@@ -130,37 +136,20 @@ class CreateTransplantModal extends Component {
 
     };
 
+
     validateForm(){
-        if(!(this.state.crop && this.state.variety && this.state.quantity && this.state.weight)){
-            var errors = {};
-
-            if(this.state.crop.length == 0){
-                errors.crop = "This field is required";
+        let validationRulesLenghtG0 = ['crop','variety','weight'];
+        let errors = this.state.errors;
+        validationRulesLenghtG0.forEach((rule) =>{
+            if(!this.state[rule].length){
+                errors[rule] = "This field is mandatory";
             }
-
-            if(this.state.variety.length == 0){
-                errors.variety = "This field is required";
-            }
-
-            if(this.state.quantity.length == 0){
-                errors.quantity = "This field is required";
-            }
-
-            if(this.state.weight.length == 0){
-                errors.weight = "This field is required";
-            }
-
-            if(this.state.price.length == 0){
-                errors.price = "This field is required";
-            }
-            
-            if(this.state.store.length == 0){
-                errors.store = "This field is required";
-            }
-
-            this.setState({errors})
+        });
+        if(this.state.quantity < 0){
+            errors.quantity = "The quantity must be more than or equal to 1";
         }
-    }
+        this.setState({errors});
+    }    
 
     handleSelect(event, index, value){this.setState({unit: value});}
 
@@ -350,13 +339,29 @@ class CreateTransplantModal extends Component {
                             onChange={this.handleChange}
                             fullWidth={true}
                             value={this.state.nutrientReqUnit}/>
+                        
+                                    <SelectField
+                                        floatingLabelText="Location"
+                                        onChange={this.handleFieldChange}
+                                        name="location"
+                                        autoWidth={false}
+                                        style={{width:"100%"}}
+                                        value={this.state.location}
+                                        errorText={this.state.errors.location}
+                                        >
+                                        {Object.keys(this.props.field).map((e)=>{
+                                        return (<MenuItem value={e} 
+                                        label={`${this.props.field[e].name}`}
+                                        primaryText={`${e} - ${this.props.field[e].name}`} />);
+                                        })}
+                            </SelectField>
+                                                 
                     </form>
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
                     <p>{this.state.errors.global}</p>
                 </Dialog>
             </div>
-
         );
 
         return (
@@ -372,6 +377,7 @@ class CreateTransplantModal extends Component {
 const mapStateToProps = (state) => {
     return {
         currencies: state.currency,
+        field: state.fields
     }
 };
 

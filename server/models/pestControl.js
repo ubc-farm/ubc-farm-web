@@ -22,6 +22,7 @@ const PesticideSchema = new mongoose.Schema({
     price:Number,
     currency:String,
     active: String,
+    location:String,
     percentage: Number
 
 });

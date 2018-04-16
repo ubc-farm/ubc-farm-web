@@ -64,7 +64,7 @@ export function updateFertilizer(item){
 
 export function deleteFertilizer(id){
     return dispatch => {
-        return fetch(`/data/fertilizer/${id}`, {
+        return fetch(`/data/fertilizers/${id}`, {
             method: 'delete',
             headers:{
                 "Content-Type":"application/json"

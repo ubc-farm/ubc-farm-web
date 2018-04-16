@@ -15,7 +15,7 @@ async function getTransplants(req, res){
 //will return true if seed is valid false otherwise
 function isTransplantValid(data){
 	let isValid = true;
-    let validationRulesLenghtMoreThan0 = ['name', 'suppliers', 'log', 'currency', 'quantity', 'unit', 'crop', 'variety', 'weight', 'product', 'price'];
+    let validationRulesLenghtMoreThan0 = ['name', 'suppliers', 'log', 'currency', 'quantity', 'unit', 'crop', 'variety', 'weight', 'product', 'price','location'];
     validationRulesLenghtMoreThan0.forEach((rule) =>{
         if(data[rule] && !data[rule].toString().length){
         	isValid = isValid && false
@@ -26,9 +26,9 @@ function isTransplantValid(data){
 
 function postTrasnsplants(req,res){
     if(isTransplantValid(req.body)){
-        const {name, suppliers, predictedYield, log, currency, quantity, unit, crop, variety, weight, product,n,p,k,maturity,nutrientReqUnit, price} = req.body;
+        const {name, suppliers, predictedYield, log, currency, quantity, unit, crop, variety, weight, product,n,p,k,maturity,nutrientReqUnit, price,location} = req.body;
 
-        Transplant.create({name, predictedYield, suppliers, currency,log, quantity, unit, crop, variety, weight, product,n,p,k,maturity,nutrientReqUnit, price} ,
+        Transplant.create({name, predictedYield, suppliers, currency,log, quantity, unit, crop, variety, weight, product,n,p,k,maturity,nutrientReqUnit, price,location} ,
 
             function(err, result){
                 if(err){

@@ -15,7 +15,7 @@ async function getHarvest(req, res){
 //will return true if harvest is valid false otherwise
 function isHarvestValid(data){
 	let isValid = true;
-    let validationRulesLenghtMoreThan0 = ['name','suppliers','log','quantity','unit','variety','price'];
+    let validationRulesLenghtMoreThan0 = ['name','suppliers','log','quantity','unit','variety','price','location'];
     validationRulesLenghtMoreThan0.forEach((rule) =>{
         if(data[rule] && !data[rule].toString().length){
         	isValid = isValid && false
@@ -26,8 +26,8 @@ function isHarvestValid(data){
 
 function postHarvest(req,res){
     if(isHarvestValid(req.body)){
-        const {name,suppliers,log,variety,price,quantity,unit} = req.body;
-        Harvest.create({name,suppliers,log,variety,price,quantity,unit} ,
+        const {name,suppliers,log,variety,price,quantity,unit,location} = req.body;
+        Harvest.create({name,suppliers,log,variety,price,quantity,unit,location} ,
 
             function(err, result){
                 if(err){

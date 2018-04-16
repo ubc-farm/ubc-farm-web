@@ -15,7 +15,7 @@ async function getFertilzers(req, res){
 //will return true if fertilzer is valid false otherwise
 function isFertilzerValid(data){
 	let isValid = true;
-    let validationRulesLenghtMoreThan0 = ['name','log','quantity','quantityUnit','unit','type','tc','no3','nh4','k2o','p2o5','price','currency'];
+    let validationRulesLenghtMoreThan0 = ['name','log','quantity','location','quantityUnit','unit','type','tc','no3','nh4','k2o','p2o5','price','currency'];
     validationRulesLenghtMoreThan0.forEach((rule) =>{
         if(data[rule] && !data[rule].toString().length){
         	isValid = isValid && false
@@ -26,8 +26,8 @@ function isFertilzerValid(data){
 
 function postFertilzer(req,res){
     if(isFertilzerValid(req.body)){
-        const {suppliers,log,unit,type,name,rate,ratio,tc,no3,nh4,k2o,h2o,p2o5,price,quantity} = req.body;
-        Fertilizer.create({suppliers,log,unit,type,name,rate,ratio,tc,no3,nh4,k2o,h2o,p2o5,price,quantity} ,
+        const {suppliers,log,unit,type,name,rate,ratio,tc,no3,nh4,k2o,h2o,p2o5,price,quantity,location} = req.body;
+        Fertilizer.create({suppliers,log,unit,type,name,rate,ratio,tc,no3,nh4,k2o,h2o,p2o5,price,quantity,location} ,
 
             function(err, result){
                 if(err){

@@ -15,7 +15,7 @@ async function getPest(req, res){
 //will return true if pest is valid false otherwise
 function isPestValid(data){
 	let isValid = true;
-    let validationRulesLenghtMoreThan0 = ['name','log','quantity','unit','type','rate','ratio','price','currency','entry','harvest','active','percentage'];
+    let validationRulesLenghtMoreThan0 = ['name','log','quantity','unit','type','rate','ratio','price','currency','entry','harvest','active','percentage','location'];
 
     validationRulesLenghtMoreThan0.forEach((rule) =>{
         if(data[rule] && !data[rule].toString().length){

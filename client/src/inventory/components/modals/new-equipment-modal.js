@@ -40,6 +40,7 @@ class CreateEquipmentModal extends Component {
             validated: false,
             loading: false,
             done: false,
+            location:'',
             supplier: '',
         };
         this.handleOpen = this.handleOpen.bind(this);
@@ -47,6 +48,7 @@ class CreateEquipmentModal extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleFieldChange = this.handleFieldChange.bind(this);
         this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
     };
 
@@ -57,6 +59,11 @@ class CreateEquipmentModal extends Component {
     handleClose(){
         this.setState({open: false, name: ''});
     };
+
+    handleFieldChange(event,index,value){
+        this.setState({location:value});
+    }
+
     handleChange(e){
         if(this.state.errors[e.target.name]){
             console.log("handle error fired");
@@ -99,6 +106,7 @@ class CreateEquipmentModal extends Component {
                 name: this.state.name,
                 quantity: this.state.quantity,
                 unit: this.state.unit,
+                location:this.props.field[this.state.location].name,
                 log: first_log,
             };
 
@@ -214,7 +222,21 @@ class CreateEquipmentModal extends Component {
                                     errorText={this.state.errors.per_unit_unit}/>
                             </div>
                         </div>
-
+                               <SelectField
+                                floatingLabelText="Location"
+                                onChange={this.handleFieldChange}
+                                name="location"
+                                autoWidth={false}
+                                style={{width:"100%"}}
+                                value={this.state.location}
+                                errorText={this.state.errors.location}
+                                >
+                                    {Object.keys(this.props.field).map((e)=>{
+                                    return (<MenuItem value={e} 
+                                    label={`${this.props.field[e].name}`}
+                                    primaryText={`${e} - ${this.props.field[e].name}`} />);
+                                    })}
+                                </SelectField>
                     </form>
 
                     {!!this.state.errors.global && <p>this.state.errors.global</p>}
@@ -236,8 +258,8 @@ class CreateEquipmentModal extends Component {
 const mapStateToProps = (state) => {
     return {
         suppliers: state.suppliers,
-
+        field: state.fields
     }
 };
 
-export default connect(()=>{},{SaveEquipment})(CreateEquipmentModal);
+export default connect(mapStateToProps,{SaveEquipment})(CreateEquipmentModal);

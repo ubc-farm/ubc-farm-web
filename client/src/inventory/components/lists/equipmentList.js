@@ -41,6 +41,7 @@ class EquipmentList extends Component {
         {title:'Product name',toolTip:'Sort by Product name'},
         {title:'Quantity',toolTip:'Sort by Quantity'},
         {title:'Unit',toolTip:'Sort by Entry Interval'},
+        {title:'Location',toolTip:'Sort by location'},
         {title:'Delete',toolTip:'Delete fertilizers'}];
 
         var itemList = [];
@@ -50,6 +51,7 @@ class EquipmentList extends Component {
                 name:{title:item.name},
                 quantity:{title:item.quantity, isEditable:true, func:logEquipment},
                 unit:{title:item.unit},
+                location:{title:item.location},
                 deleteButton:{deleteFunc:deleteEquipment}
             };
             return newItem;            

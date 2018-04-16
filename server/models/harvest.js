@@ -12,7 +12,7 @@ const HarvestedSchema = new mongoose.Schema({
     log: [inventory_log_schema],
     quantity: Number,
     unit: String,
-
+    location:String,
     variety: String,
     price: Number,
 

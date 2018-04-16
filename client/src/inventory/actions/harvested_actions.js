@@ -53,7 +53,7 @@ export function SaveHarvested(data){
                 "Content-Type":"application/json"
             }
         }).then(handleResponse)
-            .then(data => dispatch(AddHarvested(data.harvested)));
+            .then(data => dispatch(AddHarvested(data.harvest)));
     }
 }
 

@@ -16,6 +16,7 @@ const VehicleSchema = new mongoose.Schema({
     model: String,
     year: Number,
     price: Number,
+    location:String
 
 
 });

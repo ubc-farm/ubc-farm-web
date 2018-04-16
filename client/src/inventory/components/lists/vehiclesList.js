@@ -42,6 +42,7 @@ class VehicleList extends Component {
         {title:'Year',toolTip:'Sort by Year'},
         {title:'Price',toolTip:'Sorty by Price'},
         {title:'Quantity',toolTip:'Sorty by Quantity'},
+        {title:'Location',toolTip:'Sort by location'},
         {title:'Delete',toolTip:'Delete'}];
 
         var itemList = [];
@@ -53,6 +54,7 @@ class VehicleList extends Component {
                 year:{title:item.year},
                 price:{title:item.price},
                 quantity:{title:item.quantity, isEditable:true, func:logVehicle},
+                location:{title:item.location},
                 deleteButton:{deleteFunc:deleteVehicle}
             };
             return newItem;            
@@ -74,7 +76,7 @@ VehicleList.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        vehicles: state.vehicles,
+        vehicles: state.vehicles
     }
 };
 

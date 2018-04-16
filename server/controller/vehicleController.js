@@ -15,7 +15,7 @@ async function getVehicle(req, res){
 //will return true if vehicle is valid false otherwise
 function isVehicleValid(data){
     let isValid = true;
-    let validationRulesLenghtMoreThan0 = ['log','quantity','unit','brand','model','year','price'];
+    let validationRulesLenghtMoreThan0 = ['log','quantity','unit','brand','model','year','price','location'];
     validationRulesLenghtMoreThan0.forEach((rule) =>{
         if(data[rule] && !data[rule].toString().length){
             isValid = isValid && false
@@ -26,9 +26,9 @@ function isVehicleValid(data){
 
 function postVehicle(req,res){
     if(isVehicleValid(req.body)){
-        const {name, suppliers, log, quantity,brand,model,year,price} = req.body;
+        const {name, suppliers, log, quantity,brand,model,year,price,location} = req.body;
         debugger
-        Vehicle.create({name, suppliers, log, quantity,brand,model,year,price} ,
+        Vehicle.create({name, suppliers, log, quantity,brand,model,year,price,location} ,
 
             function(err, result){
                 if(err){

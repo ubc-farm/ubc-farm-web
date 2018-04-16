@@ -156,7 +156,7 @@ router.route("/transplants")
     .post(transplantController.postTrasnsplants)
     .put(transplantController.putTransplants);
 
-router.route("/transplant/:transplant_id")
+router.route("/transplants/:transplant_id")
     .delete(transplantController.deleteTransplant);
 
 

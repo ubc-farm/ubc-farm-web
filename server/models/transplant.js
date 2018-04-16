@@ -20,10 +20,11 @@ const TransplantSchema = new mongoose.Schema({
     price: Number,
     currency:String,
     maturity:Number, //days to maturity
-    yield:Number,
+    predictedYield:Number,
     n:Number,
     p:Number,
     k:Number,
+    location:String,
     nutrientReqUnit:String
 });
 

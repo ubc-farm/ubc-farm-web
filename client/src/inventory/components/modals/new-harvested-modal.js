@@ -35,6 +35,7 @@ class CreatedHarvestedModal extends Component {
             price: '',
             quantity: '',
             unit: '',
+            location:'',
             errors: {},
             open: false,
             validated: false,
@@ -46,6 +47,7 @@ class CreatedHarvestedModal extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleFieldChange = this.handleFieldChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleSelectSupplier = this.handleSelectSupplier.bind(this);
     };
@@ -53,6 +55,10 @@ class CreatedHarvestedModal extends Component {
     handleOpen(){
         this.setState({open: true});
     };
+
+    handleFieldChange(event,index,value){
+        this.setState({location:value});
+    }
 
     handleClose(){
         this.setState({open: false, name: ''});
@@ -93,18 +99,14 @@ class CreatedHarvestedModal extends Component {
             }];
 
             //create supplier
-            const first_supplier = this.props.suppliers[this.state.supplier];
-            first_supplier.quantity = parseInt(this.state.quantity);
-            first_supplier.unit = this.state.unit;
 
             //create harvested
             const new_harvested = {
                 name: this.state.name,
-                suppliers:[first_supplier],
                 log: first_log,
                 quantity: this.state.quantity,
                 unit: this.state.unit,
-
+                location:this.props.field[this.state.location].name,
                 variety: this.state.variety,
                 price: this.state.price,
 
@@ -214,6 +216,21 @@ class CreatedHarvestedModal extends Component {
                                 </SelectField>
                             </div>
                         </div>
+                        <SelectField
+                            floatingLabelText="Location"
+                            onChange={this.handleFieldChange}
+                            name="location"
+                            autoWidth={false}
+                            style={{width:"100%"}}
+                            value={this.state.location}
+                            errorText={this.state.errors.location}
+                            >
+                            {Object.keys(this.props.field).map((e)=>{
+                            return (<MenuItem value={e} 
+                            label={`${this.props.field[e].name}`}
+                            primaryText={`${e} - ${this.props.field[e].name}`} />);
+                            })}
+                        </SelectField>                        
 
                     </form>
 
@@ -233,4 +250,10 @@ class CreatedHarvestedModal extends Component {
     }
 }
 
-export default connect(()=>{}, {SaveHarvested})(CreatedHarvestedModal);
+function mapStateToProps(state){
+    return{
+        field: state.fields
+    };
+}
+
+export default connect(mapStateToProps, {SaveHarvested})(CreatedHarvestedModal);
