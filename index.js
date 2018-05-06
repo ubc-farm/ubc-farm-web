@@ -18,7 +18,7 @@ const config = require('./config');
 
 
 // connect to the database and load models
-require('./server/models').connect(config.localDbUri);
+require('./server/models').connect(config.dbUri);
 
 const app = express();
 const compiler = webpack(webpackConfig);

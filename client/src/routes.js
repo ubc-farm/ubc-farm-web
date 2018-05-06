@@ -9,7 +9,8 @@ import FieldsComponent from './fields/FieldsComponent.jsx';
 import InventoryPage from './inventory/InventoryPage'
 import Auth from './modules/Auth';
 import TasksPage from './tasks/TasksPage';
-import TestView from './sandBox/TestingView';
+//import TestView from './sandBox/TestingView';
+let TestView = {}; 
 import FinancesPage from './finances/FinancesPage';
 import UserPage from './users/UserPage';
 import ReportPage from './reports/ReportPage';
