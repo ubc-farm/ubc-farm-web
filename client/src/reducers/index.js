@@ -5,6 +5,7 @@ import {combineReducers} from 'redux';
 import FieldReducer from '../fields/reducers/reducer-fields';
 import FieldActionReducer from '../fields/reducers/reducer-fields-actions';
 import TaskReducer from '../tasks/reducers/';
+import TaskLogReducer from '../tasks/reducers/TaskLogReducer';
 import species from '../reports/reducers/species';
 import FieldTaskReducer from '../fields/reducers/FieldTasksReducer';
 import SeedReducer from '../inventory/reducers/seeds'
@@ -16,8 +17,12 @@ import VehilcleReducer from '../inventory/reducers/vehicles'
 import HarvestedReducer from '../inventory/reducers/harvested'
 import PesticideReducer from '../inventory/reducers/pest-control'
 import SupplierReducer from '../finances/reducers/supplier-reducer'
+import ClientReducer from '../finances/reducers/client-reducer'
+import PurchaseReducer from '../finances/reducers/purchase-reducer'
+import InvoiceReducer from '../finances/reducers/invoice-reducer'
 import UserReducer from '../users/reducers/user_reducer'
 import currency from '../inventory/reducers/currency'
+
 
 const allReducers = combineReducers({
     fields : FieldReducer,
@@ -33,7 +38,11 @@ const allReducers = combineReducers({
     vehicles: VehilcleReducer,
     harvested: HarvestedReducer,
     suppliers: SupplierReducer,
+    clients: ClientReducer,
+    invoices: InvoiceReducer,
+    purchases: PurchaseReducer,
     users: UserReducer,
+    tasklogs: TaskLogReducer,
     species,
     currency
 });
