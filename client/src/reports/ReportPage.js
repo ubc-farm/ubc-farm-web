@@ -4,11 +4,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
-
-const styles = {
-
-};
+import SubsequenceSuburst from '../visuals/graphs/SequenceSunburst.js';
+import BioDiversityData from './BioDiversityData.js';
+import CircularProgress from 'material-ui/CircularProgress';
 
 class ReportPage extends React.Component{
 
@@ -19,16 +17,38 @@ class ReportPage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-
+            loading:false
         }
     };
 
     render(){
-        return (
-        <div className="pageDiv" style={{margin: '10px'}}>
-            <div className="title is-3"> Reports Page </div>
-        </div>
-        );
+        if(this.props.selectedField.name === undefined){
+            return(<div className="field_info"><h4>Please go back to fields page to select the field to generate report from</h4></div>);
+        }
+
+        if(this.state.loading){
+            return (
+                <div style={styles.loadingContainer}>
+                    <div style={{padding:'10px'}}>
+                        <CircularProgress />
+                    </div>
+                    <h3>Creating report please wait</h3>
+                </div>
+                );
+        }else{
+            //is not loading
+            return (
+                <div className="columns" style={{margin: '10px'}}>
+                    <div className="column" style={{border:'2px solid'}}>
+                        <BioDiversityData id="bioDiversity"/>
+                    </div>
+                    <div className="column" style={{border:'2px solid'}}>
+                        <h2>Xingyu report</h2>
+                    </div>                    
+
+                </div>
+            );
+        }
     }
 }
 
@@ -36,9 +56,18 @@ ReportPage.propTypes = {
 
 };
 
+const styles = {
+    loadingContainer: {
+        width: '50%',
+        height: '50%',
+        float: 'right'
+    },
+
+}
+
 const mapStateToProps = (state) => {
     return {
-
+        selectedField: state.selectedField
     }
 };
 

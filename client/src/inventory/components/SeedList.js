@@ -118,6 +118,13 @@ class SeedList extends Component {
             return newItem;
             // itemList.concat(newItem);
         });
+        if(itemList.length == 0){
+            return (<EditableList 
+                                items={itemList} 
+                                columns={columns} 
+                                id="seedList" 
+                                isEditable={true}/>);            
+        }
         return (
             <div style={{width:'79%'}}>
                 <EditableList 

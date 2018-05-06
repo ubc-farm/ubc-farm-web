@@ -176,7 +176,7 @@ router.route("/pesticides")
     .put(pestController.putPests);
 
 
-router.route("/seeds/:pest_id")
+router.route("/pesticides/:pest_id")
     .delete(pestController.deletePest);
 
 

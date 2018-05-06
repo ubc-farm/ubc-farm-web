@@ -48,7 +48,7 @@ class FieldTaskList extends Component {
             enableSelectAll: false,
             deselectOnClickaway: true,
             showCheckboxes: true,
-            height: '300px',
+            // height: '300px',
         };
 
         this.handleToggle = this.handleToggle.bind(this);
@@ -122,15 +122,14 @@ class FieldTaskList extends Component {
 
     render() {
         return (
-            <div >
+            <div>
                 <Table
                     fixedHeader={true}
                     fixedFooter={false}
                     selectable={false}
                     multiSelectable={false}
                     style={{borderLeft: 'solid 2px #f5f5f5',borderBottom: 'solid 2px #f5f5f5'}}
-                    height="300px"
-
+                    height="220px"
 
                 >
                     <TableHeader

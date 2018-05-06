@@ -78,8 +78,17 @@ class TransplantingList extends Component {
             return newItem;
             // itemList.concat(newItem);
         });
+        if(!itemList.length){
+            return (
+                <EditableList 
+                    items={itemList} 
+                    columns={columns} 
+                    id="transplantList" 
+                    isEditable={true}/>                
+                );
+        }
         return (
-            <div style={{width:'75%'}}>
+            <div style={{width:'81%'}}>
                 <EditableList 
                     items={itemList} 
                     columns={columns} 

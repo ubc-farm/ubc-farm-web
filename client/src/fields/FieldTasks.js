@@ -77,7 +77,7 @@ class FieldTasks extends Component{
                     onChange={this.handleChange}
                 >
                     <Tab label="List" value="list">
-                        <div style={{ marginTop: "20px"}}>
+                        <div id="fieldTasksId" style={{ marginTop: "20px"}}>
                             <div>
                                 <FieldTaskList maxHeight={"500px"}/>
                             </div>

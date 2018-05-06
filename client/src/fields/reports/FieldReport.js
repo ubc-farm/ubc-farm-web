@@ -14,10 +14,10 @@ import FieldSelector2 from '../field-selector2.js';
 import FieldDetail from '../FieldDetail.js';
 import FieldTasks from '../FieldTasks';
 import {connect} from 'react-redux';
-import {fetchFields} from '../actions/fetch-fields.js'
+import {fetchFields} from '../actions'
 import Radar from '../Radar';
-
-
+import FieldSelector2 from '../field-selector2.js';
+import CircularProgress from 'material-ui/CircularProgress';
 //styled-component styles
 const NewFieldMap = styled.div`
         height: 70%;
@@ -38,8 +38,7 @@ const styles = {
 
 class FieldsComponent extends React.Component {
     componentDidMount() {
-        //fetch fields from database
-        this.props.fetchFields();
+        //set species this.props.setSpecies(startLat, endLat, startLon, endLon);
     }
 
     // Constructor is responsible for setting up props and setting initial state
@@ -67,16 +66,20 @@ class FieldsComponent extends React.Component {
                 }
             }
         ]
-        return (
-            <div className="columns is-gapless" style={styles.centerContainer}>
-                <div className="column is-2-desktop" style={{ backgroundColor: '#F2F2F2'}}>
-                    <FieldSelector2/>
-                    <div class="columns">
-                        
+        if(this.props.selectedField.length === 0){
+            return(<div className="field_info"><h4>Please go back to fields page to select the field to generate report from</h4></div>);
+        }else{
+            return (
+                <div className="columns is-gapless" style={styles.centerContainer}>
+                    <div className="column is-2-desktop" style={{ backgroundColor: '#F2F2F2'}}>
+                        <FieldSelector2/>
+                        <div class="columns">
+                            
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
@@ -91,4 +94,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps,{fetchFields})(FieldsComponent);
+export default connect(mapStateToProps,{setSpecies})(FieldsComponent);

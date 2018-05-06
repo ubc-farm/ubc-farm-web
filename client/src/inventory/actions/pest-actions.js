@@ -75,7 +75,7 @@ export function updatePesticide(item){
 
 export function deletePesticide(id){
     return dispatch => {
-        return fetch(`/data/pesticide/${id}`, {
+        return fetch(`/data/pesticides/${id}`, {
             method: 'delete',
             headers:{
                 "Content-Type":"application/json"

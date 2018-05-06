@@ -35,6 +35,8 @@ class CreatePesticideModal extends Component{
             active: '',
             location:'',
             percentage: '',
+            quantity:1,
+            quantityUnit:'kg',
 
             errors: {},
             open: false,
@@ -99,7 +101,7 @@ class CreatePesticideModal extends Component{
                 name: this.state.name,
                 log: first_log,
                 quantity: this.state.quantity,
-                unit: 'pesticide',
+                unit: this.state.quantityUnit,
 
                 type: this.state.type,
                 entry: this.state.entry,
@@ -148,6 +150,8 @@ class CreatePesticideModal extends Component{
     handleCurrencyChange(event, index, value){
         this.setState({currency: value});
     }
+
+    handleSelect(event, index, value){this.setState({unit: value});}
 
 
     render(){
@@ -274,6 +278,33 @@ class CreatePesticideModal extends Component{
                             </SelectField>
                     </div>
                  </div>
+                <div className="columns">
+                    <div className="column is-8-desktop">
+                        <TextField
+                            hintText="Enter Quantity"
+                            floatingLabelText="Quantity"
+                            name="quantity"
+                            type="number"
+                            onChange={this.handleChange}
+                            fullWidth={true}
+                            value={this.state.quantity}
+                            errorText={this.state.errors.quantity}/>
+                    </div>
+                    <div className="column is-4-desktop">
+                        <SelectField
+                            floatingLabelText="Measurement unit"
+                            onChange={this.handleSelect}
+                            name="quantityUnit"
+                            autoWidth={false}
+                            style={{width:"100%"}}
+                            value={this.state.quantityUnit}
+                            errorText={this.state.errors.quantityUnit}
+                        >
+                            <MenuItem value="kg" label="kg" primaryText="kg"/>
+                            <MenuItem value="lb" label="lb" primaryText="lb"/>
+                        </SelectField>
+                    </div>
+                </div>                 
                 <SelectField
                     floatingLabelText="Location"
                     onChange={this.handleFieldChange}

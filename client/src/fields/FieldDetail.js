@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import '../../../server/static/css/style.css';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider'
+import { Link } from 'react-router';
 
 class FieldDetail extends Component{
 
@@ -24,9 +25,10 @@ class FieldDetail extends Component{
         };
     }
 
+
     render(){
 
-        const newTaskButtonStyle = {minWidth: '100%', height: '100%', color:"#8AA62F"};
+        const newTaskButtonStyle = {minWidth: '100%', height: '33%', color:"#8AA62F"};
 
         if(this.props.field.length === 0){
             return(<div className="field_info"><h4>Select Field or Building...</h4></div>);
@@ -40,8 +42,11 @@ class FieldDetail extends Component{
                         <Divider/>
                         <div className="field_species">Field species: {this.props.fieldTasks.length}</div>
                     </div>
+                    <div style={{minWidth: '100%'}} >
+                    <Link to="/reports">
+                        <FlatButton label="New report" style={newTaskButtonStyle}/>
+                    </Link>
 
-                    <div style={{minWidth: '100%', height: '15%'}} >
                         <Divider/>
                         <div style={{position: 'bottom', bottom: '0px', height: '50%'}} >
                             <NewTaskModal isFieldProvided = {true} field = {this.props.field} buttonStyle={newTaskButtonStyle}/>
@@ -54,9 +59,6 @@ class FieldDetail extends Component{
                         </div>
 
                     </div>
-
-
-
                 </div>
         );
     }
@@ -84,9 +86,8 @@ FieldDetail.propTypes = {
 function mapStateToProps(state){
     return{
         field: state.selectedField,
-        fieldTasks: state.fieldTasks,
-        species: state.species
+        fieldTasks: state.fieldTasks
     };
 }
 
-export default connect(mapStateToProps)(FieldDetail);
+export default connect(mapStateToProps, {})(FieldDetail);

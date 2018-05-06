@@ -284,13 +284,13 @@ class NewTaskModal extends Component {
                     <FlatButton label="New Task" onTouchTap={this.handleOpen} style={this.props.buttonStyle} />
                         {/*labelStyle={{color: '#FFFFFF'}} style={{}} backgroundColor={'#8AA62F'} hoverColor={"#a4c639"}*/}
 
-                    <Dialog
-                        title="Create New Task"
-                        actions={actions}
-                        modal={false}
-                        open={this.state.open}
-                        contentStyle={{width:'100%'}}
-                    >
+                        <Dialog
+                            title="Create New Task"
+                            actions={actions}
+                            modal={false}
+                            open={this.state.open}
+                            contentStyle={{width:'100%'}}
+                        >
                         <article className="message is-info">
                             <div className="message-header">
                                 <p>Tip</p>

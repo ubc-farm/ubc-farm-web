@@ -59,6 +59,8 @@ class PestControlList extends Component {
         {title:'Price',toolTip:'Sort by Price'},
         {title:'Currency',toolTip:'Sort by Currency'},
         {title:'Location',toolTip:'Sort by Location'},
+        {title:'Quantity', toolTip:'Sort by Quantity'},
+        {title:'Quantity unit', toolTip:'Sort by unit'},
         {title:'Delete',toolTip:'Delete pest'}];
 
         var itemList = [];
@@ -74,18 +76,29 @@ class PestControlList extends Component {
                 price:{title:item.price}, 
                 currency:{title:item.currency},
                 location:{title:item.location},
+                quantity:{title:item.quantity},
+                quantityUnit:{title:item.quantityUnit},
                 deleteButton:{deleteFunc:deletePesticide}
             };
             return newItem;            
         });
 
+        if(itemList.length == 0){
+            return (<EditableList 
+                        items={itemList} 
+                        columns={columns} 
+                        id="pestList" 
+                        isEditable={true}/>)
+        }
 
         return (
-            <EditableList 
-                items={itemList} 
-                columns={columns} 
-                id="pestList" 
-                isEditable={true}/>
+            <div style={{width:'90%'}}>
+                <EditableList 
+                    items={itemList} 
+                    columns={columns} 
+                    id="pestList" 
+                    isEditable={true}/>
+            </div>
         )
     }
 }
