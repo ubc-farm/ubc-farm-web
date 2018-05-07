@@ -45,7 +45,7 @@ class BioDiversityData extends React.Component{
                 <div style={styles.loadingContainer}>
                     <div style={{padding:'10px',display:'flex'}}>
                         <CircularProgress style={{paddingTop:'10px'}}/>
-                        <div className="title is-4">&#32;&#32;Generating bio diversity chart please wait </div>
+                        <div className="title is-4">&#32;&#32;Generating biodiversity chart please wait </div>
                     </div>
                 </div>
                 );
@@ -53,7 +53,7 @@ class BioDiversityData extends React.Component{
             //is not loading
             return (
                 <div className="pageDiv" style={{margin: '10px'}}>
-                    <div className="title is-3"> Bio diversity breakdown </div>
+                    <div className="title is-3"> Biodiversity breakdown </div>
                     <SubsequenceSuburst data={this.props.species}/>
                 </div>
             );
