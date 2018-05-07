@@ -20,6 +20,14 @@ import {saveInvoice} from '../../actions/invoice-actions';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
+import CreateSeedModal from '../../../inventory/components/create-seed-modal';
+import CreateEquipmentModal from '../../../inventory/components/modals/new-equipment-modal';
+import CreateFertilizerModal from '../../../inventory/components/modals/new-fertilizer-modal';
+import CreateHarvestedModal from '../../../inventory/components/modals/new-harvested-modal';
+import CreatePesticideModal from '../../../inventory/components/modals/new-pestControl-modal';
+import CreateTransplantModal from '../../../inventory/components/modals/new-transplanting-modal';
+import CreateVehicleModal from '../../../inventory/components/modals/new-vehicles-modal';
+
 import {
     Table,
     TableBody,
@@ -34,6 +42,17 @@ const fullWidthDialog = {
     width: '100%',
     maxWidth: 'none',
 };
+
+//list of inventories
+const inventoryList = [
+    <CreateSeedModal/>,
+    <CreateTransplantModal/>,
+    <CreateFertilizerModal/>,
+    <CreatePesticideModal/>,
+    <CreateEquipmentModal/>,
+    <CreateVehicleModal/>,
+    <CreateHarvestedModal/>,
+];
 class NewInvoiceModal extends React.Component {
     componentDidMount(){
     }
@@ -57,6 +76,9 @@ class NewInvoiceModal extends React.Component {
             done: false,
 
             client_id: '',
+
+            //add new item inventory
+            newItemInv: 1,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -64,6 +86,8 @@ class NewInvoiceModal extends React.Component {
         this.handleNewItemAddition = this.handleNewItemAddition.bind(this);
         this.handlePriceQuantityChange = this.handlePriceQuantityChange.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
+
+        this.handleNewItemInv = this.handleNewItemInv.bind(this);
 
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -83,6 +107,9 @@ class NewInvoiceModal extends React.Component {
 
     handleClose(){
         this.setState({open: false});
+    };
+    handleNewItemInv(event, index, value){
+        this.setState({newItemInv: value})
     };
 
     handleChange(e){
@@ -279,7 +306,20 @@ class NewInvoiceModal extends React.Component {
                                     <TableRowColumn/>
                                     <TableRowColumn style={{verticalAlign: "middle"}}>
                                         <AddExistingItemModal isHarvest={true} addItem={this.handleNewItemAddition}/>
-
+                                        <SelectField
+                                            floatingLabelText="Add new Item"
+                                            value={this.state.newItemInv}
+                                            onChange={this.handleNewItemInv}
+                                        >
+                                            <MenuItem value={0} primaryText="Seeds" />
+                                            <MenuItem value={1} primaryText="Transplanting" />
+                                            <MenuItem value={2} primaryText="Fertilizers" />
+                                            <MenuItem value={3} primaryText="Pest Control" />
+                                            <MenuItem value={4} primaryText="Equipment" />
+                                            <MenuItem value={5} primaryText="Vehicle" />
+                                            <MenuItem value={6} primaryText="Harvested Produce" />
+                                        </SelectField>
+                                        <div>{inventoryList[this.state.newItemInv]}</div>
                                     </TableRowColumn>
 
                                 </TableRow>

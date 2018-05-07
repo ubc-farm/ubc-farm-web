@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import SubsequenceSuburst from '../visuals/graphs/SequenceSunburst.js';
 import BioDiversityData from './BioDiversityData.js';
+import CostOfProduction from './CostOfProduction.js';
 import CircularProgress from 'material-ui/CircularProgress';
 
 class ReportPage extends React.Component{
@@ -43,8 +44,8 @@ class ReportPage extends React.Component{
                         <BioDiversityData id="bioDiversity"/>
                     </div>
                     <div className="column" style={{border:'2px solid'}}>
-                        <h2>Xingyu report</h2>
-                    </div>                    
+                        <CostOfProduction/>
+                    </div>
 
                 </div>
             );

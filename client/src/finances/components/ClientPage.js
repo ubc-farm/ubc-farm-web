@@ -53,11 +53,6 @@ class ClientPage extends React.Component{
                         <div className="">Total</div>
                         <div className="">{this.props.clients.length}</div>
                     </div>
-                    <div style={paperStyle}>
-                        <div className="">This Week</div>
-                        <div className="">0</div>
-                    </div>
-
                 </div>
                 <Divider/>
 

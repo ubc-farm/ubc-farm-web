@@ -4,6 +4,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
+import TaskLogModal from '../tasks/components/TaskLogModal';
+import LogListModal from '../tasks/components/LogListModal';
 import DeleteTaskModal from '../tasks/components/DeleteTaskModal';
 
 import {
@@ -26,6 +28,32 @@ const styles = {
     propToggleHeader: {
         margin: '20px auto 10px',
     },
+};
+
+/*styles*/
+const localStyle = {
+  pointerContainer: {
+      cursor: 'pointer',
+  },
+    shortH: {
+      width: 200, verticalAlign: 'middle', cursor: 'pointer'
+    },
+    mediumH: {
+      width: 300, verticalAlign: 'middle', cursor: 'pointer'
+    },
+    longH: {
+      width: 500, verticalAlign: 'middle', cursor: 'pointer'
+    },
+    short: {
+        width: 150, verticalAlign: 'middle',
+    },
+    medium: {
+        width: 200, verticalAlign: 'middle',
+    },
+    long: {
+        width: 300, verticalAlign: 'middle',
+    }
+
 };
 
 let tableData = [];
@@ -140,10 +168,10 @@ class FieldTaskList extends Component {
                     >
 
                         <TableRow>
-                            <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Type</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Field" style={{verticalAlign: 'middle'}}>Field</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Start Date" style={{verticalAlign: 'middle'}}>Start Date</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by End Date" style={{verticalAlign: 'middle'}}>End Date</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Type" style={localStyle.short}>Type</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Field" style={localStyle.short}>Field</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Start Date" style={localStyle.medium}>Start Date</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by End Date" style={localStyle.medium}>End Date</TableHeaderColumn>
                             <TableHeaderColumn style={{verticalAlign: 'middle'}}>Actions</TableHeaderColumn>
 
                         </TableRow>
@@ -156,24 +184,22 @@ class FieldTaskList extends Component {
                     >
                         {this.props.fieldTasks.map( (task, index) => (
                             <TableRow key={index}>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.typeTransftormer(task.type)}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.fieldNameFromId(task.field)}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.startDate)}</TableRowColumn>
-                                <TableRowColumn style={{verticalAlign: 'middle'}}>{this.dateTransformer(task.endDate)}</TableRowColumn>
+                                <TableRowColumn style={localStyle.short}>{this.typeTransftormer(task.type)}</TableRowColumn>
+                                <TableRowColumn style={localStyle.short}>{this.fieldNameFromId(task.field)}</TableRowColumn>
+                                <TableRowColumn style={localStyle.medium}>{this.dateTransformer(task.startDate)}</TableRowColumn>
+                                <TableRowColumn style={localStyle.medium}>{this.dateTransformer(task.endDate)}</TableRowColumn>
                                 <TableRowColumn style={{verticalAlign: 'middle'}}>
-                                    <div className="columns">
-                                        <div className="column" style={{padding: 0}}>
-                                            <DeleteTaskModal task = {task}/>
-                                        </div>
-                                        <div className="column" style={{padding: 0}}>
-                                            <FlatButton
-                                                label="Log"
-                                                primary={true}
-                                                onTouchTap={this.props.deleteTask}
-
-                                            />
-                                        </div>
+                                <div className="columns">
+                                    <div className="column">
+                                        <DeleteTaskModal task = {task}/>
                                     </div>
+                                    <div className="column">
+                                        <TaskLogModal task={task} fieldName={this.fieldNameFromId(task.field)}/>
+                                    </div>
+                                    <div className="column">
+                                        <LogListModal task={task} typeTransformer={this.typeTransformer} dateTransformer={this.dateTransformer}/>
+                                    </div>
+                                </div>
                                 </TableRowColumn>
                             </TableRow>
                         ))}
@@ -182,10 +208,10 @@ class FieldTaskList extends Component {
                         adjustForCheckbox={false}
                     >
                         <TableRow>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Type</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Field</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>Start Date</TableRowColumn>
-                            <TableRowColumn style={{verticalAlign: 'middle'}}>End Date</TableRowColumn>
+                            <TableRowColumn style={localStyle.short}>Type</TableRowColumn>
+                            <TableRowColumn style={localStyle.short}>Field</TableRowColumn>
+                            <TableRowColumn style={localStyle.medium}>Start Date</TableRowColumn>
+                            <TableRowColumn style={localStyle.medium}>End Date</TableRowColumn>
                             <TableRowColumn style={{verticalAlign: 'middle'}}>Actions</TableRowColumn>
                         </TableRow>
                         <TableRow>

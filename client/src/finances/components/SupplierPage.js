@@ -53,11 +53,6 @@ class SupplierPage extends React.Component{
                         <div className="">Total</div>
                         <div className="">{this.props.suppliers.length}</div>
                     </div>
-                    <div style={paperStyle}>
-                        <div className="">This Week</div>
-                        <div className="">0</div>
-                    </div>
-
                 </div>
                 <Divider/>
 

@@ -72,7 +72,7 @@ class ClientList extends React.Component {
 
                         <TableRow>
                             <TableHeaderColumn tooltip="Sort by Type" style={{verticalAlign: 'middle'}}>Name</TableHeaderColumn>
-                            <TableHeaderColumn tooltip="Sort by Field" style={{verticalAlign: 'middle'}}>Email</TableHeaderColumn>
+                            <TableHeaderColumn tooltip="Sort by Field" style={{verticalAlign: 'middle'}}>Telephone</TableHeaderColumn>
                             <TableHeaderColumn/>
 
                         </TableRow>
