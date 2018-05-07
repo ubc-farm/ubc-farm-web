@@ -90,7 +90,6 @@ class SubsequenceSuburst extends Component {
 
 	  // Get total size of the tree = value of root node from partition.
 	  this.setState({totalSize: path.node().__data__.value});
-	  // totalSize = path.node().__data__.value;
 	 };
 
 
@@ -138,11 +137,11 @@ class SubsequenceSuburst extends Component {
 	  	d3.select("#totalSpeciey").text(d.parent.value);
 		d3.select("#speciey").text(d.parent.value);
 	  		  		  	
-	  } //else{
+	  }else{
 	  	  d3.select("#specieyName").text(d.data.name);
 		  d3.select("#speciey").text(d.value);
-	  // }
-	d3.select("#totalSpecieses").text(this.state.totalSize);	  
+	   }
+	d3.select("#totalSize").text(this.state.totalSize);
 
 	  // d3.select(""); 
 
@@ -205,22 +204,25 @@ class SubsequenceSuburst extends Component {
 
 	render(){
 		return (
-		    <div id="main">
+		    <div id="main" style={{display:'flex'}}>
 		      <div id="sequence"></div>
 		      <div id="chart">
-		        <div id="explanation" style={{visibility: 'hidden'}}>
-		        	<b>Speciey: </b>
-		        	<span id="specieyName"> </span><br/>&#32;&#32;
-		        	<span id="speciey"></span>&#32;out of&#32;<span id="totalSpecieses"></span>
-		        	<br/>
-		        	<b>-----------------</b>
-		        	<div id="genus" style={{visibility: 'hidden'}}>
-		        		<b>Genus: </b>
-		        		<span id="genusText"></span><br/>&#32;&#32;
-		        		<span id="totalGenus"></span>&#32;out of&#32;<span id="totalSpeciey"></span>
-		        	</div>
-	        	</div>
+		      	<div style={{position:'absolute',top:'384px',left:'250px'}}>
+		      		<span id="totalCount">{this.state.totalSize}</span> species
+		      	</div>
 	        </div>
+	        <div id="explanation" style={{visibility: 'hidden'}}>
+	        	<b>Group: </b>
+	        	<span id="specieyName"> </span><br/>&#32;&#32;
+	        	<span id="speciey"></span>&#32;out of&#32;<span>{this.state.totalSize}</span> (Species)
+	        	<br/>
+	        	<b>-----------------</b>
+	        	<div id="genus" style={{visibility: 'hidden'}}>
+	        		<b>Genus: </b>
+	        		<span id="genusText"></span><br/>&#32;&#32;
+	        		<span id="totalGenus"></span>&#32;out of&#32;<span id="totalSpeciey"></span>
+	        	</div>
+        	</div>	        
       	</div>
       );
 	}
